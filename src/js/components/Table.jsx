@@ -55,9 +55,9 @@ var getCellValue = function (ref, row, sortBy) {
   var defaultContent = ref.defaultContent;
   var render = ref.render;
   return (
-    !_.isEmpty(prop) && _.isEmpty(row[prop]) ?
     // Use the render function for the value.
     render ? render(prop, row, sortBy) :
+    !_.isEmpty(prop) && _.isEmpty(row[prop]) ?
     // Return `defaultContent` if the value is empty.
     defaultContent :
     // Otherwise just return the value.
@@ -71,6 +71,13 @@ var getCellClass = function (ref, row, sortBy) {
   return !_.isEmpty(prop) && _.isEmpty(row[prop]) && !_.isFunction(ref.render) ?
     "empty-cell" : _.isFunction(className) ?
       className(prop, row, sortBy) : className;
+};
+
+var getHeaderClass = function (ref, sortBy) {
+  var prop = ref.prop;
+  var className = ref.headerClassName || "";
+  return _.isFunction(className) ?
+      className(prop, sortBy) : className;
 };
 
 function buildSortProps(col, sortBy, onSort, callback) {
@@ -225,12 +232,11 @@ var Table = React.createClass({
         "highlighted": col.prop === sortBy.prop
       });
 
-          //
       /* jshint trailing:false, quotmark:false, newcap:false */
       /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
       return (
         <th
-          className={headerClassSet}
+          className={getHeaderClass(col, sortBy)}
           ref={function (c) {
             this._headers[idx] = c;
             return this._headers[idx];
