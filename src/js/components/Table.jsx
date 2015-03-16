@@ -118,6 +118,73 @@ function buildSortProps(col, sortBy, onSort, callback) {
   };
 }
 
+function getRowColumns(row, sortBy, columns) {
+  return _.map(columns, function(col, i) {
+    return (
+      <td key={i} className={getCellClass(col, row, sortBy)}>
+        {getCellValue(col, row, sortBy)}
+      </td>
+    );
+  }, this);
+}
+
+function getHeaders(columns, sortBy, onSort, callback) {
+  return _.map(columns, function (col, index) {
+    var sortProps, order;
+    // Only add sorting events if the column has a property and is sortable.
+    if (col.sortable !== false && "prop" in col) {
+      sortProps = buildSortProps(col, sortBy, onSort, callback);
+      order = sortProps["aria-sort"];
+    }
+
+    var caretClassSet = React.addons.classSet({
+      "caret": true,
+      "dropup": order === "asc",
+      "invisible": col.prop !== sortBy.prop
+    });
+
+    // need react functions here, because we are extending props
+    return React.createElement(
+      "th",
+      _.extend({
+        className: getHeaderClass(col, sortBy),
+        ref: getHeaderRef,
+        key: index
+      }, sortProps),
+      React.createElement(
+        "span",
+        null,
+        col.title
+      ),
+      React.createElement(
+        "span",
+        {className: caretClassSet, "aria-hidden": "true"}
+      )
+    );
+  });
+}
+
+function getRows(data, columns, keys, sortBy, buildRowOptions) {
+  if (data.length === 0) {
+    return (
+      <tr>
+        <td colSpan={columns.length} className="text-center">
+          No data
+        </td>
+      </tr>
+    );
+  }
+
+  return _.map(data, function (row) {
+    // need react functions here, because we are extending props
+    return React.createElement(
+      "tr",
+      _.extend({key: _.values(_.pick(row, keys))}, buildRowOptions(row)),
+      getRowColumns(row, sortBy, columns)
+    );
+  });
+}
+
 var Table = React.createClass({
 
   displayName: "Table",
@@ -223,77 +290,14 @@ var Table = React.createClass({
     }
   },
 
-  getRowColumns: function (row, sortBy) {
-    return _.map(this.props.columns, function(col, i) {
-      return (
-        <td key={i} className={getCellClass(col, row, sortBy)}>
-          {getCellValue(col, row, sortBy)}
-        </td>
-      );
-    }, this);
-  },
-
-  getHeaders: function () {
+  render: function () {
+    var data = this.state.data;
+    var columns = this.props.columns;
+    var keys = this.props.keys;
     var sortBy = this.state.sortBy;
+    var buildRowOptions = this.props.buildRowOptions;
     var onSort = this.state.onSort;
     var callback = this.props.onSort;
-
-    return _.map(this.props.columns, function (col, index) {
-      var sortProps, order;
-      // Only add sorting events if the column has a property and is sortable.
-      if (col.sortable !== false && "prop" in col) {
-        sortProps = buildSortProps(col, sortBy, onSort, callback);
-        order = sortProps["aria-sort"];
-      }
-
-      var caretClassSet = React.addons.classSet({
-        "caret": true,
-        "dropup": order === "asc",
-        "invisible": col.prop !== sortBy.prop
-      });
-
-      /* jshint trailing:false, quotmark:false, newcap:false */
-      /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-      return (
-        <th className={getHeaderClass(col, sortBy)}
-            key={index}
-            ref={getHeaderRef(col, index)}
-            style={{width: col.width}}
-            {...sortProps}>
-          <span>{col.title}</span>
-          <span className={caretClassSet} aria-hidden="true" />
-        </th>
-      );
-      /* jshint trailing:true, quotmark:true, newcap:true */
-      /* jscs:enable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-    });
-  },
-
-  getRows: function () {
-    var data = this.state.data;
-    if (data.length === 0) {
-      return (
-        <tr>
-          <td colSpan={this.props.columns.length} className="text-center">
-            No data
-          </td>
-        </tr>
-      );
-    }
-
-    var keys = this.props.keys;
-
-    var buildRowOptions = this.props.buildRowOptions;
-    return _.map(data, function (row) {
-      return (
-        <tr key={_.values(_.pick(row, keys))} {...buildRowOptions(row)}>
-          {this.getRowColumns(row, this.state.sortBy)}
-        </tr>
-      );
-    }, this);
-  },
-
-  render: function () {
 
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
@@ -301,11 +305,11 @@ var Table = React.createClass({
       <table className={this.props.className}>
         <thead>
           <tr>
-            {this.getHeaders()}
+            {getHeaders(columns, sortBy, onSort, callback)}
           </tr>
         </thead>
         <tbody>
-          {this.getRows()}
+          {getRows(data, columns, keys, sortBy, buildRowOptions)}
         </tbody>
       </table>
     );
