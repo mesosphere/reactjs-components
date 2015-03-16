@@ -4,6 +4,8 @@ var _ = require("underscore");
 var React = require("react/addons");
 var PropTypes = React.PropTypes;
 
+
+var _headers = [];
 /**
  * Creates a compare function with a property to sort on.
  *
@@ -48,7 +50,7 @@ function simpleGet(key) {
   return function (data) {
     return data[key];
   };
-};
+}
 
 function keyGetter(keys) {
   return function (data) {
@@ -56,7 +58,7 @@ function keyGetter(keys) {
       return data[key];
     });
   };
-};
+}
 
 function getCellValue(ref, row, sortBy) {
   var prop = ref.prop;
@@ -72,7 +74,7 @@ function getCellValue(ref, row, sortBy) {
   }
   // otherwise just return the value.
   return row[prop];
-};
+}
 
 function getCellClass(ref, row, sortBy) {
   var prop = ref.prop;
@@ -87,11 +89,11 @@ function getCellClass(ref, row, sortBy) {
   }
   // otherwise just return the className string
   return className;
-};
+}
 
-function getHeaderRef(c) {
-  this._headers[idx] = c;
-  return this._headers[idx];
+function getHeaderRef(c, index) {
+  _headers[index] = c.title;
+  return _headers[index];
 }
 
 function getHeaderClass(ref, sortBy) {
@@ -102,7 +104,7 @@ function getHeaderClass(ref, sortBy) {
   }
 
   return className;
-};
+}
 
 function buildSortProps(col, sortBy, onSort, callback) {
   var order = "none";
@@ -141,22 +143,29 @@ var Table = React.createClass({
 
   propTypes: {
 
+    // provide what makes a table unique
     keys: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.string
     ]).isRequired,
 
+    // define how columns should be rendered and if they are sortable
     columns: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string.isRequired,
+        className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+        defaultContent: PropTypes.string,
         prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         render: PropTypes.func,
         sortable: PropTypes.bool,
-        defaultContent: PropTypes.string,
-        className: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+        title: PropTypes.string.isRequired,
+        width: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number
+        ])
       })
     ).isRequired,
 
+    // data to display in the table
     dataArray: PropTypes.arrayOf(
       PropTypes.oneOfType([
         PropTypes.array,
@@ -164,6 +173,7 @@ var Table = React.createClass({
       ])
     ).isRequired,
 
+    // options to be passed to the rows
     buildRowOptions: PropTypes.func,
 
     sortBy: PropTypes.shape({
@@ -171,12 +181,13 @@ var Table = React.createClass({
       order: PropTypes.oneOf(["asc", "desc"])
     }),
 
+    // custom sort function,
+    // if function returns null it will fallback to default sorting
     sortFunc: PropTypes.func,
 
+    // on sort callback function
     onSort: PropTypes.func
   },
-
-  _headers: [],
 
   getDefaultProps: function () {
     return {
@@ -206,9 +217,12 @@ var Table = React.createClass({
   componentDidMount: function () {
     // If no width was specified, then set the width that the browser applied
     // initially to avoid recalculating width between pages.
-    this._headers.forEach(function (header) {
-      var thDom = React.findDOMNode(header);
-    });
+    _headers.forEach(function (header) {
+      var thDom = this.refs[header].getDOMNode();
+      if (!thDom.style.width) {
+        thDom.style.width = thDom.offsetWidth + "px";
+      }
+    }, this);
   },
 
   componentWillReceiveProps: function (props) {
@@ -246,7 +260,7 @@ var Table = React.createClass({
     var onSort = this.state.onSort;
     var callback = this.props.onSort;
 
-    return _.map(this.props.columns, function (col, idx) {
+    return _.map(this.props.columns, function (col, index) {
       var sortProps, order;
       // Only add sorting events if the column has a property and is sortable.
       if (col.sortable !== false && "prop" in col) {
@@ -260,18 +274,14 @@ var Table = React.createClass({
         "invisible": col.prop !== sortBy.prop
       });
 
-      var headerClassSet = React.addons.classSet({
-        "highlighted": col.prop === sortBy.prop
-      });
-
       /* jshint trailing:false, quotmark:false, newcap:false */
       /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
       return (
-        <th
-          className={getHeaderClass(col, sortBy)}
-          ref={getHeaderRef}
-          key={idx}
-          {...sortProps}>
+        <th className={getHeaderClass(col, sortBy)}
+            key={index}
+            ref={getHeaderRef(col, index)}
+            style={{width: col.width}}
+            {...sortProps}>
           <span>{col.title}</span>
           <span className={caretClassSet} aria-hidden="true" />
         </th>
