@@ -63,7 +63,7 @@ function getCellValue(ref, row, sortBy) {
   var defaultContent = ref.defaultContent;
   var render = ref.render;
   // use the render function for the value.
-  if (_isFunction(render)) {
+  if (_.isFunction(render)) {
     return render(prop, row, sortBy);
   }
   // return `defaultContent` if the value is empty.
