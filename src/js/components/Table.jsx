@@ -70,7 +70,7 @@ var getCellClass = function (ref, row, sortBy) {
   var className = ref.className;
   return !_.isEmpty(prop) && _.isEmpty(row[prop]) && !_.isFunction(ref.render) ?
     "empty-cell" : _.isFunction(className) ?
-      className(prop, row, sortBy) : className;
+      className(prop, sortBy, row) : className;
 };
 
 var getHeaderClass = function (ref, sortBy) {
