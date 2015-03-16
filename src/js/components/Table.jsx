@@ -12,7 +12,13 @@ var PropTypes = React.PropTypes;
  */
 function sortByFunc(prop) {
   return function (a, b) {
-    return a[prop] < b[prop] ? -1 : a[prop] > b[prop] ? 1 : 0;
+    if (a[prop] < b[prop]) {
+      return -1;
+    }
+    if (a[prop] > b[prop]) {
+      return 1;
+    }
+    return 0;
   };
 }
 
@@ -22,12 +28,14 @@ function sortByFunc(prop) {
  * @return {array} Sorted array.
  */
 function sort(sortBy, data, providedSortFunc) {
-  var sortFunc = _.isFunction(providedSortFunc)  &&
-    !_.isEmpty(providedSortFunc(sortBy.prop)) ?
-      // use specfied sorting
-      providedSortFunc(sortBy.prop) :
-      // fallback to default sorting
-      sortByFunc(sortBy.prop);
+  // default sorting
+  var sortFunc = sortByFunc(sortBy.prop);
+
+  if (_.isFunction(providedSortFunc) &&
+      _.isFunction(providedSortFunc(sortBy.prop))) {
+    // use specfied sorting
+    sortFunc = providedSortFunc(sortBy.prop);
+  }
 
   var sortedData = data.sort(sortFunc);
   if (sortBy.order === "desc") {
@@ -36,13 +44,13 @@ function sort(sortBy, data, providedSortFunc) {
   return sortedData;
 }
 
-var simpleGet = function (key) {
+function simpleGet(key) {
   return function (data) {
     return data[key];
   };
 };
 
-var keyGetter = function (keys) {
+function keyGetter(keys) {
   return function (data) {
     return keys.map(function (key) {
       return data[key];
@@ -50,39 +58,63 @@ var keyGetter = function (keys) {
   };
 };
 
-var getCellValue = function (ref, row, sortBy) {
+function getCellValue(ref, row, sortBy) {
   var prop = ref.prop;
   var defaultContent = ref.defaultContent;
   var render = ref.render;
-  return (
-    // Use the render function for the value.
-    render ? render(prop, row, sortBy) :
-    !_.isEmpty(prop) && _.isEmpty(row[prop]) ?
-    // Return `defaultContent` if the value is empty.
-    defaultContent :
-    // Otherwise just return the value.
-    row[prop]
-  );
+  // use the render function for the value.
+  if (_isFunction(render)) {
+    return render(prop, row, sortBy);
+  }
+  // return `defaultContent` if the value is empty.
+  if (!_.isEmpty(prop) && _.isEmpty(row[prop])) {
+    return defaultContent;
+  }
+  // otherwise just return the value.
+  return row[prop];
 };
 
-var getCellClass = function (ref, row, sortBy) {
+function getCellClass(ref, row, sortBy) {
   var prop = ref.prop;
-  var className = ref.className;
-  return !_.isEmpty(prop) && _.isEmpty(row[prop]) && !_.isFunction(ref.render) ?
-    "empty-cell" : _.isFunction(className) ?
-      className(prop, sortBy, row) : className;
+  var className = ref.className || "";
+  // prefer classname function
+  if (_.isFunction(className)) {
+    return className(prop, sortBy, row);
+  }
+  // if cell is empty add empty-cell class
+  if (!_.isEmpty(prop) && _.isEmpty(row[prop]) ) {
+    return "empty-cell";
+  }
+  // otherwise just return the className string
+  return className;
 };
 
-var getHeaderClass = function (ref, sortBy) {
+function getHeaderRef(c) {
+  this._headers[idx] = c;
+  return this._headers[idx];
+}
+
+function getHeaderClass(ref, sortBy) {
   var prop = ref.prop;
   var className = ref.headerClassName || "";
-  return _.isFunction(className) ?
-      className(prop, sortBy) : className;
+  if (_.isFunction(className)) {
+    return className(prop, sortBy);
+  }
+
+  return className;
 };
 
 function buildSortProps(col, sortBy, onSort, callback) {
-  var order = sortBy.prop === col.prop ? sortBy.order : "none";
-  var nextOrder = order === "asc" ? "desc" : "asc";
+  var order = "none";
+  if (sortBy.prop === col.prop) {
+    order = sortBy.order;
+  }
+
+  var nextOrder = "asc";
+  if (order === "asc") {
+    nextOrder = "desc";
+  }
+
   var sortEvent = onSort.bind(null, { prop: col.prop, order: nextOrder }, callback);
 
   return {
@@ -237,10 +269,7 @@ var Table = React.createClass({
       return (
         <th
           className={getHeaderClass(col, sortBy)}
-          ref={function (c) {
-            this._headers[idx] = c;
-            return this._headers[idx];
-          }}
+          ref={getHeaderRef}
           key={idx}
           {...sortProps}>
           <span>{col.title}</span>
@@ -265,7 +294,13 @@ var Table = React.createClass({
     }
 
     var keys = this.props.keys;
-    var getKeys = Array.isArray(keys) ? keyGetter(keys) : simpleGet(keys);
+    var getKeys;
+    if (Array.isArray(keys)) {
+      getKeys = keyGetter(keys);
+    } else {
+      getKeys = simpleGet(keys);
+    }
+
     var buildRowOptions = this.props.buildRowOptions;
     return _.map(data, function (row) {
       return (
@@ -277,7 +312,6 @@ var Table = React.createClass({
   },
 
   render: function () {
-    var sortBy = this.state.sortBy;
 
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
