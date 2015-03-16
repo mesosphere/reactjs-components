@@ -4,14 +4,9 @@ var _ = require("underscore");
 var React = require("react/addons");
 var PropTypes = React.PropTypes;
 
-
 var _headers = [];
-/**
- * Creates a compare function with a property to sort on.
- *
- * @param {string} prop Property to sort.
- * @return {function(object, object)} Compare function.
- */
+
+// creates a compare function with a property to sort on
 function sortByFunc(prop) {
   return function (a, b) {
     if (a[prop] < b[prop]) {
@@ -24,11 +19,7 @@ function sortByFunc(prop) {
   };
 }
 
-/**
- * @param {object} sortBy Object containing `prop` and `order`.
- * @param {array} data Array to sort.
- * @return {array} Sorted array.
- */
+// default sort function
 function sort(sortBy, data, providedSortFunc) {
   // default sorting
   var sortFunc = sortByFunc(sortBy.prop);
@@ -44,20 +35,6 @@ function sort(sortBy, data, providedSortFunc) {
     sortedData.reverse();
   }
   return sortedData;
-}
-
-function simpleGet(key) {
-  return function (data) {
-    return data[key];
-  };
-}
-
-function keyGetter(keys) {
-  return function (data) {
-    return keys.map(function (key) {
-      return data[key];
-    });
-  };
 }
 
 function getCellValue(ref, row, sortBy) {
@@ -117,7 +94,11 @@ function buildSortProps(col, sortBy, onSort, callback) {
     nextOrder = "desc";
   }
 
-  var sortEvent = onSort.bind(null, { prop: col.prop, order: nextOrder }, callback);
+  var sortEvent = onSort.bind(
+    null,
+    {prop: col.prop, order: nextOrder},
+    callback
+  );
 
   return {
     onClick: sortEvent,
@@ -144,10 +125,7 @@ var Table = React.createClass({
   propTypes: {
 
     // provide what makes a table unique
-    keys: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string
-    ]).isRequired,
+    keys: PropTypes.arrayOf(PropTypes.string).isRequired,
 
     // define how columns should be rendered and if they are sortable
     columns: PropTypes.arrayOf(
@@ -304,17 +282,11 @@ var Table = React.createClass({
     }
 
     var keys = this.props.keys;
-    var getKeys;
-    if (Array.isArray(keys)) {
-      getKeys = keyGetter(keys);
-    } else {
-      getKeys = simpleGet(keys);
-    }
 
     var buildRowOptions = this.props.buildRowOptions;
     return _.map(data, function (row) {
       return (
-        <tr key={getKeys(row)} {...buildRowOptions(row)}>
+        <tr key={_.values(_.pick(row, keys))} {...buildRowOptions(row)}>
           {this.getRowColumns(row, this.state.sortBy)}
         </tr>
       );
