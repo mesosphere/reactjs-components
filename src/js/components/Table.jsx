@@ -6,37 +6,6 @@ var PropTypes = React.PropTypes;
 
 var _headers = [];
 
-// creates a compare function with a property to sort on
-function sortByFunc(prop) {
-  return function (a, b) {
-    if (a[prop] < b[prop]) {
-      return -1;
-    }
-    if (a[prop] > b[prop]) {
-      return 1;
-    }
-    return 0;
-  };
-}
-
-// default sort function
-function sort(sortBy, data, providedSortFunc) {
-  // default sorting
-  var sortFunc = sortByFunc(sortBy.prop);
-
-  if (_.isFunction(providedSortFunc) &&
-      _.isFunction(providedSortFunc(sortBy.prop))) {
-    // use specfied sorting
-    sortFunc = providedSortFunc(sortBy.prop);
-  }
-
-  var sortedData = data.sort(sortFunc);
-  if (sortBy.order === "desc") {
-    sortedData.reverse();
-  }
-  return sortedData;
-}
-
 function getCellValue(ref, row, sortBy) {
   var prop = ref.prop;
   var defaultContent = ref.defaultContent;
@@ -83,7 +52,7 @@ function getHeaderClass(ref, sortBy) {
   return className;
 }
 
-function buildSortProps(col, sortBy, onSort, callback) {
+function buildSortProps(col, sortBy, handleSort) {
   var order = "none";
   if (sortBy.prop === col.prop) {
     order = sortBy.order;
@@ -94,10 +63,11 @@ function buildSortProps(col, sortBy, onSort, callback) {
     nextOrder = "desc";
   }
 
-  var sortEvent = onSort.bind(
+  // sort state data with new sortBy properties
+  var sortEvent = handleSort.bind(
     null,
-    {prop: col.prop, order: nextOrder},
-    callback
+    null,
+    {prop: col.prop, order: nextOrder}
   );
 
   return {
@@ -118,22 +88,12 @@ function buildSortProps(col, sortBy, onSort, callback) {
   };
 }
 
-function getRowColumns(row, sortBy, columns) {
-  return _.map(columns, function(col, i) {
-    return (
-      <td key={i} className={getCellClass(col, row, sortBy)}>
-        {getCellValue(col, row, sortBy)}
-      </td>
-    );
-  }, this);
-}
-
-function getHeaders(columns, sortBy, onSort, callback) {
+function getHeaders(columns, sortBy, handleSort) {
   return _.map(columns, function (col, index) {
     var sortProps, order;
     // Only add sorting events if the column has a property and is sortable.
     if (col.sortable !== false && "prop" in col) {
-      sortProps = buildSortProps(col, sortBy, onSort, callback);
+      sortProps = buildSortProps(col, sortBy, handleSort);
       order = sortProps["aria-sort"];
     }
 
@@ -162,6 +122,16 @@ function getHeaders(columns, sortBy, onSort, callback) {
       )
     );
   });
+}
+
+function getRowColumns(row, sortBy, columns) {
+  return _.map(columns, function(col, i) {
+    return (
+      <td key={i} className={getCellClass(col, row, sortBy)}>
+        {getCellValue(col, row, sortBy)}
+      </td>
+    );
+  }, this);
 }
 
 function getRows(data, columns, keys, sortBy, buildRowOptions) {
@@ -243,20 +213,15 @@ var Table = React.createClass({
 
   getInitialState: function () {
     return {
-      // Clone the initialData.
+      // clone the initial data
       data: this.props.dataArray.slice(0),
-      sortBy: this.props.sortBy,
-      onSort: this.onSort
+      sortBy: this.props.sortBy
     };
   },
 
   componentWillMount: function () {
-    // Do the initial sorting if specified.
-    var sortBy = this.state.sortBy;
-    var data = this.state.data;
-    if (sortBy != null) {
-      this.setState({ data: sort(sortBy, data, this.props.sortFunc) });
-    }
+    // do the initial sorting if specified
+    this.handleSort();
   },
 
   componentDidMount: function () {
@@ -271,33 +236,49 @@ var Table = React.createClass({
   },
 
   componentWillReceiveProps: function (props) {
-    var sortBy = this.state.sortBy;
-    var data = props.dataArray;
-    if (sortBy != null) {
-      this.setState({ data: sort(sortBy, data, props.sortFunc) });
-    }
+      // clone new data
+    this.handleSort(props.dataArray.slice(0));
   },
 
-  onSort: function (sortBy, callback) {
-    var data = sort(sortBy, this.state.data, this.props.sortFunc);
+  handleSort: function (data, sortBy) {
+    // if nothing is passed to handle sort,
+    // just sort the state data w. state sortBy
+    /* jshint -W030 */
+    data || (data = this.state.data);
+    sortBy || (sortBy = this.state.sortBy);
+    /* jshint +W030 */
+
+    var customSort = this.props.customSort;
+    var onSort = this.props.onSort;
+
+    var sortedData;
+    if (_.isFunction(customSort)) {
+      // use specfied sorting
+      sortedData = _.sortBy(data, customSort);
+    } else {
+      // use default sorting
+      sortedData = _.sortBy(data, sortBy.prop);
+    }
+
+    if (sortBy.order === "desc") {
+      sortedData.reverse();
+    }
+
     this.setState({
       sortBy: sortBy,
-      data: data
+      data: sortedData
     });
 
-    if (_.isFunction(callback)) {
-      callback(sortBy, data);
+    if (_.isFunction(onSort)) {
+      onSort(sortBy, sortedData);
     }
   },
 
   render: function () {
-    var data = this.state.data;
+    var buildRowOptions = this.props.buildRowOptions;
     var columns = this.props.columns;
     var keys = this.props.keys;
     var sortBy = this.state.sortBy;
-    var buildRowOptions = this.props.buildRowOptions;
-    var onSort = this.state.onSort;
-    var callback = this.props.onSort;
 
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
@@ -305,11 +286,11 @@ var Table = React.createClass({
       <table className={this.props.className}>
         <thead>
           <tr>
-            {getHeaders(columns, sortBy, onSort, callback)}
+            {getHeaders(columns, sortBy, this.handleSort)}
           </tr>
         </thead>
         <tbody>
-          {getRows(data, columns, keys, sortBy, buildRowOptions)}
+          {getRows(this.state.data, columns, keys, sortBy, buildRowOptions)}
         </tbody>
       </table>
     );
