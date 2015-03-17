@@ -237,10 +237,8 @@ var Table = React.createClass({
   handleSort: function (data, sortBy) {
     // if nothing is passed to handle sort,
     // just sort the state data w. state sortBy
-    /* jshint -W030 */
-    data || (data = this.state.data);
-    sortBy || (sortBy = this.state.sortBy);
-    /* jshint +W030 */
+    data = data || this.state.data;
+    sortBy = sortBy || this.state.sortBy;
 
     var customSort = this.props.sortFunc;
     var onSort = this.props.onSort;
