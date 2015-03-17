@@ -64,7 +64,6 @@ function buildSortProps(col, sortBy, handleSort) {
   // sort state data with new sortBy properties
   var sortEvent = handleSort.bind(
     null,
-    null,
     {prop: col.prop, order: nextOrder}
   );
 
@@ -173,12 +172,8 @@ var Table = React.createClass({
     ).isRequired,
 
     // data to display in the table
-    dataArray: PropTypes.arrayOf(
-      PropTypes.oneOfType([
-        PropTypes.array,
-        PropTypes.object
-      ])
-    ).isRequired,
+    // make sure to clone if data, cannot be modified!
+    data: PropTypes.array.isRequired,
 
     // options to be passed to the rows
     buildRowOptions: PropTypes.func,
@@ -205,8 +200,6 @@ var Table = React.createClass({
 
   getInitialState: function () {
     return {
-      // clone the initial data
-      data: this.props.dataArray.slice(0),
       sortBy: this.props.sortBy,
       headers: []
     };
@@ -229,15 +222,14 @@ var Table = React.createClass({
     });
   },
 
-  componentWillReceiveProps: function (props) {
-      // clone new data
-    this.handleSort(props.dataArray.slice(0));
+  componentWillReceiveProps: function () {
+    this.handleSort();
   },
 
-  handleSort: function (data, sortBy) {
+  handleSort: function (sortBy) {
+    var data = this.props.data;
     // if nothing is passed to handle sort,
     // just sort the state data w. state sortBy
-    data = data || this.state.data;
     sortBy = sortBy || this.state.sortBy;
 
     var customSort = this.props.sortFunc;
