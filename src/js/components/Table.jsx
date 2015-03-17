@@ -4,8 +4,6 @@ var _ = require("underscore");
 var React = require("react/addons");
 var PropTypes = React.PropTypes;
 
-var _headers = [];
-
 function getCellValue(ref, row, sortBy) {
   var prop = ref.prop;
   var defaultContent = ref.defaultContent;
@@ -37,9 +35,9 @@ function getCellClass(ref, row, sortBy) {
   return className;
 }
 
-function getHeaderRef(c, index) {
-  _headers[index] = c.title;
-  return _headers[index];
+function getHeaderRef(headers, c, index) {
+  headers[index] = c.title;
+  return headers[index];
 }
 
 function getHeaderClass(ref, sortBy) {
@@ -72,23 +70,17 @@ function buildSortProps(col, sortBy, handleSort) {
 
   return {
     onClick: sortEvent,
-    // Fire the sort event on enter.
-    onKeyDown: function (e) {
-      if (e.keyCode === 13) {
-        sortEvent();
-      }
-    },
-    // Prevents selection with mouse.
+    // prevents selection with mouse.
     onMouseDown: function (e) {
       return e.preventDefault();
     },
     tabIndex: 0,
     "aria-sort": order,
-    "aria-label": "" + col.title + ": activate to sort column " + nextOrder
+    "aria-label": col.title + ": activate to sort column " + nextOrder
   };
 }
 
-function getHeaders(columns, sortBy, handleSort) {
+function getHeaders(columns, headers, sortBy, handleSort) {
   return _.map(columns, function (col, index) {
     var sortProps, order;
     // Only add sorting events if the column has a property and is sortable.
@@ -108,7 +100,7 @@ function getHeaders(columns, sortBy, handleSort) {
       "th",
       _.extend({
         className: getHeaderClass(col, sortBy),
-        ref: getHeaderRef,
+        ref: getHeaderRef(headers, headers, col, index),
         key: index
       }, sortProps),
       React.createElement(
@@ -215,7 +207,8 @@ var Table = React.createClass({
     return {
       // clone the initial data
       data: this.props.dataArray.slice(0),
-      sortBy: this.props.sortBy
+      sortBy: this.props.sortBy,
+      headers: []
     };
   },
 
@@ -227,12 +220,13 @@ var Table = React.createClass({
   componentDidMount: function () {
     // If no width was specified, then set the width that the browser applied
     // initially to avoid recalculating width between pages.
-    _headers.forEach(function (header) {
-      var thDom = this.refs[header].getDOMNode();
+    var refs = this.refs;
+    this.state.headers.forEach(function (header) {
+      var thDom = refs[header].getDOMNode();
       if (!thDom.style.width) {
         thDom.style.width = thDom.offsetWidth + "px";
       }
-    }, this);
+    });
   },
 
   componentWillReceiveProps: function (props) {
@@ -286,7 +280,7 @@ var Table = React.createClass({
       <table className={this.props.className}>
         <thead>
           <tr>
-            {getHeaders(columns, sortBy, this.handleSort)}
+            {getHeaders(columns, this.state.headers, sortBy, this.handleSort)}
           </tr>
         </thead>
         <tbody>
