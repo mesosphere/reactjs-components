@@ -248,13 +248,13 @@ var Table = React.createClass({
     sortBy || (sortBy = this.state.sortBy);
     /* jshint +W030 */
 
-    var customSort = this.props.customSort;
+    var customSort = this.props.sortFunc;
     var onSort = this.props.onSort;
 
     var sortedData;
-    if (_.isFunction(customSort)) {
+    if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
       // use specfied sorting
-      sortedData = _.sortBy(data, customSort);
+      sortedData = _.sortBy(data, customSort(sortBy.prop));
     } else {
       // use default sorting
       sortedData = _.sortBy(data, sortBy.prop);
