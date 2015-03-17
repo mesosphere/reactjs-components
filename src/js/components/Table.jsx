@@ -56,7 +56,7 @@ function buildSortProps(col, sortBy, handleSort) {
     order = sortBy.order;
   }
 
-  var nextOrder = "asc";
+  var nextOrder = "desc";
   if (order === "asc") {
     nextOrder = "desc";
   }
@@ -123,6 +123,22 @@ function getRowColumns(row, sortBy, columns) {
       </td>
     );
   }, this);
+}
+
+function sortData(data, sortBy, customSort) {
+  if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
+    // use specfied sorting
+    data = _.sortBy(data, customSort(sortBy.prop));
+  } else {
+    // use default sorting
+    data = _.sortBy(data, sortBy.prop);
+  }
+
+  if (sortBy.order === "asc") {
+    data.reverse();
+  }
+
+  return data;
 }
 
 function getRows(data, columns, keys, sortBy, buildRowOptions) {
@@ -227,34 +243,16 @@ var Table = React.createClass({
   },
 
   handleSort: function (sortBy) {
-    var data = this.props.data;
     // if nothing is passed to handle sort,
     // just sort the state data w. state sortBy
     sortBy = sortBy || this.state.sortBy;
 
-    var customSort = this.props.sortFunc;
     var onSort = this.props.onSort;
 
-    var sortedData;
-    if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
-      // use specfied sorting
-      sortedData = _.sortBy(data, customSort(sortBy.prop));
-    } else {
-      // use default sorting
-      sortedData = _.sortBy(data, sortBy.prop);
-    }
-
-    if (sortBy.order === "desc") {
-      sortedData.reverse();
-    }
-
-    this.setState({
-      sortBy: sortBy,
-      data: sortedData
-    });
+    this.setState({sortBy: sortBy});
 
     if (_.isFunction(onSort)) {
-      onSort(sortBy, sortedData);
+      onSort(sortBy);
     }
   },
 
@@ -263,6 +261,7 @@ var Table = React.createClass({
     var columns = this.props.columns;
     var keys = this.props.keys;
     var sortBy = this.state.sortBy;
+    var sortedData = sortData(this.props.data, sortBy, this.props.sortFunc);
 
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
@@ -274,7 +273,7 @@ var Table = React.createClass({
           </tr>
         </thead>
         <tbody>
-          {getRows(this.state.data, columns, keys, sortBy, buildRowOptions)}
+          {getRows(sortedData, columns, keys, sortBy, buildRowOptions)}
         </tbody>
       </table>
     );
