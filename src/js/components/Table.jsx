@@ -57,8 +57,8 @@ function buildSortProps(col, sortBy, handleSort) {
   }
 
   var nextOrder = "desc";
-  if (order === "asc") {
-    nextOrder = "desc";
+  if (order === "desc") {
+    nextOrder = "asc";
   }
 
   // sort state data with new sortBy properties
