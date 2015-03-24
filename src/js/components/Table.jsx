@@ -141,7 +141,7 @@ function sortData(data, sortBy, customSort) {
   return data;
 }
 
-function getRows(data, columns, keys, sortBy, buildRowOptions) {
+function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
   if (data.length === 0) {
     return (
       <tr>
@@ -156,7 +156,7 @@ function getRows(data, columns, keys, sortBy, buildRowOptions) {
     // need react functions here, because we are extending props
     return React.createElement(
       "tr",
-      _.extend({key: _.values(_.pick(row, keys))}, buildRowOptions(row)),
+      _.extend({key: _.values(_.pick(row, keys))}, buildRowOptions(row, context)),
       getRowColumns(row, sortBy, columns)
     );
   });
@@ -262,7 +262,6 @@ var Table = React.createClass({
     var keys = this.props.keys;
     var sortBy = this.state.sortBy;
     var sortedData = sortData(this.props.data, sortBy, this.props.sortFunc);
-
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     return (
@@ -273,7 +272,7 @@ var Table = React.createClass({
           </tr>
         </thead>
         <tbody>
-          {getRows(sortedData, columns, keys, sortBy, buildRowOptions)}
+          {getRows(sortedData, columns, keys, sortBy, buildRowOptions, this)}
         </tbody>
       </table>
     );
