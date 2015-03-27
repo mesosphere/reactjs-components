@@ -8,14 +8,12 @@ var Dropdown = React.createClass({
   displayName: "Dropdown",
 
   propTypes: {
-    defaultItem: React.PropTypes.object,
     items: React.PropTypes.array.isRequired,
     onChange: React.PropTypes.func.isRequired
   },
 
   getDefaultProps: function () {
     return {
-      defaultItem: <span>Dropdown</span>,
       items: []
     };
   },
@@ -23,7 +21,7 @@ var Dropdown = React.createClass({
   getInitialState: function () {
     return {
       open: false,
-      buttonContent: this.props.defaultItem,
+      buttonContent: _.first(this.props.children),
       selectedValue: null
     };
   },
@@ -31,10 +29,10 @@ var Dropdown = React.createClass({
   componentWillRecieveProps: function (props) {
     var state = {
       selectedValue: null,
-      buttonContent: this.props.defaultItem
+      buttonContent: _.first(props.children)
     };
 
-    _.find(props.items, function (item) {
+    _.find(props.children, function (item) {
       if (item.selected) {
         state = {
           selectedValue: item.value,
@@ -67,12 +65,12 @@ var Dropdown = React.createClass({
     });
   },
 
-  itemClicked: function (i) {
-    var value = this.props.items[i].value;
+  itemClicked: function (item) {
+    var value = item.props.value;
     if (value !== this.state.selectedValue) {
       this.setState({
         selectedValue: value,
-        buttonContent: this.props.items[i].innerContent
+        buttonContent: item
       });
       this.props.onChange(value);
     }
@@ -80,14 +78,14 @@ var Dropdown = React.createClass({
   },
 
   getItems: function () {
-    return _.map(this.props.items, function (item, i) {
+    return _.map(this.props.children, function (item) {
       /* jshint trailing:false, quotmark:false, newcap:false */
       /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
       return (
         <li className="clickable"
-            key={item.value}
-            onClick={this.itemClicked.bind(this, i)}>
-          {item.innerContent}
+            key={item.props.value}
+            onClick={this.itemClicked.bind(this, item)}>
+          {item}
         </li>
       );
       /* jshint trailing:true, quotmark:true, newcap:true */
@@ -106,7 +104,7 @@ var Dropdown = React.createClass({
     return (
       <span className={dropdownClassSet}>
         <button type="button"
-            className="button dropdown-toggle"
+            className="button button-medium dropdown-toggle"
             ref="button"
             onClick={this.toggleMenu}
             onBlur={this.onButtonBlur}>
