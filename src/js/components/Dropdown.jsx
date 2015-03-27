@@ -8,7 +8,7 @@ var Dropdown = React.createClass({
   displayName: "Dropdown",
 
   propTypes: {
-    defaultItem: React.PropTypes.string,
+    defaultItem: React.PropTypes.object,
     items: React.PropTypes.array.isRequired,
     onChange: React.PropTypes.func.isRequired
   },
@@ -47,18 +47,24 @@ var Dropdown = React.createClass({
     this.setState(state);
   },
 
-  componentDidMount: function () {
-    window.addEventListener("click", this.closeHandler);
+  menuMouseEnter: function () {
+    this.preventBlur = true;
   },
 
-  componentWillUnmount: function () {
-    window.removeEventListener("click", this.closeHandler);
+  menuMouseLeave: function () {
+    this.preventBlur = false;
   },
 
-  closeHandler: function (e) {
-    if (e.target !== this.refs.button.getDOMNode()) {
+  onButtonBlur: function () {
+    if (!this.preventBlur) {
       this.setState({open: false});
     }
+  },
+
+  toggleMenu: function () {
+    this.setState({
+      open: !this.state.open
+    });
   },
 
   itemClicked: function (i) {
@@ -70,12 +76,7 @@ var Dropdown = React.createClass({
       });
       this.props.onChange(value);
     }
-  },
-
-  toggleMenu: function () {
-    this.setState({
-      open: !this.state.open
-    });
+    this.setState({open: false});
   },
 
   getItems: function () {
@@ -107,10 +108,13 @@ var Dropdown = React.createClass({
         <button type="button"
             className="button dropdown-toggle"
             ref="button"
-            onClick={this.toggleMenu}>
+            onClick={this.toggleMenu}
+            onBlur={this.onButtonBlur}>
           {this.state.buttonContent}
         </button>
-        <span className="dropdown-menu inverse" role="menu">
+        <span className="dropdown-menu inverse" role="menu"
+            onMouseEnter={this.menuMouseEnter}
+            onMouseLeave={this.menuMouseLeave}>
           <ul className="dropdown-menu-list">
             {this.getItems()}
           </ul>
