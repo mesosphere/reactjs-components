@@ -3,44 +3,51 @@
 var _ = require("underscore");
 var React = require("react/addons");
 
+var DropdownItem = require("./DropdownItem");
+
+function getDefaultItem(props) {
+  return {
+    buttonContent: <DropdownItem>{props.caption}</DropdownItem>,
+    selectedValue: null
+  };
+}
+
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
 
   propTypes: {
-    items: React.PropTypes.array.isRequired,
+    caption: React.PropTypes.string,
+    resetText: React.PropTypes.string,
     onChange: React.PropTypes.func.isRequired
   },
 
   getDefaultProps: function () {
     return {
-      items: []
+      caption: "Dropdown",
+      resetText: "Show all"
     };
   },
 
   getInitialState: function () {
-    return {
-      open: false,
-      buttonContent: _.first(this.props.children),
-      selectedValue: null
-    };
+    return _.extend({
+      open: false
+    }, getDefaultItem(this.props));
   },
 
-  componentWillRecieveProps: function (props) {
-    var state = {
-      selectedValue: null,
-      buttonContent: _.first(props.children)
-    };
+  componentWillReceiveProps: function (nextProps) {
+    var state = getDefaultItem(nextProps);
 
-    _.find(props.children, function (item) {
-      if (item.selected) {
-        state = {
-          selectedValue: item.value,
-          buttonContent: item.innerContent
-        };
-      }
-      return item.selected;
-    }.bind(this));
+    var selectedItem = _.find(nextProps.children, function (item) {
+      return item.props.selected;
+    });
+
+    if (selectedItem != null) {
+      state = {
+        selectedValue: selectedItem.props.value,
+        buttonContent: selectedItem
+      };
+    }
 
     this.setState(state);
   },
@@ -78,7 +85,10 @@ var Dropdown = React.createClass({
   },
 
   getItems: function () {
-    return _.map(this.props.children, function (item) {
+    var items = _.clone(this.props.children);
+    items.unshift(<DropdownItem key="default">{this.props.resetText}</DropdownItem>);
+
+    return _.map(items, function (item) {
       /* jshint trailing:false, quotmark:false, newcap:false */
       /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
       return (
@@ -104,7 +114,7 @@ var Dropdown = React.createClass({
     return (
       <span className={dropdownClassSet}>
         <button type="button"
-            className="button button-medium dropdown-toggle"
+            className="button button-medium button-inverse dropdown-toggle"
             ref="button"
             onClick={this.toggleMenu}
             onBlur={this.onButtonBlur}>
