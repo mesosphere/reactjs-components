@@ -166,6 +166,16 @@ var Table = React.createClass({
 
   displayName: "Table",
 
+  actions_configuration: {
+    state: {
+      sortBy: function (value) {
+        // {"prop":"name","order":"asc"}
+        return "Changed " + Table.displayName +
+          " to sort by " + value.prop + " in " + value.order + " direction";
+      }
+    }
+  },
+
   propTypes: {
 
     // provide what makes a table unique
@@ -249,7 +259,9 @@ var Table = React.createClass({
 
     var onSort = this.props.onSort;
 
-    this.setState({sortBy: sortBy});
+    if (!_.isEqual(this.state.sortBy, sortBy)) {
+      this.setState({sortBy: sortBy});
+    }
 
     if (_.isFunction(onSort)) {
       onSort(sortBy);
