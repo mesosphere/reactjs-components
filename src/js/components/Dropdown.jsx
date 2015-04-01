@@ -18,14 +18,14 @@ var Dropdown = React.createClass({
 
   propTypes: {
     caption: React.PropTypes.string,
-    resetText: React.PropTypes.string,
+    resetElement: React.PropTypes.object,
     onChange: React.PropTypes.func.isRequired
   },
 
   getDefaultProps: function () {
     return {
       caption: "Dropdown",
-      resetText: "Show all"
+      resetElement: <DropdownItem key="default">Show all</DropdownItem>
     };
   },
 
@@ -86,7 +86,7 @@ var Dropdown = React.createClass({
 
   getItems: function () {
     var items = _.clone(this.props.children);
-    items.unshift(<DropdownItem key="default">{this.props.resetText}</DropdownItem>);
+    items.unshift(this.props.resetElement);
 
     return _.map(items, function (item) {
       /* jshint trailing:false, quotmark:false, newcap:false */

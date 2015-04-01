@@ -8,25 +8,29 @@ var DropdownItem = React.createClass({
 
   propTypes: {
     value: React.PropTypes.string,
-    selected: React.PropTypes.bool
+    selected: React.PropTypes.bool,
+    title: React.PropTypes.string
   },
 
   getDefaultProps: function () {
     return {
       value: "",
-      selected: false
+      selected: false,
+      title: ""
     };
   },
 
   render: function () {
+    var props = this.props;
+
     var classSet = React.addons.classSet({
-      "selected": this.props.selected
+      "selected": props.selected
     });
 
     /* jshint trailing:false, quotmark:false, newcap:false */
     /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     return (
-      <a className={classSet}>
+      <a className={classSet} title={props.title}>
         {this.props.children}
       </a>
     );
