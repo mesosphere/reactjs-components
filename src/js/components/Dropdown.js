@@ -30,7 +30,7 @@ var Dropdown = React.createClass({
   getDefaultProps: function () {
     return {
       caption: "Dropdown",
-      resetElement: <DropdownItem key="default">Show all</DropdownItem>
+      resetElement: (<DropdownItem key="default">Show all</DropdownItem>)
     };
   },
 
@@ -108,13 +108,13 @@ var Dropdown = React.createClass({
 
     return (
       <span className={dropdownClassSet}>
-        <button type="button"
+        <DropdownItem type="button"
             className="button button-medium button-inverse dropdown-toggle"
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.getSelectedItem()}
-        </button>
+          {this.getSelectedItem().props.children}
+        </DropdownItem>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>
