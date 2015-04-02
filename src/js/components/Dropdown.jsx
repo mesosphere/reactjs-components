@@ -5,22 +5,9 @@ var React = require("react/addons");
 
 var DropdownItem = require("./DropdownItem");
 
-function getDefaultItem(props) {
-  return {
-    buttonContent: <DropdownItem>{props.caption}</DropdownItem>,
-    selectedValue: null
-  };
-}
-
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
-
-  actions_configuration: {
-    state: {
-      buttonContent: {skip: true}
-    }
-  },
 
   propTypes: {
     caption: React.PropTypes.string,
@@ -36,26 +23,9 @@ var Dropdown = React.createClass({
   },
 
   getInitialState: function () {
-    return _.extend({
+    return {
       open: false
-    }, getDefaultItem(this.props));
-  },
-
-  componentWillReceiveProps: function (nextProps) {
-    var state = getDefaultItem(nextProps);
-
-    var selectedItem = _.find(nextProps.children, function (item) {
-      return item.props.selected;
-    });
-
-    if (selectedItem != null) {
-      state = {
-        selectedValue: selectedItem.props.value,
-        buttonContent: selectedItem
-      };
-    }
-
-    this.setState(state);
+    };
   },
 
   handleMouseEnter: function () {
@@ -79,14 +49,13 @@ var Dropdown = React.createClass({
   },
 
   itemClicked: function (item) {
+    var selected = this.getSelectedItem();
     var value = item.props.value;
-    if (value !== this.state.selectedValue) {
-      this.setState({
-        selectedValue: value,
-        buttonContent: item
-      });
+
+    if (value !== selected.props.value) {
       this.props.handleItemSelection(value);
     }
+
     this.setState({open: false});
   },
 
@@ -109,6 +78,20 @@ var Dropdown = React.createClass({
     }, this);
   },
 
+  getSelectedItem: function () {
+    var props = this.props;
+
+    var selectedItem = _.find(props.children, function (item) {
+      return item.props.selected;
+    });
+
+    if (!selectedItem) {
+      selectedItem = (<DropdownItem>{props.caption}</DropdownItem>);
+    }
+
+    return selectedItem;
+  },
+
   render: function () {
     var dropdownClassSet = React.addons.classSet({
       "dropdown": true,
@@ -124,7 +107,7 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.state.buttonContent}
+          {this.getSelectedItem()}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
