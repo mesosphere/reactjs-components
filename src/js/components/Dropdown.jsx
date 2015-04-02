@@ -19,7 +19,7 @@ var Dropdown = React.createClass({
   propTypes: {
     caption: React.PropTypes.string,
     resetElement: React.PropTypes.object,
-    onChange: React.PropTypes.func.isRequired
+    handleItemSelection: React.PropTypes.func.isRequired
   },
 
   getDefaultProps: function () {
@@ -52,21 +52,21 @@ var Dropdown = React.createClass({
     this.setState(state);
   },
 
-  menuMouseEnter: function () {
+  handleMouseEnter: function () {
     this.preventBlur = true;
   },
 
-  menuMouseLeave: function () {
+  handleMouseLeave: function () {
     this.preventBlur = false;
   },
 
-  onButtonBlur: function () {
+  handleButtonBlur: function () {
     if (!this.preventBlur) {
       this.setState({open: false});
     }
   },
 
-  toggleMenu: function () {
+  handleMenuToggle: function () {
     this.setState({
       open: !this.state.open
     });
@@ -79,7 +79,7 @@ var Dropdown = React.createClass({
         selectedValue: value,
         buttonContent: item
       });
-      this.props.onChange(value);
+      this.props.handleItemSelection(value);
     }
     this.setState({open: false});
   },
@@ -100,7 +100,7 @@ var Dropdown = React.createClass({
       );
       /* jshint trailing:true, quotmark:true, newcap:true */
       /* jscs:enable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-    }.bind(this));
+    }, this);
   },
 
   render: function () {
@@ -116,13 +116,13 @@ var Dropdown = React.createClass({
         <button type="button"
             className="button button-medium button-inverse dropdown-toggle"
             ref="button"
-            onClick={this.toggleMenu}
-            onBlur={this.onButtonBlur}>
+            onClick={this.handleMenuToggle}
+            onBlur={this.handleButtonBlur}>
           {this.state.buttonContent}
         </button>
         <span className="dropdown-menu inverse" role="menu"
-            onMouseEnter={this.menuMouseEnter}
-            onMouseLeave={this.menuMouseLeave}>
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}>
           <ul className="dropdown-menu-list">
             {this.getItems()}
           </ul>
