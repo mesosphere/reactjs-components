@@ -16,6 +16,12 @@ var Dropdown = React.createClass({
 
   displayName: "Dropdown",
 
+  actions_configuration: {
+    state: {
+      buttonContent: {skip: true}
+    }
+  },
+
   propTypes: {
     caption: React.PropTypes.string,
     resetElement: React.PropTypes.object,
