@@ -9,6 +9,18 @@ var Dropdown = React.createClass({
 
   displayName: "Dropdown",
 
+  actions_configuration: {
+    state: {
+      open: function (isOpen) {
+        if (isOpen) {
+          return "Opened " + this.props.caption + " dropdown.";
+        } else {
+          return "Closed " + this.props.caption + " dropdown.";
+        }
+      }
+    }
+  },
+
   propTypes: {
     caption: React.PropTypes.string,
     resetElement: React.PropTypes.object,
