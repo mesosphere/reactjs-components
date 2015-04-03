@@ -9,7 +9,6 @@ var Modal = React.createClass({
   propTypes: {
     closeText: React.PropTypes.string,
     footer: React.PropTypes.object,
-    show: React.PropTypes.bool,
     showCloseButton: React.PropTypes.bool,
     subHeader: React.PropTypes.object,
     titleText: React.PropTypes.string,
@@ -22,6 +21,10 @@ var Modal = React.createClass({
       showCloseButton: true,
       titleText: ""
     };
+  },
+
+  componentDidMount: function () {
+    this.forceUpdate();
   },
 
   getCloseButton: function () {
@@ -45,16 +48,14 @@ var Modal = React.createClass({
 
     var backdropClassSet = React.addons.classSet({
       "fade": true,
-      "hidden": !this.props.show,
-      "in": this.props.show,
+      "in": this.isMounted(),
       "modal-backdrop": true
     });
 
     var modalClassSet = React.addons.classSet({
       "fade": true,
       "flex-container-col": true,
-      "hidden": !this.props.show,
-      "in": this.props.show,
+      "in": this.isMounted(),
       "modal": true
     });
 
@@ -67,7 +68,7 @@ var Modal = React.createClass({
               <h2 className="modal-header-title text-align-center flush-top inverse">
                 {this.props.titleText}
               </h2>
-              {this.props.subHeader()}
+              {this.props.subHeader}
             </div>
           </div>
           <div className="modal-content container-scrollable">
