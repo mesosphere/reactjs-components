@@ -1,6 +1,5 @@
 /** @jsx React.DOM */
 
-var _ = require("underscore");
 var React = require("react");
 
 var Modal = React.createClass({
@@ -9,18 +8,16 @@ var Modal = React.createClass({
 
   propTypes: {
     closeText: React.PropTypes.string,
-    renderFooter: React.PropTypes.func,
-    renderSubHeader: React.PropTypes.func,
+    footer: React.PropTypes.object,
     show: React.PropTypes.bool,
     showCloseButton: React.PropTypes.bool,
+    subHeader: React.PropTypes.object,
     titleText: React.PropTypes.string,
   },
 
   getDefaultProps: function () {
     return {
       closeText: "Close",
-      renderFooter: _.noop,
-      renderSubHeader: _.noop,
       show: false,
       showCloseButton: true,
       titleText: ""
@@ -70,7 +67,7 @@ var Modal = React.createClass({
               <h2 className="modal-header-title text-align-center flush-top inverse">
                 {this.props.titleText}
               </h2>
-              {this.props.renderSubHeader()}
+              {this.props.subHeader()}
             </div>
           </div>
           <div className="modal-content container-scrollable">
@@ -80,7 +77,7 @@ var Modal = React.createClass({
           </div>
           <div className="modal-footer">
             <div className="container container-pod container-pod-short">
-              {this.props.renderFooter()}
+              {this.props.footer}
             </div>
           </div>
         </div>
