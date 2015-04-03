@@ -7,13 +7,23 @@ var Modal = React.createClass({
 
   displayName: "Modal",
 
+  propTypes: {
+    closeText: React.PropTypes.string,
+    renderFooter: React.PropTypes.func,
+    renderSubHeader: React.PropTypes.func,
+    show: React.PropTypes.bool,
+    showCloseButton: React.PropTypes.bool,
+    titleText: React.PropTypes.string,
+  },
+
   getDefaultProps: function () {
     return {
+      closeText: "Close",
+      renderFooter: _.noop,
+      renderSubHeader: _.noop,
       show: false,
       showCloseButton: true,
-      closeText: "Close",
-      titleText: "",
-      renderFooter: _.noop
+      titleText: ""
     };
   },
 
@@ -48,7 +58,6 @@ var Modal = React.createClass({
       "flex-container-col": true,
       "hidden": !this.props.show,
       "in": this.props.show,
-      "inverse": true,
       "modal": true
     });
 
@@ -58,9 +67,10 @@ var Modal = React.createClass({
           {this.getCloseButton()}
           <div className="modal-header">
             <div className="container container-pod container-pod-short">
-              <h2 className="modal-header-title text-align-center flush-top flush-bottom">
+              <h2 className="modal-header-title text-align-center flush-top inverse">
                 {this.props.titleText}
               </h2>
+              {this.props.renderSubHeader()}
             </div>
           </div>
           <div className="modal-content container-scrollable">
