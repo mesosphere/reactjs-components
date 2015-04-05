@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require("react");
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Modal = React.createClass({
 
@@ -60,7 +61,7 @@ var Modal = React.createClass({
     });
 
     return (
-      <div>
+      <ReactCSSTransitionGroup transitionName="modal-intro">
         <div className={modalClassSet} tabIndex="-1">
           {this.getCloseButton()}
           <div className="modal-header">
@@ -83,7 +84,7 @@ var Modal = React.createClass({
           </div>
         </div>
         <div className={backdropClassSet} />
-      </div>
+      </ReactCSSTransitionGroup>
     );
   }
 });
