@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require("react");
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var Modal = React.createClass({
 
@@ -18,7 +18,6 @@ var Modal = React.createClass({
   getDefaultProps: function () {
     return {
       closeText: "Close",
-      show: false,
       showCloseButton: true,
       titleText: ""
     };
@@ -30,7 +29,7 @@ var Modal = React.createClass({
 
   getCloseButton: function () {
     if (!this.props.showCloseButton) {
-      return;
+      return null;
     }
 
     return (
@@ -43,48 +42,58 @@ var Modal = React.createClass({
     );
   },
 
-  /* jshint trailing:false, quotmark:false, newcap:false */
-  /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-  render: function () {
-
-    var backdropClassSet = React.addons.classSet({
-      "fade": true,
-      "in": this.isMounted(),
-      "modal-backdrop": true
-    });
+  getModal: function (isMounted) {
+    if (!isMounted) {
+      return null;
+    }
 
     var modalClassSet = React.addons.classSet({
-      "fade": true,
       "flex-container-col": true,
-      "in": this.isMounted(),
       "modal": true
     });
 
     return (
-      <ReactCSSTransitionGroup transitionName="modal-intro">
-        <div className={modalClassSet} tabIndex="-1">
-          {this.getCloseButton()}
-          <div className="modal-header">
-            <div className="container container-pod container-pod-short">
-              <h2 className="modal-header-title text-align-center flush-top inverse">
-                {this.props.titleText}
-              </h2>
-              {this.props.subHeader}
-            </div>
-          </div>
-          <div className="modal-content container-scrollable">
-            <div className="modal-content-inner container container-pod container-pod-short">
-              {this.props.children}
-            </div>
-          </div>
-          <div className="modal-footer">
-            <div className="container container-pod container-pod-short">
-              {this.props.footer}
-            </div>
+      <div className={modalClassSet} >
+        {this.getCloseButton()}
+        <div className="modal-header">
+          <div className="container container-pod container-pod-short">
+            <h2 className="modal-header-title text-align-center flush-top inverse">
+              {this.props.titleText}
+            </h2>
+            {this.props.subHeader}
           </div>
         </div>
+        <div className="modal-content container-scrollable">
+          <div className="modal-content-inner container container-pod container-pod-short">
+            {this.props.children}
+          </div>
+        </div>
+        <div className="modal-footer">
+          <div className="container container-pod container-pod-short">
+            {this.props.footer}
+          </div>
+        </div>
+      </div>
+    );
+  },
+
+  /* jshint trailing:false, quotmark:false, newcap:false */
+  /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
+  render: function () {
+    var isMounted = this.isMounted();
+    var backdropClassSet = React.addons.classSet({
+      "fade": true,
+      "in": isMounted,
+      "modal-backdrop": true
+    });
+
+    return (
+      <div>
+        <CSSTransitionGroup transitionName="modal">
+          {this.getModal(isMounted)}
+        </CSSTransitionGroup>
         <div className={backdropClassSet} />
-      </ReactCSSTransitionGroup>
+      </div>
     );
   }
 });
