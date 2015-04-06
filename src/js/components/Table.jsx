@@ -90,7 +90,7 @@ function getHeaders(columns, headers, sortBy, handleSort) {
 
     var caretClassSet = React.addons.classSet({
       "caret": true,
-      "dropup": order === "asc",
+      "dropup": order === "desc",
       "invisible": col.prop !== sortBy.prop
     });
 
