@@ -32,9 +32,9 @@ var DropdownItem = React.createClass({
           title={props.title}
           onClick={props.onClick}
           onBlur={props.onBlur}>
-        <div>
+        <span className="button-container">
           {this.props.children}
-        </div>
+        </span>
       </button>
     );
     /* jshint trailing:true, quotmark:true, newcap:true */

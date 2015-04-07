@@ -29,8 +29,7 @@ var Dropdown = React.createClass({
 
   getDefaultProps: function () {
     return {
-      caption: "Dropdown",
-      resetElement: (<DropdownItem key="default">Show all</DropdownItem>)
+      caption: "Dropdown"
     };
   },
 
@@ -73,7 +72,9 @@ var Dropdown = React.createClass({
 
   getItems: function () {
     var items = _.clone(this.props.children);
-    items.unshift(this.props.resetElement);
+    if (this.props.resetElement != null) {
+      items.unshift(this.props.resetElement);
+    }
 
     return _.map(items, function (item) {
       return (
