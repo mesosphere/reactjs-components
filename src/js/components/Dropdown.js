@@ -98,6 +98,8 @@ var Dropdown = React.createClass({
       selectedItem = (<DropdownItem>{props.caption}</DropdownItem>);
     }
 
+    /* jshint trailing:false, quotmark:false, newcap:false */
+    /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     return (
       <DropdownItem className="button-container"
           tag="span"
