@@ -98,7 +98,13 @@ var Dropdown = React.createClass({
       selectedItem = (<DropdownItem>{props.caption}</DropdownItem>);
     }
 
-    return selectedItem;
+    return (
+      <DropdownItem className="button-container"
+          tag="span"
+          value={selectedItem.props.value}>
+        {selectedItem.props.children}
+      </DropdownItem>
+    );
   },
 
   render: function () {
@@ -109,13 +115,13 @@ var Dropdown = React.createClass({
 
     return (
       <span className={dropdownClassSet}>
-        <DropdownItem type="button"
+        <button type="button"
             className="button button-medium button-inverse dropdown-toggle"
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.getSelectedItem().props.children}
-        </DropdownItem>
+          {this.getSelectedItem()}
+        </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>

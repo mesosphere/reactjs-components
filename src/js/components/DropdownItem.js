@@ -7,10 +7,10 @@ var DropdownItem = React.createClass({
   displayName: "DropdownItem",
 
   propTypes: {
-    type: React.PropTypes.string,
     className: React.PropTypes.string,
     value: React.PropTypes.string,
     selected: React.PropTypes.bool,
+    tag: React.PropTypes.string,
     title: React.PropTypes.string
   },
 
@@ -18,42 +18,9 @@ var DropdownItem = React.createClass({
     return {
       value: "",
       selected: false,
+      tag: "a",
       title: ""
     };
-  },
-
-  getButtonElement: function (classSet) {
-    var props = this.props;
-
-    /* jshint trailing:false, quotmark:false, newcap:false */
-    /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-    return (
-      <button className={classSet}
-          title={props.title}
-          onClick={props.onClick}
-          onBlur={props.onBlur}>
-        <span className="button-container">
-          {this.props.children}
-        </span>
-      </button>
-    );
-    /* jshint trailing:true, quotmark:true, newcap:true */
-    /* jscs:enable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
-  },
-
-  getAnchorElement: function (classSet) {
-    var props = this.props;
-
-    return (
-      <a className={classSet}
-          title={props.title}
-          onClick={props.onClick}
-          onBlur={props.onBlur}>
-        {this.props.children}
-      </a>
-    );
-    /* jshint trailing:true, quotmark:true, newcap:true */
-    /* jscs:enable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
   },
 
   render: function () {
@@ -66,13 +33,13 @@ var DropdownItem = React.createClass({
       classes[props.className] = true;
     }
 
-    var classSet = React.addons.classSet(classes);
-
-    if (props.type === "button") {
-      return this.getButtonElement(classSet);
-    }
-
-    return this.getAnchorElement(classSet);
+    return React.createElement(
+      props.tag, {
+        className: React.addons.classSet(classes),
+        title: props.title
+      },
+      props.children
+    );
   }
 });
 
