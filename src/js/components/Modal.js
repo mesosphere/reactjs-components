@@ -12,7 +12,7 @@ var Modal = React.createClass({
     footer: React.PropTypes.object,
     showCloseButton: React.PropTypes.bool,
     subHeader: React.PropTypes.object,
-    titleText: React.PropTypes.string,
+    titleText: React.PropTypes.string
   },
 
   getDefaultProps: function () {
