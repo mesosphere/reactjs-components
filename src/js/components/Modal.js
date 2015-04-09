@@ -77,8 +77,6 @@ var Modal = React.createClass({
     );
   },
 
-  /* jshint trailing:false, quotmark:false, newcap:false */
-  /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
   render: function () {
     var isMounted = this.isMounted();
     var backdropClassSet = React.addons.classSet({
