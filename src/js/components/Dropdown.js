@@ -76,8 +76,6 @@ var Dropdown = React.createClass({
     items.unshift(this.props.resetElement);
 
     return _.map(items, function (item) {
-      /* jshint trailing:false, quotmark:false, newcap:false */
-      /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
       return (
         <li className="clickable"
             key={item.props.value}
@@ -85,8 +83,6 @@ var Dropdown = React.createClass({
           {item}
         </li>
       );
-      /* jshint trailing:true, quotmark:true, newcap:true */
-      /* jscs:enable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     }, this);
   },
 
@@ -110,8 +106,6 @@ var Dropdown = React.createClass({
       "open": this.state.open
     });
 
-    /* jshint trailing:false, quotmark:false, newcap:false */
-    /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     return (
       <span className={dropdownClassSet}>
         <button type="button"

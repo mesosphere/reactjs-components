@@ -27,8 +27,6 @@ var DropdownItem = React.createClass({
       "selected": props.selected
     });
 
-    /* jshint trailing:false, quotmark:false, newcap:false */
-    /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
     return (
       <a className={classSet} title={props.title}>
         {this.props.children}
