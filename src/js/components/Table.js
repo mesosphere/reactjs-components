@@ -275,8 +275,7 @@ var Table = React.createClass({
     var keys = this.props.keys;
     var sortBy = this.state.sortBy;
     var sortedData = sortData(this.props.data, sortBy, this.props.sortFunc);
-    /* jshint trailing:false, quotmark:false, newcap:false */
-    /* jscs:disable disallowTrailingWhitespace, validateQuoteMarks, maximumLineLength */
+
     return (
       <table className={this.props.className}>
         <thead>
