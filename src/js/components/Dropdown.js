@@ -3,6 +3,8 @@
 var _ = require("underscore");
 var React = require("react/addons");
 
+var InternalStorageMixin = require("../mixins/InternalStorageMixin");
+
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
@@ -21,21 +23,30 @@ var Dropdown = React.createClass({
 
   propTypes: {
     caption: React.PropTypes.string,
-    handleItemSelection: React.PropTypes.func.isRequired,
-    resetElement: React.PropTypes.object,
-    items: React.PropTypes.array.isRequired
+    defaultKey: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.number
+    ]),
+    getCurrentItem: React.PropTypes.func,
+    handleItemSelection: React.PropTypes.func.isRequired
   },
+
+  mixins: [InternalStorageMixin],
 
   getDefaultProps: function () {
     return {
-      caption: "Dropdown"
+      caption: "Dropdown",
+      getCurrentItem: this.getCurrentItem
     };
+  },
+
+  componentWillMount: function () {
+    this.internalStorage_set({selectedKey: this.props.defaultKey});
   },
 
   getInitialState: function () {
     return {
-      open: false,
-      selectedItem: null
+      open: false
     };
   },
 
@@ -59,32 +70,30 @@ var Dropdown = React.createClass({
     });
   },
 
-  onItemClick: function (item) {
-    this.props.handleItemSelection(item);
+  onItemClick: function (key) {
+    this.props.handleItemSelection(key);
 
+    this.internalStorage_set({selectedKey: key});
     this.setState({
-      open: false,
-      selectedItem: item
+      open: false
     });
   },
 
-  getCurrentItem: function () {
-    if (this.state.selectedItem &&
-        this.props.resetElement.id !== this.state.selectedItem.id) {
-      return this.state.selectedItem.render();
-    }
-
-    return this.props.caption;
+  getCurrentItem: function (key, children) {
+    return _.find(children, function (item) {
+      return item.key === key;
+    });
   },
 
   getItems: function () {
-    return _.map(this.props.items, function (item, i) {
+    return _.map(this.props.children, function (item) {
+      var key = item.key;
       return (
         <li className="clickable"
-          key={i}
-          onClick={this.onItemClick.bind(this, item)}>
+          key={key}
+          onClick={this.onItemClick.bind(this, key)}>
           <a>
-            {item.render()}
+            {item}
           </a>
         </li>
       );
@@ -92,16 +101,11 @@ var Dropdown = React.createClass({
   },
 
   render: function () {
-    var resetElement = this.props.resetElement;
+    var data = this.internalStorage_get();
 
     var dropdownClassSet = React.addons.classSet({
       "dropdown": true,
       "open": this.state.open
-    });
-
-    var resetClassSet = React.addons.classSet({
-      "clickable": true,
-      "hidden": resetElement == null
     });
 
     return (
@@ -111,18 +115,12 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.getCurrentItem()}
+          {this.props.getCurrentItem(data.selectedKey, this.props.children)}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>
           <ul className="dropdown-menu-list">
-            <li className={resetClassSet}
-                onClick={this.onItemClick.bind(this, resetElement)}>
-                <a>
-                  {resetElement.render()}
-                </a>
-            </li>
             {this.getItems()}
           </ul>
         </span>
