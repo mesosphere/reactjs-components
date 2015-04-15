@@ -3,8 +3,6 @@
 var _ = require("underscore");
 var React = require("react/addons");
 
-var DropdownItem = require("./DropdownItem");
-
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
@@ -23,8 +21,9 @@ var Dropdown = React.createClass({
 
   propTypes: {
     caption: React.PropTypes.string,
+    handleItemSelection: React.PropTypes.func.isRequired,
     resetElement: React.PropTypes.object,
-    handleItemSelection: React.PropTypes.func.isRequired
+    items: React.PropTypes.array.isRequired
   },
 
   getDefaultProps: function () {
@@ -35,7 +34,8 @@ var Dropdown = React.createClass({
 
   getInitialState: function () {
     return {
-      open: false
+      open: false,
+      selectedItem: null
     };
   },
 
@@ -59,58 +59,49 @@ var Dropdown = React.createClass({
     });
   },
 
-  itemClicked: function (item) {
-    var selected = this.getSelectedItem();
-    var value = item.props.value;
+  onItemClick: function (item) {
+    this.props.handleItemSelection(item);
 
-    if (value !== selected.props.value) {
-      this.props.handleItemSelection(value);
+    this.setState({
+      open: false,
+      selectedItem: item
+    });
+  },
+
+  getCurrentItem: function () {
+    if (this.state.selectedItem &&
+        this.props.resetElement.id !== this.state.selectedItem.id) {
+      return this.state.selectedItem.render();
     }
 
-    this.setState({open: false});
+    return this.props.caption;
   },
 
   getItems: function () {
-    var items = _.clone(this.props.children);
-    if (this.props.resetElement != null) {
-      items.unshift(this.props.resetElement);
-    }
-
-    return _.map(items, function (item) {
+    return _.map(this.props.items, function (item, i) {
       return (
         <li className="clickable"
-            key={item.props.value}
-            onClick={this.itemClicked.bind(this, item)}>
-          {item}
+          key={i}
+          onClick={this.onItemClick.bind(this, item)}>
+          <a>
+            {item.render()}
+          </a>
         </li>
       );
     }, this);
   },
 
-  getSelectedItem: function () {
-    var props = this.props;
-
-    var selectedItem = _.find(props.children, function (item) {
-      return item.props.selected;
-    });
-
-    if (!selectedItem) {
-      selectedItem = (<DropdownItem>{props.caption}</DropdownItem>);
-    }
-
-    return (
-      <DropdownItem className="button-container"
-          tag="span"
-          value={selectedItem.props.value}>
-        {selectedItem.props.children}
-      </DropdownItem>
-    );
-  },
-
   render: function () {
+    var resetElement = this.props.resetElement;
+
     var dropdownClassSet = React.addons.classSet({
       "dropdown": true,
       "open": this.state.open
+    });
+
+    var resetClassSet = React.addons.classSet({
+      "clickable": true,
+      "hidden": resetElement == null
     });
 
     return (
@@ -120,12 +111,18 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.getSelectedItem()}
+          {this.getCurrentItem()}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>
           <ul className="dropdown-menu-list">
+            <li className={resetClassSet}
+                onClick={this.onItemClick.bind(this, resetElement)}>
+                <a>
+                  {resetElement.render()}
+                </a>
+            </li>
             {this.getItems()}
           </ul>
         </span>
