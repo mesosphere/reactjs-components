@@ -170,8 +170,7 @@ var Table = React.createClass({
     state: {
       sortBy: function (value) {
         // {"prop":"name","order":"asc"}
-        return "Changed " + Table.displayName +
-          " to sort by " + value.prop + " in " + value.order + " direction";
+        return value.prop;
       },
       headers: {skip: true}
     }
