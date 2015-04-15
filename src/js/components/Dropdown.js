@@ -13,9 +13,9 @@ var Dropdown = React.createClass({
     state: {
       open: function (isOpen) {
         if (isOpen) {
-          return "Opened " + this.props.caption + " dropdown.";
+          return this.props.caption.replace(/\s+/g, "");
         } else {
-          return "Closed " + this.props.caption + " dropdown.";
+          return this.props.caption.replace(/\s+/g, "");
         }
       }
     }
