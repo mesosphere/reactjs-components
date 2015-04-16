@@ -5,6 +5,12 @@ var React = require("react/addons");
 
 var InternalStorageMixin = require("../mixins/InternalStorageMixin");
 
+function getCurrentItem(key, children) {
+  return _.find(children, function (item) {
+    return item.key === key;
+  });
+}
+
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
@@ -36,7 +42,7 @@ var Dropdown = React.createClass({
   getDefaultProps: function () {
     return {
       caption: "Dropdown",
-      getCurrentItem: this.getCurrentItem
+      getCurrentItem: getCurrentItem
     };
   },
 
@@ -76,12 +82,6 @@ var Dropdown = React.createClass({
     this.internalStorage_set({selectedKey: key});
     this.setState({
       open: false
-    });
-  },
-
-  getCurrentItem: function (key, children) {
-    return _.find(children, function (item) {
-      return item.key === key;
     });
   },
 
