@@ -3,12 +3,6 @@
 var _ = require("underscore");
 var React = require("react/addons");
 
-function getSelectedItem(key, children) {
-  return _.find(children, function (item) {
-    return item.key === key;
-  });
-}
-
 var Dropdown = React.createClass({
 
   displayName: "Dropdown",
@@ -16,29 +10,31 @@ var Dropdown = React.createClass({
   actions_configuration: {
     state: {
       open: function (isOpen) {
-        if (isOpen) {
-          return this.props.caption.replace(/\s+/g, "");
-        } else {
-          return this.props.caption.replace(/\s+/g, "");
-        }
+        // if (isOpen) {
+        //   return this.props.caption.replace(/\s+/g, "");
+        // } else {
+        //   return this.props.caption.replace(/\s+/g, "");
+        // }
       }
     }
   },
 
   propTypes: {
-    items: React.PropTypes.array.isRequired,
-    getSelectedItem: React.PropTypes.func,
+    items: React.PropTypes.arrayOf(
+      React.PropTypes.shape({
+        id: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.number
+        ]).isRequired,
+        render: React.PropTypes.func.isRequired,
+        selectedRender: React.PropTypes.func
+      })
+    ).isRequired,
     handleItemSelection: React.PropTypes.func.isRequired,
-    selectedKey: React.PropTypes.oneOfType([
+    selectedId: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
     ])
-  },
-
-  getDefaultProps: function () {
-    return {
-      getSelectedItem: getSelectedItem
-    };
   },
 
   getInitialState: function () {
@@ -67,23 +63,34 @@ var Dropdown = React.createClass({
     });
   },
 
-  onItemClick: function (key) {
-    this.props.handleItemSelection(key);
+  onItemClick: function (obj) {
+    this.props.handleItemSelection(obj);
 
     this.setState({
       open: false
     });
   },
 
-  getItems: function (items) {
+  renderSelectedItem: function (id, items) {
+    var obj = _.find(items, function (item) {
+      return item.id === id;
+    });
+
+    if (_.isFunction(obj.selectedRender)) {
+      return obj.selectedRender(obj);
+    }
+
+    return obj.render(obj);
+  },
+
+  renderItems: function (items) {
     return _.map(items, function (item) {
-      var key = item.key;
       return (
         <li className="clickable"
-          key={key}
-          onClick={this.onItemClick.bind(this, key)}>
+          key={item.id}
+          onClick={this.onItemClick.bind(this, item)}>
           <a>
-            {item}
+            {item.render(item)}
           </a>
         </li>
       );
@@ -104,13 +111,13 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.props.getSelectedItem(this.props.selectedKey, items)}
+          {this.renderSelectedItem(this.props.selectedId, items)}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>
           <ul className="dropdown-menu-list">
-            {this.getItems(items)}
+            {this.renderItems(items)}
           </ul>
         </span>
       </span>
