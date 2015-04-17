@@ -3,7 +3,7 @@
 var _ = require("underscore");
 var React = require("react/addons");
 
-function getCurrentItem(key, children) {
+function getSelectedItem(key, children) {
   return _.find(children, function (item) {
     return item.key === key;
   });
@@ -26,19 +26,18 @@ var Dropdown = React.createClass({
   },
 
   propTypes: {
-    caption: React.PropTypes.string,
+    items: React.PropTypes.array.isRequired,
+    getSelectedItem: React.PropTypes.func,
+    handleItemSelection: React.PropTypes.func.isRequired,
     selectedKey: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
-    ]),
-    getCurrentItem: React.PropTypes.func,
-    handleItemSelection: React.PropTypes.func.isRequired
+    ])
   },
 
   getDefaultProps: function () {
     return {
-      caption: "Dropdown",
-      getCurrentItem: getCurrentItem
+      getSelectedItem: getSelectedItem
     };
   },
 
@@ -76,8 +75,8 @@ var Dropdown = React.createClass({
     });
   },
 
-  getItems: function () {
-    return _.map(this.props.children, function (item) {
+  getItems: function (items) {
+    return _.map(items, function (item) {
       var key = item.key;
       return (
         <li className="clickable"
@@ -92,6 +91,7 @@ var Dropdown = React.createClass({
   },
 
   render: function () {
+    var items = this.props.items;
     var dropdownClassSet = React.addons.classSet({
       "dropdown": true,
       "open": this.state.open
@@ -104,13 +104,13 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.props.getCurrentItem(this.props.selectedKey, this.props.children)}
+          {this.props.getSelectedItem(this.props.selectedKey, items)}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
             onMouseLeave={this.handleMouseLeave}>
           <ul className="dropdown-menu-list">
-            {this.getItems()}
+            {this.getItems(items)}
           </ul>
         </span>
       </span>
