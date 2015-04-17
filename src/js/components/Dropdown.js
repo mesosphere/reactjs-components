@@ -26,11 +26,11 @@ var Dropdown = React.createClass({
           React.PropTypes.string,
           React.PropTypes.number
         ]).isRequired,
-        render: React.PropTypes.func.isRequired,
-        selectedRender: React.PropTypes.func
+        html: React.PropTypes.object.isRequired,
+        selectedHtml: React.PropTypes.object
       })
     ).isRequired,
-    handleItemSelection: React.PropTypes.func.isRequired,
+    onItemSelection: React.PropTypes.func.isRequired,
     selectedId: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number
@@ -63,24 +63,24 @@ var Dropdown = React.createClass({
     });
   },
 
-  onItemClick: function (obj) {
-    this.props.handleItemSelection(obj);
+  handleItemClick: function (obj) {
+    this.props.onItemSelection(obj);
 
     this.setState({
       open: false
     });
   },
 
-  renderSelectedItem: function (id, items) {
+  getSelectedHtml: function (id, items) {
     var obj = _.find(items, function (item) {
       return item.id === id;
     });
 
-    if (_.isFunction(obj.selectedRender)) {
-      return obj.selectedRender(obj);
+    if (obj.selectedHtml != null) {
+      return obj.selectedHtml;
     }
 
-    return obj.render(obj);
+    return obj.html;
   },
 
   renderItems: function (items) {
@@ -88,9 +88,9 @@ var Dropdown = React.createClass({
       return (
         <li className="clickable"
           key={item.id}
-          onClick={this.onItemClick.bind(this, item)}>
+          onClick={this.handleItemClick.bind(this, item)}>
           <a>
-            {item.render(item)}
+            {item.html}
           </a>
         </li>
       );
@@ -111,7 +111,7 @@ var Dropdown = React.createClass({
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
-          {this.renderSelectedItem(this.props.selectedId, items)}
+          {this.getSelectedHtml(this.props.selectedId, items)}
         </button>
         <span className="dropdown-menu inverse" role="menu"
             onMouseEnter={this.handleMouseEnter}
