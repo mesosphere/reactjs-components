@@ -8,6 +8,7 @@ var Dropdown = React.createClass({
   displayName: "Dropdown",
 
   propTypes: {
+    analyticsName: React.PropTypes.string,
     items: React.PropTypes.arrayOf(
       React.PropTypes.shape({
         id: React.PropTypes.oneOfType([
@@ -25,9 +26,17 @@ var Dropdown = React.createClass({
     ])
   },
 
+   actions_configuration: {
+    state: {
+      isOpen: function () {
+        return this.props.analyticsName.replace(/\s+/g, "");
+      }
+    }
+  },
+
   getInitialState: function () {
     return {
-      open: false
+      isOpen: false
     };
   },
 
@@ -41,13 +50,13 @@ var Dropdown = React.createClass({
 
   handleButtonBlur: function () {
     if (!this.preventBlur) {
-      this.setState({open: false});
+      this.setState({isOpen: false});
     }
   },
 
   handleMenuToggle: function () {
     this.setState({
-      open: !this.state.open
+      isOpen: !this.state.isOpen
     });
   },
 
@@ -55,7 +64,7 @@ var Dropdown = React.createClass({
     this.props.onItemSelection(obj);
 
     this.setState({
-      open: false
+      isOpen: false
     });
   },
 
@@ -89,7 +98,7 @@ var Dropdown = React.createClass({
     var items = this.props.items;
     var dropdownClassSet = React.addons.classSet({
       "dropdown": true,
-      "open": this.state.open
+      "open": this.state.isOpen
     });
 
     return (
