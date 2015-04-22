@@ -47,13 +47,8 @@ var Modal = React.createClass({
       return null;
     }
 
-    var modalClassSet = React.addons.classSet({
-      "flex-container-col": true,
-      "modal": true
-    });
-
     return (
-      <div className={modalClassSet} >
+      <div className="modal" >
         {this.getCloseButton()}
         <div className="modal-header">
           <div className="container container-pod container-pod-short">
@@ -86,11 +81,12 @@ var Modal = React.createClass({
     });
 
     return (
-      <div>
+      <div className="modal-container container-scrollable">
         <CSSTransitionGroup transitionName="modal">
           {this.getModal(isMounted)}
         </CSSTransitionGroup>
-        <div className={backdropClassSet} />
+        <div className={backdropClassSet}>
+        </div>
       </div>
     );
   }
