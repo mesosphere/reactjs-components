@@ -104,7 +104,7 @@ var Dropdown = React.createClass({
     return (
       <span className={dropdownClassSet}>
         <button type="button"
-            className="button button-medium button-inverse dropdown-toggle"
+            className="button button-small button-inverse dropdown-toggle"
             ref="button"
             onClick={this.handleMenuToggle}
             onBlur={this.handleButtonBlur}>
