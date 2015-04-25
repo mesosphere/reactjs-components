@@ -11,20 +11,27 @@ var Modal = React.createClass({
     closeText: React.PropTypes.string,
     footer: React.PropTypes.object,
     showCloseButton: React.PropTypes.bool,
+    showFooter: React.PropTypes.bool,
     subHeader: React.PropTypes.object,
-    titleText: React.PropTypes.string
+    titleText: React.PropTypes.string,
+    onClose: React.PropTypes.func
   },
 
   getDefaultProps: function () {
     return {
       closeText: "Close",
       showCloseButton: true,
-      titleText: ""
+      titleText: "",
+      onClose: function () {}
     };
   },
 
   componentDidMount: function () {
     this.forceUpdate();
+  },
+
+  handleBackdropClick: function () {
+    this.props.onClose();
   },
 
   getCloseButton: function () {
@@ -39,6 +46,20 @@ var Modal = React.createClass({
         </span>
         <i className="modal-close-icon icon icon-mini icon-mini-white icon-close"></i>
       </a>
+    );
+  },
+
+  getFooter: function () {
+    if (this.props.showFooter === false) {
+      return null;
+    }
+
+    return (
+      <div className="modal-footer">
+        <div className="container container-pod container-pod-short">
+          {this.props.footer}
+        </div>
+      </div>
     );
   },
 
@@ -63,11 +84,7 @@ var Modal = React.createClass({
             {this.props.children}
           </div>
         </div>
-        <div className="modal-footer">
-          <div className="container container-pod container-pod-short">
-            {this.props.footer}
-          </div>
-        </div>
+        {this.getFooter()}
       </div>
     );
   },
@@ -82,10 +99,10 @@ var Modal = React.createClass({
 
     return (
       <div className="modal-container container-scrollable">
-        <CSSTransitionGroup transitionName="modal">
+        <CSSTransitionGroup transitionName="modal" component="div">
           {this.getModal(isMounted)}
         </CSSTransitionGroup>
-        <div className={backdropClassSet}>
+        <div className={backdropClassSet} onClick={this.handleBackdropClick}>
         </div>
       </div>
     );
