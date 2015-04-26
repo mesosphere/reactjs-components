@@ -22,6 +22,7 @@ var Modal = React.createClass({
       closeText: "Close",
       showCloseButton: true,
       titleText: "",
+      subHeader: "",
       onClose: function () {}
     };
   },
