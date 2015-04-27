@@ -12,6 +12,7 @@ var Modal = React.createClass({
     footer: React.PropTypes.object,
     showCloseButton: React.PropTypes.bool,
     showFooter: React.PropTypes.bool,
+    size: React.PropTypes.string,
     subHeader: React.PropTypes.node,
     titleText: React.PropTypes.string,
     onClose: React.PropTypes.func
@@ -22,6 +23,7 @@ var Modal = React.createClass({
       closeText: "Close",
       showCloseButton: true,
       titleText: "",
+      size: "",
       subHeader: "",
       onClose: function () {}
     };
@@ -69,7 +71,12 @@ var Modal = React.createClass({
       return null;
     }
 
-    var classSet = React.addons.classSet({
+    var modalClassSet = React.addons.classSet({
+      "modal": true,
+      "modal-large": this.props.size === "large"
+    });
+
+    var titleClassSet = React.addons.classSet({
       "modal-header-title": true,
       "text-align-center": true,
       "flush-top": true,
@@ -78,11 +85,11 @@ var Modal = React.createClass({
     });
 
     return (
-      <div className="modal" >
+      <div className={modalClassSet} >
         {this.getCloseButton()}
         <div className="modal-header">
           <div className="container container-pod container-pod-short">
-            <h2 className={classSet}>
+            <h2 className={titleClassSet}>
               {this.props.titleText}
             </h2>
             {this.props.subHeader}
