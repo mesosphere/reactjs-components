@@ -13,7 +13,7 @@ var Modal = React.createClass({
     closeByBackdropClick: React.PropTypes.bool,
     closeText: React.PropTypes.string,
     footer: React.PropTypes.object,
-    show: React.PropTypes.bool,
+    shouldClose: React.PropTypes.bool,
     showCloseButton: React.PropTypes.bool,
     showFooter: React.PropTypes.bool,
     size: React.PropTypes.string,
@@ -29,7 +29,7 @@ var Modal = React.createClass({
       showCloseButton: true,
       titleText: "",
       size: "",
-      show: true,
+      shouldClose: false,
       subHeader: "",
       onClose: function () {}
     };
@@ -37,7 +37,7 @@ var Modal = React.createClass({
 
   getInitialState: function () {
     return {
-      close: false
+      closing: false
     };
   },
 
@@ -46,13 +46,19 @@ var Modal = React.createClass({
   },
 
   componentWillReceiveProps: function (nextProps) {
-    if (!nextProps.show && this.props.show) {
+    if (nextProps.shouldClose && !this.props.shouldClose) {
       this.closeModal();
     }
   },
 
+  componentWillUnmount: function () {
+    var modalElement = this.refs.modal.getDOMNode();
+    var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
+    modalElement.removeEventListener(transitionEvent, this.props.onClose);
+  },
+
   shouldComponentUpdate: function (nextProps) {
-    return nextProps.show === this.props.show;
+    return nextProps.shouldClose === this.props.shouldClose;
   },
 
   handleBackdropClick: function () {
@@ -71,7 +77,7 @@ var Modal = React.createClass({
       modalElement.addEventListener(transitionEvent, this.props.onClose);
     }
 
-    this.setState({close: true});
+    this.setState({closing: true});
   },
 
   getCloseButton: function () {
@@ -104,7 +110,7 @@ var Modal = React.createClass({
   },
 
   getModal: function (isMounted) {
-    if (!isMounted || this.state.close) {
+    if (!isMounted || this.state.closing) {
       return null;
     }
 
@@ -146,7 +152,7 @@ var Modal = React.createClass({
     var isMounted = this.isMounted();
     var backdropClassSet = React.addons.classSet({
       "fade": true,
-      "in": isMounted && !this.state.close,
+      "in": isMounted && !this.state.closing,
       "modal-backdrop": true
     });
 
