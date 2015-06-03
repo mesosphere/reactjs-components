@@ -197,6 +197,9 @@ var Table = React.createClass({
       })
     ).isRequired,
 
+    // optional colgroup component
+    colGroup: PropTypes.object,
+
     // data to display in the table
     // make sure to clone if data, cannot be modified!
     data: PropTypes.array.isRequired,
@@ -277,6 +280,7 @@ var Table = React.createClass({
 
     return (
       <table className={this.props.className}>
+        {this.props.colGroup}
         <thead>
           <tr>
             {getHeaders(columns, this.state.headers, sortBy, this.handleSort)}
