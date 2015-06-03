@@ -81,18 +81,22 @@ function buildSortProps(col, sortBy, handleSort) {
 
 function getHeaders(columns, headers, sortBy, handleSort) {
   return _.map(columns, function (col, index) {
-    var sortProps, order;
+    var sortProps, order, title;
     // Only add sorting events if the column has a property and is sortable.
     if (col.sortable !== false && "prop" in col) {
       sortProps = buildSortProps(col, sortBy, handleSort);
       order = sortProps["aria-sort"];
     }
 
-    var caretClassSet = React.addons.classSet({
-      "caret": true,
-      "dropup": order === "desc",
-      "invisible": col.prop !== sortBy.prop
-    });
+    if (_.isFunction(col.title)) {
+      title = col.title(col.prop, order, sortBy);
+    } else {
+      title = React.createElement(
+        "span",
+        null,
+        col.title
+      );
+    }
 
     // need react functions here, because we are extending props
     return React.createElement(
@@ -102,15 +106,7 @@ function getHeaders(columns, headers, sortBy, handleSort) {
         ref: getHeaderRef(headers, headers, col, index),
         key: index
       }, sortProps),
-      React.createElement(
-        "span",
-        null,
-        col.title
-      ),
-      React.createElement(
-        "span",
-        {className: caretClassSet, "aria-hidden": "true"}
-      )
+      title
     );
   });
 }
@@ -189,7 +185,10 @@ var Table = React.createClass({
         prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         render: PropTypes.func,
         sortable: PropTypes.bool,
-        title: PropTypes.string.isRequired,
+        title: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.func
+        ]).isRequired,
         width: PropTypes.oneOfType([
           PropTypes.string,
           PropTypes.number
