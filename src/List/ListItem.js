@@ -1,5 +1,6 @@
 var _ = require('underscore');
-var React = require('react/addons');
+var classNames = require('classnames');
+var React = require('react');
 
 var ListItem = React.createClass({
 
@@ -19,7 +20,7 @@ var ListItem = React.createClass({
       if (propertyData.classes) {
         _.extend(classes, propertyData.classes);
       }
-      var classSet = React.addons.classSet(classes);
+      var classSet = classNames(classes);
 
       var attributes = propertyData.attributes || {};
       return React.createElement(

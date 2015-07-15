@@ -7,10 +7,12 @@ React.render(
     </h1>
     <ol>
       <li>
-        <a href="/List">
+        <a href="/List/index.html">
           List
         </a>
-        <a href="/Table">
+      </li>
+      <li>
+        <a href="/Table/index.html">
           Table
         </a>
       </li>

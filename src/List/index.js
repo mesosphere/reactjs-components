@@ -1,6 +1,6 @@
 var React = require('react');
 
-var List = require('List');
+var List = require('./List');
 
 var config = [
   {
@@ -16,6 +16,6 @@ var config = [
 ];
 
 React.render(
-  <List list={config} />,
+  <List list={config} order={['title']} />,
   document.getElementById('application')
 );
