@@ -1,6 +1,12 @@
 {
   "ecmaFeatures": {
-    "jsx": true
+    "jsx": true,
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "objectLiteralComputedProperties": true,
+    "templateStrings": true,
+    "defaultParams": true,
+    "restParams": true
   },
 
   "env": {
@@ -14,16 +20,18 @@
   ],
 
   "globals": {
-    "jest": true,
+    "jest": true
   },
 
   "rules": {
-    "quotes": [2, "double"],
+    "eqeqeq": [2, "smart"],
+    "quotes": [2, "single"],
     "indent": [2, 2],
     "camelcase": [2, {"properties": "never"}],
+    "camelcase": [2, {"properties": "always"}],
     "strict": [2, "never"],
     "no-mixed-spaces-and-tabs": 2,
-    "no-trailing-spaces": 2,
+    "no-trailing-spaces": [2, { "skipBlankLines": false }],
     "no-underscore-dangle": 0,
     "no-multiple-empty-lines": [2, {"max": 1}],
     "space-after-keywords": [2, "always"],
@@ -38,6 +46,7 @@
       "requireParamDescription": false
     }],
 
+    // React plugin
     "react/display-name": 2,
     "react/jsx-quotes": [2, "double"],
     "react/jsx-no-undef": 2,
@@ -48,6 +57,7 @@
     "react/no-did-update-set-state": 2,
     "react/no-multi-comp": 2,
     "react/prop-types": 0,
+    "react/prop-types": 2,
     "react/react-in-jsx-scope": 2,
     "react/self-closing-comp": 2,
     "react/wrap-multilines": 2
