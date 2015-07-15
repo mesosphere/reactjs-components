@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 
 var ListItemGroup = React.createClass({
@@ -7,10 +5,11 @@ var ListItemGroup = React.createClass({
   displayName: 'ListItemGroup',
 
   render: function() {
+    var Tag = this.props.attributes.tag || 'div';
     return (
-      <div {...this.props.attributes}>
+      <Tag {...this.props.attributes}>
         {this.props.children}
-      </div>
+      </Tag>
     );
   }
 

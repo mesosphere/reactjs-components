@@ -1,9 +1,9 @@
 var config = require('./configuration');
 
 module.exports = {
-  entry: config.files.srcJS,
+  entry: config.files.docs.srcJS,
   output: {
-    filename: config.files.distJS
+    filename: config.files.docs.distJS
   },
   module: {
     loaders: [{
