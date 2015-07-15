@@ -3,7 +3,6 @@ var autoprefixer = require("gulp-autoprefixer");
 var browserSync = require("browser-sync");
 var connect = require("gulp-connect");
 var eslint = require("gulp-eslint");
-var fs = require("fs");
 var gulp = require("gulp");
 var gulpif = require("gulp-if");
 var gutil = require("gulp-util");
@@ -11,8 +10,6 @@ var header = require("gulp-header");
 var imagemin = require("gulp-imagemin");
 var less = require("gulp-less");
 var minifyCSS = require("gulp-minify-css");
-var packageConfig = require("./package.json");
-var path = require("path");
 var replace = require("gulp-replace");
 var sourcemaps = require("gulp-sourcemaps");
 var spawn = require("child_process").spawn;
@@ -91,7 +88,9 @@ gulp.task("eslint", function () {
 });
 
 gulp.task("images", function () {
-  return gulp.src([dirs.img + "/**/*.*", "!" + dirs.img + "/**/_exports/**/*.*"])
+  return gulp.src(
+      [dirs.img + "/**/*.*", "!" + dirs.img + "/**/_exports/**/*.*"]
+    )
     .pipe(imagemin({
       progressive: true,
       svgoPlugins: [{removeViewBox: false}]
@@ -123,7 +122,9 @@ gulp.task("less", function () {
 });
 
 gulp.task("minify-css", ["less"], function () {
-  return gulp.src(dirs.dist + "/" + dirs.stylesDist + "/" + files.mainCssDist + ".css")
+  return gulp.src(
+      dirs.dist + "/" + dirs.stylesDist + "/" + files.mainCssDist + ".css"
+    )
     .pipe(minifyCSS())
     .pipe(gulp.dest(dirs.dist + "/" + dirs.stylesDist));
 });
@@ -136,18 +137,18 @@ gulp.task("minify-js", ["webpack"], function () {
 
   return gulp.src(dirs.dist + "/" + dirs.jsDist + "/" + files.mainJs + ".js")
     .pipe(uglify())
-    .pipe(header(banner, { pkg : packageInfo } ))
+    .pipe(header(banner, {pkg: packageInfo}))
     .pipe(gulp.dest(dirs.dist + "/" + dirs.jsDist));
 });
 
-gulp.task("replace-js-strings", ["webpack"], function() {
+gulp.task("replace-js-strings", ["webpack"], function () {
   return gulp.src(dirs.dist + "/**/*.?(js|jsx)")
     .pipe(replace("@@VERSION", packageInfo.version))
     .pipe(replace("@@ENV", process.env.NODE_ENV))
     .pipe(gulp.dest(dirs.dist));
 });
 
-gulp.task("swf", function() {
+gulp.task("swf", function () {
   return gulp.src(dirs.src + "/**/*.swf")
     .pipe(gulp.dest(dirs.dist));
 });
@@ -172,7 +173,7 @@ gulp.task("webpack", ["eslint"], function (callback) {
     ];
   }
   // run webpack
-  webpack(webpackConfig, function (err, stats) {
+  webpack(webpackConfig, function (err) {
     if (err) {
       throw new gutil.PluginError("webpack", err);
     }
@@ -181,7 +182,15 @@ gulp.task("webpack", ["eslint"], function (callback) {
   });
 });
 
-gulp.task("default", ["eslint", "webpack", "replace-js-strings", "less", "images", "swf", "index"]);
+gulp.task("default", [
+  "eslint",
+  "webpack",
+  "replace-js-strings",
+  "less",
+  "images",
+  "swf",
+  "index"
+]);
 
 gulp.task("dist", ["default", "minify-css", "minify-js"]);
 
