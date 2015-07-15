@@ -1,0 +1,99 @@
+{
+  "name": "mesosphere-ui-components",
+  "version": "0.0.6",
+  "description": "Resuable web UI components from Mesosphere.",
+  "license": "ISC",
+  "main": "js/main.js",
+  "author": "Mesosphere Frontend Team",
+  "keywords": [
+    "mesosphere",
+    "js",
+    "css",
+    "gui",
+    "react",
+    "modules",
+    "components",
+    "react-components",
+    "web-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mesosphere/ui-components"
+  },
+  "engines": {
+    "node": "0.8.x || 0.10.x"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
+  "peerDependencies": {
+    "canvas-ui-system": "^0.1.2",
+    "classnames": "^2.1.3",
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "babel": "^5.6.14",
+    "babel-core": "^5.6.17",
+    "babel-loader": "^5.3.1",
+    "browser-sync": "^2.7.13",
+    "canvas-ui-system": "^0.1.2",
+    "envify": "^3.4.0",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^2.6.4",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.3.1",
+    "gulp-connect": "^2.2.0",
+    "gulp-eslint": "^0.15.0",
+    "gulp-header": "^1.2.2",
+    "gulp-if": "^1.2.5",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-replace": "^0.5.3",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-tap": "^0.1.3",
+    "gulp-uglify": "^1.2.0",
+    "gulp-util": "^3.0.6",
+    "jasmine-reporters": "^1.0.1",
+    "jest-cli": "^0.4.0",
+    "jsx-loader": "^0.12.2",
+    "localStorage": "^1.0.3",
+    "node-libs-browser": "^0.5.2",
+    "npm-shrinkwrap": "^5.3.0",
+    "react": "^0.13.3",
+    "source-map-loader": "^0.1.5",
+    "transform-loader": "^0.2.2",
+    "webpack": "^1.10.1"
+  },
+  "scripts": {
+    "clean": "rm -rf dist",
+    "dist": "npm run clean && npm test && NODE_ENV='production'; ./node_modules/.bin/gulp dist",
+    "livereload": "NODE_ENV='development'; ./node_modules/.bin/gulp livereload",
+    "npm-publish": "./node_modules/.bin/gulp publish",
+    "serve": "NODE_ENV='development'; ./node_modules/.bin/gulp serve",
+    "shrinkwrap": "npm-shrinkwrap --dev",
+    "test": "jest"
+  },
+  "jest": {
+    "globals": {
+      "__DEV__": true
+    },
+    "scriptPreprocessor": "jest/preprocessor.js",
+    "setupTestFrameworkScriptFile": "jest/setupTestFramework.js",
+    "setupEnvScriptFile": "jest/setupEnv.js",
+    "modulePathIgnorePatterns": [
+      "/tmp/",
+      "/node_modules/",
+      "/.module-cache/"
+    ],
+    "unmockedModulePathPatterns": [
+      "d3",
+      "react",
+      "underscore",
+      "jasmine-reporters"
+    ],
+    "testPathIgnorePatterns": [
+      "/tmp/",
+      "/node_modules/"
+    ]
+  }
+}
