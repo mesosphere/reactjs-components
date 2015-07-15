@@ -189,6 +189,6 @@ gulp.task("serve", ["default", "connect:server", "watch"]);
 
 gulp.task("livereload", ["default", "browsersync", "watch"]);
 
-gulp.task("npm", function (done) {
-  spawn("npm", ["publish --force"], {stdio: "inherit"}).on("close", done);
+gulp.task("publish", function (done) {
+  spawn("npm", ["publish"], {stdio: "inherit"}).on("close", done);
 });

@@ -1,6 +1,6 @@
 {
   "name": "mesosphere-ui-components",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "Resuable web UI components from Mesosphere.",
   "license": "MIT",
   "main": "js/main.js",
@@ -67,7 +67,7 @@
     "clean": "rm -rf dist",
     "dist": "npm run clean && npm test && NODE_ENV='production'; ./node_modules/.bin/gulp dist",
     "livereload": "NODE_ENV='development'; ./node_modules/.bin/gulp livereload",
-    "publish": "./node_modules/.bin/gulp npm",
+    "npm-publish": "./node_modules/.bin/gulp publish",
     "serve": "NODE_ENV='development'; ./node_modules/.bin/gulp serve",
     "shrinkwrap": "npm-shrinkwrap --dev",
     "test": "jest"
