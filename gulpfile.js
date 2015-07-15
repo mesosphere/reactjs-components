@@ -118,6 +118,10 @@ gulp.task('webpack', ['eslint'], function () {
   return gulp.src(config.files.srcJS)
     .pipe(tap(function (file) {
       webpackConfig.entry = file.path;
+      webpackConfig.output = {
+        filename: file.path.replace('src', 'dist')
+      };
+
       // run webpack
       return webpack(webpackConfig, function (err, stats) {
         if (err) {
