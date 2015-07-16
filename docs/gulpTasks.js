@@ -28,7 +28,7 @@ gulp.task('docs:browsersync', function () {
   });
 });
 
-gulp.task('docs:eslint', function () {
+gulp.task('docs:eslint', ['eslint'], function () {
   return gulp.src([config.dirs.docs.srcJS + '/**/*.?(js|jsx)'])
     .pipe(eslint())
     .pipe(eslint.formatEach('stylish', process.stderr));
@@ -74,7 +74,6 @@ gulp.task('docs:replace-js-strings', ['docs:webpack'], function() {
 });
 
 gulp.task('docs:watch', function () {
-  console.log(config.dirs.srcJS);
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
   gulp.watch([
     config.dirs.docs.srcCSS + '/**/*.less',
@@ -83,7 +82,7 @@ gulp.task('docs:watch', function () {
   gulp.watch([
     config.dirs.docs.srcJS + '/**/*.?(js|jsx)',
     config.dirs.srcJS + '/**/*.?(js|jsx)'
-  ], ['docs:webpack', 'docs:replace-js-strings']);
+  ], ['docs:webpack', 'docs:replace-js-strings', 'eslint']);
 });
 
 // Use webpack to compile jsx into js,
