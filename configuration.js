@@ -5,14 +5,6 @@ var docsSrc = docsFolder + '/src';
 var docsDist = docsFolder + '/dist';
 
 var dirs = {
-  src: srcFolder,
-  dist: distFolder,
-  srcJS: srcFolder,
-  distJS: distFolder,
-  srcCSS: srcFolder + '/css',
-  distCSS: distFolder,
-  srcImg: srcFolder + '/img',
-  distImg: distFolder + '/img',
   docs: {
     src: docsSrc,
     dist: docsDist,
@@ -26,12 +18,6 @@ var dirs = {
 };
 
 var files = {
-  srcJS: dirs.srcJS + '/index.js',
-  distJS: dirs.distJS + '/index.js',
-  srcCSS: dirs.srcCSS + '/index.less',
-  distCSS: dirs.distCSS + '/index.css',
-  srcHTML: dirs.src + '/index.html',
-  distHTML: dirs.dist + '/index.html',
   docs: {
     srcJS: [
       dirs.docs.srcJS + '/List/index.js'

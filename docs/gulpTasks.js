@@ -44,18 +44,6 @@ gulp.task('docs:html', function () {
     .pipe(gulp.dest(config.dirs.docs.dist));
 });
 
-gulp.task('docs:images', function () {
-  return gulp.src([
-      config.dirs.docs.srcImg + '/**/*.*',
-      '!' + config.dirs.docs.srcImg + '/**/_exports/**/*.*'
-    ])
-    .pipe(imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}]
-    }))
-    .pipe(gulp.dest(config.dirs.docs.distImg));
-});
-
 gulp.task('docs:less', function () {
   return gulp.src(config.files.docs.srcCSS, {read: true}, {ignorePath: 'src'})
     .pipe(gulpif(development, sourcemaps.init()))
@@ -102,7 +90,6 @@ gulp.task('docs:watch', function () {
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
   gulp.watch([config.dirs.docs.srcCSS + '/**/*.less', config.dirs.srcCSS + '/**/*.less'], ['docs:less']);
   gulp.watch([config.dirs.docs.srcJS + '/**/*.?(js|jsx)', config.dirs.srcJS + '/**/*.?(js|jsx)'], ['docs:webpack', 'docs:replace-js-strings']);
-  gulp.watch(config.dirs.docs.srcImg + '/**/*.*', ['docs:images']);
 });
 
 // Use webpack to compile jsx into js,
@@ -139,7 +126,7 @@ gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
   });
 });
 
-gulp.task('docs:default', ['docs:eslint', 'docs:webpack', 'docs:replace-js-strings', 'docs:less', 'docs:images', 'docs:html']);
+gulp.task('docs:default', ['docs:eslint', 'docs:webpack', 'docs:replace-js-strings', 'docs:less', 'docs:html']);
 
 gulp.task('docs:dist', ['docs:default', 'docs:minify-css', 'docs:minify-js']);
 
