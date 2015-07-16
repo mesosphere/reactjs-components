@@ -1,6 +1,5 @@
 var React = require('react');
 var classNames = require('classnames');
-var _ = require('underscore');
 
 var ListItem = require('./ListItem');
 var ListItemGroup = require('./ListItemGroup');
@@ -57,7 +56,7 @@ var List = React.createClass({
 
     var passedClasses = this.props.className.split(' ');
 
-    var classes = classNames(_.union(defaultClasses, passedClasses));
+    var classes = classNames(defaultClasses.concat(passedClasses));
 
     return (
       <Tag {...this.props} className={classes}>

@@ -1,8 +1,12 @@
 var React = require('react');
 
 var ListItem = React.createClass({
-
   displayName: 'ListItem',
+
+  propTypes: {
+    attributes: React.PropTypes.object,
+    tag: React.PropTypes.string
+  },
 
   render: function() {
     var Tag = this.props.tag || 'div';

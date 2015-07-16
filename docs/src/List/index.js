@@ -47,7 +47,6 @@ var ListExample = React.createClass({
   },
 
   render: function() {
-
     return (
       <List
         className="my-custom-list-class two-class"
