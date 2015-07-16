@@ -72,7 +72,6 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
 gulp.task('docs:replace-js-strings', ['docs:webpack'], function() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace('@@VERSION', packageInfo.version))
-    .pipe(replace('@@ENV', process.env.NODE_ENV))
     .pipe(gulp.dest(config.dirs.docs.distJS));
 });
 
