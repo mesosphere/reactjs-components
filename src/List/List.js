@@ -8,6 +8,12 @@ var ListItemGroup = require('./ListItemGroup');
 var List = React.createClass({
   displayName: 'List',
 
+  getDefaultProps: function() {
+    return {
+      className: ''
+    }
+  },
+
   getListItems: function(list) {
     var that = this;
 
