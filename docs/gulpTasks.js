@@ -4,7 +4,6 @@ var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
-var gulpif = require('gulp-if');
 var gutil = require('gulp-util');
 var imagemin = require('gulp-imagemin');
 var less = require('gulp-less');
@@ -17,8 +16,6 @@ var webpack = require('webpack');
 var config = require('../configuration');
 var packageInfo = require('../package');
 var webpackConfig = require('../webpack.config.js');
-
-var development = process.env.NODE_ENV === 'development';
 
 gulp.task('docs:browsersync', function () {
   browserSync.init({
@@ -46,15 +43,15 @@ gulp.task('docs:html', function () {
 
 gulp.task('docs:less', function () {
   return gulp.src(config.files.docs.srcCSS, {read: true}, {ignorePath: 'src'})
-    .pipe(gulpif(development, sourcemaps.init()))
+    .pipe(sourcemaps.init())
     .pipe(less({
       paths: [config.dirs.docs.cssSrc] // @import paths
     }))
     .pipe(autoprefixer())
     .pipe(concat(config.files.docs.distCSS))
-    .pipe(gulpif(development, sourcemaps.write()))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest('.'))
-    .pipe(gulpif(development, browserSync.stream()));
+    .pipe(browserSync.stream());
 });
 
 gulp.task('docs:minify-css', ['docs:less'], function () {
@@ -95,16 +92,14 @@ gulp.task('docs:watch', function () {
 // Use webpack to compile jsx into js,
 gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
   // Extend options with source mapping
-  if (development) {
-    webpackConfig.devtool = 'source-map';
-    webpackConfig.module.preLoaders = [
-      {
-        test: /\.js$/,
-        loader: 'source-map-loader',
-        exclude: /node_modules/
-      }
-    ];
-  }
+  webpackConfig.devtool = 'source-map';
+  webpackConfig.module.preLoaders = [
+    {
+      test: /\.js$/,
+      loader: 'source-map-loader',
+      exclude: /node_modules/
+    }
+  ];
   // run webpack
   webpack(webpackConfig, function (err, stats) {
     if (err) {
@@ -119,9 +114,7 @@ gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
       timing: true
     }));
 
-    if (development) {
-      browserSync.reload();
-    }
+    browserSync.reload();
     callback();
   });
 });
