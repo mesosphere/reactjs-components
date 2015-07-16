@@ -74,6 +74,7 @@ gulp.task('docs:replace-js-strings', ['docs:webpack'], function() {
 });
 
 gulp.task('docs:watch', function () {
+  console.log(config.dirs.srcJS);
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
   gulp.watch([
     config.dirs.docs.srcCSS + '/**/*.less',

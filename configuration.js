@@ -5,6 +5,7 @@ var docsSrc = docsFolder + '/src';
 var docsDist = docsFolder + '/dist';
 
 var dirs = {
+  srcJS: srcFolder,
   docs: {
     src: docsSrc,
     dist: docsDist,
