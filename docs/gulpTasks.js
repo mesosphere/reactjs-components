@@ -1,11 +1,9 @@
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync');
 var concat = require('gulp-concat');
-var connect = require('gulp-connect');
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var imagemin = require('gulp-imagemin');
 var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
 var replace = require('gulp-replace');
@@ -73,13 +71,6 @@ gulp.task('docs:replace-js-strings', ['docs:webpack'], function() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace('@@VERSION', packageInfo.version))
     .pipe(gulp.dest(config.dirs.docs.distJS));
-});
-
-gulp.task('docs:server', function () {
-  connect.server({
-    port: 4200,
-    root: config.dirs.docs.dist
-  });
 });
 
 gulp.task('docs:watch', function () {
