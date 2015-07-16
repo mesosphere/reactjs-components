@@ -1,5 +1,4 @@
 var React = require('react');
-var _ = require('underscore');
 var classNames = require('classnames');
 
 var ListItem = require('./ListItem');
@@ -17,7 +16,7 @@ var List = React.createClass({
   getListItems: function(list) {
     var that = this;
 
-    var items = _.map(list, function(item) {
+    var items = list.map(function(item) {
 
       if (item.items) {
         return (
