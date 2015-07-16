@@ -1,6 +1,6 @@
-var React = require('react');
+import React from 'react';
 
-var List = require('../../../src/List/List.js');
+import List from '../../../src/List/List.js';
 
 var ListExample = React.createClass({
 

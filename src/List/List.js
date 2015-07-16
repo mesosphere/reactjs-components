@@ -1,8 +1,8 @@
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classNames from 'classnames';
 
-var ListItem = require('./ListItem');
-var ListItemGroup = require('./ListItemGroup');
+import ListItem from './ListItem';
+import ListItemGroup from './ListItemGroup';
 
 var List = React.createClass({
   displayName: 'List',
@@ -16,12 +16,12 @@ var List = React.createClass({
   getDefaultProps: function() {
     return {
       className: ''
-    }
+    };
   },
 
   getListItems: function(list, childIndex) {
     var that = this;
-    var childIndex = childIndex || 0;
+    childIndex = childIndex || 0;
 
     var items = list.map(function(item, parentIndex) {
       var key = parentIndex + '.' + childIndex;
