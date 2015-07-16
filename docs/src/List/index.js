@@ -49,7 +49,11 @@ var ListExample = React.createClass({
   render: function() {
 
     return (
-      <List className="my-custom-list-class two-class" data-example-property="some example" items={this.getList()} tag="div" />
+      <List
+        className="my-custom-list-class two-class"
+        data-example-property="some example"
+        items={this.getList()}
+        tag="div" />
     );
   }
 

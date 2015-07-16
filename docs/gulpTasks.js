@@ -84,8 +84,14 @@ gulp.task('docs:server', function () {
 
 gulp.task('docs:watch', function () {
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
-  gulp.watch([config.dirs.docs.srcCSS + '/**/*.less', config.dirs.srcCSS + '/**/*.less'], ['docs:less']);
-  gulp.watch([config.dirs.docs.srcJS + '/**/*.?(js|jsx)', config.dirs.srcJS + '/**/*.?(js|jsx)'], ['docs:webpack', 'docs:replace-js-strings']);
+  gulp.watch([
+    config.dirs.docs.srcCSS + '/**/*.less',
+    config.dirs.srcCSS + '/**/*.less'
+  ], ['docs:less']);
+  gulp.watch([
+    config.dirs.docs.srcJS + '/**/*.?(js|jsx)',
+    config.dirs.srcJS + '/**/*.?(js|jsx)'
+  ], ['docs:webpack', 'docs:replace-js-strings']);
 });
 
 // Use webpack to compile jsx into js,
@@ -118,10 +124,28 @@ gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
   });
 });
 
-gulp.task('docs:default', ['docs:eslint', 'docs:webpack', 'docs:replace-js-strings', 'docs:less', 'docs:html']);
+gulp.task('docs:default', [
+  'docs:eslint',
+  'docs:webpack',
+  'docs:replace-js-strings',
+  'docs:less',
+  'docs:html'
+]);
 
-gulp.task('docs:dist', ['docs:default', 'docs:minify-css', 'docs:minify-js']);
+gulp.task('docs:dist', [
+  'docs:default',
+  'docs:minify-css',
+  'docs:minify-js'
+]);
 
-gulp.task('docs:livereload', ['docs:default', 'docs:browsersync', 'docs:watch']);
+gulp.task('docs:livereload', [
+  'docs:default',
+  'docs:browsersync',
+  'docs:watch'
+]);
 
-gulp.task('docs:serve', ['docs:server', 'docs:default', 'docs:watch']);
+gulp.task('docs:serve', [
+  'docs:server',
+  'docs:default',
+  'docs:watch'
+]);
