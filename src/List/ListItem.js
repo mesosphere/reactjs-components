@@ -31,7 +31,7 @@ ListItem.defaultProps = {
     className: ''
   },
   className: '',
-  tag: 'div'
+  tag: 'li'
 };
 
 ListItem.propTypes = {

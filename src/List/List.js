@@ -33,8 +33,7 @@ export default class List extends React.Component {
 
   render() {
     var defaultClasses = [
-      'list',
-      'list-unstyled'
+      'list'
     ];
 
     var classes = classNames(
@@ -60,7 +59,7 @@ List.defaultProps = {
     className: ''
   },
   className: '',
-  tag: 'div'
+  tag: 'ul'
 };
 
 List.propTypes = {
