@@ -4,22 +4,19 @@ import classNames from 'classnames';
 import ListItem from './ListItem';
 import ListItemGroup from './ListItemGroup';
 
-var List = React.createClass({
-  displayName: 'List',
+export default class List extends React.Component {
+
+  defaultProps: {
+    className: '',
+  }
 
   propTypes: {
     className: React.PropTypes.string,
     items: React.PropTypes.array.isRequired,
-    tag: React.PropTypes.string
-  },
+    tag: React.PropTypes.string,
+  }
 
-  getDefaultProps: function() {
-    return {
-      className: ''
-    };
-  },
-
-  getListItems: function(list, childIndex) {
+  getListItems(list, childIndex) {
     var that = this;
     childIndex = childIndex || 0;
 
@@ -44,9 +41,9 @@ var List = React.createClass({
     });
 
     return items;
-  },
+  }
 
-  render: function() {
+  render() {
     var Tag = this.props.tag || 'div';
 
     var defaultClasses = [
@@ -65,6 +62,4 @@ var List = React.createClass({
     );
   }
 
-});
-
-module.exports = List;
+}

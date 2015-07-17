@@ -2,11 +2,9 @@ import React from 'react';
 
 import List from '../../../src/List/List.js';
 
-var ListExample = React.createClass({
+class ListExample extends React.Component {
 
-  displayName: 'ListExample',
-
-  getList: function() {
+  getList() {
     var list = [
       {
         attributes: {
@@ -44,9 +42,9 @@ var ListExample = React.createClass({
     ];
 
     return list;
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <List
         className="my-custom-list-class two-class"
@@ -56,6 +54,6 @@ var ListExample = React.createClass({
     );
   }
 
-});
+}
 
 React.render(<ListExample />, document.getElementById('application'));

@@ -1,14 +1,13 @@
 import React from 'react';
 
-var ListItemGroup = React.createClass({
-  displayName: 'ListItemGroup',
+export default class ListItemGroup extends React.Component {
 
   propTypes: {
     attributes: React.PropTypes.object,
     tag: React.PropTypes.string
-  },
+  }
 
-  render: function() {
+  render() {
     var Tag = this.props.tag || 'div';
     return (
       <Tag {...this.props.attributes}>
@@ -17,6 +16,4 @@ var ListItemGroup = React.createClass({
     );
   }
 
-});
-
-module.exports = ListItemGroup;
+}

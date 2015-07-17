@@ -1,19 +1,16 @@
 {
+  "parser": "babel-eslint",
+  
   "ecmaFeatures": {
     "jsx": true,
-    "arrowFunctions": true,
-    "blockBindings": true,
-    "modules": true,
-    "objectLiteralComputedProperties": true,
-    "templateStrings": true,
-    "defaultParams": true,
-    "restParams": true
+    "modules": true
   },
 
   "env": {
     "browser": true,
     "jasmine": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
 
   "plugins": [
@@ -48,7 +45,6 @@
     }],
 
     // React plugin
-    "react/display-name": 2,
     "react/jsx-quotes": [2, "double"],
     "react/jsx-no-undef": 2,
     "react/jsx-uses-vars": [2, {"vars": "all", "args": "after-used"}],

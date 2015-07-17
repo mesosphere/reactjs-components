@@ -1,14 +1,13 @@
 import React from 'react';
 
-var ListItem = React.createClass({
-  displayName: 'ListItem',
+export default class ListItem extends React.Component {
 
   propTypes: {
     attributes: React.PropTypes.object,
     tag: React.PropTypes.string
-  },
+  }
 
-  render: function() {
+  render() {
     var Tag = this.props.tag || 'div';
     return (
       <Tag {...this.props.attributes}>
@@ -17,6 +16,4 @@ var ListItem = React.createClass({
     );
   }
 
-});
-
-module.exports = ListItem;
+}
