@@ -14,7 +14,7 @@ export default class List extends React.Component {
 
       if (item.items) {
         return (
-          <ListItem key={key} tag={item.tag} className="group" attributes={item.attributes}>
+          <ListItem key={key} tag={item.tag} attributes={item.attributes}>
             {that.getListItems(item.items, childIndex++)}
           </ListItem>
         );
