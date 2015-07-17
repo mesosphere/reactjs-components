@@ -10,9 +10,6 @@ module.exports = {
     loaders: [{
       test: /\.js$/,
       loader: 'babel-loader'
-    }],
-    postLoaders: [{
-      loader: 'transform?envify'
     }]
   },
   resolve: {
