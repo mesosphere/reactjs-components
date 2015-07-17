@@ -37,8 +37,7 @@ export default class List extends React.Component {
 
     var classes = classNames(
       defaultClasses.concat(
-        this.props.className.split(' '),
-        this.props.attributes.className.split(' ')
+        this.props.className.split(' ')
       )
     );
 
