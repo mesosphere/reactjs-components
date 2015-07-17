@@ -36,9 +36,7 @@ export default class List extends React.Component {
     ];
 
     var classes = classNames(
-      defaultClasses.concat(
-        this.props.className.split(' ')
-      )
+      defaultClasses.concat(this.props.className.split(' '))
     );
 
     var Tag = this.props.tag;
