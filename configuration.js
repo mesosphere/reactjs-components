@@ -12,9 +12,7 @@ var dirs = {
     srcJS: docsSrc,
     distJS: docsDist,
     srcCSS: docsFolder + '/**',
-    distCSS: docsDist + '/',
-    srcImg: srcFolder + '/img',
-    distImg: distFolder + '/img'
+    distCSS: docsDist + '/'
   }
 };
 
