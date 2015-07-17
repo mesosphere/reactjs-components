@@ -3,7 +3,6 @@ var TestUtils = React.addons.TestUtils;
 
 jest.dontMock('../List.js');
 jest.dontMock('../ListItem.js');
-jest.dontMock('../ListItemGroup.js');
 jest.dontMock('./fixtures/MockList');
 
 var MockList = require('./fixtures/MockList');
