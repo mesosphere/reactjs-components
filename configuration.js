@@ -19,7 +19,7 @@ var dirs = {
 
 var files = {
   docs: {
-    srcJS: dirs.docs.srcJS + '/List/index.js',
+    srcJS: dirs.docs.srcJS + '/**/*.js',
     distJS: dirs.docs.distJS + '/index.js',
     srcCSS: dirs.docs.srcCSS + '/*.less',
     distCSS: dirs.docs.distCSS + '/index.css',
