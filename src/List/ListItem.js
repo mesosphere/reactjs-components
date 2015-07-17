@@ -15,7 +15,7 @@ export default class ListItem extends React.Component {
       )
     );
 
-    var Tag = 'div';
+    var Tag = this.props.tag;
 
     return (
       <Tag {...this.props.attributes} className={classes}>
