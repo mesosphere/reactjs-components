@@ -64,6 +64,7 @@ List.defaultProps = {
 };
 
 List.propTypes = {
+  attributes: React.PropTypes.object,
   className: React.PropTypes.string,
   items: React.PropTypes.array.isRequired,
   tag: React.PropTypes.string
