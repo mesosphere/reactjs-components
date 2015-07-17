@@ -5,17 +5,16 @@ import ListItem from './ListItem';
 
 export default class List extends React.Component {
 
-  getListItems(list, childIndex) {
-    var that = this;
-    childIndex = childIndex || 0;
+  getListItems(list, childIndex = 0) {
 
     var items = list.map(function(item, parentIndex) {
       var key = parentIndex + '.' + childIndex;
+      childIndex++;
 
       if (item.items) {
         return (
           <ListItem key={key} tag={item.tag} attributes={item.attributes}>
-            {that.getListItems(item.items, childIndex++)}
+            {this.getListItems(item.items, childIndex)}
           </ListItem>
         );
       } else {
@@ -26,7 +25,7 @@ export default class List extends React.Component {
         );
       }
 
-    });
+    }, this);
 
     return items;
   }
