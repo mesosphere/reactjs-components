@@ -70,8 +70,7 @@
       "classnames",
       "react",
       "react-router",
-      "react-tools",
-      "underscore"
+      "react-tools"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/"
