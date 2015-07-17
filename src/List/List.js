@@ -14,7 +14,7 @@ export default class List extends React.Component {
 
       if (item.items) {
         return (
-          <ListItem key={key} tag={item.tag} attributes={item.attributes} className="group">
+          <ListItem key={key} tag={item.tag} className="group" attributes={item.attributes}>
             {that.getListItems(item.items, childIndex++)}
           </ListItem>
         );
@@ -36,8 +36,13 @@ export default class List extends React.Component {
       'list',
       'list-unstyled'
     ];
-    var passedClasses = this.props.className.split(' ');
-    var classes = classNames(defaultClasses.concat(passedClasses));
+
+    var classes = classNames(
+      defaultClasses.concat(
+        this.props.className.split(' '),
+        this.props.attributes.className.split(' ')
+      )
+    );
 
     var Tag = this.props.tag;
 
@@ -51,6 +56,9 @@ export default class List extends React.Component {
 }
 
 List.defaultProps = {
+  attributes: {
+    className: ''
+  },
   className: '',
   tag: 'div'
 };

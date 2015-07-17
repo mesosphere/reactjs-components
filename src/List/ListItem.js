@@ -7,8 +7,13 @@ export default class ListItem extends React.Component {
     var defaultClasses = [
       'list-item'
     ];
-    var passedClasses = this.props.className.split(' ');
-    var classes = classNames(defaultClasses.concat(passedClasses));
+
+    var classes = classNames(
+      defaultClasses.concat(
+        this.props.className.split(' '),
+        this.props.attributes.className.split(' ')
+      )
+    );
 
     var Tag = 'div';
 
@@ -22,6 +27,9 @@ export default class ListItem extends React.Component {
 }
 
 ListItem.defaultProps = {
+  attributes: {
+    className: ''
+  },
   className: '',
   tag: 'div'
 };
