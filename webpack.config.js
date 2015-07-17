@@ -1,7 +1,8 @@
 var config = require('./configuration');
+var glob = require('glob');
 
 module.exports = {
-  entry: config.files.docs.srcJS,
+  entry: glob.sync(config.files.docs.srcJS),
   output: {
     filename: config.files.docs.distJS
   },

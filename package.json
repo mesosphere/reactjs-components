@@ -23,6 +23,7 @@
     "envify": "^3.4.0",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^2.6.4",
+    "glob": "^5.0.14",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-concat": "^2.6.0",
