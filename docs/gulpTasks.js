@@ -134,9 +134,3 @@ gulp.task('docs:livereload', [
   'docs:browsersync',
   'docs:watch'
 ]);
-
-gulp.task('docs:serve', [
-  'docs:server',
-  'docs:default',
-  'docs:watch'
-]);
