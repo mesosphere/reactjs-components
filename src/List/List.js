@@ -6,7 +6,6 @@ import ListItem from './ListItem';
 export default class List extends React.Component {
 
   getListItems(list, childIndex = 0) {
-
     var items = list.map(function(item, parentIndex) {
       var key = `${parentIndex}.${childIndex}`;
       childIndex++;
