@@ -46,7 +46,7 @@ export default class Table extends React.Component {
           event.preventDefault();
         },
         tabIndex: 0,
-        'aria-sort': this.state.sortBy.prop,
+        'aria-sort': this.state.sortBy.order,
         'aria-label': header.heading + ': activate to sort column ' + this.state.sortBy.order
       };
     };
@@ -57,7 +57,7 @@ export default class Table extends React.Component {
       // and the 'sorting' property is true.
       if (header.sortable !== false && 'prop' in header) {
         headingAttributes = buildSortProps(header);
-        order = headingAttributes['aria-sort'];
+        order = this.state.sortBy.order;
       }
 
       // If the heading property is a method, then pass to it the options and
@@ -137,7 +137,7 @@ export default class Table extends React.Component {
         prop: prop
       }
     });
-    
+
     if (_.isFunction(onSort)) {
       onSort(sortBy);
     }
