@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import _ from 'underscore';
 
-function getHeaders(headers, sortBy, handleSort, context) {
-  function buildSortProps(header) {
+var getHeaders = (headers, sortBy, handleSort, context) => {
+  var buildSortProps = (header) => {
     var order = 'none';
     if (sortBy.prop === header.prop) {
       order = sortBy.order;
@@ -23,14 +23,14 @@ function getHeaders(headers, sortBy, handleSort, context) {
 
     return {
       onClick: sortEvent,
-      onMouseDown: function(event) {
+      onMouseDown: (event) => {
         event.preventDefault();
       },
       tabIndex: 0,
       'aria-sort': order,
       'aria-label': header.heading + ': activate to sort column ' + nextOrder
     };
-  }
+  };
 
   return headers.map((header, index) => {
     var headingAttributes, order, heading;
@@ -56,9 +56,9 @@ function getHeaders(headers, sortBy, handleSort, context) {
 
     return <th {...attributes}>{heading}</th>;
   });
-}
+};
 
-function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
+var getRows = (data, columns, keys, sortBy, buildRowOptions, context) => {
   if (data.length === 0) {
     return (
       <tr>
@@ -95,9 +95,9 @@ function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
       </tr>
     );
   });
-}
+};
 
-function sortData(data, sortBy, customSort) {
+var sortData = (data, sortBy, customSort) => {
   if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
     // use custom sort method if specified
     data = _.sortBy(data, customSort(sortBy.prop));
@@ -111,7 +111,7 @@ function sortData(data, sortBy, customSort) {
   }
 
   return data;
-}
+};
 
 export default class Table extends React.Component {
   constructor() {
@@ -168,7 +168,7 @@ export default class Table extends React.Component {
 }
 
 Table.defaultProps = {
-  buildRowOptions: function () { return {}; },
+  buildRowOptions: () => { return {}; },
   sortBy: {}
 };
 
