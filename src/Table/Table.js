@@ -44,7 +44,7 @@ export default class Table extends React.Component {
         onClick: sortEvent,
         tabIndex: 0,
         'aria-sort': this.state.sortBy.order,
-        'aria-label': header.heading + ': activate to sort column ' + this.state.sortBy.order
+        'aria-label': `${header.prop}: activate to sort column ${this.state.sortBy.order}`
       };
     };
 
