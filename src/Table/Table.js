@@ -189,6 +189,9 @@ Table.propTypes = {
   // Optional attributes to be passed to the row elements.
   buildRowOptions: PropTypes.func,
 
+  // Optional colgroup component.
+  colGroup: PropTypes.object,
+
   // Define how columns should be rendered and if they are sortable.
   columns: PropTypes.arrayOf(
     PropTypes.shape({
@@ -211,9 +214,6 @@ Table.propTypes = {
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
-
-  // Optional colgroup component.
-  colGroup: PropTypes.object,
 
   // Provide what attributes in the data make a row unique.
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
