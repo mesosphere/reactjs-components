@@ -1,10 +1,18 @@
 import React, {PropTypes} from 'react';
 import _ from 'underscore';
 
-var sortData = (data, sortBy, customSort) => {
-  if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
+var sortData = (columns, data, sortBy) => {
+  var sortFunction;
+
+  columns.forEach((column) => {
+    if (column.prop === sortBy.prop) {
+      sortFunction = column.sortFunction;
+    }
+  });
+
+  if (sortFunction) {
     // Use custom sort method if specified.
-    data = _.sortBy(data, customSort(sortBy.prop));
+    data = _.sortBy(data, sortFunction(sortBy.prop));
   } else {
     // Otherwise, use default sorting.
     data = _.sortBy(data, sortBy.prop);
@@ -31,15 +39,15 @@ export default class Table extends React.Component {
     }
   }
 
-  componentWillReceiveProps() {
-    if (this.props.sortBy.prop) {
-      this.handleSort(this.props.sortBy.prop);
-    }
-  }
+  // componentWillReceiveProps() {
+  //   if (this.props.sortBy.prop) {
+  //     this.handleSort(this.props.sortBy.prop);
+  //   }
+  // }
 
-  getHeaders(headers, sortBy, handleSort) {
+  getHeaders(headers, sortBy) {
     var buildSortProps = (header) => {
-      var sortEvent = handleSort.bind(this, header.prop);
+      var sortEvent = this.handleSort.bind(this, header.prop);
       return {
         onClick: sortEvent,
         tabIndex: 0,
@@ -49,11 +57,13 @@ export default class Table extends React.Component {
     };
 
     return headers.map((header, index) => {
-      var headingAttributes, order, heading;
+      var order, heading;
+      var attributes = {};
+
       // Only add sorting events if the column has a value for 'prop'
       // and the 'sorting' property is true.
       if (header.sortable !== false && 'prop' in header) {
-        headingAttributes = buildSortProps(header);
+        attributes = buildSortProps(header);
         order = this.state.sortBy.order;
       }
 
@@ -65,10 +75,8 @@ export default class Table extends React.Component {
         heading = header.heading;
       }
 
-      var attributes = _.extend({
-        className: header.className,
-        key: index
-      }, headingAttributes);
+      attributes.className = header.className;
+      attributes.key = index;
 
       return (
         <th {...attributes}>
@@ -122,11 +130,7 @@ export default class Table extends React.Component {
     });
   }
 
-  handleSort(prop, event) {
-    if (event) {
-      event.preventDefault();
-    }
-
+  handleSort(prop) {
     var sortBy = this.state.sortBy;
     var onSort = this.props.onSort;
     var order;
@@ -145,27 +149,33 @@ export default class Table extends React.Component {
     });
 
     if (_.isFunction(onSort)) {
-      onSort(sortBy);
+      onSort(this.state.sortBy);
     }
   }
 
   render() {
     var buildRowOptions = this.props.buildRowOptions;
     var columns = this.props.columns;
+    var data = this.props.data;
     var keys = this.props.keys;
     var sortBy = this.state.sortBy;
-    var sortedData = sortData(this.props.data, sortBy, this.props.sortFunc);
+    var sortedData = sortData(columns, data, sortBy);
+
+    var headers = this.getHeaders(columns, sortBy);
+    var rows = this.getRows(sortedData, columns, keys, sortBy, buildRowOptions);
+
+    console.log('rendered');
 
     return (
       <table className={this.props.className}>
         {this.props.colGroup}
         <thead>
           <tr>
-            {this.getHeaders(columns, sortBy, this.handleSort)}
+            {headers}
           </tr>
         </thead>
         <tbody>
-          {this.getRows(sortedData, columns, keys, sortBy, buildRowOptions)}
+          {rows}
         </tbody>
       </table>
     );
@@ -193,7 +203,10 @@ Table.propTypes = {
       ]).isRequired,
       prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       render: PropTypes.func,
-      sortable: PropTypes.bool
+      sortable: PropTypes.bool,
+      // Custom sorting function. If this function returns null,
+      // it will fallback to default sorting.
+      sortFunction: PropTypes.func
     })
   ).isRequired,
 
@@ -214,9 +227,5 @@ Table.propTypes = {
   sortBy: PropTypes.shape({
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  }),
-
-  // Custom sorting function. If this function returns null,
-  // it will fallback to default sorting.
-  sortFunc: PropTypes.func
+  })
 };
