@@ -82,6 +82,11 @@ var getRows = (data, columns, keys, sortBy, buildRowOptions, context) => {
       var cellClassName = column.className;
       var cellValue = row[column.prop];
 
+      if (_.isUndefined(cellValue)) {
+        cellValue = column.defaultContent;
+        cellClassName += ' empty-cell';
+      }
+
       return (
         <td {...cellAttributes} className={cellClassName} key={index}>
           {cellValue}
