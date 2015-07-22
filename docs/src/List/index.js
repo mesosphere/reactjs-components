@@ -200,4 +200,4 @@ class ListExample extends React.Component {
 
 }
 
-React.render(<ListExample />, document.getElementById('application'));
+React.render(<ListExample />, document.getElementById('list'));
