@@ -123,6 +123,7 @@ export default class Table extends React.Component {
 
   handleSort(prop) {
     var order = this.state.sortBy.order;
+    var onSort = this.props.onSort;
 
     if (order === 'desc') {
       order = 'asc';
@@ -136,6 +137,10 @@ export default class Table extends React.Component {
         prop: prop
       }
     });
+    
+    if (_.isFunction(onSort)) {
+      onSort(sortBy);
+    }
   }
 
   render() {
