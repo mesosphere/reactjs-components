@@ -98,7 +98,7 @@ export default class Table extends React.Component {
       // specified by the data prop.
       var rowCells = columns.map((column, index) => {
         var cellAttributes = column.attributes;
-        var cellClassName = column.className;
+        var cellClassName = column.className || '';
         var cellValue = row[column.prop];
 
         if (_.isUndefined(cellValue)) {
