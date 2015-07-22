@@ -1,5 +1,4 @@
 var srcFolder = './src';
-var distFolder = './dist';
 var docsFolder = './docs';
 var docsSrc = docsFolder + '/src';
 var docsDist = docsFolder + '/dist';
