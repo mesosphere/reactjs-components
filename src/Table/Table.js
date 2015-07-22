@@ -164,8 +164,6 @@ export default class Table extends React.Component {
     var headers = this.getHeaders(columns, sortBy);
     var rows = this.getRows(sortedData, columns, keys, sortBy, buildRowOptions);
 
-    console.log('rendered');
-
     return (
       <table className={this.props.className}>
         {this.props.colGroup}
