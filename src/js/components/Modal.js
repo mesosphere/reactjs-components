@@ -79,6 +79,7 @@ var Modal = React.createClass({
     var modalElement = this.refs.modal.getDOMNode();
     var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
     modalElement.removeEventListener(transitionEvent, this.props.onClose);
+    window.removeEventListener("resize", this.handleWindowResize);
   },
 
   shouldComponentUpdate: function (nextProps) {
