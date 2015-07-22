@@ -2,6 +2,7 @@
 
 var React = require("react");
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+var GeminiScrollbar = require("react-gemini-scrollbar");
 
 var DOMUtils = require("../utils/DOMUtils");
 
@@ -41,8 +42,31 @@ var Modal = React.createClass({
     };
   },
 
+  handleWindowResize: function () {
+    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
+  },
+
+  getInnerContainerMaxHeight: function () {
+    if (this.refs.innerContainer === undefined) {
+      return null;
+    }
+
+    var originalHeight = this.getElementHeight(this.refs.innerContainer.getDOMNode());
+    var maxHeight = this.getPageHeight() * 0.6;
+
+    return Math.min(originalHeight, maxHeight);
+  },
+
   componentDidMount: function () {
-    this.forceUpdate();
+    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
+
+    window.addEventListener("resize", this.handleWindowResize);
+  },
+
+  componentDidUpdate: function () {
+    if (this.state.innerContainerHeight === null) {
+      this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
+    }
   },
 
   componentWillReceiveProps: function (nextProps) {
@@ -80,6 +104,20 @@ var Modal = React.createClass({
     this.setState({closing: true});
   },
 
+  getPageHeight: function () {
+    var body = document.body;
+    var html = document.documentElement;
+
+    var height = Math.max(body.scrollHeight, body.offsetHeight,
+                          html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+    return height;
+  },
+
+  getElementHeight: function (el) {
+    return Math.max(el.clientHeight, el.scrollHeight, el.offsetHeight);
+  },
+
   getCloseButton: function () {
     if (!this.props.showCloseButton) {
       return null;
@@ -109,6 +147,24 @@ var Modal = React.createClass({
     );
   },
 
+  getContent: function (useGemini) {
+    if (useGemini) {
+      return (
+        <GeminiScrollbar autoshow={true} className="container-scrollable">
+          <div className="container-fluid">
+            {this.props.children}
+          </div>
+        </GeminiScrollbar>
+      );
+    } else {
+      return (
+        <div className="container-fluid">
+          {this.props.children}
+        </div>
+      );
+    }
+  },
+
   getModal: function (isMounted) {
     if (!isMounted || this.state.closing) {
       return null;
@@ -127,6 +183,11 @@ var Modal = React.createClass({
       "inverse": true
     });
 
+    var modalStyle = {
+      height: this.state.innerContainerHeight
+    };
+    var useGemini = modalStyle.height !== null;
+
     return (
       <div className={modalClassSet}>
         {this.getCloseButton()}
@@ -139,8 +200,8 @@ var Modal = React.createClass({
           </div>
         </div>
         <div className="modal-content container-scrollable">
-          <div className="modal-content-inner container container-pod container-pod-short">
-            {this.props.children}
+          <div ref="innerContainer" className="modal-content-inner container container-pod container-pod-short" style={modalStyle}>
+            {this.getContent(useGemini)}
           </div>
         </div>
         {this.getFooter()}
@@ -158,7 +219,7 @@ var Modal = React.createClass({
 
     return (
       <div className="modal-container container-scrollable">
-        <CSSTransitionGroup transitionName="modal" ref="modal" component="div">
+        <CSSTransitionGroup transitionName="modal" transitionAppear={true} ref="modal" component="div">
           {this.getModal(isMounted)}
         </CSSTransitionGroup>
         <div className={backdropClassSet} onClick={this.handleBackdropClick}>
