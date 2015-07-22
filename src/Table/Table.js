@@ -79,8 +79,8 @@ var getRows = (data, columns, keys, sortBy, buildRowOptions, context) => {
     // specified by the data prop
     var rowCells = columns.map((column, index) => {
       var cellAttributes = column.attributes;
-      var cellValue = row[column.prop];
       var cellClassName = column.className;
+      var cellValue = row[column.prop];
 
       return (
         <td {...cellAttributes} className={cellClassName} key={index}>
@@ -173,8 +173,8 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-  // provide what makes a table unique
-  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // attributes to be passed to the rows
+  buildRowOptions: PropTypes.func,
 
   // define how columns should be rendered and if they are sortable
   columns: PropTypes.arrayOf(
@@ -192,15 +192,18 @@ Table.propTypes = {
     })
   ).isRequired,
 
-  // optional colgroup component
-  colGroup: PropTypes.object,
-
   // data to display in the table
   // make sure to clone if data, cannot be modified!
   data: PropTypes.array.isRequired,
 
-  // attributes to be passed to the rows
-  buildRowOptions: PropTypes.func,
+  // optional colgroup component
+  colGroup: PropTypes.object,
+
+  // provide what makes a table unique
+  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  // on sort callback function
+  onSort: PropTypes.func,
 
   sortBy: PropTypes.shape({
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -209,8 +212,5 @@ Table.propTypes = {
 
   // custom sort function,
   // if function returns null it will fallback to default sorting
-  sortFunc: PropTypes.func,
-
-  // on sort callback function
-  onSort: PropTypes.func
+  sortFunc: PropTypes.func
 };
