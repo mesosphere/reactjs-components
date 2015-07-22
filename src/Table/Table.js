@@ -15,7 +15,7 @@ var getHeaders = (headers, sortBy, handleSort, context) => {
       nextOrder = 'desc';
     }
 
-    // sort state data with new sortBy properties
+    // Sort state data with new sortBy properties.
     var sortEvent = handleSort.bind(
       context,
       {prop: header.prop, order: nextOrder}
@@ -34,15 +34,15 @@ var getHeaders = (headers, sortBy, handleSort, context) => {
 
   return headers.map((header, index) => {
     var headingAttributes, order, heading;
-    // only add sorting events if the column has a value for 'prop'
-    // and the 'sorting' property is true
+    // Only add sorting events if the column has a value for 'prop'
+    // and the 'sorting' property is true.
     if (header.sortable !== false && 'prop' in header) {
       headingAttributes = buildSortProps(header);
       order = headingAttributes['aria-sort'];
     }
 
-    // if the heading property is a method, then pass to it the options and
-    // render the result. otherwise, display the value
+    // If the heading property is a method, then pass to it the options and
+    // render the result. Otherwise, display the value.
     if (_.isFunction(header.heading)) {
       heading = header.heading(header.prop, order, sortBy);
     } else {
@@ -70,13 +70,13 @@ var getRows = (data, columns, keys, sortBy, buildRowOptions, context) => {
   }
 
   return data.map((row) => {
-    // create the custom row attributes object, always with a key
+    // Create the custom row attributes object, always with a key.
     var rowAttributes = _.extend(
       {key: _.values(_.pick(row, keys))},
       buildRowOptions(row, context));
 
-    // for each column in the data, output a cell in each row with the value
-    // specified by the data prop
+    // For each column in the data, output a cell in each row with the value
+    // specified by the data prop.
     var rowCells = columns.map((column, index) => {
       var cellAttributes = column.attributes;
       var cellClassName = column.className;
@@ -99,10 +99,10 @@ var getRows = (data, columns, keys, sortBy, buildRowOptions, context) => {
 
 var sortData = (data, sortBy, customSort) => {
   if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
-    // use custom sort method if specified
+    // Use custom sort method if specified.
     data = _.sortBy(data, customSort(sortBy.prop));
   } else {
-    // otherwise use default sorting
+    // Otherwise, use default sorting.
     data = _.sortBy(data, sortBy.prop);
   }
 
@@ -130,7 +130,7 @@ export default class Table extends React.Component {
   }
 
   handleSort(sortBy) {
-    // if no sorting paramters or method are specified, use what's in state
+    // If no sorting paramters or method are specified, use what's in state.
     sortBy = sortBy || this.state.sortBy;
 
     var onSort = this.props.onSort;
@@ -173,44 +173,45 @@ Table.defaultProps = {
 };
 
 Table.propTypes = {
-  // attributes to be passed to the rows
+  // Optional attributes to be passed to the row elements.
   buildRowOptions: PropTypes.func,
 
-  // define how columns should be rendered and if they are sortable
+  // Define how columns should be rendered and if they are sortable.
   columns: PropTypes.arrayOf(
     PropTypes.shape({
+      attributes: React.PropTypes.object,
       className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
       defaultContent: PropTypes.string,
-      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      render: PropTypes.func,
-      sortable: PropTypes.bool,
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]).isRequired,
-      attributes: React.PropTypes.object
+      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      render: PropTypes.func,
+      sortable: PropTypes.bool
     })
   ).isRequired,
 
-  // data to display in the table
-  // make sure to clone if data, cannot be modified!
+  // Data to display in the table.
+  // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
 
-  // optional colgroup component
+  // Optional colgroup component.
   colGroup: PropTypes.object,
 
-  // provide what makes a table unique
+  // Provide what attributes in the data make a row unique.
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
 
-  // on sort callback function
+  // Optional callback function when sorting is complete.
   onSort: PropTypes.func,
 
+  // Optional default sorting criteria.
   sortBy: PropTypes.shape({
-    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    order: PropTypes.oneOf(['asc', 'desc'])
+    order: PropTypes.oneOf(['asc', 'desc']),
+    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }),
 
-  // custom sort function,
-  // if function returns null it will fallback to default sorting
+  // Custom sorting function. If this function returns null,
+  // it will fallback to default sorting.
   sortFunc: PropTypes.func
 };
