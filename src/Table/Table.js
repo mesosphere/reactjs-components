@@ -26,41 +26,28 @@ export default class Table extends React.Component {
   }
 
   componentWillMount() {
-    this.handleSort(this.props.sortBy);
+    if (this.props.sortBy.prop) {
+      this.handleSort(this.props.sortBy.prop);
+    }
   }
 
   componentWillReceiveProps() {
-    this.handleSort();
+    if (this.props.sortBy.prop) {
+      this.handleSort(this.props.sortBy.prop);
+    }
   }
 
   getHeaders(headers, sortBy, handleSort) {
     var buildSortProps = (header) => {
-      var order = 'none';
-      if (sortBy.prop === header.prop) {
-        order = sortBy.order;
-      }
-
-      var nextOrder;
-      if (order === 'desc') {
-        nextOrder = 'asc';
-      } else {
-        nextOrder = 'desc';
-      }
-
-      // Sort state data with new sortBy properties.
-      var sortEvent = handleSort.bind(
-        this,
-        {prop: header.prop, order: nextOrder}
-      );
-
+      var sortEvent = handleSort.bind(this, header.prop);
       return {
         onClick: sortEvent,
         onMouseDown: (event) => {
           event.preventDefault();
         },
         tabIndex: 0,
-        'aria-sort': order,
-        'aria-label': header.heading + ': activate to sort column ' + nextOrder
+        'aria-sort': this.state.sortBy.prop,
+        'aria-label': header.heading + ': activate to sort column ' + this.state.sortBy.order
       };
     };
 
@@ -134,19 +121,21 @@ export default class Table extends React.Component {
     });
   }
 
-  handleSort(sortBy) {
-    // If no sorting paramters or method are specified, use what's in state.
-    sortBy = sortBy || this.state.sortBy;
+  handleSort(prop) {
+    var order = this.state.sortBy.order;
 
-    var onSort = this.props.onSort;
-
-    if (!_.isEqual(this.state.sortBy, sortBy)) {
-      this.setState({sortBy: sortBy});
+    if (order === 'desc') {
+      order = 'asc';
+    } else {
+      order = 'desc';
     }
 
-    if (_.isFunction(onSort)) {
-      onSort(sortBy);
-    }
+    this.setState({
+      sortBy: {
+        order: order,
+        prop: prop
+      }
+    });
   }
 
   render() {
