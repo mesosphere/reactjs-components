@@ -70,7 +70,11 @@ export default class Table extends React.Component {
         key: index
       }, headingAttributes);
 
-      return <th {...attributes}>{heading}</th>;
+      return (
+        <th {...attributes}>
+          {heading}
+        </th>
+      );
     });
   }
 
