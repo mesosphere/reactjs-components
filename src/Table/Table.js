@@ -122,10 +122,11 @@ export default class Table extends React.Component {
   }
 
   handleSort(prop) {
-    var order = this.state.sortBy.order;
+    var sortBy = this.state.sortBy;
     var onSort = this.props.onSort;
+    var order;
 
-    if (order === 'desc') {
+    if (sortBy.order === 'desc') {
       order = 'asc';
     } else {
       order = 'desc';
