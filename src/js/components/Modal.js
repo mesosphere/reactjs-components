@@ -6,6 +6,9 @@ var GeminiScrollbar = require("react-gemini-scrollbar");
 
 var DOMUtils = require("../utils/DOMUtils");
 
+// Max modal height should be 60% of the screen.
+var MAX_MODAL_HEIGHT_PERCENTAGE = 0.6;
+
 var Modal = React.createClass({
 
   displayName: "Modal",
@@ -42,30 +45,15 @@ var Modal = React.createClass({
     };
   },
 
-  handleWindowResize: function () {
-    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
-  },
-
-  getInnerContainerMaxHeight: function () {
-    if (this.refs.innerContainer === undefined) {
-      return null;
-    }
-
-    var originalHeight = this.getElementHeight(this.refs.innerContainer.getDOMNode());
-    var maxHeight = this.getPageHeight() * 0.6;
-
-    return Math.min(originalHeight, maxHeight);
-  },
-
   componentDidMount: function () {
-    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
+    this.updateHeight();
 
-    window.addEventListener("resize", this.handleWindowResize);
+    window.addEventListener("resize", this.updateHeight);
   },
 
   componentDidUpdate: function () {
     if (this.state.innerContainerHeight === null) {
-      this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
+      this.updateHeight();
     }
   },
 
@@ -79,7 +67,7 @@ var Modal = React.createClass({
     var modalElement = this.refs.modal.getDOMNode();
     var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
     modalElement.removeEventListener(transitionEvent, this.props.onClose);
-    window.removeEventListener("resize", this.handleWindowResize);
+    window.removeEventListener("resize", this.updateHeight);
   },
 
   shouldComponentUpdate: function (nextProps) {
@@ -90,6 +78,10 @@ var Modal = React.createClass({
     if (this.props.closeByBackdropClick) {
       this.closeModal();
     }
+  },
+
+  updateHeight: function () {
+    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
   },
 
   closeModal: function () {
@@ -113,6 +105,17 @@ var Modal = React.createClass({
                           html.clientHeight, html.scrollHeight, html.offsetHeight);
 
     return height;
+  },
+
+  getInnerContainerMaxHeight: function () {
+    if (this.refs.innerContainer === undefined) {
+      return null;
+    }
+
+    var originalHeight = this.getElementHeight(this.refs.innerContainer.getDOMNode());
+    var maxHeight = this.getPageHeight() * MAX_MODAL_HEIGHT_PERCENTAGE;
+
+    return Math.min(originalHeight, maxHeight);
   },
 
   getElementHeight: function (el) {
@@ -148,8 +151,8 @@ var Modal = React.createClass({
     );
   },
 
-  getContent: function (useGemini) {
-    if (useGemini) {
+  getModalContent: function (useScrollbar) {
+    if (useScrollbar) {
       return (
         <GeminiScrollbar autoshow={true} className="container-scrollable">
           <div className="container-fluid">
@@ -187,7 +190,7 @@ var Modal = React.createClass({
     var modalStyle = {
       height: this.state.innerContainerHeight
     };
-    var useGemini = modalStyle.height !== null;
+    var useScrollbar = modalStyle.height !== null;
 
     return (
       <div className={modalClassSet}>
@@ -202,7 +205,7 @@ var Modal = React.createClass({
         </div>
         <div className="modal-content container-scrollable">
           <div ref="innerContainer" className="modal-content-inner container container-pod container-pod-short" style={modalStyle}>
-            {this.getContent(useGemini)}
+            {this.getModalContent(useScrollbar)}
           </div>
         </div>
         {this.getFooter()}
