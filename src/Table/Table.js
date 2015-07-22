@@ -42,9 +42,6 @@ export default class Table extends React.Component {
       var sortEvent = handleSort.bind(this, header.prop);
       return {
         onClick: sortEvent,
-        onMouseDown: (event) => {
-          event.preventDefault();
-        },
         tabIndex: 0,
         'aria-sort': this.state.sortBy.order,
         'aria-label': header.heading + ': activate to sort column ' + this.state.sortBy.order
@@ -121,7 +118,11 @@ export default class Table extends React.Component {
     });
   }
 
-  handleSort(prop) {
+  handleSort(prop, event) {
+    if (event) {
+      event.preventDefault();
+    }
+
     var sortBy = this.state.sortBy;
     var onSort = this.props.onSort;
     var order;
