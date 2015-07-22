@@ -32,13 +32,13 @@ function getHeaders(headers, sortBy, handleSort, context) {
     };
   }
 
-  return headers.map(function (header, index) {
-    var sortProps, order, heading;
+  return headers.map((header, index) => {
+    var headingAttributes, order, heading;
     // only add sorting events if the column has a value for 'prop'
     // and the 'sorting' property is true
     if (header.sortable !== false && 'prop' in header) {
       headingAttributes = buildSortProps(header);
-      order = sortProps['aria-sort'];
+      order = headingAttributes['aria-sort'];
     }
 
     // if the heading property is a method, then pass to it the options and
@@ -69,7 +69,7 @@ function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
     );
   }
 
-  return data.map(function(row) {
+  return data.map((row) => {
     // create the custom row attributes object, always with a key
     var rowAttributes = _.extend(
       {key: _.values(_.pick(row, keys))},
@@ -77,7 +77,7 @@ function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
 
     // for each column in the data, output a cell in each row with the value
     // specified by the data prop
-    var rowCells = columns.map(function(column, index) {
+    var rowCells = columns.map((column, index) => {
       var cellAttributes = column.attributes;
       var cellValue = row[column.prop];
       var cellClassName = column.className;
