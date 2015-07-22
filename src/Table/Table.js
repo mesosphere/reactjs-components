@@ -1,262 +1,136 @@
-/** @jsx React.DOM */
+import React, {PropTypes} from 'react';
+import _ from 'underscore';
 
-var _ = require("underscore");
-var React = require("react/addons");
-var PropTypes = React.PropTypes;
-
-function getCellValue(ref, row, sortBy) {
-  var prop = ref.prop;
-  var defaultContent = ref.defaultContent;
-  var render = ref.render;
-  // use the render function for the value.
-  if (_.isFunction(render)) {
-    return render(prop, row, sortBy);
-  }
-  // return `defaultContent` if the value is empty.
-  if (!_.isEmpty(prop) && _.isEmpty(row[prop])) {
-    return defaultContent;
-  }
-  // otherwise just return the value.
-  return row[prop];
-}
-
-function getCellClass(ref, row, sortBy) {
-  var prop = ref.prop;
-  var className = ref.className || "";
-  // prefer classname function
-  if (_.isFunction(className)) {
-    return className(prop, sortBy, row);
-  }
-  // if cell is empty add empty-cell class
-  if (!_.isEmpty(prop) && _.isEmpty(row[prop]) ) {
-    return "empty-cell";
-  }
-  // otherwise just return the className string
-  return className;
-}
-
-function getHeaderRef(headers, c, index) {
-  headers[index] = c.header;
-  return headers[index];
-}
-
-function getHeaderClass(ref, sortBy) {
-  var prop = ref.prop;
-  var className = ref.headerClassName || "";
-  if (_.isFunction(className)) {
-    return className(prop, sortBy);
-  }
-
-  return className;
-}
-
-function buildSortProps(col, sortBy, handleSort) {
-  var order = "none";
-  if (sortBy.prop === col.prop) {
-    order = sortBy.order;
-  }
-
-  var nextOrder = "desc";
-  if (order === "desc") {
-    nextOrder = "asc";
-  }
-
-  // sort state data with new sortBy properties
-  var sortEvent = handleSort.bind(
-    null,
-    {prop: col.prop, order: nextOrder}
-  );
-
-  return {
-    onClick: sortEvent,
-    // prevents selection with mouse.
-    onMouseDown: function (e) {
-      return e.preventDefault();
-    },
-    tabIndex: 0,
-    "aria-sort": order,
-    "aria-label": col.header + ": activate to sort column " + nextOrder
-  };
-}
-
-function getHeaders(columns, headers, sortBy, handleSort) {
-  return _.map(columns, function (col, index) {
-    var sortProps, order, header;
-    // Only add sorting events if the column has a property and is sortable.
-    if (col.sortable !== false && "prop" in col) {
-      sortProps = buildSortProps(col, sortBy, handleSort);
-      order = sortProps["aria-sort"];
+function getHeaders(headers, sortBy, handleSort, context) {
+  function buildSortProps(header) {
+    var order = 'none';
+    if (sortBy.prop === header.prop) {
+      order = sortBy.order;
     }
 
-    if (_.isFunction(col.header)) {
-      header = col.header(col.prop, order, sortBy);
+    var nextOrder;
+    if (order === 'desc') {
+      nextOrder = 'asc';
     } else {
-      header = React.createElement(
-        "span",
-        null,
-        col.header
-      );
+      nextOrder = 'desc';
     }
 
-    // need react functions here, because we are extending props
-    return React.createElement(
-      "th",
-      _.extend({
-        className: getHeaderClass(col, sortBy),
-        ref: getHeaderRef(headers, headers, col, index),
-        key: index
-      }, sortProps),
-      header
+    // sort state data with new sortBy properties
+    var sortEvent = handleSort.bind(
+      context,
+      {prop: header.prop, order: nextOrder}
     );
+
+    return {
+      onClick: sortEvent,
+      onMouseDown: function(event) {
+        event.preventDefault();
+      },
+      tabIndex: 0,
+      'aria-sort': order,
+      'aria-label': header.heading + ': activate to sort column ' + nextOrder
+    };
+  }
+
+  return headers.map(function (header, index) {
+    var sortProps, order, heading;
+    // only add sorting events if the column has a value for 'prop'
+    // and the 'sorting' property is true
+    if (header.sortable !== false && 'prop' in header) {
+      headingAttributes = buildSortProps(header);
+      order = sortProps['aria-sort'];
+    }
+
+    // if the heading property is a method, then pass to it the options and
+    // render the result. otherwise, display the value
+    if (_.isFunction(header.heading)) {
+      heading = header.heading(header.prop, order, sortBy);
+    } else {
+      heading = header.heading;
+    }
+
+    var attributes = _.extend({
+      className: header.className,
+      key: index
+    }, headingAttributes);
+
+    return <th {...attributes}>{heading}</th>;
   });
-}
-
-function getRowColumns(row, sortBy, columns) {
-  return _.map(columns, function(col, i) {
-    return (
-      <td key={i} className={getCellClass(col, row, sortBy)}>
-        {getCellValue(col, row, sortBy)}
-      </td>
-    );
-  }, this);
-}
-
-function sortData(data, sortBy, customSort) {
-  if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
-    // use specfied sorting
-    data = _.sortBy(data, customSort(sortBy.prop));
-  } else {
-    // use default sorting
-    data = _.sortBy(data, sortBy.prop);
-  }
-
-  if (sortBy.order === "asc") {
-    data.reverse();
-  }
-
-  return data;
 }
 
 function getRows(data, columns, keys, sortBy, buildRowOptions, context) {
   if (data.length === 0) {
     return (
       <tr>
-        <td colSpan={columns.length} className="text-center">
+        <td colspan={columns.length}>
           No data
         </td>
       </tr>
     );
   }
 
-  return _.map(data, function (row) {
-    // need react functions here, because we are extending props
-    return React.createElement(
-      "tr",
-      _.extend({key: _.values(_.pick(row, keys))}, buildRowOptions(row, context)),
-      getRowColumns(row, sortBy, columns)
+  return data.map(function(row) {
+    // create the custom row attributes object, always with a key
+    var rowAttributes = _.extend(
+      {key: _.values(_.pick(row, keys))},
+      buildRowOptions(row, context));
+
+    // for each column in the data, output a cell in each row with the value
+    // specified by the data prop
+    var rowCells = columns.map(function(column, index) {
+      var cellAttributes = column.attributes;
+      var cellValue = row[column.prop];
+      var cellClassName = column.className;
+
+      return (
+        <td {...cellAttributes} className={cellClassName} key={index}>
+          {cellValue}
+        </td>
+      );
+    });
+
+    return (
+      <tr {...rowAttributes}>
+        {rowCells}
+      </tr>
     );
   });
 }
 
-var Table = React.createClass({
+function sortData(data, sortBy, customSort) {
+  if (_.isFunction(customSort) && _.isFunction(customSort(sortBy.prop))) {
+    // use custom sort method if specified
+    data = _.sortBy(data, customSort(sortBy.prop));
+  } else {
+    // otherwise use default sorting
+    data = _.sortBy(data, sortBy.prop);
+  }
 
-  displayName: "Table",
+  if (sortBy.order === 'asc') {
+    data.reverse();
+  }
 
-  actions_configuration: {
-    state: {
-      sortBy: function (value) {
-        // {"prop":"name","order":"asc"}
-        return value.prop;
-      },
-      headers: {skip: true}
-    }
-  },
+  return data;
+}
 
-  propTypes: {
-
-    // provide what makes a table unique
-    keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-    // define how columns should be rendered and if they are sortable
-    columns: PropTypes.arrayOf(
-      PropTypes.shape({
-        className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-        defaultContent: PropTypes.string,
-        prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        render: PropTypes.func,
-        sortable: PropTypes.bool,
-        header: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.func
-        ]).isRequired,
-        width: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.number
-        ])
-      })
-    ).isRequired,
-
-    // optional colgroup component
-    colGroup: PropTypes.object,
-
-    // data to display in the table
-    // make sure to clone if data, cannot be modified!
-    data: PropTypes.array.isRequired,
-
-    // options to be passed to the rows
-    buildRowOptions: PropTypes.func,
-
-    sortBy: PropTypes.shape({
-      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      order: PropTypes.oneOf(["asc", "desc"])
-    }),
-
-    // custom sort function,
-    // if function returns null it will fallback to default sorting
-    sortFunc: PropTypes.func,
-
-    // on sort callback function
-    onSort: PropTypes.func
-  },
-
-  getDefaultProps: function () {
-    return {
-      buildRowOptions: function () { return {}; },
+export default class Table extends React.Component {
+  constructor() {
+    super();
+    this.state = {
       sortBy: {}
     };
-  },
+  }
 
-  getInitialState: function () {
-    return {
-      sortBy: this.props.sortBy,
-      headers: []
-    };
-  },
+  componentWillMount() {
+    this.handleSort(this.props.sortBy);
+  }
 
-  componentWillMount: function () {
-    // do the initial sorting if specified
+  componentWillReceiveProps() {
     this.handleSort();
-  },
+  }
 
-  componentDidMount: function () {
-    // If no width was specified, then set the width that the browser applied
-    // initially to avoid recalculating width between pages.
-    var refs = this.refs;
-    this.state.headers.forEach(function (header) {
-      var thDom = refs[header].getDOMNode();
-      if (!thDom.style.width) {
-        thDom.style.width = thDom.offsetWidth + "px";
-      }
-    });
-  },
-
-  componentWillReceiveProps: function () {
-    this.handleSort();
-  },
-
-  handleSort: function (sortBy) {
-    // if nothing is passed to handle sort,
-    // just sort the state data w. state sortBy
+  handleSort(sortBy) {
+    // if no sorting paramters or method are specified, use what's in state
     sortBy = sortBy || this.state.sortBy;
 
     var onSort = this.props.onSort;
@@ -268,9 +142,9 @@ var Table = React.createClass({
     if (_.isFunction(onSort)) {
       onSort(sortBy);
     }
-  },
+  }
 
-  render: function () {
+  render() {
     var buildRowOptions = this.props.buildRowOptions;
     var columns = this.props.columns;
     var keys = this.props.keys;
@@ -282,7 +156,7 @@ var Table = React.createClass({
         {this.props.colGroup}
         <thead>
           <tr>
-            {getHeaders(columns, this.state.headers, sortBy, this.handleSort)}
+            {getHeaders(columns, sortBy, this.handleSort, this)}
           </tr>
         </thead>
         <tbody>
@@ -291,6 +165,52 @@ var Table = React.createClass({
       </table>
     );
   }
-});
+}
 
-module.exports = Table;
+Table.defaultProps = {
+  buildRowOptions: function () { return {}; },
+  sortBy: {}
+};
+
+Table.propTypes = {
+  // provide what makes a table unique
+  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  // define how columns should be rendered and if they are sortable
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      defaultContent: PropTypes.string,
+      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      render: PropTypes.func,
+      sortable: PropTypes.bool,
+      heading: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func
+      ]).isRequired,
+      attributes: React.PropTypes.object
+    })
+  ).isRequired,
+
+  // optional colgroup component
+  colGroup: PropTypes.object,
+
+  // data to display in the table
+  // make sure to clone if data, cannot be modified!
+  data: PropTypes.array.isRequired,
+
+  // attributes to be passed to the rows
+  buildRowOptions: PropTypes.func,
+
+  sortBy: PropTypes.shape({
+    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    order: PropTypes.oneOf(['asc', 'desc'])
+  }),
+
+  // custom sort function,
+  // if function returns null it will fallback to default sorting
+  sortFunc: PropTypes.func,
+
+  // on sort callback function
+  onSort: PropTypes.func
+};
