@@ -188,7 +188,8 @@ var Modal = React.createClass({
     });
 
     var modalStyle = {
-      height: this.state.innerContainerHeight
+      height: this.state.innerContainerHeight,
+      overflow: "hidden"
     };
     var useScrollbar = modalStyle.height !== null;
 
