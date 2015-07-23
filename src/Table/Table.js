@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import _ from 'underscore';
+import Util from '../Util/Util';
 
 var sortData = (columns, data, sortBy) => {
   var sortFunction;
@@ -12,10 +12,10 @@ var sortData = (columns, data, sortBy) => {
 
   if (sortFunction) {
     // Use custom sort method if specified.
-    data = _.sortBy(data, sortFunction(sortBy.prop));
+    data = Util.sortBy(data, sortFunction(sortBy.prop));
   } else {
     // Otherwise, use default sorting.
-    data = _.sortBy(data, sortBy.prop);
+    data = Util.sortBy(data, sortBy.prop);
   }
 
   if (sortBy.order === 'asc') {
@@ -39,11 +39,11 @@ export default class Table extends React.Component {
     }
   }
 
-  // componentWillReceiveProps() {
-  //   if (this.props.sortBy.prop) {
-  //     this.handleSort(this.props.sortBy.prop);
-  //   }
-  // }
+  componentWillReceiveProps() {
+    if (this.props.sortBy.prop) {
+      this.handleSort(this.props.sortBy.prop);
+    }
+  }
 
   getHeaders(headers, sortBy) {
     var buildSortProps = (header) => {
@@ -69,7 +69,7 @@ export default class Table extends React.Component {
 
       // If the heading property is a method, then pass to it the options and
       // render the result. Otherwise, display the value.
-      if (_.isFunction(header.heading)) {
+      if (Util.isFunction(header.heading)) {
         heading = header.heading(header.prop, order, sortBy);
       } else {
         heading = header.heading;
@@ -99,8 +99,8 @@ export default class Table extends React.Component {
 
     return data.map((row) => {
       // Create the custom row attributes object, always with a key.
-      var rowAttributes = _.extend(
-        {key: _.values(_.pick(row, keys))},
+      var rowAttributes = Util.extend(
+        {key: Util.values(Util.pick(row, keys))},
         buildRowOptions(row, this));
 
       // For each column in the data, output a cell in each row with the value
@@ -110,7 +110,7 @@ export default class Table extends React.Component {
         var cellClassName = column.className || '';
         var cellValue = row[column.prop];
 
-        if (_.isUndefined(cellValue)) {
+        if (cellValue === undefined) {
           cellValue = column.defaultContent;
           cellClassName += ' empty-cell';
         }
@@ -148,8 +148,8 @@ export default class Table extends React.Component {
       }
     });
 
-    if (_.isFunction(onSort)) {
-      onSort(this.state.sortBy);
+    if (Util.isFunction(onSort)) {
+      onSort(sortBy);
     }
   }
 
@@ -226,4 +226,5 @@ Table.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })
+
 };
