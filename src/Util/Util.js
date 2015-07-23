@@ -1,7 +1,3 @@
-export default class Util {
-
-}
-
 var arrayPush = (array, values) => {
   var index = -1,
       length = values.length,
@@ -93,48 +89,52 @@ var clone = (obj) => {
   return copy;
 };
 
-Util.extend = (object, source) => {
-  var props = Object.keys(source);
+var Util = {
+  extend(object, source) {
+    var props = Object.keys(source);
 
-  object = clone(object) || {};
+    object = clone(object) || {};
 
-  var index = -1,
-    length = props.length;
+    var index = -1,
+      length = props.length;
 
-  while (++index < length) {
-    var key = props[index];
-    object[key] = source[key];
+    while (++index < length) {
+      var key = props[index];
+      object[key] = source[key];
+    }
+    return object;
+  },
+
+  isFunction(value) {
+    return (typeof value === 'object' || typeof value === 'function') &&
+      Object.prototype.toString.call(value) === '[object Function]';
+  },
+
+  pick(object, props) {
+    return object === null ? {} : basePick(object, baseFlatten(props));
+  },
+
+  sortBy(collection, sortProp) {
+    if (Util.isFunction(sortProp)) {
+      return collection.sort(sortProp);
+    } else {
+      return collection.sort((a, b) => {
+        var keyA = a[sortProp],
+          keyB = b[sortProp];
+        if (keyA < keyB) {
+          return -1;
+        } else if (keyA > keyB) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+  },
+
+  values(object) {
+    return object ? baseValues(object, Object.keys(object)) : [];
   }
-  return object;
 };
 
-Util.isFunction = (value) => {
-  return (typeof value === 'object' || typeof value === 'function') &&
-    Object.prototype.toString.call(value) === '[object Function]';
-};
-
-Util.pick = (object, props) => {
-  return object === null ? {} : basePick(object, baseFlatten(props));
-};
-
-Util.sortBy = (collection, sortProp) => {
-  if (Util.isFunction(sortProp)) {
-    return collection.sort(sortProp);
-  } else {
-    return collection.sort((a, b) => {
-      var keyA = a[sortProp],
-        keyB = b[sortProp];
-      if (keyA < keyB) {
-        return -1;
-      } else if (keyA > keyB) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-  }
-};
-
-Util.values = (object) => {
-  return object ? baseValues(object, Object.keys(object)) : [];
-};
+export {Util};

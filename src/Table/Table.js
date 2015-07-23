@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react';
-import Util from '../Util/Util';
+import {Util} from '../Util/Util';
 
 var sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
