@@ -8,7 +8,7 @@ jest.dontMock('./fixtures/MockTable');
 var MockTable = require('./fixtures/MockTable');
 var Table = require('../Table');
 
-describe('List', function() {
+describe('Table', function() {
 
   beforeEach(function () {
     this.callback = jasmine.createSpy();
