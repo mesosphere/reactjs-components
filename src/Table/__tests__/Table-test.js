@@ -22,7 +22,7 @@ describe('Table', function() {
           prop: 'name',
           order: 'desc'
         }}
-        onSort={this.callback} />
+        onSortCallback={this.callback} />
     );
   });
 

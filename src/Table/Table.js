@@ -50,7 +50,7 @@ export default class Table extends React.Component {
   }
 
   getHeaders(headers, sortBy) {
-    var buildSortProps = (header) => {
+    var buildSortAttributes = (header) => {
       var sortEvent = this.handleSort.bind(this, header.prop);
       return {
         onClick: sortEvent,
@@ -67,7 +67,7 @@ export default class Table extends React.Component {
       // Only add sorting events if the column has a value for 'prop'
       // and the 'sorting' property is true.
       if (header.sortable !== false && 'prop' in header) {
-        attributes = buildSortProps(header);
+        attributes = buildSortAttributes(header);
         order = this.state.sortBy.order;
       }
 
@@ -90,7 +90,7 @@ export default class Table extends React.Component {
     });
   }
 
-  getRows(data, columns, keys, sortBy, buildRowOptions) {
+  getRows(data, columns, keys, buildRowOptions) {
     if (data.length === 0) {
       return (
         <tr>
@@ -136,7 +136,7 @@ export default class Table extends React.Component {
 
   handleSort(prop) {
     var sortBy = this.state.sortBy;
-    var onSort = this.props.onSort;
+    var onSortCallback = this.props.onSortCallback;
     var order;
 
     if (sortBy.order === 'desc') {
@@ -152,8 +152,8 @@ export default class Table extends React.Component {
       }
     });
 
-    if (Util.isFunction(onSort)) {
-      onSort(sortBy);
+    if (Util.isFunction(onSortCallback)) {
+      onSortCallback(sortBy);
     }
   }
 
@@ -166,7 +166,7 @@ export default class Table extends React.Component {
     var sortedData = sortData(columns, data, sortBy);
 
     var headers = this.getHeaders(columns, sortBy);
-    var rows = this.getRows(sortedData, columns, keys, sortBy, buildRowOptions);
+    var rows = this.getRows(sortedData, columns, keys, buildRowOptions);
 
     return (
       <table className={this.props.className}>
@@ -223,7 +223,7 @@ Table.propTypes = {
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
 
   // Optional callback function when sorting is complete.
-  onSort: PropTypes.func,
+  onSortCallback: PropTypes.func,
 
   // Optional default sorting criteria.
   sortBy: PropTypes.shape({
