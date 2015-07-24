@@ -193,6 +193,8 @@ Table.propTypes = {
   // Optional attributes to be passed to the row elements.
   buildRowOptions: PropTypes.func,
 
+  className: PropTypes.string,
+
   // Optional colgroup component.
   colGroup: PropTypes.object,
 
@@ -200,14 +202,13 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       attributes: React.PropTypes.object,
-      className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+      className: PropTypes.string,
       defaultContent: PropTypes.string,
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]).isRequired,
       prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      render: PropTypes.func,
       sortable: PropTypes.bool,
       // Custom sorting function. If this function returns null,
       // it will fallback to default sorting.
