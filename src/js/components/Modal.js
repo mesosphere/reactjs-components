@@ -146,25 +146,25 @@ var Modal = React.createClass({
   },
 
   getModalContent: function (useScrollbar, heightInfo) {
-    if (useScrollbar) {
-      var geminiContainerStyle = {
-        height: heightInfo.innerHeight
-      };
-
-      return (
-        <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-          <div className="container-fluid">
-            {this.props.children}
-          </div>
-        </GeminiScrollbar>
-      );
-    } else {
+    if (!useScrollbar) {
       return (
         <div className="container-fluid">
           {this.props.children}
         </div>
       );
     }
+
+    var geminiContainerStyle = {
+      height: heightInfo.innerHeight
+    };
+
+    return (
+      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
+        <div className="container-fluid">
+          {this.props.children}
+        </div>
+      </GeminiScrollbar>
+    );
   },
 
   getModal: function (isMounted) {
