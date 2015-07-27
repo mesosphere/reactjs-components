@@ -90,6 +90,7 @@ var clone = (obj) => {
 };
 
 var Util = {
+
   extend(object, source) {
     var props = Object.keys(source);
 
@@ -135,6 +136,7 @@ var Util = {
   values(object) {
     return object ? baseValues(object, Object.keys(object)) : [];
   }
+
 };
 
-export {Util};
+export default Util;
