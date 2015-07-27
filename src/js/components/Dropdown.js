@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var _ = require("underscore");
+var classNames = require("classnames");
 var React = require("react/addons");
 
 var Dropdown = React.createClass({
@@ -96,7 +97,7 @@ var Dropdown = React.createClass({
 
   render: function () {
     var items = this.props.items;
-    var dropdownClassSet = React.addons.classSet({
+    var dropdownClassSet = classNames({
       "dropdown": true,
       "open": this.state.isOpen
     });
