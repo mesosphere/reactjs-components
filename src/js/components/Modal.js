@@ -44,14 +44,15 @@ var Modal = React.createClass({
   },
 
   componentDidMount: function () {
-    this.updateHeight();
+    this.forceUpdate();
 
-    window.addEventListener("resize", this.updateHeight);
+    window.addEventListener("resize", this.handleWindowResize);
   },
 
   componentDidUpdate: function () {
-    if (this.state.innerContainerHeight === null) {
-      this.updateHeight();
+    if (!this.rerendered) {
+      this.forceUpdate();
+      this.rerendered = true;
     }
   },
 
@@ -65,21 +66,21 @@ var Modal = React.createClass({
     var modalElement = this.refs.modal.getDOMNode();
     var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
     modalElement.removeEventListener(transitionEvent, this.props.onClose);
-    window.removeEventListener("resize", this.updateHeight);
+    window.removeEventListener("resize", this.handleWindowResize);
   },
 
   shouldComponentUpdate: function (nextProps) {
     return nextProps.shouldClose === this.props.shouldClose;
   },
 
+  handleWindowResize: function () {
+    this.forceUpdate();
+  },
+
   handleBackdropClick: function () {
     if (this.props.closeByBackdropClick) {
       this.closeModal();
     }
-  },
-
-  updateHeight: function () {
-    this.setState({innerContainerHeight: this.getInnerContainerHeightInfo()});
   },
 
   closeModal: function () {
@@ -95,16 +96,6 @@ var Modal = React.createClass({
     this.setState({closing: true});
   },
 
-  getPageHeight: function () {
-    var body = document.body;
-    var html = document.documentElement;
-
-    var height = Math.max(body.scrollHeight, body.offsetHeight,
-                          html.clientHeight, html.scrollHeight, html.offsetHeight);
-
-    return height;
-  },
-
   getInnerContainerHeightInfo: function () {
     var innerContainer = this.refs.innerContainer;
     if (innerContainer === undefined) {
@@ -116,7 +107,7 @@ var Modal = React.createClass({
     // Height without padding, margin, border
     var innerHeight = DOMUtils.getComputedDimensions(innerContainer.getDOMNode()).height;
     var outerHeight = originalHeight - innerHeight;
-    var maxHeight = this.getPageHeight() * this.props.maxHeightPercentage;
+    var maxHeight = DOMUtils.getPageHeight() * this.props.maxHeightPercentage;
 
     return {
       // Add 10 for the gemini horizontal scrollbar
@@ -154,10 +145,10 @@ var Modal = React.createClass({
     );
   },
 
-  getModalContent: function (useScrollbar) {
+  getModalContent: function (useScrollbar, heightInfo) {
     if (useScrollbar) {
       var geminiContainerStyle = {
-        height: this.state.innerContainerHeight.innerHeight
+        height: heightInfo.innerHeight
       };
 
       return (
@@ -194,10 +185,11 @@ var Modal = React.createClass({
       "inverse": true
     });
 
-    var useScrollbar = this.state.innerContainerHeight !== null;
+    var heightInfo = this.getInnerContainerHeightInfo();
+    var useScrollbar = heightInfo !== null;
 
     var modalStyle = {
-      height: useScrollbar && this.state.innerContainerHeight.maxHeight || null
+      height: useScrollbar && heightInfo.maxHeight || null
     };
 
     return (
@@ -213,7 +205,7 @@ var Modal = React.createClass({
         </div>
         <div className="modal-content" style={modalStyle}>
           <div ref="innerContainer" className="modal-content-inner container container-pod container-pod-short" style={modalStyle}>
-            {this.getModalContent(useScrollbar)}
+            {this.getModalContent(useScrollbar, heightInfo)}
           </div>
         </div>
         {this.getFooter()}
