@@ -150,14 +150,14 @@ export default class Table extends React.Component {
       } else {
         order = 'desc';
       }
-    }
 
-    this.setState({
-      sortBy: {
-        order: order,
-        prop: prop
-      }
-    });
+      this.setState({
+        sortBy: {
+          order: order,
+          prop: prop
+        }
+      });
+    }
 
     if (Util.isFunction(onSortCallback)) {
       onSortCallback(sortBy);
