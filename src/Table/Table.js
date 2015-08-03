@@ -174,6 +174,21 @@ export default class Table extends React.Component {
 
     var headers = this.getHeaders(columns, sortBy);
     var rows = this.getRows(sortedData, columns, keys, buildRowOptions);
+    var tbody;
+
+    if (this.props.transition === true) {
+      tbody = (
+        <CSSTransitionGroup component="tbody" transitionName="table-row">
+          {rows}
+        </CSSTransitionGroup>
+      );
+    } else {
+      tbody = (
+        <tbody>
+          {rows}
+        </tbody>
+      );
+    }
 
     return (
       <table className={this.props.className}>
@@ -183,9 +198,7 @@ export default class Table extends React.Component {
             {headers}
           </tr>
         </thead>
-        <CSSTransitionGroup component="tbody" transitionName="table-row">
-          {rows}
-        </CSSTransitionGroup>
+        {tbody}
       </table>
     );
   }
