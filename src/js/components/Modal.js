@@ -104,11 +104,12 @@ var Modal = React.createClass({
     if (innerContainer === undefined) {
       return null;
     }
+    var innerContainerNode = innerContainer.getDOMNode();
 
-    var originalHeight = innerContainer.getDOMNode().offsetHeight;
+    var originalHeight = innerContainerNode.offsetHeight;
 
     // Height without padding, margin, border.
-    var innerHeight = DOMUtils.getComputedDimensions(innerContainer.getDOMNode()).height;
+    var innerHeight = DOMUtils.getComputedDimensions(innerContainerNode).height;
 
     // Height of padding, margin, border.
     var outerHeight = originalHeight - innerHeight;
