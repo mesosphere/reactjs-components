@@ -4,8 +4,6 @@ var React = require("react");
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 var GeminiScrollbar = require("react-gemini-scrollbar");
 
-var DOMUtils = require("../utils/DOMUtils");
-
 var Modal = React.createClass({
 
   displayName: "Modal",
