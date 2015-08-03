@@ -50,6 +50,9 @@ var Modal = React.createClass({
   },
 
   componentDidUpdate: function () {
+    // We render once in order to compute content height,
+    // then we rerender to make modal fit the screen, if needed.
+    // Set rerendered to true to only do this once.
     if (!this.rerendered) {
       this.forceUpdate();
       this.rerendered = true;
@@ -104,14 +107,21 @@ var Modal = React.createClass({
 
     var originalHeight = innerContainer.getDOMNode().offsetHeight;
 
-    // Height without padding, margin, border
+    // Height without padding, margin, border.
     var innerHeight = DOMUtils.getComputedDimensions(innerContainer.getDOMNode()).height;
+
+    // Height of padding, margin, border.
     var outerHeight = originalHeight - innerHeight;
+
+    // Modal cannot be bigger than this height.
     var maxHeight = DOMUtils.getPageHeight() * this.props.maxHeightPercentage;
 
     return {
       // Add 10 for the gemini horizontal scrollbar
-      maxHeight: Math.min(originalHeight, maxHeight) + 10,
+      maxHeight: Math.min(originalHeight, maxHeight + 10),
+
+      // We minus the maxHeight with the outerHeight because it will
+      // not show the content correctly due to 'box-sizing: border-box'.
       innerHeight: Math.min(innerHeight, maxHeight - outerHeight)
     };
   },
@@ -145,7 +155,7 @@ var Modal = React.createClass({
     );
   },
 
-  getModalContent: function (useScrollbar, heightInfo) {
+  getModalContent: function (useScrollbar, innerHeight) {
     if (!useScrollbar) {
       return (
         <div className="container-fluid">
@@ -155,7 +165,7 @@ var Modal = React.createClass({
     }
 
     var geminiContainerStyle = {
-      height: heightInfo.innerHeight
+      height: innerHeight
     };
 
     return (
@@ -186,10 +196,18 @@ var Modal = React.createClass({
     });
 
     var heightInfo = this.getInnerContainerHeightInfo();
-    var useScrollbar = heightInfo !== null;
+    var maxHeight = null;
+    var innerHeight = null;
+    var useScrollbar = false;
+
+    if (heightInfo !== null) {
+      useScrollbar = true;
+      innerHeight = heightInfo.innerHeight;
+      maxHeight = heightInfo.maxHeight;
+    }
 
     var modalStyle = {
-      height: useScrollbar && heightInfo.maxHeight || null
+      height: maxHeight
     };
 
     return (
@@ -205,7 +223,7 @@ var Modal = React.createClass({
         </div>
         <div className="modal-content" style={modalStyle}>
           <div ref="innerContainer" className="modal-content-inner container container-pod container-pod-short" style={modalStyle}>
-            {this.getModalContent(useScrollbar, heightInfo)}
+            {this.getModalContent(useScrollbar, innerHeight)}
           </div>
         </div>
         {this.getFooter()}
