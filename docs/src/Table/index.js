@@ -4,6 +4,20 @@ import classNames from 'classnames';
 import Table from '../../../src/Table/Table.js';
 
 class TableExample extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rowAdded: false
+    };
+    this.toggleExtraRow = this.toggleExtraRow.bind(this);
+  }
+
+  toggleExtraRow() {
+    this.setState({
+      rowAdded: !this.state.rowAdded
+    });
+  }
+
   getColumnHeading(prop, order, sortBy) {
     var caretClassNames = classNames({
       'caret': true,
@@ -183,15 +197,33 @@ class TableExample extends React.Component {
         break;
     }
 
+    if (this.state.rowAdded && size === 'large') {
+      rows.push({
+        name: 'Cheryl',
+        age: 28,
+        gender: 'Female',
+        location: 'Seattle, WA',
+        id: 'f'
+      });
+    }
+
     return rows;
   }
 
   render() {
+    var buttonLabel;
+
+    if (this.state.rowAdded) {
+      buttonLabel = 'Remove Row';
+    } else {
+      buttonLabel = 'Add Row';
+    }
+
     return (
       <div>
         <section className="row canvas-pod">
           <div className="container container-pod">
-            <h2>Here is a small, sortable table.</h2>
+            <h3>Here is a small, sortable table.</h3>
             <Table
               className="table"
               colGroup={this.getColGroup('small')}
@@ -206,15 +238,25 @@ class TableExample extends React.Component {
         </section>
         <section className="row canvas-pod canvas-pod-dark">
           <div className="container container-pod">
-            <h2 className="inverse">
-              Here is a table with more data and sorting disabled.
-            </h2>
+            <div className="row">
+              <div className="column-9">
+                <h3 className="inverse flush-top">
+                  Here is a table with more data and sorting disabled.
+                </h3>
+              </div>
+              <div className="column-3 text-align-right">
+                <button className="button button-small button-primary button-stroke button-inverse" onClick={this.toggleExtraRow}>
+                  {buttonLabel}
+                </button>
+              </div>
+            </div>
             <Table
               className="table inverse"
               colGroup={this.getColGroup('large')}
               columns={this.getColumns('large')}
               data={this.getRows('large')}
-              keys={['id']} />
+              keys={['id']}
+              transition={true} />
           </div>
         </section>
       </div>
