@@ -92,6 +92,10 @@ var clone = (obj) => {
 var Util = {
 
   extend(object, source) {
+    if (source === undefined) {
+      return object;
+    }
+
     var props = Object.keys(source);
 
     object = clone(object) || {};
