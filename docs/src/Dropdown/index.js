@@ -4,7 +4,7 @@ import Dropdown from '../../../src/Dropdown/Dropdown.js';
 
 class DropdownExample extends React.Component {
 
-  handleItemSelection(item) {
+  onItemSelection(item) {
     console.log(item);
   }
 
@@ -35,7 +35,7 @@ class DropdownExample extends React.Component {
               dropdownMenuClassName="dropdown-menu"
               dropdownMenuListClassName="dropdown-menu-list"
               items={items}
-              onItemSelection={this.handleItemSelection}
+              onItemSelection={this.onItemSelection}
               selectedId="a" />
           </div>
         </section>
