@@ -9,10 +9,12 @@ class TableExample extends React.Component {
     this.state = {
       rowAdded: false
     };
-    this.toggleExtraRow = this.toggleExtraRow.bind(this);
+    ['handleToggleExtraRow'].forEach((method) => {
+      this[method] = this[method].bind(this);
+    }, this);
   }
 
-  toggleExtraRow() {
+  handleToggleExtraRow() {
     this.setState({
       rowAdded: !this.state.rowAdded
     });
@@ -245,7 +247,7 @@ class TableExample extends React.Component {
                 </h3>
               </div>
               <div className="column-3 text-align-right">
-                <button className="button button-small button-primary button-stroke button-inverse" onClick={this.toggleExtraRow}>
+                <button className="button button-small button-primary button-stroke button-inverse" onClick={this.handleToggleExtraRow}>
                   {buttonLabel}
                 </button>
               </div>
