@@ -106,6 +106,16 @@ var Util = {
     return object;
   },
 
+  find(objects, predicate) {
+    var result;
+    objects.some((object) => {
+      if (predicate(object)) {
+        result = object;
+      }
+    });
+    return result;
+  },
+
   isFunction(value) {
     return (typeof value === 'object' || typeof value === 'function') &&
       Object.prototype.toString.call(value) === '[object Function]';
