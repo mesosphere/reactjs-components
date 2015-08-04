@@ -152,10 +152,7 @@ export default class Table extends React.Component {
       }
 
       this.setState({
-        sortBy: {
-          order: order,
-          prop: prop
-        }
+        sortBy: {order, prop}
       });
     }
 
