@@ -1,74 +1,49 @@
-var _ = require("underscore");
-var classNames = require("classnames");
-var React = require("react/addons");
+import React from 'react/addons';
+import classNames from 'classnames';
+import * as Util from '../Util/Util';
 
-var Dropdown = React.createClass({
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-  displayName: "Dropdown",
-
-  propTypes: {
-    analyticsName: React.PropTypes.string,
-    items: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        id: React.PropTypes.oneOfType([
-          React.PropTypes.string,
-          React.PropTypes.number
-        ]).isRequired,
-        html: React.PropTypes.object.isRequired,
-        selectedHtml: React.PropTypes.object
-      })
-    ).isRequired,
-    onItemSelection: React.PropTypes.func.isRequired,
-    selectedId: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number
-    ])
-  },
-
-   actions_configuration: {
-    state: {
-      isOpen: function () {
-        return this.props.analyticsName.replace(/\s+/g, "");
-      }
-    }
-  },
-
-  getInitialState: function () {
-    return {
-      isOpen: false
+export default class Dropdown extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isOpen: false,
+      selectedId: 'a'
     };
-  },
+  }
 
-  handleMouseEnter: function () {
+  handleMouseEnter() {
     this.preventBlur = true;
-  },
+  }
 
-  handleMouseLeave: function () {
+  handleMouseLeave() {
     this.preventBlur = false;
-  },
+  }
 
-  handleButtonBlur: function () {
+  handleButtonBlur() {
     if (!this.preventBlur) {
       this.setState({isOpen: false});
     }
-  },
+  }
 
-  handleMenuToggle: function () {
+  handleMenuToggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  },
+  }
 
-  handleItemClick: function (obj) {
-    this.props.onItemSelection(obj);
+  handleItemClick(item) {
+    this.props.onItemSelection(item);
 
     this.setState({
-      isOpen: false
+      isOpen: false,
+      selectedId: item.id
     });
-  },
+  }
 
-  getSelectedHtml: function (id, items) {
-    var obj = _.find(items, function (item) {
+  getSelectedHtml(id, items) {
+    var obj = Util.find(items, function (item) {
       return item.id === id;
     });
 
@@ -77,10 +52,10 @@ var Dropdown = React.createClass({
     }
 
     return obj.html;
-  },
+  }
 
-  renderItems: function (items) {
-    return _.map(items, function (item) {
+  renderItems(items) {
+    return items.map((item) => {
       return (
         <li className="clickable"
           key={item.id}
@@ -91,34 +66,70 @@ var Dropdown = React.createClass({
         </li>
       );
     }, this);
-  },
+  }
 
-  render: function () {
+  render() {
+    var dropdownStateClassSet = {
+      'open': this.state.isOpen
+    };
+    var dropdownMenu;
     var items = this.props.items;
-    var dropdownClassSet = classNames({
-      "dropdown": true,
-      "open": this.state.isOpen
-    });
+    var wrapperClassSet = classNames(dropdownStateClassSet, this.props.wrapperClassName);
 
-    return (
-      <span className={dropdownClassSet}>
-        <button type="button"
-            className="button button-small button-inverse dropdown-toggle"
-            ref="button"
-            onClick={this.handleMenuToggle}
-            onBlur={this.handleButtonBlur}>
-          {this.getSelectedHtml(this.props.selectedId, items)}
-        </button>
-        <span className="dropdown-menu inverse" role="menu"
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}>
-          <ul className="dropdown-menu-list">
+    if (this.state.isOpen) {
+      dropdownMenu = (
+        <span className={this.props.dropdownMenuClassName}
+          onMouseEnter={this.handleMouseEnter.bind(this)}
+          onMouseLeave={this.handleMouseLeave.bind(this)}
+          role="menu">
+          <ul className={this.props.dropdownMenuListClassName}>
             {this.renderItems(items)}
           </ul>
         </span>
+      );
+    } else {
+      dropdownMenu = null;
+    }
+
+    return (
+      <span className={wrapperClassSet}>
+        <button className={this.props.buttonClassName}
+          onBlur={this.handleButtonBlur.bind(this)}
+          onClick={this.handleMenuToggle.bind(this)}
+          ref="button"
+          type="button">
+          {this.getSelectedHtml(this.state.selectedId, items)}
+        </button>
+        <CSSTransitionGroup transitionName={this.props.transitionName}>
+          {dropdownMenu}
+        </CSSTransitionGroup>
       </span>
     );
   }
-});
+}
 
-module.exports = Dropdown;
+Dropdown.defaultProps = {
+  transitionName: 'dropdown-menu',
+  onItemSelection: () => {}
+};
+
+Dropdown.propTypes = {
+  items: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      id: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.number
+      ]).isRequired,
+      html: React.PropTypes.object.isRequired,
+      selectedHtml: React.PropTypes.object
+    })
+  ).isRequired,
+  onItemSelection: React.PropTypes.func.isRequired,
+  selectedId: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]).isRequired,
+  attributes: React.PropTypes.object,
+  className: React.PropTypes.string,
+  tag: React.PropTypes.string
+};
