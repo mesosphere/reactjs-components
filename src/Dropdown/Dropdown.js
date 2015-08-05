@@ -9,7 +9,7 @@ export default class Dropdown extends React.Component {
     super();
     this.state = {
       isOpen: false,
-      selectedId: 'a'
+      selectedId: 'b'
     };
     [
       'handleButtonBlur',
@@ -65,13 +65,19 @@ export default class Dropdown extends React.Component {
 
   renderItems(items) {
     return items.map((item) => {
+      var classSet = classNames(
+        item.className,
+        this.props.dropdownMenuListItemClassName
+      );
+      var onClick = null;
+
+      if (item.selectable !== false) {
+        onClick = this.handleItemClick.bind(this, item);
+      }
+
       return (
-        <li className={this.props.dropdownMenuListItemClassName}
-          key={item.id}
-          onClick={this.handleItemClick.bind(this, item)}>
-          <a>
-            {item.html}
-          </a>
+        <li className={classSet} key={item.id} onClick={onClick}>
+          {item.html}
         </li>
       );
     }, this);
@@ -129,8 +135,14 @@ Dropdown.propTypes = {
         React.PropTypes.string,
         React.PropTypes.number
       ]).isRequired,
-      html: React.PropTypes.object.isRequired,
-      selectedHtml: React.PropTypes.object
+      html: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ]),
+      selectedHtml: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ])
     })
   ).isRequired,
   onItemSelection: React.PropTypes.func.isRequired,
