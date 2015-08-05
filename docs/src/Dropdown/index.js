@@ -4,24 +4,47 @@ import Dropdown from '../../../src/Dropdown/Dropdown.js';
 
 class DropdownExample extends React.Component {
   onItemSelection(item) {
-    console.log(item);
+    // Do something interesting with the item object.
   }
 
   render() {
-    var items = [{
+    var items = [
+    {
+      className: 'dropdown-menu-header',
       id: 'a',
-      html: <span>Item A</span>,
-      selectedHtml: <span>Item A</span>
+      html: 'Dropdown Header',
+      selectable: false
     },
     {
       id: 'b',
-      html: <span>Item B</span>,
-      selectedHtml: <span>Item B</span>
+      html: 'Item A',
+      selectedHtml: 'Item A'
     },
     {
       id: 'c',
-      html: <span>Item C</span>,
-      selectedHtml: <span>Item C</span>
+      html: 'Item B',
+      selectedHtml: 'Item B'
+    },
+    {
+      id: 'd',
+      html: 'Item C',
+      selectedHtml: 'Item C'
+    },
+    {
+      className: 'dropdown-menu-divider',
+      id: 'e',
+      selectable: false
+    },
+    {
+      className: 'dropdown-menu-header',
+      id: 'f',
+      html: 'Dropdown Header',
+      selectable: false
+    },
+    {
+      id: 'g',
+      html: 'Item D',
+      selectedHtml: 'Item D'
     }];
 
     return (
@@ -32,7 +55,6 @@ class DropdownExample extends React.Component {
             <Dropdown buttonClassName="button dropdown-toggle"
               dropdownMenuClassName="dropdown-menu"
               dropdownMenuListClassName="dropdown-menu-list"
-              dropdownMenuListItemClassName="clickable"
               items={items}
               onItemSelection={this.onItemSelection}
               selectedId="a"
