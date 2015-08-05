@@ -11,23 +11,23 @@ class DropdownExample extends React.Component {
     var items = [
     {
       className: 'dropdown-menu-header',
-      id: 'a',
       html: 'Dropdown Header',
+      id: 'a',
       selectable: false
     },
     {
-      id: 'b',
       html: 'Item A',
+      id: 'b',
       selectedHtml: 'Item A'
     },
     {
-      id: 'c',
       html: 'Item B',
+      id: 'c',
       selectedHtml: 'Item B'
     },
     {
-      id: 'd',
       html: 'Item C',
+      id: 'd',
       selectedHtml: 'Item C'
     },
     {
@@ -37,13 +37,13 @@ class DropdownExample extends React.Component {
     },
     {
       className: 'dropdown-menu-header',
-      id: 'f',
       html: 'Dropdown Header',
+      id: 'f',
       selectable: false
     },
     {
-      id: 'g',
       html: 'Item D',
+      id: 'g',
       selectedHtml: 'Item D'
     }];
 
