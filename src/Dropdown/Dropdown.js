@@ -11,6 +11,15 @@ export default class Dropdown extends React.Component {
       isOpen: false,
       selectedId: 'a'
     };
+    [
+      'handleButtonBlur',
+      'handleMenuToggle',
+      'handleMouseLeave',
+      'handleMouseEnter'
+    ]
+      .forEach((method) => {
+        this[method] = this[method].bind(this);
+      }, this);
   }
 
   handleMouseEnter() {
@@ -57,7 +66,7 @@ export default class Dropdown extends React.Component {
   renderItems(items) {
     return items.map((item) => {
       return (
-        <li className="clickable"
+        <li className={this.props.dropdownMenuListItemClassName}
           key={item.id}
           onClick={this.handleItemClick.bind(this, item)}>
           <a>
@@ -79,8 +88,8 @@ export default class Dropdown extends React.Component {
     if (this.state.isOpen) {
       dropdownMenu = (
         <span className={this.props.dropdownMenuClassName}
-          onMouseEnter={this.handleMouseEnter.bind(this)}
-          onMouseLeave={this.handleMouseLeave.bind(this)}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
           role="menu">
           <ul className={this.props.dropdownMenuListClassName}>
             {this.renderItems(items)}
@@ -94,8 +103,8 @@ export default class Dropdown extends React.Component {
     return (
       <span className={wrapperClassSet}>
         <button className={this.props.buttonClassName}
-          onBlur={this.handleButtonBlur.bind(this)}
-          onClick={this.handleMenuToggle.bind(this)}
+          onBlur={this.handleButtonBlur}
+          onClick={this.handleMenuToggle}
           ref="button"
           type="button">
           {this.getSelectedHtml(this.state.selectedId, items)}
