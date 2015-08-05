@@ -3,7 +3,6 @@ import React from 'react';
 import Dropdown from '../../../src/Dropdown/Dropdown.js';
 
 class DropdownExample extends React.Component {
-
   onItemSelection(item) {
     console.log(item);
   }
@@ -27,16 +26,17 @@ class DropdownExample extends React.Component {
 
     return (
       <div>
-        <section className="row canvas-pod canvas-pod-light">
+        <section className="row canvas-pod">
           <div className="container container-pod">
             <h2>Here is a simple dropdown.</h2>
-            <Dropdown wrapperClassName="dropdown"
-              buttonClassName="button dropdown-toggle"
+            <Dropdown buttonClassName="button dropdown-toggle"
               dropdownMenuClassName="dropdown-menu"
               dropdownMenuListClassName="dropdown-menu-list"
+              dropdownMenuListItemClassName="clickable"
               items={items}
               onItemSelection={this.onItemSelection}
-              selectedId="a" />
+              selectedId="a"
+              wrapperClassName="dropdown" />
           </div>
         </section>
       </div>
