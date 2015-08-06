@@ -5,21 +5,6 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import * as Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
-// Default classes for each of the sections in the Modal.
-// This basically defaults to canvas UI classes.
-const DEFAULT_MODAL_CLASSES = {
-  'container': ['modal-container'],
-  'header': ['modal-header'],
-  'header-container': ['container', 'container-pod', 'container-pod-short'],
-  'body': ['modal-content', 'container-scrollable'],
-  'inner-body': ['modal-content-inner', 'container', 'container-pod', 'container-pod-short'],
-  'footer': ['modal-footer'],
-  'footer-container': ['container', 'container-pod', 'container-pod-short'],
-  'close-button': ['modal-close'],
-  'close-title': ['modal-close-title'],
-  'close-icon': ['modal-close-icon icon', 'icon-mini', 'icon-mini-white', 'icon-close']
-};
 const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
 
 export default class Modal extends React.Component {
@@ -47,16 +32,6 @@ export default class Modal extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return nextProps.open !== this.props.open;
-  }
-
-  getClass(section, addition) {
-    let classes = DEFAULT_MODAL_CLASSES[section];
-
-    if (addition !== '') {
-      classes = addition.split(' ');
-    }
-
-    return classNames(classes);
   }
 
   handleBackdropClick() {
@@ -112,12 +87,12 @@ export default class Modal extends React.Component {
 
     return (
       <a
-        className={this.getClass('close-button', this.props.closeButtonClass)}
+        className={this.props.closeButtonClass}
         onClick={this.closeModal}>
-        <span className={this.getClass('close-title', this.props.closeTitleClass)}>
+        <span className={this.props.closeTitleClass}>
           Close
         </span>
-        <i className={this.getClass('close-icon', this.props.closeIconClass)}></i>
+        <i className={this.props.closeIconClass}></i>
       </a>
     );
   }
@@ -128,8 +103,8 @@ export default class Modal extends React.Component {
     }
 
     return (
-      <div className={this.getClass('footer', this.props.footerClass)}>
-        <div className={this.getClass('footer-container', this.props.footerContainerClass)}>
+      <div className={this.props.footerClass}>
+        <div className={this.props.footerContainerClass}>
           {this.props.footer}
         </div>
       </div>
@@ -203,20 +178,20 @@ export default class Modal extends React.Component {
 
     return (
       <div
-        className={this.getClass('container', this.props.containerClass)}
+        className={this.props.containerClass}
         style={containerStyle}>
         <div className={modalClassSet}>
           {this.getCloseButton()}
-          <div className={this.getClass('header', this.props.headerClass)}>
-            <div className={this.getClass('header-container', this.props.headerContainerClass)}>
+          <div className={this.props.headerClass}>
+            <div className={this.props.headerContainerClass}>
               <h2 className={titleClassSet}>
                 {this.props.titleText}
               </h2>
               {this.props.subHeader}
             </div>
           </div>
-          <div className={this.getClass('body', this.props.bodyClass)} style={modalStyle}>
-            <div id="modal-inner-container" className={this.getClass('inner-body', this.props.innerBodyClass)}>
+          <div className={this.props.bodyClass} style={modalStyle}>
+            <div id="modal-inner-container" className={this.props.innerBodyClass}>
               {this.getModalContent(useScrollbar, innerHeight)}
             </div>
           </div>
@@ -261,17 +236,18 @@ export default class Modal extends React.Component {
 }
 
 Modal.defaultProps = {
-  // Default classes
-  bodyClass: '',
-  closeButtonClass: '',
-  closeIconClass: '',
-  closeTitleClass: '',
-  containerClass: '',
-  footerClass: '',
-  footerContainerClass: '',
-  headerClass: '',
-  headerContainerClass: '',
-  innerBodyClass: '',
+  // Default classes for each of the sections in the Modal.
+  // This basically defaults to canvas UI classes.
+  bodyClass: 'modal-content container-scrollable',
+  closeButtonClass: 'modal-close',
+  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
+  closeTitleClass: 'modal-close-title',
+  containerClass: 'modal-container',
+  footerClass: 'modal-footer',
+  footerContainerClass: 'container container-pod container-pod-short',
+  headerClass: 'modal-header',
+  headerContainerClass: 'container container-pod container-pod-short',
+  innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
 
   closeByBackdropClick: true,
   footer: null,
