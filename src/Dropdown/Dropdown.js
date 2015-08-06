@@ -6,20 +6,26 @@ var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class Dropdown extends React.Component {
   constructor() {
-    super();
-    this.state = {
-      isOpen: false,
-      selectedId: 'b'
-    };
-    [
+    const methodsToBind = [
       'handleButtonBlur',
       'handleMenuToggle',
       'handleMouseLeave',
       'handleMouseEnter'
-    ]
-      .forEach((method) => {
-        this[method] = this[method].bind(this);
-      }, this);
+    ];
+    super();
+    this.state = {
+      isOpen: false,
+      selectedId: ''
+    };
+    methodsToBind.forEach((method) => {
+      this[method] = this[method].bind(this);
+    }, this);
+  }
+
+  componentWillMount() {
+    this.setState({
+      selectedId: this.props.selectedId
+    });
   }
 
   handleMouseEnter() {
