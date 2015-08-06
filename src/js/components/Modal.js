@@ -8,6 +8,10 @@ var Modal = React.createClass({
 
   displayName: "Modal",
 
+  innerContainerDOMNode: false,
+
+  rerendered: false,
+
   propTypes: {
     closeByBackdropClick: React.PropTypes.bool,
     closeText: React.PropTypes.string,
@@ -44,10 +48,18 @@ var Modal = React.createClass({
   componentDidMount: function () {
     this.forceUpdate();
 
+    if (this.refs.innerContainer) {
+      this.innerContainerDOMNode = this.refs.innerContainer.getDOMNode();
+    }
+
     window.addEventListener("resize", this.handleWindowResize);
   },
 
   componentDidUpdate: function () {
+    if (this.refs.innerContainer) {
+      this.innerContainerDOMNode = this.refs.innerContainer.getDOMNode();
+    }
+
     // We render once in order to compute content height,
     // then we rerender to make modal fit the screen, if needed.
     // Set rerendered to true to only do this once.
@@ -98,16 +110,17 @@ var Modal = React.createClass({
   },
 
   getInnerContainerHeightInfo: function () {
-    var innerContainer = this.refs.innerContainer;
-    if (innerContainer === undefined) {
+    if (!this.innerContainerDOMNode) {
       return null;
     }
-    var innerContainerNode = innerContainer.getDOMNode();
 
-    var originalHeight = innerContainerNode.offsetHeight;
+    var originalHeight = this.innerContainerDOMNode.offsetHeight;
+    var containerDimensions = DOMUtils.getComputedDimensions(
+      this.innerContainerDOMNode
+    );
 
     // Height without padding, margin, border.
-    var innerHeight = DOMUtils.getComputedDimensions(innerContainerNode).height;
+    var innerHeight = containerDimensions.height;
 
     // Height of padding, margin, border.
     var outerHeight = originalHeight - innerHeight;
