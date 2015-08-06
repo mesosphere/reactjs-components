@@ -20,7 +20,7 @@ const DEFAULT_MODAL_CLASSES = {
   'close-title': ['modal-close-title'],
   'close-icon': ['modal-close-icon icon', 'icon-mini', 'icon-mini-white', 'icon-close']
 };
-const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick'];
+const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
 
 export default class Modal extends React.Component {
   constructor() {
@@ -32,10 +32,12 @@ export default class Modal extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('1');
     this.renderModal();
   }
 
   componentDidMount() {
+    console.log('2');
     this.forceUpdate();
 
     window.addEventListener('resize', this.handleWindowResize);
@@ -111,7 +113,9 @@ export default class Modal extends React.Component {
     }
 
     return (
-      <a className={this.getClass('close-button', this.props.closeButtonClass)}>
+      <a
+        className={this.getClass('close-button', this.props.closeButtonClass)}
+        onClick={this.closeModal}>
         <span className={this.getClass('close-title', this.props.closeTitleClass)}>
           Close
         </span>
@@ -169,7 +173,7 @@ export default class Modal extends React.Component {
 
     let modalClassSet = classNames({
       'modal': true,
-      'modal-large': this.props.size === 'large'
+      'modal-large': true
     });
 
     let titleClassSet = classNames({
@@ -259,9 +263,6 @@ export default class Modal extends React.Component {
 }
 
 Modal.defaultProps = {
-  closeByBackdropClick: true,
-  closeText: 'Close',
-
   // Default classes
   bodyClass: '',
   closeButtonClass: '',
@@ -274,26 +275,27 @@ Modal.defaultProps = {
   headerContainerClass: '',
   innerBodyClass: '',
 
-  showCloseButton: false,
-  titleText: '',
-  size: '',
-  subHeader: '',
-  open: false,
+  closeByBackdropClick: true,
+  footer: null,
+  maxHeightPercentage: 0.5,
   onClose: () => {},
-  maxHeightPercentage: 0.5
+  open: false,
+  showCloseButton: false,
+  showFooter: false,
+  subHeader: '',
+  titleText: ''
 };
 
 Modal.propTypes = {
   closeByBackdropClick: React.PropTypes.bool,
-  closeText: React.PropTypes.string,
   footer: React.PropTypes.object,
+  maxHeightPercentage: React.PropTypes.number,
+  onClose: React.PropTypes.func,
+  open: React.PropTypes.bool,
   showCloseButton: React.PropTypes.bool,
   showFooter: React.PropTypes.bool,
-  size: React.PropTypes.string,
   subHeader: React.PropTypes.node,
   titleText: React.PropTypes.string,
-  open: React.PropTypes.bool,
-  onClose: React.PropTypes.func,
 
   // Classes
   bodyClass: React.PropTypes.string,
