@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 
 import * as Util from '../Util/Util';
@@ -47,6 +46,8 @@ export default class Modal extends React.Component {
   }
 
   handleWindowResize() {
+    // Render the modal again if the window resizes because the height
+    // of the viewport may change and we need to adapt to that.
     this.renderModal();
   }
 
@@ -144,12 +145,6 @@ export default class Modal extends React.Component {
       return null;
     }
 
-    let backdropClassSet = classNames({
-      'fade': true,
-      'in': this.props.open,
-      'modal-backdrop': true
-    });
-
     let heightInfo = this.getInnerContainerHeightInfo();
     let maxHeight = null;
     let innerHeight = null;
@@ -190,7 +185,7 @@ export default class Modal extends React.Component {
           </div>
           {this.getFooter()}
         </div>
-        <div className={backdropClassSet} onClick={this.handleBackdropClick}>
+        <div className={this.props.backdropClass} onClick={this.handleBackdropClick}>
         </div>
       </div>
     );
@@ -231,6 +226,7 @@ export default class Modal extends React.Component {
 Modal.defaultProps = {
   // Default classes for each of the sections in the Modal.
   // This basically defaults to canvas UI classes.
+  backdropClass: 'fade in modal-backdrop',
   bodyClass: 'modal-content container-scrollable',
   closeButtonClass: 'modal-close',
   closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
@@ -267,6 +263,7 @@ Modal.propTypes = {
   titleText: React.PropTypes.string,
 
   // Classes
+  backdropClass: React.PropTypes.string,
   bodyClass: React.PropTypes.string,
   closeButtonClass: React.PropTypes.string,
   closeIconClass: React.PropTypes.string,
