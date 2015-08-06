@@ -69,7 +69,7 @@ export default class Dropdown extends React.Component {
     return obj.html;
   }
 
-  renderItems(items) {
+  getMenuItems(items) {
     return items.map((item) => {
       var classSet = classNames(
         item.className,
@@ -93,7 +93,7 @@ export default class Dropdown extends React.Component {
     var dropdownStateClassSet = {
       'open': this.state.isOpen
     };
-    var dropdownMenu;
+    var dropdownMenu = null;
     var items = this.props.items;
     var wrapperClassSet = classNames(dropdownStateClassSet, this.props.wrapperClassName);
 
@@ -104,12 +104,10 @@ export default class Dropdown extends React.Component {
           onMouseLeave={this.handleMouseLeave}
           role="menu">
           <ul className={this.props.dropdownMenuListClassName}>
-            {this.renderItems(items)}
+            {this.getMenuItems(items)}
           </ul>
         </span>
       );
-    } else {
-      dropdownMenu = null;
     }
 
     return (
