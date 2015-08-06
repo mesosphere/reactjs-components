@@ -148,6 +148,57 @@ let Util = {
 
   values(object) {
     return object ? Util.baseValues(object, Object.keys(object)) : [];
+  },
+
+  getPageHeight() {
+    var body = document.body;
+    var html = document.documentElement;
+
+    return Math.max(
+      body.scrollHeight,
+      body.offsetHeight,
+      html.clientHeight,
+      html.scrollHeight,
+      html.offsetHeight
+    );
+  },
+
+  getComputedDimensions (obj) {
+    var compstyle;
+    if (typeof window.getComputedStyle === 'undefined') {
+      compstyle = obj.currentStyle;
+    } else {
+      compstyle = window.getComputedStyle(obj);
+    }
+
+    var computeInnerBound = function (acc, key) {
+      var val = parseInt(compstyle[key], 10);
+
+      if (isNaN(val)) {
+        return acc;
+      } else {
+        return acc - val;
+      }
+    };
+
+    var width = [
+      'paddingLeft',
+      'paddingRight',
+      'borderLeftWidth',
+      'borderRightWidth'
+    ].reduce(computeInnerBound, obj.offsetWidth);
+
+    var height = [
+      'paddingTop',
+      'paddingBottom',
+      'borderTopWidth',
+      'borderBottomWidth'
+    ].reduce(computeInnerBound, obj.offsetHeight);
+
+    return {
+      width: width,
+      height: height
+    };
   }
 };
 

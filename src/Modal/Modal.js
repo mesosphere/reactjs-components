@@ -1,232 +1,309 @@
-/** @jsx React.DOM */
+import React from 'react/addons';
+import classNames from 'classnames';
+import GeminiScrollbar from 'react-gemini-scrollbar';
 
-var React = require("react");
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
-var GeminiScrollbar = require("react-gemini-scrollbar");
+import * as Util from '../Util/Util';
 
-var DOMUtils = require("../utils/DOMUtils");
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var Modal = React.createClass({
+// Default classes for each of the sections in the Modal.
+// This basically defaults to canvas UI classes.
+const DEFAULT_MODAL_CLASSES = {
+  'container': ['modal-container'],
+  'header': ['modal-header'],
+  'header-container': ['container', 'container-pod', 'container-pod-short'],
+  'body': ['modal-content', 'container-scrollable'],
+  'inner-body': ['modal-content-inner', 'container', 'container-pod', 'container-pod-short'],
+  'footer': ['modal-footer'],
+  'footer-container': ['container', 'container-pod', 'container-pod-short'],
+  'close-button': ['modal-close'],
+  'close-title': ['modal-close-title'],
+  'close-icon': ['modal-close-icon icon', 'icon-mini', 'icon-mini-white', 'icon-close']
+};
+const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick'];
 
-  displayName: "Modal",
+export default class Modal extends React.Component {
+  constructor() {
+    super();
 
-  propTypes: {
-    closeByBackdropClick: React.PropTypes.bool,
-    closeText: React.PropTypes.string,
-    footer: React.PropTypes.object,
-    shouldClose: React.PropTypes.bool,
-    showCloseButton: React.PropTypes.bool,
-    showFooter: React.PropTypes.bool,
-    size: React.PropTypes.string,
-    subHeader: React.PropTypes.node,
-    titleText: React.PropTypes.string,
-    onClose: React.PropTypes.func
-  },
+    METHODS_TO_BIND.forEach(function (method) {
+      this[method] = this[method].bind(this);
+    }, this);
+  }
 
-  getDefaultProps: function () {
-    return {
-      closeByBackdropClick: true,
-      closeText: "Close",
-      showCloseButton: true,
-      titleText: "",
-      size: "",
-      shouldClose: false,
-      subHeader: "",
-      onClose: function () {}
-    };
-  },
+  componentDidUpdate() {
+    this.renderModal();
+  }
 
-  getInitialState: function () {
-    return {
-      closing: false
-    };
-  },
+  componentDidMount() {
+    this.forceUpdate();
 
-  handleWindowResize: function () {
-    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
-  },
+    window.addEventListener('resize', this.handleWindowResize);
+  }
 
-  getInnerContainerMaxHeight: function () {
-    if (this.refs.innerContainer === undefined) {
-      return null;
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.open !== this.props.open;
+  }
+
+  getClass(section, addition) {
+    let classes = DEFAULT_MODAL_CLASSES[section];
+
+    if (addition !== '') {
+      classes = addition.split(' ');
     }
 
-    var originalHeight = this.getElementHeight(this.refs.innerContainer.getDOMNode());
-    var maxHeight = this.getPageHeight() * 0.6;
+    return classNames(classes);
+  }
 
-    return Math.min(originalHeight, maxHeight);
-  },
-
-  componentDidMount: function () {
-    this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
-
-    window.addEventListener("resize", this.handleWindowResize);
-  },
-
-  componentDidUpdate: function () {
-    if (this.state.innerContainerHeight === null) {
-      this.setState({innerContainerHeight: this.getInnerContainerMaxHeight()});
-    }
-  },
-
-  componentWillReceiveProps: function (nextProps) {
-    if (nextProps.shouldClose && !this.props.shouldClose) {
-      this.closeModal();
-    }
-  },
-
-  componentWillUnmount: function () {
-    var modalElement = this.refs.modal.getDOMNode();
-    var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
-    modalElement.removeEventListener(transitionEvent, this.props.onClose);
-  },
-
-  shouldComponentUpdate: function (nextProps) {
-    return nextProps.shouldClose === this.props.shouldClose;
-  },
-
-  handleBackdropClick: function () {
+  handleBackdropClick() {
     if (this.props.closeByBackdropClick) {
       this.closeModal();
     }
-  },
+  }
 
-  closeModal: function () {
-    var modalElement = this.refs.modal.getDOMNode();
-    var transitionEvent = DOMUtils.whichTransitionEvent(modalElement);
+  handleWindowResize() {
+    this.renderModal();
+  }
 
-    if (transitionEvent == null) {
+  closeModal() {
+    if (this.rootEl) {
+      this.rerendered = false;
       this.props.onClose();
-    } else {
-      modalElement.addEventListener(transitionEvent, this.props.onClose);
+    }
+  }
+
+  getInnerContainerHeightInfo() {
+    // We have to search the DOM for this since we went outside of React
+    // for the render.
+    let innerContainer = document.getElementById('modal-inner-container');
+    if (!innerContainer) {
+      return null;
     }
 
-    this.setState({closing: true});
-  },
+    let originalHeight = innerContainer.offsetHeight;
 
-  getPageHeight: function () {
-    var body = document.body;
-    var html = document.documentElement;
+    // Height without padding, margin, border.
+    let innerHeight = Util.getComputedDimensions(innerContainer).height;
 
-    var height = Math.max(body.scrollHeight, body.offsetHeight,
-                          html.clientHeight, html.scrollHeight, html.offsetHeight);
+    // Height of padding, margin, border.
+    let outerHeight = originalHeight - innerHeight;
 
-    return height;
-  },
+    // Modal cannot be bigger than this height.
+    let maxHeight = window.innerHeight * this.props.maxHeightPercentage;
 
-  getElementHeight: function (el) {
-    return Math.max(el.clientHeight, el.scrollHeight, el.offsetHeight);
-  },
+    return {
+      // Add 10 for the gemini horizontal scrollbar
+      maxHeight: Math.min(originalHeight, maxHeight + 10),
 
-  getCloseButton: function () {
+      // We minus the maxHeight with the outerHeight because it will
+      // not show the content correctly due to 'box-sizing: border-box'.
+      innerHeight: Math.min(innerHeight, maxHeight - outerHeight)
+    };
+  }
+
+  getCloseButton() {
     if (!this.props.showCloseButton) {
       return null;
     }
 
     return (
-      <a className="modal-close">
-        <span className="modal-close-title">
+      <a className={this.getClass('close-button', this.props.closeButtonClass)}>
+        <span className={this.getClass('close-title', this.props.closeTitleClass)}>
           Close
         </span>
-        <i className="modal-close-icon icon icon-mini icon-mini-white icon-close"></i>
+        <i className={this.getClass('close-icon', this.props.closeIconClass)}></i>
       </a>
     );
-  },
+  }
 
-  getFooter: function () {
+  getFooter() {
     if (this.props.showFooter === false) {
       return null;
     }
 
     return (
-      <div className="modal-footer">
-        <div className="container container-pod container-pod-short">
+      <div className={this.getClass('footer', this.props.footerClass)}>
+        <div className={this.getClass('footer-container', this.props.footerContainerClass)}>
           {this.props.footer}
         </div>
       </div>
     );
-  },
+  }
 
-  getContent: function (useGemini) {
-    if (useGemini) {
-      return (
-        <GeminiScrollbar autoshow={true} className="container-scrollable">
-          <div className="container-fluid">
-            {this.props.children}
-          </div>
-        </GeminiScrollbar>
-      );
-    } else {
+  getModalContent(useScrollbar, innerHeight) {
+    if (!useScrollbar && !this.rerendered) {
       return (
         <div className="container-fluid">
           {this.props.children}
         </div>
       );
     }
-  },
 
-  getModal: function (isMounted) {
-    if (!isMounted || this.state.closing) {
+    let geminiContainerStyle = {
+      height: innerHeight
+    };
+
+    return (
+      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
+        <div className="container-fluid">
+          {this.props.children}
+        </div>
+      </GeminiScrollbar>
+    );
+  }
+
+  getModal() {
+    if (!this.props.open) {
       return null;
     }
 
-    var modalClassSet = React.addons.classSet({
-      "modal": true,
-      "modal-large": this.props.size === "large"
+    let backdropClassSet = classNames({
+      'fade': true,
+      'in': this.props.open,
+      'modal-backdrop': true
     });
 
-    var titleClassSet = React.addons.classSet({
-      "modal-header-title": true,
-      "text-align-center": true,
-      "flush-top": true,
-      "flush-bottom": !this.props.subHeader,
-      "inverse": true
+    let modalClassSet = classNames({
+      'modal': true,
+      'modal-large': this.props.size === 'large'
     });
 
-    var modalStyle = {
-      height: this.state.innerContainerHeight
+    let titleClassSet = classNames({
+      'modal-header-title': true,
+      'text-align-center': true,
+      'flush-top': true,
+      'flush-bottom': !this.props.subHeader,
+      'inverse': true
+    });
+
+    let heightInfo = this.getInnerContainerHeightInfo();
+    let maxHeight = null;
+    let innerHeight = null;
+    let useScrollbar = false;
+
+    if (heightInfo !== null) {
+      useScrollbar = true;
+      innerHeight = heightInfo.innerHeight;
+      maxHeight = heightInfo.maxHeight;
+    }
+
+    let modalStyle = {
+      height: maxHeight
     };
-    var useGemini = modalStyle.height !== null;
+
+    let containerStyle = {
+      height: window.innerHeight
+    };
 
     return (
-      <div className={modalClassSet}>
-        {this.getCloseButton()}
-        <div className="modal-header">
-          <div className="container container-pod container-pod-short">
-            <h2 className={titleClassSet}>
-              {this.props.titleText}
-            </h2>
-            {this.props.subHeader}
+      <div
+        className={this.getClass('container', this.props.containerClass)}
+        style={containerStyle}>
+        <div className={modalClassSet}>
+          {this.getCloseButton()}
+          <div className={this.getClass('header', this.props.headerClass)}>
+            <div className={this.getClass('header-container', this.props.headerContainerClass)}>
+              <h2 className={titleClassSet}>
+                {this.props.titleText}
+              </h2>
+              {this.props.subHeader}
+            </div>
           </div>
-        </div>
-        <div className="modal-content container-scrollable">
-          <div ref="innerContainer" className="modal-content-inner container container-pod container-pod-short" style={modalStyle}>
-            {this.getContent(useGemini)}
+          <div className={this.getClass('body', this.props.bodyClass)} style={modalStyle}>
+            <div id="modal-inner-container" className={this.getClass('inner-body', this.props.innerBodyClass)}>
+              {this.getModalContent(useScrollbar, innerHeight)}
+            </div>
           </div>
+          {this.getFooter()}
         </div>
-        {this.getFooter()}
-      </div>
-    );
-  },
-
-  render: function () {
-    var isMounted = this.isMounted();
-    var backdropClassSet = React.addons.classSet({
-      "fade": true,
-      "in": isMounted && !this.state.closing,
-      "modal-backdrop": true
-    });
-
-    return (
-      <div className="modal-container container-scrollable">
-        <CSSTransitionGroup transitionName="modal" transitionAppear={true} ref="modal" component="div">
-          {this.getModal(isMounted)}
-        </CSSTransitionGroup>
         <div className={backdropClassSet} onClick={this.handleBackdropClick}>
         </div>
       </div>
     );
   }
-});
 
-module.exports = Modal;
+  renderModal() {
+    let modal = (
+      <CSSTransitionGroup transitionAppear={true} transitionName="modal" component="section">
+        {this.getModal()}
+      </CSSTransitionGroup>
+    );
+
+    if (!this.rootEl) {
+      this.rootEl = document.createElement('div');
+      document.body.appendChild(this.rootEl);
+    }
+
+    React.render(
+      modal,
+      this.rootEl,
+      // We need to rerender after the initial render
+      // in order to have the children transition correctly.
+      function () {
+        if (!this.rerendered && this.props.open) {
+          this.rerendered = true;
+          this.renderModal();
+        }
+      }.bind(this)
+    );
+  }
+
+  render() {
+    return null;
+  }
+
+}
+
+Modal.defaultProps = {
+  closeByBackdropClick: true,
+  closeText: 'Close',
+
+  // Default classes
+  bodyClass: '',
+  closeButtonClass: '',
+  closeIconClass: '',
+  closeTitleClass: '',
+  containerClass: '',
+  footerClass: '',
+  footerContainerClass: '',
+  headerClass: '',
+  headerContainerClass: '',
+  innerBodyClass: '',
+
+  showCloseButton: false,
+  titleText: '',
+  size: '',
+  subHeader: '',
+  open: false,
+  onClose: () => {},
+  maxHeightPercentage: 0.6
+};
+
+Modal.propTypes = {
+  closeByBackdropClick: React.PropTypes.bool,
+  closeText: React.PropTypes.string,
+  footer: React.PropTypes.object,
+  showCloseButton: React.PropTypes.bool,
+  showFooter: React.PropTypes.bool,
+  size: React.PropTypes.string,
+  subHeader: React.PropTypes.node,
+  titleText: React.PropTypes.string,
+  open: React.PropTypes.bool,
+  onClose: React.PropTypes.func,
+
+  // Classes
+  bodyClass: React.PropTypes.string,
+  closeButtonClass: React.PropTypes.string,
+  closeIconClass: React.PropTypes.string,
+  closeTitleClass: React.PropTypes.string,
+  containerClass: React.PropTypes.string,
+  footerClass: React.PropTypes.string,
+  footerContainerClass: React.PropTypes.string,
+  headerClass: React.PropTypes.string,
+  headerContainerClass: React.PropTypes.string,
+  innerBodyClass: React.PropTypes.string
+};

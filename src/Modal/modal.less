@@ -1,0 +1,110 @@
+#modal-holder {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.modal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 1500;
+}
+
+.modal {
+  left: auto;
+  position: relative;
+  margin: 0;
+  top: auto;
+
+  .modal-content {
+    border-radius: 0;
+
+    .modal-content-inner {
+      width: auto;
+    }
+  }
+
+  > :last-child {
+    border-radius: 0px 0px 10px 10px;
+  }
+}
+
+.modal-header {
+  background-color: #232937;
+}
+
+.modal-backdrop {
+  cursor: default;
+  
+  // Since the backdrop will be inside of the modal-container now,
+  // and the container transitions by moving 25% above bottom,
+  // this will ensure that the backdrop doesn't get cut off.
+  bottom: -25%;
+}
+
+.modal-enter {
+  opacity: 0.01;
+  transform: translate(0, -25%);
+  transition: transform .5s ease-in, opacity .5s ease-in;
+}
+
+.modal-enter.modal-enter-active {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+.modal-leave {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+.modal-leave.modal-leave-active {
+  opacity: 0.01;
+  transform: translate(0, -25%);
+  transition: transform .5s ease-in, opacity .5s ease-in;
+}
+
+.modal.modal-large .modal-content pre {
+  max-height: 600px;
+  overflow: visible;
+}
+
+.modal {
+  background: inherit;
+}
+
+.modal-content {
+  background: white;
+  overflow: hidden;
+}
+
+.modal .container {
+  margin-left: 32px;
+  margin-right: 32px;
+}
+
+.modal .modal-header {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 20px;
+}
+
+.modal .modal-footer {
+  padding: 15px;
+}
+
+.container-pod.container-pod-short {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.container-scrollable {
+  flex: 8;
+  -webkit-box-flex: 8;
+}
