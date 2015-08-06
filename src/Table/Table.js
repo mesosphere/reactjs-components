@@ -1,5 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes} from 'react/addons';
 import * as Util from '../Util/Util';
+
+var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
@@ -45,7 +47,7 @@ export default class Table extends React.Component {
 
   componentWillReceiveProps() {
     if (this.props.sortBy.prop) {
-      this.handleSort(this.props.sortBy.prop);
+      this.handleSort(this.props.sortBy.prop, {toggle: false});
     }
   }
 
@@ -134,23 +136,26 @@ export default class Table extends React.Component {
     });
   }
 
-  handleSort(prop) {
+  handleSort(prop, options) {
     var sortBy = this.state.sortBy;
     var onSortCallback = this.props.onSortCallback;
-    var order;
+    options = Util.extend({
+      toggle: true
+    }, options);
 
-    if (sortBy.order === 'desc') {
-      order = 'asc';
-    } else {
-      order = 'desc';
-    }
+    if (options.toggle) {
+      var order;
 
-    this.setState({
-      sortBy: {
-        order: order,
-        prop: prop
+      if (sortBy.order === 'desc') {
+        order = 'asc';
+      } else {
+        order = 'desc';
       }
-    });
+
+      this.setState({
+        sortBy: {order, prop}
+      });
+    }
 
     if (Util.isFunction(onSortCallback)) {
       onSortCallback(sortBy);
@@ -167,6 +172,21 @@ export default class Table extends React.Component {
 
     var headers = this.getHeaders(columns, sortBy);
     var rows = this.getRows(sortedData, columns, keys, buildRowOptions);
+    var tbody;
+
+    if (this.props.transition === true) {
+      tbody = (
+        <CSSTransitionGroup component="tbody" transitionName="table-row">
+          {rows}
+        </CSSTransitionGroup>
+      );
+    } else {
+      tbody = (
+        <tbody>
+          {rows}
+        </tbody>
+      );
+    }
 
     return (
       <table className={this.props.className}>
@@ -176,9 +196,7 @@ export default class Table extends React.Component {
             {headers}
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        {tbody}
       </table>
     );
   }
