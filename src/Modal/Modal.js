@@ -280,7 +280,7 @@ Modal.defaultProps = {
   subHeader: '',
   open: false,
   onClose: () => {},
-  maxHeightPercentage: 0.6
+  maxHeightPercentage: 0.5
 };
 
 Modal.propTypes = {
