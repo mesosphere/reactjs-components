@@ -75,14 +75,14 @@ export default class Dropdown extends React.Component {
         item.className,
         this.props.dropdownMenuListItemClassName
       );
-      var onClick = null;
+      var handleClick = null;
 
       if (item.selectable !== false) {
-        onClick = this.handleItemClick.bind(this, item);
+        handleClick = this.handleItemClick.bind(this, item);
       }
 
       return (
-        <li className={classSet} key={item.id} onClick={onClick}>
+        <li className={classSet} key={item.id} onClick={handleClick}>
           {item.html}
         </li>
       );
