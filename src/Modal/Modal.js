@@ -150,14 +150,6 @@ export default class Modal extends React.Component {
       'modal-backdrop': true
     });
 
-    let titleClassSet = classNames({
-      'modal-header-title': true,
-      'text-align-center': true,
-      'flush-top': true,
-      'flush-bottom': !this.props.subHeader,
-      'inverse': true
-    });
-
     let heightInfo = this.getInnerContainerHeightInfo();
     let maxHeight = null;
     let innerHeight = null;
@@ -185,7 +177,7 @@ export default class Modal extends React.Component {
           {this.getCloseButton()}
           <div className={this.props.headerClass}>
             <div className={this.props.headerContainerClass}>
-              <h2 className={titleClassSet}>
+              <h2 className={this.props.titleClass}>
                 {this.props.titleText}
               </h2>
               {this.props.subHeader}
@@ -250,7 +242,7 @@ Modal.defaultProps = {
   headerContainerClass: 'container container-pod container-pod-short',
   innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
   modalClass: 'modal modal-large',
-
+  titleClass: 'modal-header-title text-align-center flush-top flush-bottom inverse',
 
   closeByBackdropClick: true,
   footer: null,
@@ -285,5 +277,6 @@ Modal.propTypes = {
   headerClass: React.PropTypes.string,
   headerContainerClass: React.PropTypes.string,
   innerBodyClass: React.PropTypes.string,
-  modalClass: React.PropTypes.string
+  modalClass: React.PropTypes.string,
+  titleClass: React.PropTypes.string
 };

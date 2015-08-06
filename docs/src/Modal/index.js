@@ -103,7 +103,7 @@ class ModalExample extends React.Component {
               </button>
             </div>
             <div className="column-6">
-              <h4 className="inverse">Smaller max height - with subheader</h4>
+              <h4 className="inverse">Inverse style - small max height - with subheader</h4>
               <button className="button button-inverse" onClick={this.openModal4}>
                 {"Open Modal"}
               </button>
@@ -173,6 +173,9 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal4Open}
+            bodyClass="canvas-pod canvas-pod-dark modal-content container-scrollable"
+            headerClass="canvas-pod canvas-pod-light modal-header"
+            titleClass="modal-header-title text-align-center flush-top flush-bottom"
             maxHeightPercentage={0.3}
             onClose={this.closeModal4}
             showFooter={false}
