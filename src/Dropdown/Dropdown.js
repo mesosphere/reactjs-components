@@ -95,7 +95,10 @@ export default class Dropdown extends React.Component {
     };
     var dropdownMenu = null;
     var items = this.props.items;
-    var wrapperClassSet = classNames(dropdownStateClassSet, this.props.wrapperClassName);
+    var wrapperClassSet = classNames(
+      dropdownStateClassSet,
+      this.props.wrapperClassName
+    );
 
     if (this.state.isOpen) {
       dropdownMenu = (
@@ -110,6 +113,14 @@ export default class Dropdown extends React.Component {
       );
     }
 
+    if (this.props.transition) {
+      dropdownMenu = (
+        <CSSTransitionGroup transitionName={this.props.transitionName}>
+          {dropdownMenu}
+        </CSSTransitionGroup>
+      );
+    }
+
     return (
       <span className={wrapperClassSet}>
         <button className={this.props.buttonClassName}
@@ -119,15 +130,14 @@ export default class Dropdown extends React.Component {
           type="button">
           {this.getSelectedHtml(this.state.selectedId, items)}
         </button>
-        <CSSTransitionGroup transitionName={this.props.transitionName}>
-          {dropdownMenu}
-        </CSSTransitionGroup>
+        {dropdownMenu}
       </span>
     );
   }
 }
 
 Dropdown.defaultProps = {
+  transition: false,
   transitionName: 'dropdown-menu',
   onItemSelection: () => {}
 };
@@ -156,5 +166,9 @@ Dropdown.propTypes = {
   ]).isRequired,
   attributes: React.PropTypes.object,
   className: React.PropTypes.string,
-  tag: React.PropTypes.string
+  tag: React.PropTypes.string,
+  // Optional transition on the dropdown menu. Must be accompanied
+  // by an animation or transition in CSS.
+  transition: React.PropTypes.bool,
+  transitionName: React.PropTypes.string
 };
