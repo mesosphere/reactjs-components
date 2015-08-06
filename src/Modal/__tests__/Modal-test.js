@@ -32,6 +32,16 @@ describe('Modal', function () {
         this.instance.handleBackdropClick();
         expect(this.onClose).toHaveBeenCalled();
       });
+
+      it('should not call onClose if closeByBackdropClick is false', function () {
+        var instance = TestUtils.renderIntoDocument(
+          <Modal onClose={this.onClose} open={true} closeByBackdropClick={false}>
+            {this.content}
+          </Modal>
+        );
+        instance.handleBackdropClick();
+        expect(this.onClose).not.toHaveBeenCalled();
+      });
     });
   });
 });

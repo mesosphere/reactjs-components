@@ -32,12 +32,10 @@ export default class Modal extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('1');
     this.renderModal();
   }
 
   componentDidMount() {
-    console.log('2');
     this.forceUpdate();
 
     window.addEventListener('resize', this.handleWindowResize);
