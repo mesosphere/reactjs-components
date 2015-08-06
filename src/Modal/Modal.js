@@ -17,11 +17,17 @@ export default class Modal extends React.Component {
   }
 
   componentDidUpdate() {
+    // We need this in order to listen to the `open` prop change,
+    // then we'll render the modal according to whether it's true
+    // or false.
     this.renderModal();
   }
 
   componentDidMount() {
-    this.forceUpdate();
+    // For initial mount, we need to call this to have the CSSTransitionGroup
+    // on the page. There will be nothing inside of it because the modal will
+    // be closed.
+    this.renderModal();
 
     window.addEventListener('resize', this.handleWindowResize);
   }
@@ -218,8 +224,8 @@ export default class Modal extends React.Component {
     React.render(
       modal,
       this.rootEl,
-      // We need to rerender after the initial render
-      // in order to have the children transition correctly.
+      // We render once to compute the content height,
+      // then render again to have access to the content height.
       function () {
         if (!this.rerendered && this.props.open) {
           this.rerendered = true;
