@@ -5,6 +5,7 @@ import Dropdown from '../../../src/Dropdown/Dropdown.js';
 class DropdownExample extends React.Component {
   onItemSelection(item) {
     // Do something interesting with the item object.
+    console.log(item);
   }
 
   render() {
@@ -57,7 +58,7 @@ class DropdownExample extends React.Component {
               dropdownMenuListClassName="dropdown-menu-list"
               items={items}
               onItemSelection={this.onItemSelection}
-              selectedId="a"
+              selectedId="b"
               wrapperClassName="dropdown" />
           </div>
         </section>
