@@ -183,52 +183,19 @@ class ModalExample extends React.Component {
               <h3 className="text-align-center">This is a short modal</h3>
               <div>
                 <div className="container-pod">
-                  {`
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisl dolor, finibus vel egestas et, scelerisque placerat quam.
-                    Etiam purus mauris, tempor vel lorem vitae, finibus semper tortor. Nulla nisi nisl, tempus vitae risus ut, gravida elementum purus.
-                    Cras scelerisque quis velit at aliquet. Aenean congue faucibus magna nec pellentesque. Nulla facilisi. Etiam feugiat consequat metus,
-                    eget consectetur erat sollicitudin in. Maecenas posuere lorem lorem, eu porttitor leo fermentum at. Phasellus volutpat,
-                    neque at faucibus dapibus, odio quam molestie lorem, vel gravida lectus diam sit amet neque. Cras ultricies auctor diam,
-                    a varius massa eleifend quis. Nulla nec rhoncus odio
-                  `}
+                  {'Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor'}
                 </div>
                 <div className="container-pod">
-                  {`
-                    Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placerat
-                    Sed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.
-                    Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.
-                    Proin venenatis libero sodales, dictum augue non, pretium dolor
-                  `}
+                  {'Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor'}
                 </div>
                 <div className="container-pod">
-                  {`
-                    Mauris malesuada quis lectus id interdum. Nullam non aliquam ligula, quis eleifend quam. Maecenas eu nisl dolor.
-                    Fusce dapibus iaculis mi, eget facilisis est rhoncus sed. Ut sit amet purus ut magna pharetra tristique sed vitae purus.
-                    Donec ultricies augue ac magna auctor facilisis. Fusce vestibulum suscipit velit. Donec id odio condimentum,
-                    efficitur lacus et, volutpat nisi. Sed non tellus neque. Mauris maximus efficitur arcu, vel consequat purus aliquet fringilla
-                  `}
+                  {'Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor'}
                 </div>
                 <div className="container-pod">
-                  {`
-                    Vivamus eget dolor rutrum, elementum massa id, venenatis purus. Quisque sed tempor massa. Duis nibh enim,
-                    finibus et molestie a, fringilla ut arcu. Donec libero massa, fringilla vitae vehicula fringilla, pharetra ut
-                    risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus felis ex, placerat at enim et, suscipit
-                    ultrices tellus. Praesent posuere neque eu sapien iaculis tristique. Phasellus enim ante, facilisis id enim at,
-                    maximus rutrum enim. Aliquam neque justo, ultrices non tortor at, fermentum commodo orci. Donec tempus dui orci,
-                    eget mattis mauris hendrerit in. Duis tristique ex non elit scelerisque luctus. Praesent a nunc sodales, gravida
-                    lorem sed, cursus lacus. Sed dictum quam vel est scelerisque, nec volutpat enim tincidunt.
-                  `}
+                  {'Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor'}
                 </div>
                 <div className="container-pod">
-                  {`
-                    Donec nec rutrum nibh. In pellentesque non enim et egestas. Ut facilisis, magna sit amet blandit fringilla,
-                    magna sem bibendum mi, ac feugiat orci mi vestibulum nibh. Praesent semper justo in tempor lacinia. Suspendisse potenti.
-                    Interdum et malesuada fames ac ante ipsum primis in faucibus. Morbi vel finibus ante. Sed sagittis ut tortor in blandit.
-                    Proin felis sapien, interdum non rhoncus et, fermentum et metus. Pellentesque auctor ligula ac mauris molestie, at dictum metus euismod.
-                    Suspendisse sed lacinia ligula. Praesent commodo maximus tellus, eu molestie tortor accumsan vel. Aliquam dignissim,
-                    risus eu tincidunt mollis, mi ipsum pulvinar metus, non porta erat ligula a leo. Proin vitae tincidunt nisi.\n\n
-                    Cras fermentum vehicula efficitur.
-                  `}
+                  {'Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor'}
                 </div>
               </div>
             </div>
