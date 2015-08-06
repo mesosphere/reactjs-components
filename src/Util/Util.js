@@ -1,3 +1,13 @@
+let computeInnerBound = (compstyle, acc, key) => {
+  var val = parseInt(compstyle[key], 10);
+
+  if (isNaN(val)) {
+    return acc;
+  } else {
+    return acc - val;
+  }
+};
+
 let Util = {
   arrayPush(array, values) {
     let index = -1,
@@ -171,29 +181,19 @@ let Util = {
       compstyle = window.getComputedStyle(obj);
     }
 
-    var computeInnerBound = function (acc, key) {
-      var val = parseInt(compstyle[key], 10);
-
-      if (isNaN(val)) {
-        return acc;
-      } else {
-        return acc - val;
-      }
-    };
-
     var width = [
       'paddingLeft',
       'paddingRight',
       'borderLeftWidth',
       'borderRightWidth'
-    ].reduce(computeInnerBound, obj.offsetWidth);
+    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetWidth);
 
     var height = [
       'paddingTop',
       'paddingBottom',
       'borderTopWidth',
       'borderBottomWidth'
-    ].reduce(computeInnerBound, obj.offsetHeight);
+    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetHeight);
 
     return {
       width: width,
