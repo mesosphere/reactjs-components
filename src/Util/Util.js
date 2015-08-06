@@ -92,7 +92,7 @@ var clone = (obj) => {
 var Util = {
 
   extend(object, source) {
-    if (source === null) {
+    if (source == null) {
       return object;
     }
 
