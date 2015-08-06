@@ -1,113 +1,112 @@
-var arrayPush = (array, values) => {
-  var index = -1,
+let Util = {
+  arrayPush(array, values) {
+    let index = -1,
       length = values.length,
       offset = array.length;
 
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-};
-
-var isArrayLike = (value) => {
-  return value != null &&
-    !(
-      typeof value === 'function' &&
-      Object.prototype.toString.call(value) === '[object Function]'
-    ) && value.length;
-};
-
-var isObjectLike = (value) => {
-  return !!value && typeof value === 'object';
-};
-
-var isArguments = (value) => {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
-};
-
-var baseFlatten = (array, isDeep, isStrict, result) => {
-  result = result || [];
-
-  var index = -1,
-    length = array.length;
-
-  while (++index < length) {
-    var value = array[index];
-    if (isObjectLike(value) && isArrayLike(value) &&
-        (isStrict || value.isArray || isArguments(value))) {
-      if (isDeep) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, isDeep, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
+    while (++index < length) {
+      array[offset + index] = values[index];
     }
-  }
-  return result;
-};
+    return array;
+  },
 
-var basePick = (object, props) => {
-  object = Object(object);
+  baseFlatten(array, isDeep, isStrict, result) {
+    result = result || [];
 
-  var index = -1,
+    let index = -1,
+      length = array.length;
+
+    while (++index < length) {
+      let value = array[index];
+      if (Util.isObjectLike(value) && Util.isArrayLike(value) &&
+          (isStrict || value.isArray || Util.isArguments(value))) {
+        if (isDeep) {
+          // Recursively flatten arrays (susceptible to call stack limits).
+          Util.baseFlatten(value, isDeep, isStrict, result);
+        } else {
+          Util.arrayPush(result, value);
+        }
+      } else if (!isStrict) {
+        result[result.length] = value;
+      }
+    }
+    return result;
+  },
+
+  basePick(object, props) {
+    object = Object(object);
+
+    let index = -1,
       length = props.length,
       result = {};
 
-  while (++index < length) {
-    var key = props[index];
-    if (key in object) {
-      result[key] = object[key];
+    while (++index < length) {
+      let key = props[index];
+      if (key in object) {
+        result[key] = object[key];
+      }
     }
-  }
-  return result;
-};
+    return result;
+  },
 
-var baseValues = (object, props) => {
-  var index = -1,
+  baseValues(object, props) {
+    let index = -1,
       length = props.length,
       result = Array(length);
 
-  while (++index < length) {
-    result[index] = object[props[index]];
-  }
-  return result;
-};
-
-var clone = (obj) => {
-  if (obj === null || typeof obj != 'object') {
-    return obj;
-  }
-  var copy = obj.constructor();
-  for (var attr in obj) {
-    if (obj.hasOwnProperty(attr)) {
-      copy[attr] = obj[attr];
+    while (++index < length) {
+      result[index] = object[props[index]];
     }
-  }
-  return copy;
-};
+    return result;
+  },
 
-var Util = {
+  isArrayLike(value) {
+    return value != null &&
+      !(
+        typeof value === 'function' &&
+        Object.prototype.toString.call(value) === '[object Function]'
+      ) && value.length;
+  },
+
+  isObjectLike(value) {
+    return !!value && typeof value === 'object';
+  },
+
+  isArguments(value) {
+    return Util.isObjectLike(value) && Util.isArrayLike(value) &&
+      hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+  },
+
+  clone(object) {
+    if (object === null || typeof object != 'object') {
+      return object;
+    }
+    let copy = object.constructor();
+    for (let attr in object) {
+      if (object.hasOwnProperty(attr)) {
+        copy[attr] = object[attr];
+      }
+    }
+    return copy;
+  },
 
   extend(object, source) {
-    var props = Object.keys(source);
+    let props = Object.keys(source);
 
-    object = clone(object) || {};
+    object = Util.clone(object) || {};
 
-    var index = -1,
+    let index = -1,
       length = props.length;
 
     while (++index < length) {
-      var key = props[index];
+      let key = props[index];
       object[key] = source[key];
     }
     return object;
   },
 
   find(objects, predicate) {
-    var result;
+    let result;
     objects.some((object) => {
       if (predicate(object)) {
         result = object;
@@ -122,7 +121,7 @@ var Util = {
   },
 
   pick(object, props) {
-    return object === null ? {} : basePick(object, baseFlatten(props));
+    return object === null ? {} : Util.basePick(object, Util.baseFlatten(props));
   },
 
   sortBy(collection, sortProp) {
@@ -130,7 +129,7 @@ var Util = {
       return collection.sort(sortProp);
     } else {
       return collection.sort((a, b) => {
-        var keyA = a[sortProp],
+        let keyA = a[sortProp],
           keyB = b[sortProp];
         if (keyA < keyB) {
           return -1;
@@ -144,9 +143,8 @@ var Util = {
   },
 
   values(object) {
-    return object ? baseValues(object, Object.keys(object)) : [];
+    return object ? Util.baseValues(object, Object.keys(object)) : [];
   }
-
 };
 
 export default Util;
