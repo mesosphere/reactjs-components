@@ -15,7 +15,7 @@ export default class Dropdown extends React.Component {
     super();
     this.state = {
       isOpen: false,
-      selectedId: ''
+      selectedID: ''
     };
     methodsToBind.forEach((method) => {
       this[method] = this[method].bind(this);
@@ -24,7 +24,7 @@ export default class Dropdown extends React.Component {
 
   componentWillMount() {
     this.setState({
-      selectedId: this.props.selectedId
+      selectedID: this.props.selectedID
     });
   }
 
@@ -53,7 +53,7 @@ export default class Dropdown extends React.Component {
 
     this.setState({
       isOpen: false,
-      selectedId: item.id
+      selectedID: item.id
     });
   }
 
@@ -128,7 +128,7 @@ export default class Dropdown extends React.Component {
           onClick={this.handleMenuToggle}
           ref="button"
           type="button">
-          {this.getSelectedHtml(this.state.selectedId, items)}
+          {this.getSelectedHtml(this.state.selectedID, items)}
         </button>
         {dropdownMenu}
       </span>
@@ -143,32 +143,50 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.propTypes = {
+  // Classname for the element that ther user interacts with to open menu.
+  buttonClassName: React.PropTypes.string,
+  // Classname for the dropdown menu wrapper.
+  dropdownMenuClassName: React.PropTypes.string,
+  // Classname for the dropdown list wrapper.
+  dropdownMenuListClassName: React.PropTypes.string,
+  // The items to display in the dropdown.
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
+      // An optional classname for the menu item.
+      className: React.PropTypes.string,
+      // A required ID for each item
       id: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.number
       ]).isRequired,
+      // The HTML (or text) to render for the list item.
       html: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.object
       ]),
+      // Whether or not the user can choose the item.
+      selectable: React.PropTypes.bool,
+      // The HTML (or text) to display when the option is selected. If this is not
+      // provided, the value for the `html` property will be used.
       selectedHtml: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.object
       ])
     })
   ).isRequired,
-  onItemSelection: React.PropTypes.func.isRequired,
-  selectedId: React.PropTypes.oneOfType([
+  // An optional callback when an item is slected. Will receive an arugment
+  // containing the selected item as it was supplied via the items array.
+  onItemSelection: React.PropTypes.func,
+  // The ID of the item that should be selected by default.
+  selectedID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number
   ]).isRequired,
-  attributes: React.PropTypes.object,
-  className: React.PropTypes.string,
-  tag: React.PropTypes.string,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
   transition: React.PropTypes.bool,
-  transitionName: React.PropTypes.string
+  // The prefix of the transition classnames.
+  transitionName: React.PropTypes.string,
+  // Classname for the element that wraps the entire component.
+  wrapperClassName: React.PropTypes.string
 };
