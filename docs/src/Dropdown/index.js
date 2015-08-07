@@ -58,7 +58,7 @@ class DropdownExample extends React.Component {
               dropdownMenuListClassName="dropdown-menu-list"
               items={items}
               onItemSelection={this.onItemSelection}
-              selectedId="b"
+              selectedID="b"
               transition={true}
               wrapperClassName="dropdown" />
           </div>
