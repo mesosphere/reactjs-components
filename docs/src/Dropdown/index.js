@@ -189,7 +189,7 @@ class DropdownExample extends React.Component {
                   wrapperClassName="dropdown" />
               </div>
               <div className="column-6 column-overflow">
-                <p>Here is a simple dropdown with a callback.</p>
+                <p>Here is a simple dropdown with an <code>alert</code> callback.</p>
                 <Dropdown buttonClassName="button dropdown-toggle"
                   dropdownMenuClassName="dropdown-menu"
                   dropdownMenuListClassName="dropdown-menu-list"
@@ -217,7 +217,7 @@ class DropdownExample extends React.Component {
                   dropdownMenuClassName="dropdown-menu"
                   dropdownMenuListClassName="dropdown-menu-list"
                   items={dividedList}
-                  selectedID="foo"
+                  selectedID="bar"
                   transition={true}
                   wrapperClassName="dropdown" />
               </div>
