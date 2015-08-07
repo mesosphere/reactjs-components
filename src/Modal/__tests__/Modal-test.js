@@ -52,8 +52,8 @@ describe('Modal', function () {
 
       it('should not call onClose if closeByBackdropClick is false', function () {
         var instance = TestUtils.renderIntoDocument(
-          <Modal onClose={this.onClose} 
-            open={true} 
+          <Modal onClose={this.onClose}
+            open={true}
             closeByBackdropClick={false} />
         );
 
@@ -98,6 +98,18 @@ describe('Modal', function () {
 
       var closeButton = instance.getCloseButton();
       expect(TestUtils.isElement(closeButton)).toEqual(true);
+    });
+  });
+
+  describe('#handleWindowResize', function () {
+    it('should call renderModal on resize', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <Modal open={true} />
+      );
+
+      instance.renderModal = jasmine.createSpy();
+      instance.handleWindowResize();
+      expect(instance.renderModal).toHaveBeenCalled();
     });
   });
 });
