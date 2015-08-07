@@ -7,10 +7,8 @@ var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 export default class Dropdown extends React.Component {
   constructor() {
     const methodsToBind = [
-      'handleButtonBlur',
       'handleMenuToggle',
-      'handleMouseLeave',
-      'handleMouseEnter'
+      'handleExternalClick'
     ];
     super();
     this.state = {
@@ -22,30 +20,26 @@ export default class Dropdown extends React.Component {
     }, this);
   }
 
+  componentDidMount() {
+    window.addEventListener('click', this.handleExternalClick);
+  }
+
   componentWillMount() {
     this.setState({
       selectedID: this.props.selectedID
     });
   }
 
-  handleMouseEnter() {
-    this.preventBlur = true;
+  componentWillUnmount() {
+    window.removeEventListener('click', this.handleExternalClick);
   }
 
-  handleMouseLeave() {
-    this.preventBlur = false;
-  }
-
-  handleButtonBlur() {
-    if (!this.preventBlur) {
-      this.setState({isOpen: false});
+  handleExternalClick() {
+    if (this.state.isOpen) {
+      this.setState({
+        isOpen: false
+      });
     }
-  }
-
-  handleMenuToggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
   }
 
   handleItemClick(item) {
@@ -54,6 +48,17 @@ export default class Dropdown extends React.Component {
     this.setState({
       isOpen: false,
       selectedID: item.id
+    });
+  }
+
+  handleMenuClick(e) {
+    e.stopPropagation();
+  }
+
+  handleMenuToggle(e) {
+    e.stopPropagation();
+    this.setState({
+      isOpen: !this.state.isOpen
     });
   }
 
@@ -107,8 +112,7 @@ export default class Dropdown extends React.Component {
     if (this.state.isOpen) {
       dropdownMenu = (
         <span className={this.props.dropdownMenuClassName}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
+          onClick={this.handleMenuClick}
           role="menu">
           <ul className={this.props.dropdownMenuListClassName}>
             {this.getMenuItems(items)}
