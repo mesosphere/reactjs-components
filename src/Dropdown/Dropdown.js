@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import classNames from 'classnames';
 import * as Util from '../Util/Util';
+import * as DOMUtil from '../Util/DOMUtil';
 
 var CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -8,7 +9,8 @@ export default class Dropdown extends React.Component {
   constructor() {
     const methodsToBind = [
       'handleMenuToggle',
-      'handleExternalClick'
+      'handleExternalClick',
+      'handleWrapperBlur'
     ];
     super();
     this.state = {
@@ -20,18 +22,10 @@ export default class Dropdown extends React.Component {
     }, this);
   }
 
-  componentDidMount() {
-    window.addEventListener('click', this.handleExternalClick);
-  }
-
   componentWillMount() {
     this.setState({
       selectedID: this.props.selectedID
     });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('click', this.handleExternalClick);
   }
 
   handleExternalClick() {
@@ -51,8 +45,17 @@ export default class Dropdown extends React.Component {
     });
   }
 
-  handleMenuClick(e) {
-    e.stopPropagation();
+  handleWrapperBlur(e) {
+    var elID = React.findDOMNode(this).dataset.reactid;
+    var currentEl = e.relatedTarget;
+
+    if (currentEl && DOMUtil.closest(currentEl, `[data-reactid="${elID}"]`)) {
+      return;
+    }
+
+    if (this.state.isOpen === true) {
+      this.setState({isOpen: false});
+    }
   }
 
   handleMenuToggle(e) {
@@ -78,7 +81,7 @@ export default class Dropdown extends React.Component {
     return items.map((item) => {
       var classSet = classNames(
         {
-          'not-selectable': item.selectable === false
+          'is-selectable': item.selectable !== false
         },
         item.className,
         this.props.dropdownMenuListItemClassName
@@ -112,7 +115,6 @@ export default class Dropdown extends React.Component {
     if (this.state.isOpen) {
       dropdownMenu = (
         <span className={this.props.dropdownMenuClassName}
-          onClick={this.handleMenuClick}
           role="menu">
           <ul className={this.props.dropdownMenuListClassName}>
             {this.getMenuItems(items)}
@@ -130,15 +132,17 @@ export default class Dropdown extends React.Component {
     }
 
     return (
-      <span className={wrapperClassSet}>
-        <button className={this.props.buttonClassName}
-          onBlur={this.handleButtonBlur}
-          onClick={this.handleMenuToggle}
-          ref="button"
-          type="button">
-          {this.getSelectedHtml(this.state.selectedID, items)}
-        </button>
-        {dropdownMenu}
+      <span
+        className={wrapperClassSet}
+        tabIndex="1"
+        onBlur={this.handleWrapperBlur}>
+          <button className={this.props.buttonClassName}
+            onClick={this.handleMenuToggle}
+            ref="button"
+            type="button">
+            {this.getSelectedHtml(this.state.selectedID, items)}
+          </button>
+          {dropdownMenu}
       </span>
     );
   }
