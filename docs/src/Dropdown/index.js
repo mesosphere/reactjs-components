@@ -12,40 +12,40 @@ class DropdownExample extends React.Component {
     var items = [
     {
       className: 'dropdown-menu-header',
-      html: 'Dropdown Header',
+      html: 'Foo',
       id: 'a',
       selectable: false
     },
     {
-      html: 'Item A',
+      html: 'Bar',
       id: 'b',
-      selectedHtml: 'Item A'
+      selectedHtml: 'Bar'
     },
     {
-      html: 'Item B',
+      html: 'Baz',
       id: 'c',
-      selectedHtml: 'Item B'
+      selectedHtml: 'Baz'
     },
     {
-      html: 'Item C',
+      html: 'Qux',
       id: 'd',
-      selectedHtml: 'Item C'
+      selectedHtml: 'Qux'
     },
     {
-      className: 'dropdown-menu-divider',
+      className: 'Quux',
       id: 'e',
       selectable: false
     },
     {
       className: 'dropdown-menu-header',
-      html: 'Dropdown Header',
+      html: 'Corge',
       id: 'f',
       selectable: false
     },
     {
-      html: 'Item D',
+      html: 'Grault',
       id: 'g',
-      selectedHtml: 'Item D'
+      selectedHtml: 'Grault'
     }];
 
     return (
