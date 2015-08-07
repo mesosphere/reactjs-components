@@ -28,6 +28,43 @@ export default class Dropdown extends React.Component {
     });
   }
 
+  getSelectedHtml(id, items) {
+    var obj = Util.find(items, function (item) {
+      return item.id === id;
+    });
+
+    if (obj.selectedHtml != null) {
+      return obj.selectedHtml;
+    }
+
+    return obj.html;
+  }
+
+  getMenuItems(items) {
+    return items.map((item) => {
+      var classSet = classNames(
+        {
+          'is-selectable': item.selectable !== false,
+          'is-selected': item.id === this.state.selectedID
+        },
+        item.className,
+        this.props.dropdownMenuListItemClassName
+      );
+
+      var handleUserClick = null;
+
+      if (item.selectable !== false) {
+        handleUserClick = this.handleItemClick.bind(this, item);
+      }
+
+      return (
+        <li className={classSet} key={item.id} onClick={handleUserClick}>
+          {item.html}
+        </li>
+      );
+    }, this);
+  }
+
   handleExternalClick() {
     if (this.state.isOpen) {
       this.setState({
@@ -63,42 +100,6 @@ export default class Dropdown extends React.Component {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
-
-  getSelectedHtml(id, items) {
-    var obj = Util.find(items, function (item) {
-      return item.id === id;
-    });
-
-    if (obj.selectedHtml != null) {
-      return obj.selectedHtml;
-    }
-
-    return obj.html;
-  }
-
-  getMenuItems(items) {
-    return items.map((item) => {
-      var classSet = classNames(
-        {
-          'is-selectable': item.selectable !== false
-        },
-        item.className,
-        this.props.dropdownMenuListItemClassName
-      );
-
-      var handleUserClick = null;
-
-      if (item.selectable !== false) {
-        handleUserClick = this.handleItemClick.bind(this, item);
-      }
-
-      return (
-        <li className={classSet} key={item.id} onClick={handleUserClick}>
-          {item.html}
-        </li>
-      );
-    }, this);
   }
 
   render() {
