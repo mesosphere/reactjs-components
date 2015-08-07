@@ -72,9 +72,14 @@ export default class Dropdown extends React.Component {
   getMenuItems(items) {
     return items.map((item) => {
       var classSet = classNames(
+        {
+          'not-selectable': item.selectable === false
+        },
         item.className,
         this.props.dropdownMenuListItemClassName
       );
+
+      console.log(item.selectable);
       var handleUserClick = null;
 
       if (item.selectable !== false) {
