@@ -79,7 +79,6 @@ export default class Dropdown extends React.Component {
         this.props.dropdownMenuListItemClassName
       );
 
-      console.log(item.selectable);
       var handleUserClick = null;
 
       if (item.selectable !== false) {
