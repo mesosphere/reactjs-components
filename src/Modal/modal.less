@@ -1,9 +1,3 @@
-#modal-holder {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-
 .modal-container {
   display: flex;
   justify-content: center;
@@ -20,33 +14,33 @@
   left: auto;
   position: relative;
   margin: 0;
-  top: auto;
 
   .modal-content {
     border-radius: 0;
-
-    &.inverse {
-      background: #232937;
-      color: white;
-
-      .thumb {
-        background: white;
-      }
-    }
-
-    .modal-content-inner {
-      width: auto;
-
-    }
   }
 
   > :last-child {
     border-radius: 0px 0px 10px 10px;
   }
-}
 
-.modal-header {
-  background-color: #232937;
+  &.inverse {
+    color: @modal-inverse-text-color;
+    background-color: @modal-inverse-background-color;
+
+    .modal-header {
+      background-color: @modal-inverse-header-background-color
+    }
+
+    .modal-content {
+      background-color: @modal-inverse-content-background-color;
+
+    }
+
+    .modal-footer {
+      background-color: @modal-inverse-footer-background-color
+    }
+  }
+
 }
 
 .modal-backdrop {
@@ -80,45 +74,42 @@
   transition: transform .5s ease-in, opacity .5s ease-in;
 }
 
-.modal.modal-large .modal-content pre {
-  max-height: 600px;
-  overflow: visible;
+.icon.icon-mini.icon-mini-white.icon-close {
+  color: white;
+  text-align: center;
+  font-style: normal;
+  top: 20px;
+  font-size: 16px;
 }
 
-.modal {
-  background: inherit;
+& when (@screen-mini-enabled) {
+  @media (min-width: @screen-mini) {
+    .modal.modal-large {
+      width: 500px;
+    }
+  }
 }
 
-.modal-content {
-  background: white;
-  overflow: hidden;
+& when (@screen-small-enabled) {
+  @media (min-width: @screen-small) {
+    .modal.modal-large {
+      width: 700px;
+    }
+  }
 }
 
-.modal .container {
-  margin-left: 32px;
-  margin-right: 32px;
+& when (@screen-medium-enabled) {
+  @media (min-width: @screen-medium) {
+    .modal.modal-large {
+      width: 800px;
+    }
+  }
 }
 
-.modal .modal-header {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 20px;
-}
-
-.modal .modal-footer {
-  padding: 15px;
-}
-
-.modal .modal-close {
-  position: absolute;
-}
-
-.container-pod.container-pod-short {
-  padding-top: 32px;
-  padding-bottom: 32px;
-}
-
-.container-scrollable {
-  flex: 8;
-  -webkit-box-flex: 8;
+& when (@screen-large-enabled) {
+  @media (min-width: @screen-large) {
+    .modal.modal-large {
+      width: 1000px;
+    }
+  }
 }

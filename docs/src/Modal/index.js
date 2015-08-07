@@ -173,9 +173,10 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal4Open}
-            bodyClass="canvas-pod canvas-pod-dark modal-content container-scrollable"
+            bodyClass="modal-content inverse container-scrollable"
             headerClass="canvas-pod canvas-pod-light modal-header"
-            titleClass="modal-header-title text-align-center flush-top flush-bottom"
+            modalClass="modal modal-large inverse"
+            titleClass="inverse modal-header-title text-align-center flush-top flush-bottom"
             maxHeightPercentage={0.3}
             onClose={this.closeModal4}
             showFooter={false}

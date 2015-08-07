@@ -15,6 +15,11 @@ export default class Modal extends React.Component {
     }, this);
   }
 
+  // Lifecycle of a Modal:
+  // initial page load -> empty CSSTransitionGroup div will be on root of page
+  // interaction changes open to true -> render modal content without scrollbars
+  // get height of content -> rerender modal content and cap the height
+
   componentDidUpdate() {
     // We need this in order to listen to the `open` prop change,
     // then we'll render the modal according to whether it's true
@@ -22,7 +27,7 @@ export default class Modal extends React.Component {
     this.renderModal();
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // For initial mount, we need to call this to have the CSSTransitionGroup
     // on the page. There will be nothing inside of it because the modal will
     // be closed.
@@ -99,7 +104,7 @@ export default class Modal extends React.Component {
         <span className={this.props.closeTitleClass}>
           Close
         </span>
-        <i className={this.props.closeIconClass}></i>
+        <i className={this.props.closeIconClass}>x</i>
       </a>
     );
   }
@@ -238,7 +243,7 @@ Modal.defaultProps = {
   headerContainerClass: 'container container-pod container-pod-short',
   innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
   modalClass: 'modal modal-large',
-  titleClass: 'modal-header-title text-align-center flush-top flush-bottom inverse',
+  titleClass: 'modal-header-title text-align-center flush-top flush-bottom',
 
   closeByBackdropClick: true,
   footer: null,
