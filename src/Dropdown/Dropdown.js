@@ -13,7 +13,7 @@ export default class Dropdown extends React.Component {
     super();
     this.state = {
       isOpen: false,
-      selectedID: ''
+      selectedID: null
     };
     methodsToBind.forEach((method) => {
       this[method] = this[method].bind(this);
