@@ -1,231 +1,41 @@
 import React from 'react/addons';
-import GeminiScrollbar from 'react-gemini-scrollbar';
 
-import * as Util from '../Util/Util';
+import ModalPortal from './ModalPortal';
 
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
-
+// Lifecycle of a Modal:
+// initial page load -> empty CSSTransitionGroup div will be on root of page
+// interaction changes open to true -> render modal content without scrollbars
+// get height of content -> rerender modal content and cap the height
 export default class Modal extends React.Component {
   constructor() {
     super();
-
-    METHODS_TO_BIND.forEach(function (method) {
-      this[method] = this[method].bind(this);
-    }, this);
   }
 
-  // Lifecycle of a Modal:
-  // initial page load -> empty CSSTransitionGroup div will be on root of page
-  // interaction changes open to true -> render modal content without scrollbars
-  // get height of content -> rerender modal content and cap the height
-
-  componentDidUpdate() {
-    // We need this in order to listen to the `open` prop change,
-    // then we'll render the modal according to whether it's true
-    // or false.
-    this.renderModal();
-  }
-
-  componentWillMount() {
-    // For initial mount, we need to call this to have the CSSTransitionGroup
-    // on the page. There will be nothing inside of it because the modal will
-    // be closed.
-    this.renderModal();
-
-    window.addEventListener('resize', this.handleWindowResize);
+  componentDidMount() {
+    this.node = document.createElement('div');
+    document.body.appendChild(this.node);
+    this.renderModal(this.props);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleWindowResize);
+    React.unmountComponentAtNode(this.node);
+    document.body.removeChild(this.node);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.open !== this.props.open;
+  componentWillReceiveProps(newProps) {
+    this.renderModal(newProps);
   }
 
-  handleBackdropClick() {
-    if (this.props.closeByBackdropClick) {
-      this.closeModal();
-    }
-  }
-
-  handleWindowResize() {
-    // Render the modal again if the window resizes because the height
-    // of the viewport may change and we need to adapt to that.
-    this.renderModal();
-  }
-
-  closeModal() {
-    if (this.rootEl) {
-      this.rerendered = false;
-      this.props.onClose();
-    }
-  }
-
-  getInnerContainerHeightInfo() {
-    // We have to search the DOM for this since we went outside of React
-    // for the render.
-    let innerContainer = document.getElementById('modal-inner-container');
-    if (!innerContainer) {
-      return null;
-    }
-
-    let originalHeight = innerContainer.offsetHeight;
-
-    // Height without padding, margin, border.
-    let innerHeight = Util.getComputedDimensions(innerContainer).height;
-
-    // Height of padding, margin, border.
-    let outerHeight = originalHeight - innerHeight;
-
-    // Modal cannot be bigger than this height.
-    let maxHeight = window.innerHeight * this.props.maxHeightPercentage;
-
-    return {
-      // Add 10 for the gemini horizontal scrollbar
-      maxHeight: Math.min(originalHeight, maxHeight + 10),
-
-      // We minus the maxHeight with the outerHeight because it will
-      // not show the content correctly due to 'box-sizing: border-box'.
-      innerHeight: Math.min(innerHeight, maxHeight - outerHeight)
-    };
-  }
-
-  getCloseButton() {
-    if (!this.props.showCloseButton) {
-      return null;
-    }
-
-    return (
-      <a
-        className={this.props.closeButtonClass}
-        onClick={this.closeModal}>
-        <span className={this.props.closeTitleClass}>
-          Close
-        </span>
-        <i className={this.props.closeIconClass}>x</i>
-      </a>
-    );
-  }
-
-  getFooter() {
-    if (this.props.showFooter === false) {
-      return null;
-    }
-
-    return (
-      <div className={this.props.footerClass}>
-        <div className={this.props.footerContainerClass}>
-          {this.props.footer}
-        </div>
-      </div>
-    );
-  }
-
-  getModalContent(useScrollbar, innerHeight) {
-    if (!useScrollbar && !this.rerendered) {
-      return (
-        <div className="container-fluid">
-          {this.props.children}
-        </div>
-      );
-    }
-
-    let geminiContainerStyle = {
-      height: innerHeight
-    };
-
-    return (
-      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-        <div className="container-fluid">
-          {this.props.children}
-        </div>
-      </GeminiScrollbar>
-    );
-  }
-
-  getModal() {
-    if (!this.props.open) {
-      return null;
-    }
-
-    let heightInfo = this.getInnerContainerHeightInfo();
-    let maxHeight = null;
-    let innerHeight = null;
-    let useScrollbar = false;
-
-    if (heightInfo !== null) {
-      useScrollbar = true;
-      innerHeight = heightInfo.innerHeight;
-      maxHeight = heightInfo.maxHeight;
-    }
-
-    let modalStyle = {
-      height: maxHeight
-    };
-
-    let containerStyle = {
-      height: window.innerHeight
-    };
-
-    return (
-      <div
-        className={this.props.containerClass}
-        style={containerStyle}>
-        <div className={this.props.modalClass}>
-          {this.getCloseButton()}
-          <div className={this.props.headerClass}>
-            <div className={this.props.headerContainerClass}>
-              <h2 className={this.props.titleClass}>
-                {this.props.titleText}
-              </h2>
-              {this.props.subHeader}
-            </div>
-          </div>
-          <div className={this.props.bodyClass} style={modalStyle}>
-            <div id="modal-inner-container" className={this.props.innerBodyClass}>
-              {this.getModalContent(useScrollbar, innerHeight)}
-            </div>
-          </div>
-          {this.getFooter()}
-        </div>
-        <div className={this.props.backdropClass} onClick={this.handleBackdropClick}>
-        </div>
-      </div>
-    );
-  }
-
-  renderModal() {
-    let modal = (
-      <CSSTransitionGroup transitionAppear={true} transitionName="modal" component="section">
-        {this.getModal()}
-      </CSSTransitionGroup>
-    );
-
-    if (!this.rootEl) {
-      this.rootEl = document.createElement('div');
-      document.body.appendChild(this.rootEl);
-    }
-
+  renderModal(props) {
     React.render(
-      modal,
-      this.rootEl,
-      // We render once to compute the content height,
-      // then render again to have access to the content height.
-      function () {
-        if (!this.rerendered && this.props.open) {
-          this.rerendered = true;
-          this.renderModal();
-        }
-      }.bind(this)
+      <ModalPortal {...props}/>,
+      this.node
     );
   }
 
   render() {
     return null;
   }
-
 }
 
 Modal.defaultProps = {
