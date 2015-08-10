@@ -91,6 +91,10 @@ let Util = {
   },
 
   extend(object, source) {
+    if (source == null) {
+      return object;
+    }
+
     let props = Object.keys(source);
 
     object = Util.clone(object) || {};
