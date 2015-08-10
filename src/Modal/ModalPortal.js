@@ -16,7 +16,6 @@ export default class ModalPortal extends React.Component {
   }
 
   componentDidUpdate() {
-    // this.heightInfo = false;
     if (this.props.open) {
       this.checkHeight();
     }
@@ -44,16 +43,16 @@ export default class ModalPortal extends React.Component {
   handleWindowResize() {
     // Render the modal again if the window resizes because the height
     // of the viewport may change and we need to adapt to that.
-    // this.checkHeight();
     this.forceUpdate();
   }
 
   checkHeight() {
     this.heightInfo = this.getInnerContainerHeightInfo();
     let heightInfo = this.heightInfo;
+    let biggerThanMaxHeight = heightInfo.originalHeight > heightInfo.maxHeight;
 
-    if (heightInfo.originalHeight > heightInfo.maxHeight && this.props.open || !this.rerendered) {
-      // If content is bigger than the maxHeight, cap it.
+    // If content is bigger than the maxHeight, cap it.
+    if (biggerThanMaxHeight && this.props.open || !this.rerendered) {
       this.rerendered = true;
       this.forceUpdate();
     }
