@@ -133,46 +133,6 @@ class DropdownExample extends React.Component {
       }
     ];
 
-    var organizedList = [
-      {
-        className: 'dropdown-menu-header',
-        html: 'Foo',
-        id: 'foo',
-        selectedHtml: 'Foo'
-      },
-      {
-        html: 'Bar',
-        id: 'bar',
-        selectedHtml: 'Bar'
-      },
-      {
-        html: 'Baz',
-        id: 'baz',
-        selectedHtml: 'Baz'
-      },
-      {
-        html: 'Qux',
-        id: 'qux',
-        selectedHtml: 'Qux'
-      },
-      {
-        className: 'dropdown-menu-divider',
-        id: 'divider-a',
-        selectable: false
-      },
-      {
-        className: 'dropdown-menu-header',
-        html: 'Corge',
-        id: 'corge',
-        selectable: false
-      },
-      {
-        html: 'Grault',
-        id: 'grault',
-        selectedHtml: 'Grault'
-      }
-    ];
-
     return (
       <div>
         <section className="row canvas-pod">
