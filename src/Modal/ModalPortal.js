@@ -207,7 +207,6 @@ export default class ModalPortal extends React.Component {
   }
 
   render() {
-    console.log(this.heightInfo);
     return (
       <CSSTransitionGroup transitionAppear={true} transitionName="modal" component="section">
         {this.getModal()}
