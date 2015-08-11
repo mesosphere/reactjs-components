@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 
-import * as Util from '../Util/Util';
+import * as DOMUtil from '../Util/DOMUtil';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
@@ -79,7 +79,7 @@ export default class ModalPortal extends React.Component {
     let originalHeight = innerContainer.getDOMNode().offsetHeight;
 
     // Height without padding, margin, border.
-    let innerHeight = Util.getComputedDimensions(innerContainer.getDOMNode()).height;
+    let innerHeight = DOMUtil.getComputedDimensions(innerContainer.getDOMNode()).height;
 
     // Height of padding, margin, border.
     let outerHeight = originalHeight - innerHeight;

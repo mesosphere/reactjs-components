@@ -58,21 +58,11 @@ Modal.defaultProps = {
   open: false,
   showCloseButton: false,
   showFooter: false,
-  subHeader: '',
+  subHeader: null,
   titleText: ''
 };
 
 Modal.propTypes = {
-  closeByBackdropClick: React.PropTypes.bool,
-  footer: React.PropTypes.object,
-  maxHeightPercentage: React.PropTypes.number,
-  onClose: React.PropTypes.func,
-  open: React.PropTypes.bool,
-  showCloseButton: React.PropTypes.bool,
-  showFooter: React.PropTypes.bool,
-  subHeader: React.PropTypes.node,
-  titleText: React.PropTypes.string,
-
   // Classes
   backdropClass: React.PropTypes.string,
   bodyClass: React.PropTypes.string,
@@ -86,5 +76,15 @@ Modal.propTypes = {
   headerContainerClass: React.PropTypes.string,
   innerBodyClass: React.PropTypes.string,
   modalClass: React.PropTypes.string,
-  titleClass: React.PropTypes.string
+  titleClass: React.PropTypes.string,
+
+  closeByBackdropClick: React.PropTypes.bool,
+  footer: React.PropTypes.object,
+  maxHeightPercentage: React.PropTypes.number,
+  onClose: React.PropTypes.func,
+  open: React.PropTypes.bool,
+  showCloseButton: React.PropTypes.bool,
+  showFooter: React.PropTypes.bool,
+  subHeader: React.PropTypes.node,
+  titleText: React.PropTypes.string
 };
