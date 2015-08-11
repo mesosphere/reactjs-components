@@ -15,8 +15,16 @@
   position: relative;
   margin: 0;
 
+  .container-scrollable {
+    overflow: scroll;
+  }
+
   .modal-content {
     border-radius: 0;
+
+    pre {
+      overflow: visible;
+    }
   }
 
   > :last-child {
@@ -45,7 +53,7 @@
 
 .modal-backdrop {
   cursor: default;
-  
+
   // Since the backdrop will be inside of the modal-container now,
   // and the container transitions by moving 25% above bottom,
   // this will ensure that the backdrop doesn't get cut off.

@@ -49,6 +49,7 @@ export default class ModalPortal extends React.Component {
   checkHeight() {
     this.heightInfo = this.getInnerContainerHeightInfo();
     let heightInfo = this.heightInfo;
+
     let biggerThanMaxHeight = heightInfo.originalHeight > heightInfo.maxHeight;
 
     // If content is bigger than the maxHeight, cap it.
@@ -85,7 +86,9 @@ export default class ModalPortal extends React.Component {
     let outerHeight = originalHeight - innerHeight;
 
     // Modal cannot be bigger than this height.
-    let maxHeight = window.innerHeight * this.props.maxHeightPercentage + 10;
+    let maxHeight = Math.ceil(
+      window.innerHeight * this.props.maxHeightPercentage
+    );
 
     return {
       // Add 10 for the gemini horizontal scrollbar

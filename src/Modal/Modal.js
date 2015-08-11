@@ -38,7 +38,7 @@ Modal.defaultProps = {
   // Default classes for each of the sections in the Modal.
   // This basically defaults to canvas UI classes.
   backdropClass: 'fade in modal-backdrop',
-  bodyClass: 'modal-content container-scrollable',
+  bodyClass: 'modal-content',
   closeButtonClass: 'modal-close',
   closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
   closeTitleClass: 'modal-close-title',

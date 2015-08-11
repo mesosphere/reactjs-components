@@ -89,7 +89,7 @@ class ModalExample extends React.Component {
               </button>
             </div>
             <div className="column-6">
-              <h4 className="inverse">Short content - with footer</h4>
+              <h4 className="inverse">Horizontal content - with footer</h4>
               <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '2')}>
                 {"Open Modal"}
               </button>
@@ -141,9 +141,9 @@ class ModalExample extends React.Component {
             titleText="Modal #2">
             <div>
               <h3 className="text-align-center">This is a short modal</h3>
-              <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
-              </div>
+              <pre className="container-pod">
+                {`Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor`}
+              </pre>
             </div>
           </Modal>
           <Modal open={this.state.modal3Open}
