@@ -3,21 +3,13 @@ import React from 'react';
 import Modal from '../../../src/Modal/Modal.js';
 
 const METHODS_TO_BIND = [
-  'openModal1',
-  'closeModal1',
-  'openModal2',
-  'closeModal2',
-  'openModal3',
-  'closeModal3',
-  'openModal4',
-  'closeModal4'
+  'handleModalOpen',
+  'handleModalClose'
 ];
 class ModalExample extends React.Component {
   constructor() {
     super();
-    this.state = {
-      open: false
-    };
+
     METHODS_TO_BIND.forEach(function (method) {
       this[method] = this[method].bind(this);
     }, this);
@@ -41,7 +33,6 @@ class ModalExample extends React.Component {
 
   closeModal2() {
     this.setState({modal2Open: false});
-
   }
 
   openModal3() {
@@ -58,6 +49,14 @@ class ModalExample extends React.Component {
 
   closeModal4() {
     this.setState({modal4Open: false});
+  }
+
+  handleModalOpen(id) {
+    this['openModal' + id]();
+  }
+
+  handleModalClose(id) {
+    this['closeModal' + id]();
   }
 
   getModalFooter() {
@@ -84,13 +83,13 @@ class ModalExample extends React.Component {
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Long content</h4>
-              <button className="button button-inverse" onClick={this.openModal1}>
+              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '1')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
               <h4 className="inverse">Short content - with footer</h4>
-              <button className="button button-inverse" onClick={this.openModal2}>
+              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '2')}>
                 {"Open Modal"}
               </button>
             </div>
@@ -98,20 +97,20 @@ class ModalExample extends React.Component {
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Close button on - backdrop close off</h4>
-              <button className="button button-inverse" onClick={this.openModal3}>
+              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '3')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
               <h4 className="inverse">Inverse style - small max height - with subheader</h4>
-              <button className="button button-inverse" onClick={this.openModal4}>
+              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '4')}>
                 {"Open Modal"}
               </button>
             </div>
           </section>
 
           <Modal open={this.state.modal1Open}
-            onClose={this.closeModal1}
+            onClose={this.handleModalClose.bind(this, '1')}
             showFooter={false}
             size="large"
             titleText="Modal #1">
@@ -135,7 +134,7 @@ class ModalExample extends React.Component {
           </Modal>
           <Modal open={this.state.modal2Open}
             footer={this.getModalFooter()}
-            onClose={this.closeModal2}
+            onClose={this.handleModalClose.bind(this, '2')}
             showFooter={true}
             size="large"
             titleText="Modal #2">
@@ -147,7 +146,7 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal3Open}
-            onClose={this.closeModal3}
+            onClose={this.handleModalClose.bind(this, '3')}
             footer={this.getModalFooter()}
             titleText="Modal #3"
             showFooter={true}
@@ -178,7 +177,7 @@ class ModalExample extends React.Component {
             modalClass="modal modal-large inverse"
             titleClass="inverse modal-header-title text-align-center flush-top flush-bottom"
             maxHeightPercentage={0.3}
-            onClose={this.closeModal4}
+            onClose={this.handleModalClose.bind(this, '4')}
             showFooter={false}
             size="large"
             subHeader={this.getModalSubheader()}
