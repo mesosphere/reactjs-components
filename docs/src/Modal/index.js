@@ -9,6 +9,7 @@ const METHODS_TO_BIND = [
 class ModalExample extends React.Component {
   constructor() {
     super();
+    this.state = {};
 
     METHODS_TO_BIND.forEach(function (method) {
       this[method] = this[method].bind(this);
