@@ -77,7 +77,7 @@ class DropdownExample extends React.Component {
         html:
           <span>
             <em>
-              Quz
+              Qux
               <sup>3</sup>
             </em>
           </span>,
@@ -85,7 +85,7 @@ class DropdownExample extends React.Component {
         selectedHtml:
           <span>
             <em>
-              Quz
+              Qux
               <sup>3</sup>
             </em>
           </span>
@@ -130,6 +130,29 @@ class DropdownExample extends React.Component {
         html: 'Grault',
         id: 'grault',
         selectedHtml: 'Grault'
+      }
+    ];
+
+    var variedDisplayText = [
+      {
+        html: 'Foo',
+        id: 'foo',
+        selectedHtml: 'You have selected Foo.'
+      },
+      {
+        html: 'Bar',
+        id: 'bar',
+        selectedHtml: 'You have selected Bar.'
+      },
+      {
+        html: 'Baz',
+        id: 'baz',
+        selectedHtml: 'You have selected Baz.'
+      },
+      {
+        html: 'Qux',
+        id: 'qux',
+        selectedHtml: 'You have selected Qux.'
       }
     ];
 
@@ -178,6 +201,21 @@ class DropdownExample extends React.Component {
                   dropdownMenuListClassName="dropdown-menu-list"
                   items={dividedList}
                   selectedID="bar"
+                  transition={true}
+                  wrapperClassName="dropdown" />
+              </div>
+            </div>
+            <div className="row">
+              <div className="column-6 column-overflow">
+                <p>
+                  Here is a dropdown with items whose selected value
+                  differs from its display value.
+                </p>
+                <Dropdown buttonClassName="button dropdown-toggle"
+                  dropdownMenuClassName="dropdown-menu"
+                  dropdownMenuListClassName="dropdown-menu-list"
+                  items={variedDisplayText}
+                  selectedID="foo"
                   transition={true}
                   wrapperClassName="dropdown" />
               </div>
