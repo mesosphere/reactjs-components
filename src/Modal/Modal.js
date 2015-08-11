@@ -7,10 +7,6 @@ import ModalPortal from './ModalPortal';
 // interaction changes open to true -> render modal content without scrollbars
 // get height of content -> rerender modal content and cap the height
 export default class Modal extends React.Component {
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
     this.node = document.createElement('div');
     document.body.appendChild(this.node);
