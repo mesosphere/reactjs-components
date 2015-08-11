@@ -133,7 +133,7 @@ export default class ModalPortal extends React.Component {
   getModalContent(useScrollbar, innerHeight) {
     if (!useScrollbar) {
       return (
-        <div className="container-fluid">
+        <div className="container container-fluid container-fluid-narrow">
           {this.props.children}
         </div>
       );
@@ -145,7 +145,7 @@ export default class ModalPortal extends React.Component {
 
     return (
       <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-        <div className="container-fluid">
+        <div className="container container-fluid container-fluid-narrow">
           {this.props.children}
         </div>
       </GeminiScrollbar>
