@@ -1,6 +1,40 @@
 import React from 'react/addons';
 
 import ModalPortal from './ModalPortal';
+import Util from '../Util/Util';
+
+// Default classes for each of the sections in the Modal.
+// This basically defaults to canvas UI classes.
+const DEFAULT_CLASSES = {
+  backdropClass: 'fade in modal-backdrop',
+  bodyClass: 'modal-content',
+  closeButtonClass: 'modal-close',
+  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
+  closeTitleClass: 'modal-close-title',
+  containerClass: 'modal-container',
+  footerClass: 'modal-footer',
+  footerContainerClass: 'container container-pod container-pod-short',
+  headerClass: 'modal-header',
+  headerContainerClass: 'container container-pod container-pod-short',
+  innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
+  modalClass: 'modal modal-large',
+  titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
+};
+
+let mergeClasses = function (props) {
+  let defaultClassKeys = Object.keys(DEFAULT_CLASSES);
+  let newProps = Util.extend({}, props);
+
+  defaultClassKeys.forEach(function (key) {
+    if (newProps[key]) {
+      newProps[key] = DEFAULT_CLASSES[key] + ' ' + newProps[key];
+    } else {
+      newProps[key] = DEFAULT_CLASSES[key];
+    }
+  });
+
+  return newProps;
+};
 
 // Lifecycle of a Modal:
 // initial page load -> empty CSSTransitionGroup div will be on root of page
@@ -23,6 +57,7 @@ export default class Modal extends React.Component {
   }
 
   renderModal(props) {
+    mergeClasses(props);
     React.render(
       <ModalPortal {...props}/>,
       this.node
@@ -35,22 +70,6 @@ export default class Modal extends React.Component {
 }
 
 Modal.defaultProps = {
-  // Default classes for each of the sections in the Modal.
-  // This basically defaults to canvas UI classes.
-  backdropClass: 'fade in modal-backdrop',
-  bodyClass: 'modal-content',
-  closeButtonClass: 'modal-close',
-  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
-  closeTitleClass: 'modal-close-title',
-  containerClass: 'modal-container',
-  footerClass: 'modal-footer',
-  footerContainerClass: 'container container-pod container-pod-short',
-  headerClass: 'modal-header',
-  headerContainerClass: 'container container-pod container-pod-short',
-  innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
-  modalClass: 'modal modal-large',
-  titleClass: 'modal-header-title text-align-center flush-top flush-bottom',
-
   closeByBackdropClick: true,
   footer: null,
   maxHeightPercentage: 0.5,

@@ -18,46 +18,18 @@ class ModalExample extends React.Component {
 
   // In order to use a modal, have an interaction that changes
   // `open` to true.
-  openModal1() {
-    this.setState({modal1Open: true});
+  handleModalOpen(id) {
+    let state = {};
+    state['modal' + id + 'Open'] = true;
+    this.setState(state);
   }
 
   // Pass the modal a function that will allow itself to close, by
   // setting `open` to false.
-  closeModal1() {
-    this.setState({modal1Open: false});
-  }
-
-  openModal2() {
-    this.setState({modal2Open: true});
-  }
-
-  closeModal2() {
-    this.setState({modal2Open: false});
-  }
-
-  openModal3() {
-    this.setState({modal3Open: true});
-  }
-
-  closeModal3() {
-    this.setState({modal3Open: false});
-  }
-
-  openModal4() {
-    this.setState({modal4Open: true});
-  }
-
-  closeModal4() {
-    this.setState({modal4Open: false});
-  }
-
-  handleModalOpen(id) {
-    this['openModal' + id]();
-  }
-
   handleModalClose(id) {
-    this['closeModal' + id]();
+    let state = {};
+    state['modal' + id + 'Open'] = false;
+    this.setState(state);
   }
 
   getModalFooter() {
@@ -173,10 +145,10 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal4Open}
-            bodyClass="modal-content inverse container-scrollable"
-            headerClass="canvas-pod canvas-pod-light modal-header"
-            modalClass="modal modal-large inverse"
-            titleClass="inverse modal-header-title text-align-center flush-top flush-bottom"
+            bodyClass="inverse"
+            headerClass="canvas-pod canvas-pod-light"
+            modalClass="inverse"
+            titleClass="inverse"
             maxHeightPercentage={0.3}
             onClose={this.handleModalClose.bind(this, '4')}
             showFooter={false}
