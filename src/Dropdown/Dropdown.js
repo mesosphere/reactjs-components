@@ -133,17 +133,16 @@ export default class Dropdown extends React.Component {
     }
 
     return (
-      <span
-        className={wrapperClassSet}
+      <span className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}>
-          <button className={this.props.buttonClassName}
-            onClick={this.handleMenuToggle}
-            ref="button"
-            type="button">
-            {this.getSelectedHtml(this.state.selectedID, items)}
-          </button>
-          {dropdownMenu}
+        <button className={this.props.buttonClassName}
+          onClick={this.handleMenuToggle}
+          ref="button"
+          type="button">
+          {this.getSelectedHtml(this.state.selectedID, items)}
+        </button>
+        {dropdownMenu}
       </span>
     );
   }
