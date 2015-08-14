@@ -2,39 +2,7 @@ import React from 'react/addons';
 
 import ModalPortal from './ModalPortal';
 import Util from '../Util/Util';
-
-// Default classes for each of the sections in the Modal.
-// This basically defaults to canvas UI classes.
-const DEFAULT_CLASSES = {
-  backdropClass: 'fade in modal-backdrop',
-  bodyClass: 'modal-content',
-  closeButtonClass: 'modal-close',
-  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
-  closeTitleClass: 'modal-close-title',
-  containerClass: 'modal-container',
-  footerClass: 'modal-footer',
-  footerContainerClass: 'container container-pod container-pod-short',
-  headerClass: 'modal-header',
-  headerContainerClass: 'container container-pod container-pod-short',
-  innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
-  modalClass: 'modal modal-large',
-  titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
-};
-
-let mergeClasses = function (props) {
-  let defaultClassKeys = Object.keys(DEFAULT_CLASSES);
-  let newProps = Util.extend({}, props);
-
-  defaultClassKeys.forEach(function (key) {
-    if (newProps[key]) {
-      newProps[key] = DEFAULT_CLASSES[key] + ' ' + newProps[key];
-    } else {
-      newProps[key] = DEFAULT_CLASSES[key];
-    }
-  });
-
-  return newProps;
-};
+import DEFAULT_CLASSES from './DefaultModalClasses';
 
 // Lifecycle of a Modal:
 // initial page load -> empty CSSTransitionGroup div will be on root of page
@@ -42,25 +10,40 @@ let mergeClasses = function (props) {
 // get height of content -> rerender modal content and cap the height
 export default class Modal extends React.Component {
   componentDidMount() {
-    this.node = document.createElement('div');
-    document.body.appendChild(this.node);
+    this.nodeEl = document.createElement('div');
+    document.body.appendChild(this.nodeEl);
     this.renderModal(this.props);
   }
 
   componentWillUnmount() {
-    React.unmountComponentAtNode(this.node);
-    document.body.removeChild(this.node);
+    React.unmountComponentAtNode(this.nodeEl);
+    document.body.removeChild(this.nodeEl);
   }
 
   componentWillReceiveProps(newProps) {
     this.renderModal(newProps);
   }
 
+  addDefaultClasses(props) {
+    let defaultClassKeys = Object.keys(DEFAULT_CLASSES);
+    let newProps = Util.extend({}, props);
+
+    defaultClassKeys.forEach(function (key) {
+      if (newProps[key]) {
+        newProps[key] = DEFAULT_CLASSES[key] + ' ' + newProps[key];
+      } else {
+        newProps[key] = DEFAULT_CLASSES[key];
+      }
+    });
+
+    return newProps;
+  }
+
   renderModal(props) {
-    mergeClasses(props);
+    var newProps = this.addDefaultClasses(props);
     React.render(
-      <ModalPortal {...props}/>,
-      this.node
+      <ModalPortal {...newProps}/>,
+      this.nodeEl
     );
   }
 
