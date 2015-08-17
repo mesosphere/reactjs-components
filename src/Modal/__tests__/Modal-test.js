@@ -25,7 +25,7 @@ describe('Modal', function () {
           expect(mergedClasses[classProp]).toEqual(DEFAULT_CLASSES[classProp]);
         });
       });
-    })
+    });
 
     describe('user adds classes', function () {
       it('should combine user added classes with the default', function () {
