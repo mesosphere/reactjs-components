@@ -33,11 +33,7 @@ export default class Dropdown extends React.Component {
       return item.id === id;
     });
 
-    if (obj.selectedHtml != null) {
-      return obj.selectedHtml;
-    }
-
-    return obj.html;
+    return obj.selectedHtml || obj.html;
   }
 
   getMenuItems(items) {
