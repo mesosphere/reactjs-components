@@ -82,6 +82,8 @@ export default class Dropdown extends React.Component {
     var elID = React.findDOMNode(this).dataset.reactid;
     var currentEl = e.relatedTarget;
 
+    // If the blur event fired from within the current dropdown, then the menu
+    // needs to remain open. Otherwise it can safely be closed.
     if (currentEl && DOMUtil.closest(currentEl, `[data-reactid="${elID}"]`)) {
       return;
     }
