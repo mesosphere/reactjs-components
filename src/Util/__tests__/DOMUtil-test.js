@@ -1,6 +1,3 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
-
 jest.dontMock('../DOMUtil');
 
 var DOMUtil = require('../DOMUtil');
