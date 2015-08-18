@@ -40,6 +40,25 @@ describe('DOMUtil', function() {
       expect(match).toEqual(null);
     });
 
+    it('should should return the provided element when the provided element' +
+      'matches the selector AND has a parent element', function() {
+      var el = {
+        parentElement: {
+          id: 'something-fake',
+          matches: function () {
+            return false;
+          }
+        },
+        id: 'child-element',
+        matches: function () {
+          return true;
+        }
+      };
+      var match = DOMUtil.closest(el, '.fake-selector');
+
+      expect(match.id).toEqual('child-element');
+    });
+
   });
 
 });
