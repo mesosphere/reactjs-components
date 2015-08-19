@@ -1,0 +1,45 @@
+.gm-scrollbar {
+  border-radius: 4px;
+  bottom: 3px;
+  right: 3px;
+
+  &.-vertical {
+    top: 3px;
+    width: 8px;
+  }
+
+  &.-horizontal {
+    height: 8px;
+    left: 3px;
+  }
+
+  .thumb {
+    background-color: #333;
+    opacity: .6;
+
+    &:active,
+    &:hover {
+      background-color: #333;
+      opacity: .9;
+    }
+  }
+}
+
+.gm-scrollbar-container {
+  height: 100%;
+
+  &.inverse {
+
+    .gm-scrollbar {
+
+      .thumb {
+        background-color: #eee;
+
+        &:active,
+        &:hover {
+          background-color: #eee;
+        }  
+      }
+    }
+  }
+}

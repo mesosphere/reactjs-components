@@ -11,7 +11,7 @@ var dirs = {
     dist: docsDist,
     srcJS: docsSrc,
     distJS: docsDist,
-    srcCSS: docsFolder + '/**',
+    srcCSS: docsSrc + '/index.less',
     distCSS: docsDist + '/'
   }
 };
@@ -20,7 +20,7 @@ var files = {
   docs: {
     srcJS: dirs.docs.srcJS + '/**/*.js',
     distJS: dirs.docs.distJS + '/index.js',
-    srcCSS: dirs.docs.srcCSS + '/*.less',
+    srcCSS: dirs.docs.srcCSS,
     distCSS: dirs.docs.distCSS + '/index.css',
     srcHTML: dirs.docs.src + '/index.html',
     distHTML: dirs.docs.dist + '/index.html'

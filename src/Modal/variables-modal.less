@@ -1,0 +1,35 @@
+/* -----------------------------------------------------------------------------
+Screen Sizes
+----------------------------------------------------------------------------- */
+
+@screen-mini-enabled:                                                           true;
+@screen-mini:                                                                   480px;
+@screen-mini-max:                                                               (@screen-small - 1);
+
+@screen-small-enabled:                                                          true;
+@screen-small:                                                                  768px;
+@screen-small-max:                                                              (@screen-medium - 1);
+
+@screen-medium-enabled:                                                         true;
+@screen-medium:                                                                 992px;
+@screen-medium-max:                                                             (@screen-large - 1);
+
+@screen-large-enabled:                                                          true;
+@screen-large:                                                                  1400px;
+
+@screen-resolution-2x-enabled:                                                  true;
+@screen-resolution-3x-enabled:                                                  true;
+
+/* -----------------------------------------------------------------------------
+Modal Specific
+----------------------------------------------------------------------------- */
+
+@modal-width-screen-small: 500px;
+@modal-width-screen-medium: 500px;
+@modal-width-screen-large: 500px;
+@modal-inverse-text-color: @white;
+@modal-inverse-background-color: color-lighten(@neutral, -20);
+
+@modal-inverse-header-background-color: @canvas-pod-dark-background-color;
+@modal-inverse-content-background-color: color-lighten(@neutral, -20);
+@modal-inverse-footer-background-color: @canvas-pod-dark-background-color;

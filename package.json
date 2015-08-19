@@ -7,9 +7,11 @@
   "dependencies": {
     "babel": "^5.6.23",
     "body-parser": "^1.13.2",
-    "classnames": "^2.1.3",
     "canvas-ui-system": "^0.1.2",
-    "react": "^0.13.3"
+    "classnames": "^2.1.3",
+    "less-color-lighten": "0.0.1",
+    "react": "^0.13.3",
+    "react-gemini-scrollbar": "^1.1.1"
   },
   "devDependencies": {
     "babel-core": "^5.7.3",
@@ -33,6 +35,7 @@
     "gulp-util": "^3.0.6",
     "jest-cli": "^0.4.15",
     "node-libs-browser": "^0.5.2",
+    "npm-shrinkwrap": "^5.4.0",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.10.1"
   },
@@ -41,7 +44,8 @@
     "dist": "npm run clean && NODE_ENV='production' ./node_modules/.bin/gulp docs:dist",
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
-    "test": "jest"
+    "test": "jest",
+    "shrinkwrap": "npm-shrinkwrap"
   },
   "jest": {
     "globals": {
