@@ -16,7 +16,7 @@ describe('Util', function() {
     it('should not change any properties if passed a single argument', function () {
       var newObj = Util.extend(this.originalObj);
 
-      for (var key in newObj) {
+      for (var key in this.originalObj) {
         expect(newObj[key]).toEqual(this.originalObj[key]);
       }
     });
