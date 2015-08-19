@@ -90,22 +90,23 @@ let Util = {
     return copy;
   },
 
-  extend(object, source) {
-    if (source == null) {
-      return object;
-    }
-
-    let props = Object.keys(source);
-
+  extend(object, ...sources) {
     object = Util.clone(object) || {};
 
-    let index = -1,
-      length = props.length;
+    sources.forEach(function (source) {
+      if (source === null || typeof source != 'object') {
+        return;
+      }
+      let props = Object.keys(source);
+      let index = -1,
+        length = props.length;
 
-    while (++index < length) {
-      let key = props[index];
-      object[key] = source[key];
-    }
+      while (++index < length) {
+        let key = props[index];
+        object[key] = source[key];
+      }
+    });
+
     return object;
   },
 
