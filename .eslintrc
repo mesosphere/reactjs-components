@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  
+
   "ecmaFeatures": {
     "jsx": true,
     "modules": true
@@ -26,19 +26,21 @@
     "quotes": [2, "single"],
     "indent": [2, 2],
     "camelcase": [2, {"properties": "never"}],
-    // "camelcase": [2, {"properties": "always"}], This causes errors with mixin properties
-    "strict": [2, "never"], // <-- fix
+    "camelcase": [2, {"properties": "always"}],
+    "strict": [2, "global"],
     "no-mixed-spaces-and-tabs": 2,
     "no-trailing-spaces": [2, { "skipBlankLines": false }],
     "no-underscore-dangle": 0,
+    "no-unused-vars": 2,
+    "no-use-before-define": 0,
     "no-multiple-empty-lines": [2, {"max": 1}],
     "space-after-keywords": [2, "always"],
     "space-before-blocks": [2, "always"],
-    // "space-before-function-paren": [2, {
-    //   "anonymous": "always", "named": "never"
-    // }], TODO: DCOS-914
+    "space-before-function-paren": [2, {
+      "anonymous": "always", "named": "never"
+    }],
     "spaced-line-comment": [2, "always"],
-    // "max-len": [2, 80, 4], TODO: DCOS-914
+    "max-len": [2, 80, 4],
     "valid-jsdoc": [2, {
       "requireReturn": false,
       "requireParamDescription": false
@@ -54,7 +56,7 @@
     "react/no-did-update-set-state": 2,
     "react/no-multi-comp": 2,
     "react/prop-types": 0,
-    // "react/prop-types": 2, This causes errors with many
+    "react/prop-types": 2,
     "react/react-in-jsx-scope": 2,
     "react/self-closing-comp": 2,
     "react/wrap-multilines": 2
