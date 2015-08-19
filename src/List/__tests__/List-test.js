@@ -8,7 +8,7 @@ jest.dontMock('./fixtures/MockList');
 var MockList = require('./fixtures/MockList');
 var List = require('../List.js');
 
-describe('List', function() {
+describe('List', function () {
 
   beforeEach(function () {
     this.listTag = 'ul';
@@ -17,7 +17,7 @@ describe('List', function() {
     );
   });
 
-  it('should render whatever tag it receives in its attributes', function() {
+  it('should render whatever tag it receives in its attributes', function () {
     var ulElements = TestUtils.scryRenderedDOMComponentsWithTag(
       this.instance, this.listTag
     );
@@ -25,7 +25,7 @@ describe('List', function() {
     expect(ulElements.length).toEqual(1);
   });
 
-  it('should render only one element with the class list', function() {
+  it('should render only one element with the class list', function () {
     var listItems = TestUtils.scryRenderedDOMComponentsWithClass(
       this.instance, 'list'
     );
@@ -33,7 +33,7 @@ describe('List', function() {
     expect(listItems.length).toEqual(1);
   });
 
-  it('should render one row per top-level item in the list array', function() {
+  it('should render one row per top-level item in the list array', function () {
     var listItems = TestUtils.scryRenderedDOMComponentsWithClass(
       this.instance, 'my-custom-row-class'
     );

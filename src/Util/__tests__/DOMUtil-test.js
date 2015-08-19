@@ -2,12 +2,12 @@ jest.dontMock('../DOMUtil');
 
 var DOMUtil = require('../DOMUtil');
 
-describe('DOMUtil', function() {
+describe('DOMUtil', function () {
 
   describe('#closest', function () {
 
     it('should should return the parent element when provided a selector and ' +
-      'element where the element is a child of the selection', function() {
+      'element where the element is a child of the selection', function () {
       var el = {
         parentElement: {
           id: 'something-fake',
@@ -25,7 +25,7 @@ describe('DOMUtil', function() {
     });
 
     it('should should return null when provided a selector and element where ' +
-      'the element is not a child of the selection', function() {
+      'the element is not a child of the selection', function () {
       var el = {
         parentElement: null,
         matches: function () {
@@ -38,7 +38,7 @@ describe('DOMUtil', function() {
     });
 
     it('should should return the provided element when the provided element' +
-      'matches the selector AND has a parent element', function() {
+      'matches the selector AND has a parent element', function () {
       var el = {
         parentElement: {
           id: 'something-fake',

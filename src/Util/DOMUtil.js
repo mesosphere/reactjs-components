@@ -10,7 +10,7 @@ let computeInnerBound = (compstyle, acc, key) => {
 
 const DOMUtil = {
 
-  closest (el, selector) {
+  closest(el, selector) {
     var currentEl = el;
 
     while (currentEl.parentElement !== null) {
@@ -24,7 +24,7 @@ const DOMUtil = {
     return null;
   },
 
-  getPageHeight () {
+  getPageHeight() {
     var body = document.body;
     var html = document.documentElement;
 
@@ -37,7 +37,7 @@ const DOMUtil = {
     );
   },
 
-  getComputedDimensions (obj) {
+  getComputedDimensions(obj) {
     var compstyle;
     if (typeof window.getComputedStyle === 'undefined') {
       compstyle = obj.currentStyle;

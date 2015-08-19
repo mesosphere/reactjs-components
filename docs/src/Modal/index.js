@@ -6,6 +6,19 @@ const METHODS_TO_BIND = [
   'handleModalOpen',
   'handleModalClose'
 ];
+const LONG_TEXT = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. ' +
+  'Sed nisl dolor, finibus vel egestas et, scelerisque ' +
+  'placerat quam.Etiam purus mauris, tempor vel lorem vitae, ' +
+  'finibus semper tortor. Nulla nisi nisl, tempus vitae risus ' +
+  'ut, gravida elementum purus.Cras scelerisque quis velit at ' +
+  'aliquet. Aenean congue faucibus magna nec pellentesque. ' +
+  'Nulla facilisi. Etiam feugiat consequat metus, eget ' +
+  'consectetur erat sollicitudin in. Maecenas posuere lorem ' +
+  'lorem, eu porttitor leo fermentum at. Phasellus volutpat, ' +
+  'neque at faucibus dapibus, odio quam molestie lorem, vel ' +
+  'gravida lectus diam sit amet neque. Cras ultricies auctor ' +
+  'diam, a varius massa eleifend quis. Nulla nec rhoncus odio';
+
 class ModalExample extends React.Component {
   constructor() {
     super();
@@ -56,13 +69,17 @@ class ModalExample extends React.Component {
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Long content</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '1')}>
+              <button
+                className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '1')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
               <h4 className="inverse">Horizontal content - with footer</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '2')}>
+              <button
+                className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '2')}>
                 {"Open Modal"}
               </button>
             </div>
@@ -70,13 +87,19 @@ class ModalExample extends React.Component {
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Close button on - backdrop close off</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '3')}>
+              <button
+                className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '3')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
-              <h4 className="inverse">Inverse style - small max height - with subheader</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '4')}>
+              <h4 className="inverse">
+                Inverse style - small max height - with subheader
+              </h4>
+              <button
+                className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '4')}>
                 {"Open Modal"}
               </button>
             </div>
@@ -89,19 +112,19 @@ class ModalExample extends React.Component {
             titleText="Modal #1">
             <div>
               <div className="container-pod">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisl dolor, finibus vel egestas et, scelerisque placerat quam.Etiam purus mauris, tempor vel lorem vitae, finibus semper tortor. Nulla nisi nisl, tempus vitae risus ut, gravida elementum purus.Cras scelerisque quis velit at aliquet. Aenean congue faucibus magna nec pellentesque. Nulla facilisi. Etiam feugiat consequat metus,eget consectetur erat sollicitudin in. Maecenas posuere lorem lorem, eu porttitor leo fermentum at. Phasellus volutpat,neque at faucibus dapibus, odio quam molestie lorem, vel gravida lectus diam sit amet neque. Cras ultricies auctor diam,a varius massa eleifend quis. Nulla nec rhoncus odio
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
             </div>
           </Modal>
@@ -114,7 +137,7 @@ class ModalExample extends React.Component {
             <div>
               <h3 className="text-align-center">This is a short modal</h3>
               <pre className="container-pod">
-                {`Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor`}
+                {LONG_TEXT}
               </pre>
             </div>
           </Modal>
@@ -128,19 +151,19 @@ class ModalExample extends React.Component {
             size="large">
             <div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
               <div className="container-pod">
-                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                {LONG_TEXT}
               </div>
             </div>
           </Modal>
@@ -159,19 +182,19 @@ class ModalExample extends React.Component {
               <h3 className="text-align-center">This is a short modal</h3>
               <div>
                 <div className="container-pod">
-                  Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                  {LONG_TEXT}
                 </div>
                 <div className="container-pod">
-                  Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                  {LONG_TEXT}
                 </div>
                 <div className="container-pod">
-                  Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                  {LONG_TEXT}
                 </div>
                 <div className="container-pod">
-                  Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                  {LONG_TEXT}
                 </div>
                 <div className="container-pod">
-                  Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+                  {LONG_TEXT}
                 </div>
               </div>
             </div>
