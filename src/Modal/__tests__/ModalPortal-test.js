@@ -31,7 +31,10 @@ describe('ModalPortal', function () {
     beforeEach(function () {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
-        <ModalPortal onClose={this.onClose} open={true} closeByBackdropClick={true}/>
+        <ModalPortal
+          onClose={this.onClose}
+          open={true}
+          closeByBackdropClick={true}/>
       );
     });
 
@@ -50,16 +53,18 @@ describe('ModalPortal', function () {
         expect(this.onClose).toHaveBeenCalled();
       });
 
-      it('should not call onClose if closeByBackdropClick is false', function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalPortal onClose={this.onClose}
-            open={true}
-            closeByBackdropClick={false} />
-        );
+      it('should not call onClose if closeByBackdropClick is false',
+        function () {
+          var instance = TestUtils.renderIntoDocument(
+            <ModalPortal onClose={this.onClose}
+              open={true}
+              closeByBackdropClick={false} />
+          );
 
-        instance.handleBackdropClick();
-        expect(this.onClose).not.toHaveBeenCalled();
-      });
+          instance.handleBackdropClick();
+          expect(this.onClose).not.toHaveBeenCalled();
+        }
+      );
     });
   });
 

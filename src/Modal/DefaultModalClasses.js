@@ -11,7 +11,8 @@ const DEFAULT_CLASSES = {
   footerContainerClass: 'container container-pod container-pod-short',
   headerClass: 'modal-header',
   headerContainerClass: 'container container-pod container-pod-short',
-  innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
+  innerBodyClass:
+    'modal-content-inner container container-pod container-pod-short',
   modalClass: 'modal modal-large',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };

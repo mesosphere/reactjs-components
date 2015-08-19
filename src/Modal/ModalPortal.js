@@ -4,7 +4,11 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import * as DOMUtil from '../Util/DOMUtil';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
+const METHODS_TO_BIND = [
+  'handleWindowResize',
+  'handleBackdropClick',
+  'closeModal'
+];
 
 export default class ModalPortal extends React.Component {
   constructor() {
@@ -80,7 +84,9 @@ export default class ModalPortal extends React.Component {
     let originalHeight = innerContainer.getDOMNode().offsetHeight;
 
     // Height without padding, margin, border.
-    let innerHeight = DOMUtil.getComputedDimensions(innerContainer.getDOMNode()).height;
+    let innerHeight = DOMUtil.getComputedDimensions(
+      innerContainer.getDOMNode()
+    ).height;
 
     // Height of padding, margin, border.
     let outerHeight = originalHeight - innerHeight;
@@ -147,7 +153,10 @@ export default class ModalPortal extends React.Component {
     };
 
     return (
-      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
+      <GeminiScrollbar
+        autoshow={true}
+        className="container-scrollable"
+        style={geminiContainerStyle}>
         <div className="container container-fluid container-fluid-narrow">
           {this.props.children}
         </div>
@@ -202,7 +211,9 @@ export default class ModalPortal extends React.Component {
           </div>
           {this.getFooter()}
         </div>
-        <div className={this.props.backdropClass} onClick={this.handleBackdropClick}>
+        <div
+          className={this.props.backdropClass}
+          onClick={this.handleBackdropClick}>
         </div>
       </div>
     );
@@ -210,7 +221,10 @@ export default class ModalPortal extends React.Component {
 
   render() {
     return (
-      <CSSTransitionGroup transitionAppear={true} transitionName="modal" component="section">
+      <CSSTransitionGroup
+        transitionAppear={true}
+        transitionName="modal"
+        component="section">
         {this.getModal()}
       </CSSTransitionGroup>
     );
@@ -218,6 +232,7 @@ export default class ModalPortal extends React.Component {
 }
 
 ModalPortal.propTypes = {
+  children: React.PropTypes.node,
   closeByBackdropClick: React.PropTypes.bool,
   footer: React.PropTypes.object,
   maxHeightPercentage: React.PropTypes.number,

@@ -49,7 +49,8 @@ describe('Modal', function () {
           var defaultClass = DEFAULT_CLASSES[classProp];
           var userAdded = props[classProp];
 
-          expect(mergedClasses[classProp]).toEqual(defaultClass + ' ' + userAdded);
+          expect(mergedClasses[classProp])
+            .toEqual(defaultClass + ' ' + userAdded);
         });
       });
     });
