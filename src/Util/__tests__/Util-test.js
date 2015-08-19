@@ -44,6 +44,18 @@ describe('Util', function() {
       expect(newObj.a).toEqual('overrode prop');
       expect(newObj.b).toEqual('changed prop');
     });
-  });
 
+    it('should not do anything if not passed an obj', function () {
+      var string = 'string';
+      var func = function () {};
+      func['fakeProp'] = 'faked prop';
+      var nullVal = null;
+
+      var newObj = Util.extend(this.originalObj, string, func, nullVal);
+
+      for (var key in newObj) {
+        expect(newObj[key]).toEqual(this.originalObj[key]);
+      }
+    });
+  });
 });

@@ -94,17 +94,13 @@ let Util = {
     object = Util.clone(object) || {};
 
     sources.forEach(function (source) {
-      if (source === null || typeof source != 'object') {
+      if (toString.call(source) !== '[object Object]') {
         return;
       }
-      let props = Object.keys(source);
-      let index = -1,
-        length = props.length;
 
-      while (++index < length) {
-        let key = props[index];
+      Object.keys(source).forEach(function (key) {
         object[key] = source[key];
-      }
+      });
     });
 
     return object;
