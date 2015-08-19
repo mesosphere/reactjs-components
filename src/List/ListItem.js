@@ -33,6 +33,7 @@ ListItem.defaultProps = {
 
 ListItem.propTypes = {
   className: React.PropTypes.string,
+  children: React.PropTypes.node,
   attributes: React.PropTypes.object,
   tag: React.PropTypes.string
 };

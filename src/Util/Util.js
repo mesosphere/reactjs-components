@@ -73,8 +73,10 @@ let Util = {
   },
 
   isArguments(value) {
-    return Util.isObjectLike(value) && Util.isArrayLike(value) &&
-      hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+    return Util.isObjectLike(value) &&
+    Util.isArrayLike(value) &&
+      hasOwnProperty.call(value, 'callee') &&
+      !propertyIsEnumerable.call(value, 'callee');
   },
 
   clone(object) {
@@ -125,7 +127,9 @@ let Util = {
   },
 
   pick(object, props) {
-    return object === null ? {} : Util.basePick(object, Util.baseFlatten(props));
+    return object === null ?
+      {} :
+      Util.basePick(object, Util.baseFlatten(props));
   },
 
   sortBy(collection, sortProp) {
