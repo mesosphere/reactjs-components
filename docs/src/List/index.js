@@ -4,6 +4,22 @@ import List from '../../../src/List/List.js';
 
 class ListExample extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      itemAdded: false
+    };
+    ['handleToggleExtraItem'].forEach((method) => {
+      this[method] = this[method].bind(this);
+    }, this);
+  }
+
+  handleToggleExtraItem() {
+    this.setState({
+      itemAdded: !this.state.itemAdded
+    });
+  }
+
   getSimpleList() {
     // The List component expects an array of objects, each object describing
     // an item in the list. If the object contains the "value" property,
@@ -30,6 +46,10 @@ class ListExample extends React.Component {
         value: 'Vestibulum auctor dapibus neque.'
       }
     ];
+
+    if (this.state.itemAdded) {
+      simpleList.push({value: 'A wild transitioned list item appears.'});
+    }
 
     return simpleList;
   }
@@ -171,12 +191,32 @@ class ListExample extends React.Component {
   }
 
   render() {
+    var toggleText = 'Add item';
+
+    if (this.state.itemAdded) {
+      toggleText = 'Remove item';
+    }
+
     return (
       <div>
         <section className="row canvas-pod canvas-pod-light">
           <div className="container container-pod">
-            <h2>Here is a simple unordered list.</h2>
-            <List items={this.getSimpleList()} />
+            <div className="row row-flex row-flex-align-vertical-center">
+              <div className="column-9">
+                <h2>
+                  Here is a simple unordered list with transition.
+                </h2>
+              </div>
+              <div className="column-3 text-align-right">
+                <button className="button button-small button-primary button-stroke" onClick={this.handleToggleExtraItem}>
+                  {toggleText}
+                </button>
+              </div>
+            </div>
+            <List
+              items={this.getSimpleList()}
+              transition={true}
+              transitionName="list-item" />
           </div>
         </section>
         <section className="row canvas-pod">

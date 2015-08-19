@@ -1,7 +1,9 @@
-import React from 'react';
+import React from 'react/addons';
 import classNames from 'classnames';
 
 import ListItem from './ListItem';
+
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class List extends React.Component {
 
@@ -25,6 +27,14 @@ export default class List extends React.Component {
       }
 
     }, this);
+
+    if (this.props.transition) {
+      return (
+        <CSSTransitionGroup transitionName={this.props.transitionName}>
+          {items}
+        </CSSTransitionGroup>
+      );
+    }
 
     return items;
   }
