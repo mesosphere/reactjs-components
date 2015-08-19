@@ -216,8 +216,7 @@ export default class ModalContents extends React.Component {
           </div>
           {this.getFooter()}
         </div>
-        <div
-          className={props.backdropClass}
+        <div className={props.backdropClass}
           onClick={this.handleBackdropClick}>
         </div>
       </div>

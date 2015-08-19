@@ -31,7 +31,10 @@ describe('ModalContents', function () {
     beforeEach(function () {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
-        <ModalContents onClose={this.onClose} open={true} closeByBackdropClick={true}/>
+        <ModalPortal
+          onClose={this.onClose}
+          open={true}
+          closeByBackdropClick={true}/>
       );
     });
 
