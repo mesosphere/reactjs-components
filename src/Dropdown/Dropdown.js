@@ -159,6 +159,8 @@ Dropdown.propTypes = {
   dropdownMenuClassName: React.PropTypes.string,
   // Classname for the dropdown list wrapper.
   dropdownMenuListClassName: React.PropTypes.string,
+  // Classname for the dropdown list item.
+  dropdownMenuListItemClassName: React.PropTypes.string,
   // The items to display in the dropdown.
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
@@ -176,8 +178,8 @@ Dropdown.propTypes = {
       ]),
       // Whether or not the user can choose the item.
       selectable: React.PropTypes.bool,
-      // The HTML (or text) to display when the option is selected. If this is not
-      // provided, the value for the `html` property will be used.
+      // The HTML (or text) to display when the option is selected. If this is
+      // not provided, the value for the `html` property will be used.
       selectedHtml: React.PropTypes.oneOfType([
         React.PropTypes.string,
         React.PropTypes.object
