@@ -10,7 +10,7 @@ let computeInnerBound = (compstyle, acc, key) => {
 
 const DOMUtil = {
 
-  closest: function (el, selector) {
+  closest (el, selector) {
     var currentEl = el;
 
     while (currentEl.parentElement !== null) {
@@ -22,9 +22,9 @@ const DOMUtil = {
     }
 
     return null;
-  }
+  },
 
-  getPageHeight() {
+  getPageHeight () {
     var body = document.body;
     var html = document.documentElement;
 
@@ -65,7 +65,5 @@ const DOMUtil = {
     };
   }
 };
-
-
 
 export default DOMUtil;

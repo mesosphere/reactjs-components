@@ -50,9 +50,9 @@ class ModalExample extends React.Component {
 
   render() {
     return (
-      <div className="row canvas-pod canvas-pod-dark">
+      <div className="row canvas-pod canvas-pod-light">
         <div className="container container-pod">
-          <h2 className="inverse">Here are various modals.</h2>
+          <h2>Here are various modals.</h2>
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Long content</h4>

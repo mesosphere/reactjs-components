@@ -1,13 +1,3 @@
-let computeInnerBound = (compstyle, acc, key) => {
-  var val = parseInt(compstyle[key], 10);
-
-  if (isNaN(val)) {
-    return acc;
-  } else {
-    return acc - val;
-  }
-};
-
 let Util = {
   arrayPush(array, values) {
     let index = -1,
