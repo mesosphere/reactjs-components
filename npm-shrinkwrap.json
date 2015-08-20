@@ -415,8 +415,8 @@
       }
     },
     "canvas-ui-system": {
-      "version": "0.1.2",
-      "resolved": "https://registry.npmjs.org/canvas-ui-system/-/canvas-ui-system-0.1.2.tgz"
+      "version": "0.1.5",
+      "resolved": "http://registry.npmjs.org/canvas-ui-system/-/canvas-ui-system-0.1.5.tgz"
     },
     "classnames": {
       "version": "2.1.3",

@@ -8,9 +8,9 @@ const DEFAULT_CLASSES = {
   closeTitleClass: 'modal-close-title',
   containerClass: 'modal-container',
   footerClass: 'modal-footer',
-  footerContainerClass: 'container container-pod container-pod-short',
+  footerContainerClass: 'container container-pod container-pod-short flush-top flush-bottom',
   headerClass: 'modal-header',
-  headerContainerClass: 'container container-pod container-pod-short',
+  headerContainerClass: 'container container-pod container-pod-short flush-top flush-bottom',
   innerBodyClass: 'modal-content-inner container container-pod container-pod-short',
   modalClass: 'modal modal-large',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
