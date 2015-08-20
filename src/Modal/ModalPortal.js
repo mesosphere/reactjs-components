@@ -61,7 +61,7 @@ export default class ModalPortal extends React.Component {
 
   closeModal() {
     this.props.onClose();
-    this.heightInfo = false;
+    this.heightInfo = null;
     this.rerendered = false;
   }
 
