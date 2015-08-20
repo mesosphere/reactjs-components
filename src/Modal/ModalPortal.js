@@ -114,7 +114,7 @@ export default class ModalPortal extends React.Component {
         <span className={this.props.closeTitleClass}>
           Close
         </span>
-        <i className={this.props.closeIconClass}>x</i>
+        <i className={this.props.closeIconClass}></i>
       </a>
     );
   }
@@ -136,7 +136,7 @@ export default class ModalPortal extends React.Component {
   getModalContent(useScrollbar, innerHeight) {
     if (!useScrollbar) {
       return (
-        <div className="container container-fluid container-fluid-narrow">
+        <div>
           {this.props.children}
         </div>
       );
@@ -148,7 +148,7 @@ export default class ModalPortal extends React.Component {
 
     return (
       <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-        <div className="container container-fluid container-fluid-narrow">
+        <div>
           {this.props.children}
         </div>
       </GeminiScrollbar>

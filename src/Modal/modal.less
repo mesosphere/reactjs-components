@@ -12,8 +12,18 @@
 
 .modal {
   left: auto;
+  top: auto;
   margin: 0;
   position: relative;
+  background: inherit;
+
+  .modal-close {
+    position: absolute;
+  }
+
+  .modal-content-inner {
+    padding: @base-spacing-unit;
+  }
 
   .container-scrollable {
     overflow: scroll;
@@ -21,6 +31,7 @@
 
   .modal-content {
     border-radius: 0;
+    background-color: @body-background-color;
 
     pre {
       overflow: visible;
@@ -31,8 +42,12 @@
     border-radius: 0px 0px 10px 10px;
   }
 
+  .modal-header {
+    border-radius: 10px 10px 0px 0px;
+    background-color: @canvas-pod-light-background-color;
+  }
+
   &.inverse {
-    background-color: @modal-inverse-background-color;
     color: @modal-inverse-text-color;
 
     .modal-header {
@@ -78,14 +93,6 @@
     transform: translate(0, -25%);
     transition: transform .5s ease-in, opacity .5s ease-in;
   }
-}
-
-.icon.icon-mini.icon-mini-white.icon-close {
-  color: white;
-  font-size: 16px;
-  font-style: normal;
-  text-align: center;
-  top: 20px;
 }
 
 & when (@screen-mini-enabled) {
