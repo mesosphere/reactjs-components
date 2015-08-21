@@ -1,4 +1,5 @@
 import React from 'react/addons';
+
 let PropTypes = React.PropTypes;
 
 export default class Portal extends React.Component {
