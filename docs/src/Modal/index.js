@@ -50,7 +50,7 @@ class ModalExample extends React.Component {
 
   render() {
     return (
-      <div className="row canvas-pod canvas-pod-light">
+      <div className="row canvas-pod">
         <div className="container container-pod">
           <h2>Here are various modals.</h2>
           <section className="row canvas-pod">
@@ -145,10 +145,11 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal4Open}
-            bodyClass="inverse"
-            headerClass="canvas-pod canvas-pod-light"
-            modalClass="inverse"
-            titleClass="inverse"
+            bodyClass="modal-content inverse"
+            headerClass="modal-header canvas-pod canvas-pod-light"
+            modalClass="modal modal-large inverse"
+            titleClass={'modal-header-title text-align-center flush-top ' +
+              'flush-bottom inverse'}
             maxHeightPercentage={0.3}
             onClose={this.handleModalClose.bind(this, '4')}
             showFooter={false}
