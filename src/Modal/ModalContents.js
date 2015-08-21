@@ -103,7 +103,8 @@ export default class ModalContents extends React.Component {
     };
   }
 
-  getCloseButton(props) {
+  getCloseButton() {
+    let props = this.props;
     if (!props.showCloseButton) {
       return null;
     }
@@ -120,7 +121,9 @@ export default class ModalContents extends React.Component {
     );
   }
 
-  getFooter(props) {
+  getFooter() {
+    let props = this.props;
+
     if (props.showFooter === false) {
       return null;
     }
@@ -156,7 +159,9 @@ export default class ModalContents extends React.Component {
     );
   }
 
-  getModal(props) {
+  getModal() {
+    let props = this.props;
+
     if (!props.open) {
       return null;
     }
@@ -191,7 +196,7 @@ export default class ModalContents extends React.Component {
         className={props.containerClass}
         style={containerStyle}>
         <div className={props.modalClass}>
-          {this.getCloseButton(props)}
+          {this.getCloseButton()}
           <div className={props.headerClass}>
             <div className={props.headerContainerClass}>
               <h2 className={props.titleClass}>
@@ -205,7 +210,7 @@ export default class ModalContents extends React.Component {
               {this.getModalContent(useScrollbar, innerHeight)}
             </div>
           </div>
-          {this.getFooter(props)}
+          {this.getFooter()}
         </div>
         <div
           className={props.backdropClass}
@@ -221,7 +226,7 @@ export default class ModalContents extends React.Component {
         transitionAppear={true}
         transitionName="modal"
         component="div">
-        {this.getModal(this.props)}
+        {this.getModal()}
       </CSSTransitionGroup>
     );
   }
