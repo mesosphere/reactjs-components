@@ -13,7 +13,7 @@ const PropTypes = React.PropTypes;
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
 
-export default class Modal extends React.Component {
+export default class ModalContents extends React.Component {
   constructor() {
     super();
 
@@ -227,7 +227,7 @@ export default class Modal extends React.Component {
   }
 }
 
-Modal.defaultProps = {
+ModalContents.defaultProps = {
   closeByBackdropClick: true,
   footer: null,
   maxHeightPercentage: 0.5,
@@ -255,7 +255,7 @@ Modal.defaultProps = {
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };
 
-Modal.propTypes = {
+ModalContents.propTypes = {
   children: PropTypes.node,
   closeByBackdropClick: PropTypes.bool,
   footer: PropTypes.object,
