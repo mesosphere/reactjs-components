@@ -1,0 +1,696 @@
+.side-panel {
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: @side-panel-width;
+  height: 100%;
+
+  margin: 0px;
+  z-index: @z-index-side-panel + 1;
+  background-color: @side-panel-background-color;
+  #gradient > .vertical(@side-panel-background-gradient-color-top, @side-panel-background-gradient-color-bottom);
+  .border-radius(@side-panel-border-radius);
+  border-width: @side-panel-border-width;
+  border-top-width: @side-panel-border-top-width;
+  border-top-color: @side-panel-border-top-color;
+  border-right-width: @side-panel-border-right-width;
+  border-right-color: @side-panel-border-right-color;
+  border-bottom-width: @side-panel-border-bottom-width;
+  border-bottom-color: @side-panel-border-bottom-color;
+  border-left-width: @side-panel-border-left-width;
+  border-left-color: @side-panel-border-left-color;
+  .box-shadow(@side-panel-shadow);
+
+  &:hover,
+  &:focus,
+  &:active {
+
+    outline: 0;
+
+  }
+
+
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Container
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .container {
+
+    width: auto;
+    margin-left:  @side-panel-grid-container-gutter-width;
+    margin-right: @side-panel-grid-container-gutter-width;
+
+  }
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Row
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .row {
+
+    margin-left: -@side-panel-grid-gutter-width;
+    margin-right: -@side-panel-grid-gutter-width;
+
+    [class^="column-"] {
+
+      padding-left: @side-panel-grid-gutter-width;
+      padding-right: @side-panel-grid-gutter-width;
+
+    }
+
+  }
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Column Overflow
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .column-overflow {
+
+    margin-top: @side-panel-grid-container-gutter-width;
+
+    &.column-overflow-short {
+
+      margin-top: @side-panel-grid-container-gutter-width;
+
+    }
+
+    &.column-overflow-tall {
+
+      margin-top: @side-panel-grid-container-gutter-width;
+
+    }
+
+  }
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Side Panel Header
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .side-panel-header {
+
+    display: block;
+    position: relative;
+    z-index: @z-index-side-panel + 2;
+    background-color: @side-panel-header-background-color;
+    #gradient > .vertical(@side-panel-header-background-gradient-color-top, @side-panel-header-background-gradient-color-bottom);
+    border-width: @side-panel-header-border-width;
+    border-top-width: @side-panel-header-border-top-width;
+    border-top-color: @side-panel-header-border-top-color;
+    border-right-width: @side-panel-header-border-right-width;
+    border-right-color: @side-panel-header-border-right-color;
+    border-bottom-width: @side-panel-header-border-bottom-width;
+    border-bottom-color: @side-panel-header-border-bottom-color;
+    border-left-width: @side-panel-header-border-left-width;
+    border-left-color: @side-panel-header-border-left-color;
+    .box-shadow(@side-panel-header-shadow);
+    .border-radius(@side-panel-border-radius @side-panel-border-radius 0px 0px);
+
+    + .side-panel-content {
+
+      .box-shadow(@side-panel-content-shadow);
+      .border-top-left-radius(0px);
+      .border-top-right-radius(0px);
+
+    }
+
+  }
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Side Panel Content
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .side-panel-content {
+
+    .clearfix();
+    display: block;
+    position: relative;
+    z-index: @z-index-side-panel + 3;
+    background-color: @side-panel-content-background-color;
+    #gradient > .vertical(@side-panel-content-background-gradient-color-top, @side-panel-content-background-gradient-color-bottom);
+    border-width: @side-panel-content-border-width;
+    border-top-width: @side-panel-content-border-top-width;
+    border-top-color: @side-panel-content-border-top-color;
+    border-right-width: @side-panel-content-border-right-width;
+    border-right-color: @side-panel-content-border-right-color;
+    border-bottom-width: @side-panel-content-border-bottom-width;
+    border-bottom-color: @side-panel-content-border-bottom-color;
+    border-left-width: @side-panel-content-border-left-width;
+    border-left-color: @side-panel-content-border-left-color;
+    .border-radius(@side-panel-border-radius);
+
+    + .side-panel-footer {
+
+      .box-shadow(@side-panel-footer-shadow);
+
+    }
+
+  }
+
+
+
+
+
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Side Panel footer
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  .side-panel-footer {
+
+    display: block;
+    position: relative;
+    z-index: @z-index-side-panel + 4;
+    background-color: @side-panel-footer-background-color;
+    #gradient > .vertical(@side-panel-footer-background-gradient-color-top, @side-panel-footer-background-gradient-color-bottom);
+    border-width: @side-panel-footer-border-width;
+    border-top-width: @side-panel-footer-border-top-width;
+    border-top-color: @side-panel-footer-border-top-color;
+    border-right-width: @side-panel-footer-border-right-width;
+    border-right-color: @side-panel-footer-border-right-color;
+    border-bottom-width: @side-panel-footer-border-bottom-width;
+    border-bottom-color: @side-panel-footer-border-bottom-color;
+    border-left-width: @side-panel-footer-border-left-width;
+    border-left-color: @side-panel-footer-border-left-color;
+    .border-radius(0px 0px @side-panel-border-radius @side-panel-border-radius);
+
+  }
+
+}
+
+
+
+
+
+
+/* -----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+Side Panel Backdrop
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------------- */
+
+.side-panel-backdrop {
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  cursor: pointer;
+  z-index: @z-index-side-panel;
+  background-color: @side-panel-backdrop-background-color;
+}
+
+
+
+
+
+
+& when (@screen-mini-enabled) {
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Screen Size: Mini (@screen-mini) and above
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  @media (min-width: @screen-mini) {
+
+    /* -----------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+
+    Side Panel
+
+    --------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------- */
+
+    .side-panel {
+
+      right: 0;
+      width: @side-panel-width-screen-mini;
+      margin: 0px 0px 0px (-1 * @side-panel-width-screen-mini * 0.5);
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Container
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .container {
+
+        margin-left:  @side-panel-grid-container-gutter-width-screen-mini;
+        margin-right: @side-panel-grid-container-gutter-width-screen-mini;
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Row
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .row {
+
+        margin-left: -@side-panel-grid-gutter-width-screen-mini;
+        margin-right: -@side-panel-grid-gutter-width-screen-mini;
+
+        [class^="column-"] {
+
+          padding-left: @side-panel-grid-gutter-width-screen-mini;
+          padding-right: @side-panel-grid-gutter-width-screen-mini;
+
+        }
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Column Overflow
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .column-overflow {
+
+        &[class*="column-mini-"] {
+
+          margin-top: 0px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+& when (@screen-small-enabled) {
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Screen Size: Small (@screen-small) and above
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  @media (min-width: @screen-small) {
+
+    /* -----------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+
+    Side Panel
+
+    --------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------- */
+
+    .side-panel {
+
+      width: @side-panel-width-screen-small;
+      margin: 0px 0px 0px (-1 * @side-panel-width-screen-small * 0.5);
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Container
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .container {
+
+        margin-left:  @side-panel-grid-container-gutter-width-screen-small;
+        margin-right: @side-panel-grid-container-gutter-width-screen-small;
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Row
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .row {
+
+        margin-left: -@side-panel-grid-gutter-width-screen-small;
+        margin-right: -@side-panel-grid-gutter-width-screen-small;
+
+        [class^="column-"] {
+
+          padding-left: @side-panel-grid-gutter-width-screen-small;
+          padding-right: @side-panel-grid-gutter-width-screen-small;
+
+        }
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Column Overflow
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .column-overflow {
+
+        &[class*="column-small-"] {
+
+          margin-top: 0px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+& when (@screen-medium-enabled) {
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Screen Size: Medium (@screen-medium) and above
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  @media (min-width: @screen-medium) {
+
+    /* -----------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+
+    Side Panel
+
+    --------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------- */
+
+    .side-panel {
+
+      width: @side-panel-width-screen-medium;
+      margin: 0px 0px 0px (-1 * @side-panel-width-screen-medium * 0.5);
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Container
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .container {
+
+        margin-left:  @side-panel-grid-container-gutter-width-screen-medium;
+        margin-right: @side-panel-grid-container-gutter-width-screen-medium;
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Row
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .row {
+
+        margin-left: -@side-panel-grid-gutter-width-screen-medium;
+        margin-right: -@side-panel-grid-gutter-width-screen-medium;
+
+        [class^="column-"] {
+
+          padding-left: @side-panel-grid-gutter-width-screen-medium;
+          padding-right: @side-panel-grid-gutter-width-screen-medium;
+
+        }
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Column Overflow
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      [class^="column-"].column-overflow {
+
+        &[class^="column-medium-"] {
+
+          margin-top: 0px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+& when (@screen-large-enabled) {
+
+  /* -----------------------------------------------------------------------------
+  --------------------------------------------------------------------------------
+
+  Screen Size: large (@screen-large) and above
+
+  --------------------------------------------------------------------------------
+  ----------------------------------------------------------------------------- */
+
+  @media (min-width: @screen-large) {
+
+    /* -----------------------------------------------------------------------------
+    --------------------------------------------------------------------------------
+
+    Side Panel
+
+    --------------------------------------------------------------------------------
+    ----------------------------------------------------------------------------- */
+
+    .side-panel {
+
+      width: @side-panel-width-screen-large;
+      margin: 0px 0px 0px (-1 * @side-panel-width-screen-large * 0.5);
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Container
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .container {
+
+        margin-left:  @side-panel-grid-container-gutter-width-screen-large;
+        margin-right: @side-panel-grid-container-gutter-width-screen-large;
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Row
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      .row {
+
+        margin-left: -@side-panel-grid-gutter-width-screen-large;
+        margin-right: -@side-panel-grid-gutter-width-screen-large;
+
+        [class^="column-"] {
+
+          padding-left: @side-panel-grid-gutter-width-screen-large;
+          padding-right: @side-panel-grid-gutter-width-screen-large;
+
+        }
+
+      }
+
+
+
+
+
+
+      /* -----------------------------------------------------------------------------
+      --------------------------------------------------------------------------------
+
+      Column Overflow
+
+      --------------------------------------------------------------------------------
+      ----------------------------------------------------------------------------- */
+
+      [class^="column-"].column-overflow {
+
+        &[class^="column-large-"] {
+
+          margin-top: 0px;
+
+        }
+
+      }
+
+    }
+
+  }
+
+}
+
+.slide-left-enter {
+  transform: translate(100%, 0);
+  transition: transform .5s ease-in;
+
+  &.slide-left-enter-active {
+    transform: translate(0, 0);
+  }
+}
+
+
+.slide-left-leave {
+  transform: translate(0, 0);
+
+  &.slide-left-leave-active {
+    transform: translate(100%, 0);
+    transition: transform .5s ease-in;
+  }
+}
