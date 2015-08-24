@@ -9,9 +9,7 @@ class ListExample extends React.Component {
     this.state = {
       itemAdded: false
     };
-    ['handleToggleExtraItem'].forEach((method) => {
-      this[method] = this[method].bind(this);
-    }, this);
+    this.handleToggleExtraItem = this.handleToggleExtraItem.bind(this);
   }
 
   handleToggleExtraItem() {
@@ -191,7 +189,7 @@ class ListExample extends React.Component {
   }
 
   render() {
-    var toggleText = 'Add item';
+    let toggleText = 'Add item';
 
     if (this.state.itemAdded) {
       toggleText = 'Remove item';
@@ -208,7 +206,9 @@ class ListExample extends React.Component {
                 </h2>
               </div>
               <div className="column-3 text-align-right">
-                <button className="button button-small button-primary button-stroke" onClick={this.handleToggleExtraItem}>
+                <button
+                  className="button button-small button-primary button-stroke"
+                  onClick={this.handleToggleExtraItem}>
                   {toggleText}
                 </button>
               </div>
