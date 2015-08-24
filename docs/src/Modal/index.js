@@ -109,6 +109,7 @@ class ModalExample extends React.Component {
             footer={this.getModalFooter()}
             onClose={this.handleModalClose.bind(this, '2')}
             showFooter={true}
+            innerBodyClass="modal-content-inner container container-pod container-pod-short flex-container-row"
             size="large"
             titleText="Modal #2">
             <div>
