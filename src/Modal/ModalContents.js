@@ -10,7 +10,11 @@ import * as DOMUtil from '../Util/DOMUtil';
  * get height of content -> rerender modal content and cap the height
  */
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
+const METHODS_TO_BIND = [
+  'handleWindowResize',
+  'handleBackdropClick',
+  'closeModal'
+];
 
 export default class ModalContents extends React.Component {
   constructor() {
@@ -22,7 +26,9 @@ export default class ModalContents extends React.Component {
   }
 
   componentDidUpdate() {
-    this.checkHeight();
+    if (this.props.open) {
+      this.checkHeight();
+    }
   }
 
   componentWillMount() {
@@ -51,9 +57,9 @@ export default class ModalContents extends React.Component {
   }
 
   checkHeight() {
-    this.heightInfo = this.getInnerContainerHeightInfo();
     // Calculate height and call a render on first render cycle
-    if (this.props.open && !this.rerendered) {
+    this.heightInfo = this.getInnerContainerHeightInfo();
+    if (!this.rerendered) {
       this.rerendered = true;
       this.forceUpdate();
     }
@@ -80,7 +86,9 @@ export default class ModalContents extends React.Component {
     let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
 
     // Height without padding, margin, border.
-    let innerHeight = DOMUtil.getComputedDimensions(innerContainer.getDOMNode()).height;
+    let innerHeight = DOMUtil.getComputedDimensions(
+      innerContainer.getDOMNode()
+    ).height;
 
     // Height of padding, margin, border.
     let outerHeight = originalHeight - innerHeight;
@@ -138,11 +146,7 @@ export default class ModalContents extends React.Component {
 
   getModalContent(useScrollbar, innerHeight) {
     if (!useScrollbar) {
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      );
+      return this.props.children;
     }
 
     let geminiContainerStyle = {
@@ -150,10 +154,11 @@ export default class ModalContents extends React.Component {
     };
 
     return (
-      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-        <div>
-          {this.props.children}
-        </div>
+      <GeminiScrollbar
+        autoshow={true}
+        className="container-scrollable"
+        style={geminiContainerStyle}>
+        {this.props.children}
       </GeminiScrollbar>
     );
   }
@@ -253,8 +258,8 @@ ModalContents.defaultProps = {
   footerContainerClass: 'container container-pod container-pod-short',
   headerClass: 'modal-header',
   headerContainerClass: 'container container-pod container-pod-short',
-  innerBodyClass:
-    'modal-content-inner container container-pod container-pod-short flex-container-col',
+  innerBodyClass: 'modal-content-inner container container-pod ' +
+    'container-pod-short flex-container-col',
   modalClass: 'modal modal-large',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };
