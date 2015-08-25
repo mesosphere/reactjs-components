@@ -40,6 +40,7 @@ export default class Dropdown extends React.Component {
     return items.map((item) => {
       var classSet = classNames(
         {
+          'clickable': true,
           'is-selectable': item.selectable !== false,
           'is-selected': item.id === this.state.selectedID
         },
@@ -55,7 +56,9 @@ export default class Dropdown extends React.Component {
 
       return (
         <li className={classSet} key={item.id} onClick={handleUserClick}>
-          {item.html}
+          <a>
+            {item.html}
+          </a>
         </li>
       );
     }, this);
