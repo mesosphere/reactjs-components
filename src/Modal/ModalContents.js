@@ -51,9 +51,9 @@ export default class ModalContents extends React.Component {
   }
 
   checkHeight() {
+    this.heightInfo = this.getInnerContainerHeightInfo();
     // Calculate height and call a render on first render cycle
     if (this.props.open && !this.rerendered) {
-      this.heightInfo = this.getInnerContainerHeightInfo();
       this.rerendered = true;
       this.forceUpdate();
     }
