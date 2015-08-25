@@ -16,14 +16,14 @@ export default class SidePanel extends React.Component {
 
   componentDidUpdate() {
     if (this.props.open) {
-      this.checkHeight();
+      this.checkRerendered();
     } else {
       // Reset rerendered whenever we want to close
       this.rerendered = false;
     }
   }
 
-  checkHeight() {
+  checkRerendered() {
     // Trigger another render on first render cycle
     if (!this.rerendered) {
       this.rerendered = true;
