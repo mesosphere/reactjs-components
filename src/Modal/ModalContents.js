@@ -3,10 +3,20 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 
 import * as DOMUtil from '../Util/DOMUtil';
 
+/**
+ * Lifecycle of a Modal:
+ * initial page load -> empty CSSTransitionGroup
+ * interaction changes open to true -> render modal content without scrollbars
+ * get height of content -> rerender modal content and cap the height
+ */
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = ['handleWindowResize', 'handleBackdropClick', 'closeModal'];
+const METHODS_TO_BIND = [
+  'handleWindowResize',
+  'handleBackdropClick',
+  'closeModal'
+];
 
-export default class ModalPortal extends React.Component {
+export default class ModalContents extends React.Component {
   constructor() {
     super();
 
@@ -47,13 +57,9 @@ export default class ModalPortal extends React.Component {
   }
 
   checkHeight() {
+    // Calculate height and call a render on first render cycle
     this.heightInfo = this.getInnerContainerHeightInfo();
-    let heightInfo = this.heightInfo;
-
-    let biggerThanMaxHeight = heightInfo.originalHeight > heightInfo.maxHeight;
-
-    // If content is bigger than the maxHeight, cap it.
-    if (biggerThanMaxHeight && this.props.open || !this.rerendered) {
+    if (!this.rerendered) {
       this.rerendered = true;
       this.forceUpdate();
     }
@@ -72,15 +78,17 @@ export default class ModalPortal extends React.Component {
       maxHeight: null
     };
 
-    let innerContainer = this.refs['inner-container'];
+    let innerContainer = this.refs.innerContainer;
     if (!innerContainer) {
       return heightInfo;
     }
 
-    let originalHeight = innerContainer.getDOMNode().offsetHeight;
+    let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
 
     // Height without padding, margin, border.
-    let innerHeight = DOMUtil.getComputedDimensions(innerContainer.getDOMNode()).height;
+    let innerHeight = DOMUtil.getComputedDimensions(
+      innerContainer.getDOMNode()
+    ).height;
 
     // Height of padding, margin, border.
     let outerHeight = originalHeight - innerHeight;
@@ -103,31 +111,34 @@ export default class ModalPortal extends React.Component {
   }
 
   getCloseButton() {
-    if (!this.props.showCloseButton) {
+    let props = this.props;
+    if (!props.showCloseButton) {
       return null;
     }
 
     return (
       <a
-        className={this.props.closeButtonClass}
+        className={props.closeButtonClass}
         onClick={this.closeModal}>
-        <span className={this.props.closeTitleClass}>
+        <span className={props.closeTitleClass}>
           Close
         </span>
-        <i className={this.props.closeIconClass}></i>
+        <i className={props.closeIconClass}></i>
       </a>
     );
   }
 
   getFooter() {
-    if (this.props.showFooter === false) {
+    let props = this.props;
+
+    if (props.showFooter === false) {
       return null;
     }
 
     return (
-      <div className={this.props.footerClass}>
-        <div className={this.props.footerContainerClass}>
-          {this.props.footer}
+      <div className={props.footerClass}>
+        <div className={props.footerContainerClass}>
+          {props.footer}
         </div>
       </div>
     );
@@ -135,11 +146,7 @@ export default class ModalPortal extends React.Component {
 
   getModalContent(useScrollbar, innerHeight) {
     if (!useScrollbar) {
-      return (
-        <div>
-          {this.props.children}
-        </div>
-      );
+      return this.props.children;
     }
 
     let geminiContainerStyle = {
@@ -147,16 +154,19 @@ export default class ModalPortal extends React.Component {
     };
 
     return (
-      <GeminiScrollbar autoshow={true} className="container-scrollable" style={geminiContainerStyle}>
-        <div>
-          {this.props.children}
-        </div>
+      <GeminiScrollbar
+        autoshow={true}
+        className="container-scrollable"
+        style={geminiContainerStyle}>
+        {this.props.children}
       </GeminiScrollbar>
     );
   }
 
   getModal() {
-    if (!this.props.open) {
+    let props = this.props;
+
+    if (!props.open) {
       return null;
     }
 
@@ -172,10 +182,14 @@ export default class ModalPortal extends React.Component {
       maxHeight = heightInfo.maxHeight;
       originalHeight = heightInfo.originalHeight;
     }
-
     let modalStyle = {
       height: Math.min(originalHeight, maxHeight)
     };
+
+    // Default to auto height
+    if (modalStyle.height === 0) {
+      modalStyle.height = 'auto';
+    }
 
     let containerStyle = {
       height: window.innerHeight
@@ -183,26 +197,28 @@ export default class ModalPortal extends React.Component {
 
     return (
       <div
-        className={this.props.containerClass}
+        className={props.containerClass}
         style={containerStyle}>
-        <div className={this.props.modalClass}>
+        <div className={props.modalClass}>
           {this.getCloseButton()}
-          <div className={this.props.headerClass}>
-            <div className={this.props.headerContainerClass}>
-              <h2 className={this.props.titleClass}>
-                {this.props.titleText}
+          <div className={props.headerClass}>
+            <div className={props.headerContainerClass}>
+              <h2 className={props.titleClass}>
+                {props.titleText}
               </h2>
-              {this.props.subHeader}
+              {props.subHeader}
             </div>
           </div>
-          <div className={this.props.bodyClass} style={modalStyle}>
-            <div ref="inner-container" className={this.props.innerBodyClass}>
+          <div className={props.bodyClass} style={modalStyle}>
+            <div ref="innerContainer" className={props.innerBodyClass}>
               {this.getModalContent(useScrollbar, innerHeight)}
             </div>
           </div>
           {this.getFooter()}
         </div>
-        <div className={this.props.backdropClass} onClick={this.handleBackdropClick}>
+        <div
+          className={props.backdropClass}
+          onClick={this.handleBackdropClick}>
         </div>
       </div>
     );
@@ -210,14 +226,46 @@ export default class ModalPortal extends React.Component {
 
   render() {
     return (
-      <CSSTransitionGroup transitionAppear={true} transitionName="modal" component="section">
+      <CSSTransitionGroup
+        transitionAppear={true}
+        transitionName="modal"
+        component="div">
         {this.getModal()}
       </CSSTransitionGroup>
     );
   }
 }
 
-ModalPortal.propTypes = {
+ModalContents.defaultProps = {
+  closeByBackdropClick: true,
+  footer: null,
+  maxHeightPercentage: 0.5,
+  onClose: () => {},
+  open: false,
+  showCloseButton: false,
+  showFooter: false,
+  subHeader: null,
+  titleText: '',
+
+  // Classes
+  backdropClass: 'fade in modal-backdrop',
+  bodyClass: 'modal-content',
+  closeButtonClass: 'modal-close',
+  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
+  closeTitleClass: 'modal-close-title',
+  containerClass: 'modal-container',
+  footerClass: 'modal-footer',
+  footerContainerClass: 'container container-pod container-pod-short',
+  headerClass: 'modal-header',
+  headerContainerClass: 'container container-pod container-pod-short',
+  innerBodyClass: 'modal-content-inner container container-pod ' +
+    'container-pod-short flex-container-col',
+  modalClass: 'modal modal-large',
+  titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
+};
+
+ModalContents.propTypes = {
+  children: React.PropTypes.node,
   closeByBackdropClick: React.PropTypes.bool,
   footer: React.PropTypes.object,
   maxHeightPercentage: React.PropTypes.number,

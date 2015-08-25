@@ -50,19 +50,21 @@ class ModalExample extends React.Component {
 
   render() {
     return (
-      <div className="row canvas-pod canvas-pod-light">
+      <div className="row canvas-pod">
         <div className="container container-pod">
           <h2>Here are various modals.</h2>
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Long content</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '1')}>
+              <button className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '1')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
               <h4 className="inverse">Horizontal content - with footer</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '2')}>
+              <button className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '2')}>
                 {"Open Modal"}
               </button>
             </div>
@@ -70,13 +72,15 @@ class ModalExample extends React.Component {
           <section className="row canvas-pod">
             <div className="column-6">
               <h4 className="inverse">Close button on - backdrop close off</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '3')}>
+              <button className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '3')}>
                 {"Open Modal"}
               </button>
             </div>
             <div className="column-6">
               <h4 className="inverse">Inverse style - small max height - with subheader</h4>
-              <button className="button button-inverse" onClick={this.handleModalOpen.bind(this, '4')}>
+              <button className="button button-inverse"
+                onClick={this.handleModalOpen.bind(this, '4')}>
                 {"Open Modal"}
               </button>
             </div>
@@ -114,7 +118,7 @@ class ModalExample extends React.Component {
             <div>
               <h3 className="text-align-center">This is a short modal</h3>
               <pre className="container-pod">
-                {`Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor`}
+                Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
               </pre>
             </div>
           </Modal>
@@ -145,10 +149,11 @@ class ModalExample extends React.Component {
             </div>
           </Modal>
           <Modal open={this.state.modal4Open}
-            bodyClass="inverse"
-            headerClass="canvas-pod canvas-pod-light"
-            modalClass="inverse"
-            titleClass="inverse"
+            bodyClass="modal-content inverse"
+            headerClass="modal-header canvas-pod canvas-pod-light"
+            modalClass="modal modal-large inverse"
+            titleClass={'modal-header-title text-align-center flush-top ' +
+              'flush-bottom inverse'}
             maxHeightPercentage={0.3}
             onClose={this.handleModalClose.bind(this, '4')}
             showFooter={false}

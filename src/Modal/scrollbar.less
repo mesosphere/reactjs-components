@@ -38,8 +38,34 @@
         &:active,
         &:hover {
           background-color: #eee;
-        }  
+        }
       }
     }
+  }
+}
+
+.gm-scroll-view pre {
+  overflow: visible;
+}
+
+// Scrollable areas
+.flex-container-col {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.flex-container-row {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}
+
+.container-scrollable {
+  flex: 8;
+  overflow: auto;
+  > .gm-scrollbar-container {
+    height: 100%;
+    width: 100%;
   }
 }

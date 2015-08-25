@@ -1,17 +1,17 @@
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
-jest.dontMock('../ModalPortal');
+jest.dontMock('../ModalContents');
 jest.dontMock('../../Util/DOMUtil');
 
-var ModalPortal = require('../ModalPortal');
+var ModalContents = require('../ModalContents');
 
-describe('ModalPortal', function () {
+describe('ModalContents', function () {
 
   describe('#getModal', function () {
     it('should return null if modal is not open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal open={false} />
+        <ModalContents open={false} />
       );
 
       expect(instance.getModal()).toEqual(null);
@@ -19,7 +19,7 @@ describe('ModalPortal', function () {
 
     it('should return an element if modal is open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal open={true} />
+        <ModalContents open={true} />
       );
 
       var modal = instance.getModal();
@@ -31,7 +31,7 @@ describe('ModalPortal', function () {
     beforeEach(function () {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
-        <ModalPortal onClose={this.onClose} open={true} closeByBackdropClick={true}/>
+        <ModalContents onClose={this.onClose} open={true} closeByBackdropClick={true}/>
       );
     });
 
@@ -52,7 +52,7 @@ describe('ModalPortal', function () {
 
       it('should not call onClose if closeByBackdropClick is false', function () {
         var instance = TestUtils.renderIntoDocument(
-          <ModalPortal onClose={this.onClose}
+          <ModalContents onClose={this.onClose}
             open={true}
             closeByBackdropClick={false} />
         );
@@ -66,7 +66,7 @@ describe('ModalPortal', function () {
   describe('#getFooter', function () {
     it('should not return a footer if disabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal showFooter={false} />
+        <ModalContents showFooter={false} />
       );
 
       expect(instance.getFooter()).toEqual(null);
@@ -74,7 +74,7 @@ describe('ModalPortal', function () {
 
     it('should return a footer if enabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal showFooter={true} />
+        <ModalContents showFooter={true} />
       );
 
       var footer = instance.getFooter();
@@ -85,7 +85,7 @@ describe('ModalPortal', function () {
   describe('#getCloseButton', function () {
     it('should not return a button if disabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal showCloseButton={false} />
+        <ModalContents showCloseButton={false} />
       );
 
       expect(instance.getCloseButton()).toEqual(null);
@@ -93,7 +93,7 @@ describe('ModalPortal', function () {
 
     it('should return a button if enabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal showCloseButton={true} />
+        <ModalContents showCloseButton={true} />
       );
 
       var closeButton = instance.getCloseButton();
@@ -104,7 +104,7 @@ describe('ModalPortal', function () {
   describe('#handleWindowResize', function () {
     it('should call forceUpdate on resize', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalPortal open={true} />
+        <ModalContents open={true} />
       );
 
       instance.forceUpdate = jasmine.createSpy();
