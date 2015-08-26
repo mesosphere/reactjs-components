@@ -1,7 +1,7 @@
 import React from 'react/addons';
 
-import SidePanelContents from './SidePanelContents.js';
 import Portal from '../Portal/Portal.js';
+import SidePanelContents from './SidePanelContents.js';
 
 /**
  * Wrapper for the SidePanel, to put it inside of a Portal.

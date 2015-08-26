@@ -1,6 +1,6 @@
-import React from 'react/addons';
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
+import React from 'react/addons';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 const METHODS_TO_BIND = ['handleBackdropClick', 'closeSidePanel'];
@@ -117,7 +117,7 @@ export default class SidePanel extends React.Component {
           transitionAppear={true}
           transitionName="fade-in"
           component="div">
-            {this.getBackdrop()}
+          {this.getBackdrop()}
         </CSSTransitionGroup>
         <CSSTransitionGroup
           transitionAppear={true}
