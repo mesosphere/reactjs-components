@@ -14,20 +14,23 @@ export default class SidePanel extends React.Component {
     }, this);
   }
 
+  componentDidMount() {
+    this.checkRerendered();
+  }
+
   componentDidUpdate() {
-    if (this.props.open) {
-      this.checkRerendered();
-    } else {
-      // Reset rerendered whenever we want to close
-      this.rerendered = false;
-    }
+    this.checkRerendered();
   }
 
   checkRerendered() {
-    // Trigger another render on first render cycle
-    if (!this.rerendered) {
+    let open = this.props.open;
+    if (open && !this.rerendered) {
+      // Trigger another render on first render cycle
       this.rerendered = true;
       this.forceUpdate();
+    } else if (!open) {
+      // Reset rerendered whenever we want to close
+      this.rerendered = false;
     }
   }
 
