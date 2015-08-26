@@ -2,9 +2,7 @@
   "name": "reactjs-components",
   "version": "0.0.2",
   "description": "React UI Components by Mesosphere",
-  "author": {
-    "Mesosphere Web Team"
-  },
+  "author": "Mesosphere Web Team",
   "license": "Apache-2.0",
   "files": [
     "main.js",
