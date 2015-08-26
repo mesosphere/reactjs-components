@@ -1,17 +1,17 @@
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
-jest.dontMock('../SidePanel');
+jest.dontMock('../SidePanelContents');
 jest.dontMock('../../Util/DOMUtil');
 
-var SidePanel = require('../SidePanel');
+var SidePanelContents = require('../SidePanelContents');
 
-describe('SidePanel', function () {
+describe('SidePanelContents', function () {
 
   describe('#getContents', function () {
     it('should return null if side panel is not open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={false} />
+        <SidePanelContents open={false} />
       );
 
       var sidePanel = instance.getContents();
@@ -20,7 +20,7 @@ describe('SidePanel', function () {
 
     it('should return an element if side panel is open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={true} />
+        <SidePanelContents open={true} />
       );
 
       var sidePanel = instance.getContents();
@@ -31,7 +31,7 @@ describe('SidePanel', function () {
   describe('#getBackdrop', function () {
     it('should not return a backdrop if side panel is not open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={false} />
+        <SidePanelContents open={false} />
       );
 
       var backdrop = instance.getBackdrop();
@@ -40,7 +40,7 @@ describe('SidePanel', function () {
 
     it('should return a backdrop element if side panel is open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={true} />
+        <SidePanelContents open={true} />
       );
 
       var backdrop = instance.getBackdrop();
@@ -51,7 +51,7 @@ describe('SidePanel', function () {
   describe('#getHeader', function () {
     it('should return null if side panel is not open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={true} />
+        <SidePanelContents open={true} />
       );
 
       var header = instance.getHeader();
@@ -60,7 +60,7 @@ describe('SidePanel', function () {
 
     it('should return an element if side panel is open', function () {
       var instance = TestUtils.renderIntoDocument(
-        <SidePanel open={true} header={<p>Foo</p>} />
+        <SidePanelContents open={true} header={<p>Foo</p>} />
       );
 
       var header = instance.getHeader();
@@ -72,7 +72,10 @@ describe('SidePanel', function () {
     beforeEach(function () {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
-        <SidePanel onClose={this.onClose} open={true} closeByBackdropClick={true}/>
+        <SidePanelContents
+          onClose={this.onClose}
+          open={true}
+          closeByBackdropClick={true} />
       );
     });
 
@@ -81,7 +84,7 @@ describe('SidePanel', function () {
     });
 
     it('should call onClose when the side panel closes', function () {
-      this.instance.closeSidePanel();
+      this.instance.closeSidePanelContent();
       expect(this.onClose).toHaveBeenCalled();
     });
 
@@ -93,7 +96,7 @@ describe('SidePanel', function () {
 
       it('should not call onClose if closeByBackdropClick is false', function () {
         var instance = TestUtils.renderIntoDocument(
-          <SidePanel onClose={this.onClose}
+          <SidePanelContents onClose={this.onClose}
             open={true}
             closeByBackdropClick={false} />
         );
