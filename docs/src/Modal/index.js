@@ -158,7 +158,7 @@ class ModalExample extends Util.mixin(BindMixin) {
             modalClass="modal modal-large inverse"
             titleClass={'modal-header-title text-align-center flush-top ' +
               'flush-bottom inverse'}
-            maxHeightPercentage={0.3}
+            maxHeightPercentage={0.5}
             onClose={this.handleModalClose.bind(this, '4')}
             showFooter={false}
             size="large"
