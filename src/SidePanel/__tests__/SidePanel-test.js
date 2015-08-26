@@ -84,7 +84,7 @@ describe('SidePanelContents', function () {
     });
 
     it('should call onClose when the side panel closes', function () {
-      this.instance.closeSidePanelContent();
+      this.instance.closeSidePanel();
       expect(this.onClose).toHaveBeenCalled();
     });
 
