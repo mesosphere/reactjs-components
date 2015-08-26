@@ -157,7 +157,8 @@ class SidePanelExample extends React.Component {
 
         <SidePanel header={this.getHeader(4, 'Backdrop click is turned off')}
           open={this.state.panel4Open}
-          onClose={this.alertAndClosePanelID.bind(this, 4)}>
+          closeByBackdropClick={false}
+          onClose={this.handlePanelClose.bind(this, 4)}>
           <div>
             <p className="container-pod container-pod-short flush-bottom">
               Only way to close this panel is clciking the close button
