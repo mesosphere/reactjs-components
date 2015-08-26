@@ -26,6 +26,32 @@ describe('SidePanelContents', function () {
       var sidePanel = instance.getContents();
       expect(TestUtils.isElement(sidePanel)).toEqual(true);
     });
+
+    it('should have the gemini scrollbar', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <SidePanelContents open={true} />
+      );
+
+      var scrollbar = TestUtils.findRenderedDOMComponentWithClass(
+        instance,
+        'gm-scroll-view'
+      );
+      expect(TestUtils.isDOMComponent(scrollbar)).toEqual(true);
+    });
+
+    it('should render its children if side panel is open', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <SidePanelContents open={true}>
+          <div className="child">foo</div>
+        </SidePanelContents>
+      );
+
+      var child = TestUtils.findRenderedDOMComponentWithClass(
+        instance,
+        'child'
+      );
+      expect(child.getDOMNode().textContent).toEqual('foo');
+    });
   });
 
   describe('#getBackdrop', function () {
