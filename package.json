@@ -1,8 +1,10 @@
 {
-  "name": "mesosphere-ui-components",
-  "version": "0.0.1",
+  "name": "reactjs-components",
+  "version": "0.0.2",
   "description": "React UI Components by Mesosphere",
-  "author": "Mesosphere Web Team",
+  "author": {
+    "Mesosphere Web Team"
+  },
   "license": "Apache-2.0",
   "files": [
     "main.js",
@@ -53,7 +55,7 @@
     "npm-publish": "npm publish ./",
     "test": "jest",
     "shrinkwrap": "npm-shrinkwrap",
-    "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src"
+    "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./"
   },
   "jest": {
     "globals": {
