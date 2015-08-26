@@ -142,15 +142,6 @@
     border-left-color: @side-panel-header-border-left-color;
     .box-shadow(@side-panel-header-shadow);
     .border-radius(@side-panel-border-radius @side-panel-border-radius 0px 0px);
-
-    + .side-panel-content {
-
-      .box-shadow(@side-panel-content-shadow);
-      .border-top-left-radius(0px);
-      .border-top-right-radius(0px);
-
-    }
-
   }
 
 
@@ -184,6 +175,10 @@
     border-left-width: @side-panel-content-border-left-width;
     border-left-color: @side-panel-content-border-left-color;
     .border-radius(@side-panel-border-radius);
+
+    .side-panel-inner-content {
+      margin: 0 20px;
+    }
 
     + .side-panel-footer {
 

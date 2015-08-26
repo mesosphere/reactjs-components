@@ -138,7 +138,7 @@ class SidePanelExample extends React.Component {
 
         <SidePanel open={this.state.panel3Open}
           onClose={this.alertAndClosePanelID.bind(this, 3)}>
-          <div>
+          <div className="container-pod container-pod-short">
             <button className="button button-stroke button-rounded"
               onClick={this.alertAndClosePanelID.bind(this, 3)}>
               ✕

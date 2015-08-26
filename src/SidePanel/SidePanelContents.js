@@ -81,9 +81,7 @@ export default class SidePanel extends React.Component {
 
     let contents = (
       <div className={props.bodyClass}>
-        <div className={props.innerBodyClass}>
-          {this.props.children}
-        </div>
+        {props.children}
       </div>
     );
 
@@ -92,8 +90,8 @@ export default class SidePanel extends React.Component {
       contents = (
         <GeminiScrollbar
           autoshow={true}
-          className="container-scrollable">
-          {contents}
+          className={props.bodyClass}>
+          {props.children}
         </GeminiScrollbar>
       );
     }
@@ -139,13 +137,11 @@ SidePanel.defaultProps = {
 
   // Classes
   backdropClass: 'side-panel-backdrop',
-  bodyClass: 'side-panel-content',
+  bodyClass: 'side-panel-content container container-scrollable container-fluid container-fluid-narrow',
   containerClass: 'side-panel-container',
   headerClass: 'side-panel-header',
   headerContainerClass: 'container container-pod container-pod-short',
-  innerBodyClass:
-    'side-panel-content-inner container container-pod container-pod-short',
-  sidePanelClass: 'side-panel side-panel-large flex-container-col'
+  sidePanelClass: 'side-panel side-panel-large flex-container-col container container-pod container-pod-short flush-top'
 };
 
 SidePanel.propTypes = {
@@ -161,6 +157,5 @@ SidePanel.propTypes = {
   containerClass: React.PropTypes.string,
   headerClass: React.PropTypes.string,
   headerContainerClass: React.PropTypes.string,
-  innerBodyClass: React.PropTypes.string,
   sidePanelClass: React.PropTypes.string
 };
