@@ -56,9 +56,7 @@ export default class Dropdown extends React.Component {
 
       return (
         <li className={classSet} key={item.id} onClick={handleUserClick}>
-          <a>
-            {item.html}
-          </a>
+          {item.html}
         </li>
       );
     }, this);
