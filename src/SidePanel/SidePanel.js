@@ -9,7 +9,6 @@ import SidePanelContents from './SidePanelContents.js';
  */
 
 export default class SidePanel extends React.Component {
-
   render() {
     return (
       <Portal>
