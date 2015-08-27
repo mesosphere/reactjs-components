@@ -71,5 +71,7 @@ List.propTypes = {
   attributes: React.PropTypes.object,
   className: React.PropTypes.string,
   items: React.PropTypes.array.isRequired,
-  tag: React.PropTypes.string
+  tag: React.PropTypes.string,
+  transition: React.PropTypes.bool,
+  transitionName: React.PropTypes.string
 };
