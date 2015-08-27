@@ -248,11 +248,8 @@ class TableExample extends React.Component {
               </div>
               <div className="column-3 text-align-right">
                 <button
-                  className="button
-                    button-small
-                    button-primary
-                    button-stroke
-                    button-inverse"
+                  className="button button-small button-primary
+                    button-stroke button-inverse"
                   onClick={this.handleToggleExtraRow}>
                   {buttonLabel}
                 </button>
