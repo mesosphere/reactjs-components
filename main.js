@@ -8,6 +8,6 @@ module.exports = {
   Dropdown: Dropdown,
   List: List,
   Modal: Modal,
-  SidePanel: SidePanel
-  Table: Table,
+  SidePanel: SidePanel,
+  Table: Table
 };
