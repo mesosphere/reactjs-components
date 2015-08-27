@@ -66,18 +66,16 @@ describe('Dropdown', function () {
     expect(this.callback).toHaveBeenCalled();
   });
 
-  it('should display the correct value when selecting a selectable item',
-    function () {
-      // Click on the dropdown button to open the menu
-      TestUtils.Simulate.click(this.instance.refs.button);
-      // Find the selectable menu items
-      var selectableElements = TestUtils.scryRenderedDOMComponentsWithClass(
-        this.instance, 'is-selectable'
-      );
-      // Click on the second menu item returned, which we know to be "Baz"
-      TestUtils.Simulate.click(selectableElements[1]);
-      var buttonText = React.findDOMNode(this.instance.refs.button).textContent;
-      expect(buttonText).toEqual('Baz');
-    }
-  );
+  it('correctly displays the selected item', function () {
+    // Click on the dropdown button to open the menu
+    TestUtils.Simulate.click(this.instance.refs.button);
+    // Find the selectable menu items
+    var selectableElements = TestUtils.scryRenderedDOMComponentsWithClass(
+      this.instance, 'is-selectable'
+    );
+    // Click on the second menu item returned, which we know to be "Baz"
+    TestUtils.Simulate.click(selectableElements[1]);
+    var buttonText = React.findDOMNode(this.instance.refs.button).textContent;
+    expect(buttonText).toEqual('Baz');
+  });
 });
