@@ -173,9 +173,7 @@ class DropdownExample extends React.Component {
               </div>
               <div className="column-6 column-overflow">
                 <p>
-                  {'Here is a simple dropdown with an '}
-                  <code>alert</code>
-                  {' callback.'}
+                  Here is a simple dropdown with an <code>alert</code> callback.
                 </p>
                 <Dropdown buttonClassName="button dropdown-toggle"
                   dropdownMenuClassName="dropdown-menu"
