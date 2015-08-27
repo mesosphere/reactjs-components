@@ -2,7 +2,7 @@ jest.dontMock('../Util');
 
 var Util = require('../Util');
 
-describe('Util', function() {
+describe('Util', function () {
 
   describe('#extend', function () {
     beforeEach(function () {
