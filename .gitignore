@@ -3,4 +3,4 @@ dist
 git
 node_modules
 npm-debug.log
-lib
+/lib
