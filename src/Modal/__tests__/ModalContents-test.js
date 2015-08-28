@@ -149,5 +149,20 @@ describe('ModalContents', function () {
       expect(calculatedHeight.innerHeight)
         .toEqual(calculatedHeight.height - heightInfo.outerHeight);
     });
+
+    it('should return originalHeight if smaller than maxHeight', function () {
+      var heightInfo = {
+        innerHeight: 500,
+        originalHeight: 600,
+        outerHeight: 100,
+        maxHeight: 1000,
+        totalContentHeight: 800
+      };
+
+      var calculatedHeight = this.instance.calculateModalHeight(heightInfo);
+
+      expect(calculatedHeight.height).toEqual(heightInfo.originalHeight);
+      expect(calculatedHeight.innerHeight).toEqual(heightInfo.innerHeight);
+    });
   });
 });
