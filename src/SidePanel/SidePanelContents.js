@@ -116,13 +116,13 @@ export default class SidePanel extends React.Component {
       <div className={classes}>
         <CSSTransitionGroup
           transitionAppear={true}
-          transitionName="fade-in"
+          transitionName="side-panel-fade-in"
           component="div">
           {this.getBackdrop()}
         </CSSTransitionGroup>
         <CSSTransitionGroup
           transitionAppear={true}
-          transitionName="slide-left"
+          transitionName="side-panel-slide-left"
           component="div">
           {this.getContents()}
         </CSSTransitionGroup>
