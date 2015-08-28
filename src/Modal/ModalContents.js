@@ -134,8 +134,8 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     };
   }
 
-  calculateModalHeight() {
-    let heightInfo = this.heightInfo || {};
+  calculateModalHeight(heightInfo) {
+    heightInfo = heightInfo || {};
     let height = 0;
     let {
       innerHeight,
@@ -183,7 +183,6 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   getFooter() {
     let props = this.props;
-
     if (props.showFooter === false) {
       return null;
     }
@@ -218,22 +217,19 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   getModal() {
     let props = this.props;
-    let containerStyle = {height: window.innerHeight};
-
     if (!props.open) {
       return null;
     }
 
-    let modalStyle = {
-      height: this.calculateModalHeight().height
-    };
+    let calculatedHeight = this.calculateModalHeight(this.heightInfo);
+    let containerStyle = {height: window.innerHeight};
+    let innerHeight = calculatedHeight.innerHeight;
+    let modalStyle = {height: calculatedHeight.height};
 
     let useScrollbar = false;
-    if (modalStyle.height !== 'auto') {
+    if (calculatedHeight.height !== 'auto') {
       useScrollbar = true;
     }
-
-    let innerHeight = this.calculateModalHeight().innerHeight;
 
     return (
       <div
