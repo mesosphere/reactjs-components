@@ -1,6 +1,6 @@
 {
   "name": "reactjs-components",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "npm-shrinkwrap-version": "5.4.0",
   "node-version": "v0.10.40",
   "dependencies": {
