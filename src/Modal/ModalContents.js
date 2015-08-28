@@ -114,7 +114,8 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     // Height of padding, margin, border.
     let outerHeight = originalHeight - innerHeight;
 
-    // Modal cannot be bigger than this height.
+    // Modal cannot be bigger than this height. Add 10 for the gemini
+    // horizontal scrollbar.
     let maxHeight = Math.ceil(
       window.innerHeight * this.props.maxHeightPercentage
     ) + 10;
@@ -130,6 +131,35 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       originalHeight: originalHeight,
       outerHeight: outerHeight,
       totalContentHeight: totalContentHeight
+    };
+  }
+
+  calculateModalHeight() {
+    let heightInfo = this.heightInfo || {};
+    let height = 0;
+    let {
+      innerHeight,
+      maxHeight,
+      originalHeight,
+      outerHeight,
+      totalContentHeight
+    } = heightInfo;
+
+    if (totalContentHeight > maxHeight) {
+      height = maxHeight - (totalContentHeight - originalHeight);
+      innerHeight = height - outerHeight;
+    } else {
+      height = originalHeight;
+    }
+
+    // Default to auto height
+    if (!height) {
+      height = 'auto';
+    }
+
+    return {
+      height: height,
+      innerHeight: innerHeight
     };
   }
 
@@ -188,45 +218,22 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   getModal() {
     let props = this.props;
+    let containerStyle = {height: window.innerHeight};
 
     if (!props.open) {
       return null;
     }
 
-    let heightInfo = this.heightInfo;
-    let innerHeight = null;
-    let maxHeight = null;
-    let originalHeight = null;
-    let outerHeight = null;
-    let totalContentHeight = null;
-    let useScrollbar = false;
+    let modalStyle = {
+      height: this.calculateModalHeight().height
+    };
 
-    if (heightInfo) {
-      innerHeight = heightInfo.innerHeight;
-      maxHeight = heightInfo.maxHeight;
-      originalHeight = heightInfo.originalHeight;
-      outerHeight = heightInfo.outerHeight;
-      totalContentHeight = heightInfo.totalContentHeight;
+    let useScrollbar = false;
+    if (modalStyle.height !== 'auto') {
       useScrollbar = true;
     }
 
-    let modalStyle = {};
-
-    if (totalContentHeight > maxHeight) {
-      modalStyle.height = maxHeight - (totalContentHeight - originalHeight);
-      innerHeight = modalStyle.height - outerHeight;
-    } else {
-      modalStyle.height = originalHeight;
-    }
-
-    // Default to auto height
-    if (!modalStyle.height) {
-      modalStyle.height = 'auto';
-    }
-
-    let containerStyle = {
-      height: window.innerHeight
-    };
+    let innerHeight = this.calculateModalHeight().innerHeight;
 
     return (
       <div
