@@ -670,21 +670,40 @@ Side Panel Backdrop
 
 }
 
-.slide-left-enter {
+.side-panel-slide-left-enter {
   transform: translate(100%, 0);
   transition: transform .5s ease-in;
 
-  &.slide-left-enter-active {
+  &.side-panel-slide-left-enter-active {
     transform: translate(0, 0);
   }
 }
 
 
-.slide-left-leave {
+.side-panel-slide-left-leave {
   transform: translate(0, 0);
 
-  &.slide-left-leave-active {
+  &.side-panel-slide-left-leave-active {
     transform: translate(100%, 0);
     transition: transform .5s ease-in;
+  }
+}
+
+.side-panel-fade-in-enter {
+  .opacity(0);
+  transition: opacity .5s ease-in;
+
+  &.side-panel-fade-in-enter-active {
+    .opacity(1);
+  }
+}
+
+
+.side-panel-fade-in-leave {
+  .opacity(1);
+
+  &.side-panel-fade-in-leave-active {
+    .opacity(0);
+    transition: opacity .5s ease-in;
   }
 }
