@@ -155,6 +155,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     // Default to auto height
     if (!height) {
       height = 'auto';
+      innerHeight = 'auto';
     }
 
     return {

@@ -115,4 +115,39 @@ describe('ModalContents', function () {
       expect(instance.forceUpdate).toHaveBeenCalled();
     });
   });
+
+  describe('#calculateModalHeight', function () {
+    beforeEach(function () {
+      this.instance = TestUtils.renderIntoDocument(
+        <ModalContents open={true} />
+      );
+    });
+
+    it('should default to auto if a bad value is passed in', function () {
+      var calculatedHeight = this.instance.calculateModalHeight(null);
+
+      expect(calculatedHeight.height).toEqual('auto');
+      expect(calculatedHeight.innerHeight).toEqual('auto');
+    });
+
+    it('should not give a height that is bigger than maxHeight', function () {
+      var heightInfo = {
+        innerHeight: 500,
+        originalHeight: 600,
+        outerHeight: 100,
+        maxHeight: 500,
+        totalContentHeight: 800
+      };
+
+      var calculatedHeight = this.instance.calculateModalHeight(heightInfo);
+      var headerAndFooterHeight =
+        heightInfo.totalContentHeight - heightInfo.originalHeight;
+
+      expect(calculatedHeight.height)
+        .toEqual(heightInfo.maxHeight - headerAndFooterHeight);
+
+      expect(calculatedHeight.innerHeight)
+        .toEqual(calculatedHeight.height - heightInfo.outerHeight);
+    });
+  });
 });
