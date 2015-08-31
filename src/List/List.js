@@ -8,7 +8,7 @@ const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 export default class List extends React.Component {
 
   getListItems(list, childIndex = 0) {
-    var items = list.map(function(item, parentIndex) {
+    var items = list.map(function (item, parentIndex) {
       var key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
@@ -71,5 +71,7 @@ List.propTypes = {
   attributes: React.PropTypes.object,
   className: React.PropTypes.string,
   items: React.PropTypes.array.isRequired,
-  tag: React.PropTypes.string
+  tag: React.PropTypes.string,
+  transition: React.PropTypes.bool,
+  transitionName: React.PropTypes.string
 };

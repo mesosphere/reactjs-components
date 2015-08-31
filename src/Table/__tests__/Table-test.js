@@ -8,7 +8,7 @@ jest.dontMock('./fixtures/MockTable');
 var MockTable = require('./fixtures/MockTable');
 var Table = require('../Table');
 
-describe('Table', function() {
+describe('Table', function () {
 
   beforeEach(function () {
     this.callback = jasmine.createSpy();
@@ -26,7 +26,7 @@ describe('Table', function() {
     );
   });
 
-  it('should render the proper number of columns', function() {
+  it('should render the proper number of columns', function () {
     var thElements = TestUtils.scryRenderedDOMComponentsWithTag(
       this.instance, 'th'
     );
@@ -34,7 +34,7 @@ describe('Table', function() {
     expect(thElements.length).toEqual(MockTable.columns.length);
   });
 
-  it('should render the proper number of rows', function() {
+  it('should render the proper number of rows', function () {
     var tbody = TestUtils.findRenderedDOMComponentWithTag(
       this.instance, 'tbody'
     );
@@ -44,7 +44,7 @@ describe('Table', function() {
     expect(trElements.length).toEqual(MockTable.rows.length);
   });
 
-  it('should call the callback when the data is sorted', function() {
+  it('should call the callback when the data is sorted', function () {
     this.instance.handleSort();
     expect(this.callback).toHaveBeenCalled();
   });

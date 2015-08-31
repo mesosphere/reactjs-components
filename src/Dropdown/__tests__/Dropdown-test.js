@@ -8,7 +8,7 @@ jest.dontMock('./fixtures/MockDropdownList');
 var MockDropdownList = require('./fixtures/MockDropdownList');
 var Dropdown = require('../Dropdown.js');
 
-describe('Dropdown', function() {
+describe('Dropdown', function () {
 
   beforeEach(function () {
     this.callback = jasmine.createSpy();
@@ -66,7 +66,7 @@ describe('Dropdown', function() {
     expect(this.callback).toHaveBeenCalled();
   });
 
-  it('should display the correct value when selecting a selectable item', function () {
+  it('correctly displays the selected item', function () {
     // Click on the dropdown button to open the menu
     TestUtils.Simulate.click(this.instance.refs.button);
     // Find the selectable menu items

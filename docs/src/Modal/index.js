@@ -78,8 +78,11 @@ class ModalExample extends React.Component {
               </button>
             </div>
             <div className="column-6">
-              <h4 className="inverse">Inverse style - small max height - with subheader</h4>
-              <button className="button button-inverse"
+              <h4 className="inverse">
+                Inverse style - small max height - with subheader
+              </h4>
+              <button
+                className="button button-inverse"
                 onClick={this.handleModalOpen.bind(this, '4')}>
                 {"Open Modal"}
               </button>

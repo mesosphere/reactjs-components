@@ -31,7 +31,10 @@ describe('ModalContents', function () {
     beforeEach(function () {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
-        <ModalContents onClose={this.onClose} open={true} closeByBackdropClick={true}/>
+        <ModalContents
+          onClose={this.onClose}
+          open={true}
+          closeByBackdropClick={true}/>
       );
     });
 
@@ -50,7 +53,7 @@ describe('ModalContents', function () {
         expect(this.onClose).toHaveBeenCalled();
       });
 
-      it('should not call onClose if closeByBackdropClick is false', function () {
+      it('does not call onClose if closeByBackdropClick is false', function () {
         var instance = TestUtils.renderIntoDocument(
           <ModalContents onClose={this.onClose}
             open={true}
