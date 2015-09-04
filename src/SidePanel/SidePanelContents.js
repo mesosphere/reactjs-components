@@ -110,7 +110,7 @@ export default class SidePanel extends React.Component {
   render() {
     let props = this.props;
 
-    let classes = classNames(props.containerClass, props.classNames);
+    let classes = classNames(props.containerClass, props.className);
 
     return (
       <div className={classes}>
