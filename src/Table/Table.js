@@ -31,6 +31,16 @@ var sortData = (columns, data, sortBy) => {
   return data;
 };
 
+var getClassName = (column, sortBy, data) => {
+  if (typeof column.className === 'function') {
+    return column.className(
+      column.prop, sortBy, data
+    );
+  }
+
+  return column.className || '';
+};
+
 export default class Table extends React.Component {
   constructor() {
     super();
@@ -82,7 +92,7 @@ export default class Table extends React.Component {
         heading = header.heading;
       }
 
-      attributes.className = header.className;
+      attributes.className = getClassName(header, this.state.sortBy, null);
       attributes.key = index;
 
       return (
@@ -114,8 +124,9 @@ export default class Table extends React.Component {
       // specified by the data prop.
       var rowCells = columns.map((column, index) => {
         var cellAttributes = column.attributes;
-        var cellClassName = column.className || '';
-        var cellValue = row[column.prop];
+        var cellClassName = getClassName(column, this.state.sortBy, row);
+
+        var cellValue = column.render(column.prop, row);
 
         if (cellValue === undefined) {
           cellValue = column.defaultContent;
@@ -221,7 +232,10 @@ Table.propTypes = {
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       attributes: React.PropTypes.object,
-      className: PropTypes.string,
+      className: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func
+      ]),
       defaultContent: PropTypes.string,
       heading: PropTypes.oneOfType([
         PropTypes.string,
