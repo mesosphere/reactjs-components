@@ -126,7 +126,11 @@ export default class Table extends React.Component {
         var cellAttributes = column.attributes;
         var cellClassName = getClassName(column, this.state.sortBy, row);
 
-        var cellValue = column.render(column.prop, row);
+        var cellValue = row[column.prop];
+
+        if (column.render) {
+          cellValue = column.render(column.prop, row);
+        }
 
         if (cellValue === undefined) {
           cellValue = column.defaultContent;
