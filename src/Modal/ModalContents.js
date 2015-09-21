@@ -28,6 +28,9 @@ export default class ModalContents extends React.Component {
   componentDidUpdate() {
     if (this.props.open) {
       this.checkHeight();
+    } else {
+      this.heightInfo = null;
+      this.rerendered = false;
     }
   }
 
@@ -67,8 +70,6 @@ export default class ModalContents extends React.Component {
 
   closeModal() {
     this.props.onClose();
-    this.heightInfo = null;
-    this.rerendered = false;
   }
 
   getInnerContainerHeightInfo() {
