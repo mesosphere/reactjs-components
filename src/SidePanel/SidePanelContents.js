@@ -138,7 +138,7 @@ SidePanelContents.defaultProps = {
   onClose: () => {},
   open: false,
 
-  // Classes
+  // Default classes.
   backdropClass: 'side-panel-backdrop',
   bodyClass: 'side-panel-content container container-scrollable container-fluid container-fluid-narrow',
   containerClass: 'side-panel-container',
@@ -154,7 +154,7 @@ SidePanelContents.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
 
-  // Classes
+  // Classes.
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   containerClass: PropTypes.string,

@@ -247,7 +247,7 @@ ModalContents.defaultProps = {
   subHeader: null,
   titleText: '',
 
-  // Classes
+  // Default classes.
   backdropClass: 'fade in modal-backdrop',
   bodyClass: 'modal-content',
   closeButtonClass: 'modal-close',
@@ -276,7 +276,7 @@ ModalContents.propTypes = {
   subHeader: PropTypes.node,
   titleText: PropTypes.string,
 
-  // Classes
+  // Classes.
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
