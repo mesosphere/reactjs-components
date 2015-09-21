@@ -1,6 +1,6 @@
 {
   "name": "reactjs-components",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "React UI Components by Mesosphere",
   "author": {
     "name": "Mesosphere Frontend Team",
@@ -15,7 +15,6 @@
   ],
   "main": "main.js",
   "dependencies": {
-    "babel": "^5.6.23",
     "body-parser": "^1.13.2",
     "canvas-ui-system": "^0.1.5",
     "classnames": "^2.1.3",
