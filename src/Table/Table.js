@@ -32,7 +32,7 @@ var sortData = (columns, data, sortBy) => {
 };
 
 var getClassName = (column, sortBy, data) => {
-  if (typeof column.className === 'function') {
+  if (Util.isFunction(column.className)) {
     return column.className(
       column.prop, sortBy, data
     );
