@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
-import React from 'react/addons';
+import React, {PropTypes} from 'react/addons';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 const METHODS_TO_BIND = ['handleBackdropClick', 'closeSidePanel'];
@@ -148,17 +148,17 @@ SidePanel.defaultProps = {
 };
 
 SidePanel.propTypes = {
-  children: React.PropTypes.node,
-  closeByBackdropClick: React.PropTypes.bool,
-  header: React.PropTypes.node,
-  onClose: React.PropTypes.func,
-  open: React.PropTypes.bool,
+  children: PropTypes.node,
+  closeByBackdropClick: PropTypes.bool,
+  header: PropTypes.node,
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
 
   // Classes
-  backdropClass: React.PropTypes.string,
-  bodyClass: React.PropTypes.string,
-  containerClass: React.PropTypes.string,
-  headerClass: React.PropTypes.string,
-  headerContainerClass: React.PropTypes.string,
-  sidePanelClass: React.PropTypes.string
+  backdropClass: PropTypes.string,
+  bodyClass: PropTypes.string,
+  containerClass: PropTypes.string,
+  headerClass: PropTypes.string,
+  headerContainerClass: PropTypes.string,
+  sidePanelClass: PropTypes.string
 };

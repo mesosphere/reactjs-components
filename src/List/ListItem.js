@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import classNames from 'classnames';
 
 export default class ListItem extends React.Component {
@@ -32,8 +32,8 @@ ListItem.defaultProps = {
 };
 
 ListItem.propTypes = {
-  className: React.PropTypes.string,
-  children: React.PropTypes.node,
-  attributes: React.PropTypes.object,
-  tag: React.PropTypes.string
+  className: PropTypes.string,
+  children: PropTypes.node,
+  attributes: PropTypes.object,
+  tag: PropTypes.string
 };

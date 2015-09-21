@@ -1,4 +1,4 @@
-let Util = {
+const Util = {
   arrayPush(array, values) {
     let index = -1,
       length = values.length,
