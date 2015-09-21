@@ -1,6 +1,6 @@
 {
   "name": "reactjs-components",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "React UI Components by Mesosphere",
   "author": {
     "name": "Mesosphere Frontend Team",
@@ -10,7 +10,8 @@
   "license": "Apache-2.0",
   "files": [
     "main.js",
-    "lib"
+    "lib",
+    "npm-shrinkwrap.json"
   ],
   "main": "main.js",
   "dependencies": {
