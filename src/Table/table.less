@@ -37,3 +37,33 @@
   }
 
 }
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-2em);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-out-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(2em);
+  }
+}
+
+.table-row-enter {
+  animation: fade-in-left 0.5s;
+}
+
+.table-row-leave {
+  animation: fade-out-right 0.5s;
+}
