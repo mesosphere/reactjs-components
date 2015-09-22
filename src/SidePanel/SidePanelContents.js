@@ -5,7 +5,7 @@ import React, {PropTypes} from 'react/addons';
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 const METHODS_TO_BIND = ['handleBackdropClick', 'closeSidePanel'];
 
-export default class SidePanel extends React.Component {
+export default class SidePanelContents extends React.Component {
   constructor() {
     super();
 
@@ -132,7 +132,7 @@ export default class SidePanel extends React.Component {
 
 }
 
-SidePanel.defaultProps = {
+SidePanelContents.defaultProps = {
   closeByBackdropClick: true,
   header: null,
   onClose: () => {},
@@ -147,7 +147,7 @@ SidePanel.defaultProps = {
   sidePanelClass: 'side-panel side-panel-large flex-container-col container container-pod container-pod-short flush-top'
 };
 
-SidePanel.propTypes = {
+SidePanelContents.propTypes = {
   children: PropTypes.node,
   closeByBackdropClick: PropTypes.bool,
   header: PropTypes.node,
