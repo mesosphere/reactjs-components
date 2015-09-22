@@ -25,9 +25,16 @@ A library of React components. For examples, take a look at our [kitchen sink](h
 
 3. Use as if it was a normal component you imported
 ```js
-  <Modal ...{props}>
-    // Content
-  <Modal />
+  // ...
+
+  render: function () {
+    return (
+      // ...
+      <Modal ...{props}>
+        // Content
+      <Modal />
+    );
+  }
 ```
 
 ## Development Setup
