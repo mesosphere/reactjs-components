@@ -21,6 +21,7 @@ A library of reusable React components. For examples, take a look at our
   ```js
   // es6
   import {Modal} from 'reactjs-components';
+
   // es5
   var Modal = require('reactjs-components').Modal;
   ```
