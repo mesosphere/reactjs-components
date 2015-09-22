@@ -8,6 +8,26 @@ A library of React components. For examples, take a look at our [kitchen sink](h
 * Side Panel
 * Table
 
+## Using the components
+1. From the command line inside of your project
+`
+  npm install --save reactjs-components
+`
+
+2. Initiate within the file you want to use a component in
+```js
+  // es6
+  import {Dropdown} from 'reactjs-components';
+
+  // es5
+  var Dropdown = require('reactjs-components').Dropdown;
+```
+
+3. Use as if it was a normal component you imported
+```js
+  <Dropdown ...{props} />
+```
+
 ## Development Setup
 
 1. Clone this repository
