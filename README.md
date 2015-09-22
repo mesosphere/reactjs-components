@@ -1,5 +1,5 @@
 # ReactJS-components
-A library of React components. For examples, take a look at our [kitchen sink] (http://mesosphere.github.io/ui-components/).
+A library of React components. For examples, take a look at our [kitchen sink](http://mesosphere.github.io/ui-components/).
 
 ## Available components
 * Modal
@@ -8,6 +8,28 @@ A library of React components. For examples, take a look at our [kitchen sink] (
 * Side Panel
 * Portal
 * Table
+
+## Development Setup
+
+1. Clone this repository
+2. Install [NPM](https://npmjs.org/)
+3. Install dev dependencies
+
+  ```sh
+  npm install
+  npm install -g gulp
+  ```
+4. Run the tests
+
+  ```sh
+  npm test
+  ```
+
+5. Start the server and watch files
+
+  ```sh
+  npm run livereload
+  ```
 
 ## Adding npm package dependencies to package.json
 
@@ -26,6 +48,18 @@ If you want to add a new npm package to 'node_modules':
         npm run shrinkwrap
 
 3. Commit to repository
+
+## Contributing
+
+1. Change the version
+
+2. Create a synced npm-shrinkwrap.json with devDependencies included
+
+        npm run shrinkwrap
+
+3. Commit to repository and make a PR
+
+4. After PR is merged, the merger will create tags and publish the module
 
 ## Development Setup (Sublime Text)
 
