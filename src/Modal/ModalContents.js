@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, {PropTypes} from 'react/addons';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 
 import * as DOMUtil from '../Util/DOMUtil';
@@ -265,29 +265,29 @@ ModalContents.defaultProps = {
 };
 
 ModalContents.propTypes = {
-  children: React.PropTypes.node,
-  closeByBackdropClick: React.PropTypes.bool,
-  footer: React.PropTypes.object,
-  maxHeightPercentage: React.PropTypes.number,
-  onClose: React.PropTypes.func,
-  open: React.PropTypes.bool,
-  showCloseButton: React.PropTypes.bool,
-  showFooter: React.PropTypes.bool,
-  subHeader: React.PropTypes.node,
-  titleText: React.PropTypes.string,
+  children: PropTypes.node,
+  closeByBackdropClick: PropTypes.bool,
+  footer: PropTypes.object,
+  maxHeightPercentage: PropTypes.number,
+  onClose: PropTypes.func,
+  open: PropTypes.bool,
+  showCloseButton: PropTypes.bool,
+  showFooter: PropTypes.bool,
+  subHeader: PropTypes.node,
+  titleText: PropTypes.string,
 
   // Classes
-  backdropClass: React.PropTypes.string,
-  bodyClass: React.PropTypes.string,
-  closeButtonClass: React.PropTypes.string,
-  closeIconClass: React.PropTypes.string,
-  closeTitleClass: React.PropTypes.string,
-  containerClass: React.PropTypes.string,
-  footerClass: React.PropTypes.string,
-  footerContainerClass: React.PropTypes.string,
-  headerClass: React.PropTypes.string,
-  headerContainerClass: React.PropTypes.string,
-  innerBodyClass: React.PropTypes.string,
-  modalClass: React.PropTypes.string,
-  titleClass: React.PropTypes.string
+  backdropClass: PropTypes.string,
+  bodyClass: PropTypes.string,
+  closeButtonClass: PropTypes.string,
+  closeIconClass: PropTypes.string,
+  closeTitleClass: PropTypes.string,
+  containerClass: PropTypes.string,
+  footerClass: PropTypes.string,
+  footerContainerClass: PropTypes.string,
+  headerClass: PropTypes.string,
+  headerContainerClass: PropTypes.string,
+  innerBodyClass: PropTypes.string,
+  modalClass: PropTypes.string,
+  titleClass: PropTypes.string
 };

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React, {PropTypes} from 'react/addons';
 import classNames from 'classnames';
 
 import ListItem from './ListItem';
@@ -8,8 +8,8 @@ const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 export default class List extends React.Component {
 
   getListItems(list, childIndex = 0) {
-    var items = list.map(function (item, parentIndex) {
-      var key = `${parentIndex}.${childIndex}`;
+    let items = list.map(function (item, parentIndex) {
+      let key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
       if (item.items) {
@@ -40,15 +40,15 @@ export default class List extends React.Component {
   }
 
   render() {
-    var defaultClasses = [
+    let defaultClasses = [
       'list'
     ];
 
-    var classes = classNames(
+    let classes = classNames(
       defaultClasses.concat(this.props.className.split(' '))
     );
 
-    var Tag = this.props.tag;
+    let Tag = this.props.tag;
 
     return (
       <Tag {...this.props} className={classes}>
@@ -68,10 +68,10 @@ List.defaultProps = {
 };
 
 List.propTypes = {
-  attributes: React.PropTypes.object,
-  className: React.PropTypes.string,
-  items: React.PropTypes.array.isRequired,
-  tag: React.PropTypes.string,
-  transition: React.PropTypes.bool,
-  transitionName: React.PropTypes.string
+  attributes: PropTypes.object,
+  className: PropTypes.string,
+  items: PropTypes.array.isRequired,
+  tag: PropTypes.string,
+  transition: PropTypes.bool,
+  transitionName: PropTypes.string
 };

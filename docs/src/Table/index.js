@@ -21,14 +21,14 @@ class TableExample extends React.Component {
   }
 
   getColumnHeading(prop, order, sortBy) {
-    var caretClassNames = classNames({
+    let caretClassNames = classNames({
       'caret': true,
       'caret--asc': order === 'asc',
       'caret--desc': order === 'desc',
       'caret--visible': sortBy.prop === prop
     });
 
-    var headingStrings = {
+    let headingStrings = {
       'age': 'Age',
       'gender': 'Gender',
       'location': 'Location',
@@ -44,7 +44,7 @@ class TableExample extends React.Component {
   }
 
   getColGroup(size) {
-    var colGroup;
+    let colGroup;
 
     switch (size) {
       case 'large':
@@ -71,7 +71,7 @@ class TableExample extends React.Component {
   }
 
   getColumns(size) {
-    var columns;
+    let columns;
 
     switch (size) {
       case 'large':
@@ -127,7 +127,7 @@ class TableExample extends React.Component {
   }
 
   getRows(size) {
-    var rows;
+    let rows;
 
     switch (size) {
       case 'large':
@@ -213,7 +213,7 @@ class TableExample extends React.Component {
   }
 
   render() {
-    var buttonLabel;
+    let buttonLabel;
 
     if (this.state.rowAdded) {
       buttonLabel = 'Remove Row';

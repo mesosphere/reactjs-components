@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import * as Util from '../Util/Util';
 import * as DOMUtil from '../Util/DOMUtil';
 
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class Dropdown extends React.Component {
   constructor() {
@@ -29,7 +29,7 @@ export default class Dropdown extends React.Component {
   }
 
   getSelectedHtml(id, items) {
-    var obj = Util.find(items, function (item) {
+    let obj = Util.find(items, function (item) {
       return item.id === id;
     });
 
@@ -38,7 +38,7 @@ export default class Dropdown extends React.Component {
 
   getMenuItems(items) {
     return items.map((item) => {
-      var classSet = classNames(
+      let classSet = classNames(
         {
           'is-selectable': item.selectable !== false,
           'is-selected': item.id === this.state.selectedID
@@ -47,7 +47,7 @@ export default class Dropdown extends React.Component {
         this.props.dropdownMenuListItemClassName
       );
 
-      var handleUserClick = null;
+      let handleUserClick = null;
 
       if (item.selectable !== false) {
         handleUserClick = this.handleItemClick.bind(this, item);
@@ -79,8 +79,8 @@ export default class Dropdown extends React.Component {
   }
 
   handleWrapperBlur(e) {
-    var elID = React.findDOMNode(this).dataset.reactid;
-    var currentEl = e.relatedTarget;
+    let elID = React.findDOMNode(this).dataset.reactid;
+    let currentEl = e.relatedTarget;
 
     // If the blur event fired from within the current dropdown, then the menu
     // needs to remain open. Otherwise it can safely be closed.
@@ -101,12 +101,12 @@ export default class Dropdown extends React.Component {
   }
 
   render() {
-    var dropdownStateClassSet = {
+    let dropdownStateClassSet = {
       'open': this.state.isOpen
     };
-    var dropdownMenu = null;
-    var items = this.props.items;
-    var wrapperClassSet = classNames(
+    let dropdownMenu = null;
+    let items = this.props.items;
+    let wrapperClassSet = classNames(
       dropdownStateClassSet,
       this.props.wrapperClassName
     );

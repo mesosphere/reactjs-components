@@ -1,6 +1,4 @@
-import React from 'react/addons';
-
-let PropTypes = React.PropTypes;
+import React, {PropTypes} from 'react/addons';
 
 export default class Portal extends React.Component {
   componentDidMount() {

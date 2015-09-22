@@ -1,14 +1,14 @@
 import React, {PropTypes} from 'react/addons';
 import * as Util from '../Util/Util';
 
-var CSSTransitionGroup = React.addons.CSSTransitionGroup;
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-var sortData = (columns, data, sortBy) => {
+let sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
     return data;
   }
 
-  var sortFunction;
+  let sortFunction;
 
   columns.forEach((column) => {
     if (column.prop === sortBy.prop) {
@@ -31,7 +31,7 @@ var sortData = (columns, data, sortBy) => {
   return data;
 };
 
-var getClassName = (column, sortBy, data) => {
+let getClassName = (column, sortBy, data) => {
   if (Util.isFunction(column.className)) {
     return column.className(
       column.prop, sortBy, data
@@ -62,8 +62,8 @@ export default class Table extends React.Component {
   }
 
   getHeaders(headers, sortBy) {
-    var buildSortAttributes = (header) => {
-      var sortEvent = this.handleSort.bind(this, header.prop);
+    let buildSortAttributes = (header) => {
+      let sortEvent = this.handleSort.bind(this, header.prop);
       return {
         onClick: sortEvent,
         tabIndex: 0,
@@ -74,8 +74,8 @@ export default class Table extends React.Component {
     };
 
     return headers.map((header, index) => {
-      var order, heading;
-      var attributes = {};
+      let order, heading;
+      let attributes = {};
 
       // Only add sorting events if the column has a value for 'prop'
       // and the 'sorting' property is true.
@@ -116,17 +116,17 @@ export default class Table extends React.Component {
 
     return data.map((row) => {
       // Create the custom row attributes object, always with a key.
-      var rowAttributes = Util.extend(
+      let rowAttributes = Util.extend(
         {key: Util.values(Util.pick(row, keys))},
         buildRowOptions(row, this));
 
       // For each column in the data, output a cell in each row with the value
       // specified by the data prop.
-      var rowCells = columns.map((column, index) => {
-        var cellAttributes = column.attributes;
-        var cellClassName = getClassName(column, this.state.sortBy, row);
+      let rowCells = columns.map((column, index) => {
+        let cellAttributes = column.attributes;
+        let cellClassName = getClassName(column, this.state.sortBy, row);
 
-        var cellValue = row[column.prop];
+        let cellValue = row[column.prop];
 
         if (column.render) {
           cellValue = column.render(column.prop, row);
@@ -153,14 +153,14 @@ export default class Table extends React.Component {
   }
 
   handleSort(prop, options) {
-    var sortBy = this.state.sortBy;
-    var onSortCallback = this.props.onSortCallback;
+    let sortBy = this.state.sortBy;
+    let onSortCallback = this.props.onSortCallback;
     options = Util.extend({
       toggle: true
     }, options);
 
     if (options.toggle) {
-      var order;
+      let order;
 
       if (sortBy.order === 'desc') {
         order = 'asc';
@@ -179,16 +179,16 @@ export default class Table extends React.Component {
   }
 
   render() {
-    var buildRowOptions = this.props.buildRowOptions;
-    var columns = this.props.columns;
-    var data = this.props.data;
-    var keys = this.props.keys;
-    var sortBy = this.state.sortBy;
-    var sortedData = sortData(columns, data, sortBy);
+    let buildRowOptions = this.props.buildRowOptions;
+    let columns = this.props.columns;
+    let data = this.props.data;
+    let keys = this.props.keys;
+    let sortBy = this.state.sortBy;
+    let sortedData = sortData(columns, data, sortBy);
 
-    var headers = this.getHeaders(columns, sortBy);
-    var rows = this.getRows(sortedData, columns, keys, buildRowOptions);
-    var tbody;
+    let headers = this.getHeaders(columns, sortBy);
+    let rows = this.getRows(sortedData, columns, keys, buildRowOptions);
+    let tbody;
 
     if (this.props.transition === true) {
       tbody = (

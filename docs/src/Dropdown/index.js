@@ -10,7 +10,7 @@ class DropdownExample extends React.Component {
   }
 
   render() {
-    var simpleList = [
+    let simpleList = [
       {
         html: 'Foo',
         id: 'foo'
@@ -29,7 +29,7 @@ class DropdownExample extends React.Component {
       }
     ];
 
-    var styledItemsList = [
+    let styledItemsList = [
       {
         html:
           <span>
@@ -92,7 +92,7 @@ class DropdownExample extends React.Component {
       }
     ];
 
-    var dividedList = [
+    let dividedList = [
       {
         className: 'dropdown-menu-header',
         html: 'Foo',
@@ -133,7 +133,7 @@ class DropdownExample extends React.Component {
       }
     ];
 
-    var variedDisplayText = [
+    let variedDisplayText = [
       {
         html: 'Foo',
         id: 'foo',
