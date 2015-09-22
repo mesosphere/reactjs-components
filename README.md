@@ -17,15 +17,17 @@ A library of React components. For examples, take a look at our [kitchen sink](h
 2. Initiate within the file you want to use a component in
 ```js
   // es6
-  import {Dropdown} from 'reactjs-components';
+  import {Modal} from 'reactjs-components';
 
   // es5
-  var Dropdown = require('reactjs-components').Dropdown;
+  var Modal = require('reactjs-components').Modal;
 ```
 
 3. Use as if it was a normal component you imported
 ```js
-  <Dropdown ...{props} />
+  <Modal ...{props}>
+    // Content
+  <Modal />
 ```
 
 ## Development Setup
