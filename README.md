@@ -1,5 +1,5 @@
 # ReactJS-components
-A library of reusable React components.For examples, take a look at our
+A library of reusable React components. For examples, take a look at our
 [kitchen sink](http://mesosphere.github.io/reactjs-components/).
 
 ## Available components
