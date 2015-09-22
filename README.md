@@ -28,18 +28,18 @@ A library of reusable React components. For examples, take a look at our
 
 3. Use as if it was any other component
 
-```js
-  // ...
+  ```js
+    // ...
 
-  render: function () {
-    return (
-      // ...
-      <Modal ...{props}>
-        // Content
-      <Modal />
-    );
-  }
-```
+    render: function () {
+      return (
+        // ...
+        <Modal ...{props}>
+          // Content
+        <Modal />
+      );
+    }
+  ```
 
 
 ## Contributing
