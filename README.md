@@ -1,5 +1,6 @@
 # ReactJS-components
-A library of React components. For examples, take a look at our [kitchen sink](http://mesosphere.github.io/reactjs-components/).
+A library of reusable React components.For examples, take a look at our
+[kitchen sink](http://mesosphere.github.io/reactjs-components/).
 
 ## Available components
 * Dropdown
@@ -14,7 +15,7 @@ A library of React components. For examples, take a look at our [kitchen sink](h
   npm install --save reactjs-components
 `
 
-2. Initiate within the file you want to use a component in
+2. Import the component that you want to use
 ```js
   // es6
   import {Modal} from 'reactjs-components';
@@ -23,7 +24,7 @@ A library of React components. For examples, take a look at our [kitchen sink](h
   var Modal = require('reactjs-components').Modal;
 ```
 
-3. Use as if it was a normal component you imported
+3. Use as if it was any other component
 ```js
   // ...
 
@@ -61,7 +62,7 @@ A library of React components. For examples, take a look at our [kitchen sink](h
 
 ## Adding npm package dependencies to package.json
 
-If you want to add a new npm package to 'node_modules':
+If you want to add a new npm package to `node_modules`:
 
 1. Install the new package
 
@@ -79,7 +80,7 @@ If you want to add a new npm package to 'node_modules':
 
 ## Contributing
 
-1. Change the version
+1. Change the version within `package.json`
 
 2. Create a synced npm-shrinkwrap.json with devDependencies included
 
