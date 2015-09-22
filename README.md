@@ -1,5 +1,5 @@
 # ReactJS-components
-A library of React components. For examples, take a look at our [kitchen sink](http://mesosphere.github.io/ui-components/).
+A library of React components. For examples, take a look at our [kitchen sink](http://mesosphere.github.io/reactjs-components/).
 
 ## Available components
 * Dropdown
