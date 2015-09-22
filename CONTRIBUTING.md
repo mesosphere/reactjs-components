@@ -42,7 +42,7 @@ If you want to add a new npm package to `node_modules`:
 
 3. Commit to repository
 
-## Contributing
+## Making the PR
 
 1. Change the version within `package.json`
 
