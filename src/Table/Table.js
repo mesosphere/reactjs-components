@@ -107,7 +107,7 @@ export default class Table extends React.Component {
     if (data.length === 0) {
       return (
         <tr>
-          <td colspan={columns.length}>
+          <td colSpan={columns.length}>
             No data
           </td>
         </tr>
