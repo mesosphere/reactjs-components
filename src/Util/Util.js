@@ -34,7 +34,7 @@ function es6ify(mixin) {
   };
 }
 
-let Util = {
+const Util = {
 
   /*
    * https://raw.githubusercontent.com/angus-c/es6-react-mixins/master/src/mixin.js

@@ -1,4 +1,4 @@
-let BindMixin = {
+const BindMixin = {
 
   bindMethods: function (methods) {
     if (methods) {
