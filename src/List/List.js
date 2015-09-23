@@ -1,5 +1,4 @@
 import React, {PropTypes} from 'react/addons';
-
 import ListItem from './ListItem';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;

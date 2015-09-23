@@ -1,11 +1,12 @@
-import React from 'react/addons';
+import BindMixin from '../Mixin/BindMixin';
 import classNames from 'classnames';
-import * as Util from '../Util/Util';
-import * as DOMUtil from '../Util/DOMUtil';
+import DOMUtil from '../Util/DOMUtil';
+import React from 'react/addons';
+import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class Dropdown extends React.Component {
+export default class Dropdown extends Util.mixin(BindMixin) {
   constructor() {
     const methodsToBind = [
       'handleMenuToggle',
@@ -17,9 +18,7 @@ export default class Dropdown extends React.Component {
       isOpen: false,
       selectedID: null
     };
-    methodsToBind.forEach((method) => {
-      this[method] = this[method].bind(this);
-    }, this);
+    this.bindMethods(methodsToBind);
   }
 
   componentWillMount() {
