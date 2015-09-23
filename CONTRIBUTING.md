@@ -56,7 +56,7 @@ If you want to add a new npm package to `node_modules`:
 
 ## Making the PR
 
-* Before you submit your pull request consider the following guidelines:
+Before you submit your pull request consider the following guidelines:
 
 * Search [GitHub](https://github.com/mesosphere/reactjs-components/pulls) for an open or closed Pull Request
   that relates to your submission. You don't want to duplicate effort.
