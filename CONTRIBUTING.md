@@ -42,7 +42,7 @@ If you want to add a new npm package to `node_modules`:
 
 3. Commit to repository
 
-## Making the PR
+## Creating a new version
 
 1. Change the version within `package.json`
 
@@ -54,11 +54,55 @@ If you want to add a new npm package to `node_modules`:
 
 4. After PR is merged, the merger will create tags and publish the module
 
+## Making the PR
+
+* Before you submit your pull request consider the following guidelines:
+
+* Search [GitHub](https://github.com/mesosphere/reactjs-components/pulls) for an open or closed Pull Request
+  that relates to your submission. You don't want to duplicate effort.
+* Make your changes in a new git branch:
+
+     ```shell
+     git checkout -b my-fix-branch master
+     ```
+
+* Create your patch, including appropriate unit test cases
+
+* Commit your changes using a descriptive commit message
+
+* Build your changes locally to ensure all the tests pass:
+
+    ```shell
+    npm run dist
+    npm run test
+    ```
+
+* Push your branch to GitHub:
+
+    ```shell
+    git push origin my-fix-branch
+    ```
+
+* In GitHub, send a pull request to `marathon-ui:master`.
+
+* If we suggest changes then:
+  * Make the required updates.
+  * Re-run the test suite to ensure tests are still passing.
+  * If necessary, rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+
+    ```shell
+    git rebase master -i
+    git push origin my-fix-branch -f
+    ```
+
+That's it! Thank you for your contribution!
+
 ## Development Setup (Sublime Text)
+There is an .editorconfig-file to apply editor settings on various editors.
 
 1. Add the following to your Sublime Text User Settings:
 
-  ```json
+  ```js
   {
     ...
     "rulers": [80], // lines no longer than 80 chars
@@ -92,7 +136,7 @@ If you want to add a new npm package to `node_modules`:
   `Preferences` -> `Package Settings` -> `ApplySyntax` -> `Settings - User`
 
   4. Replace the contents with this:
-  ```
+  ```js
   {
       // Put your custom syntax rules here:
       "syntaxes": [
