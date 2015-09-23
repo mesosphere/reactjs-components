@@ -1,4 +1,68 @@
-const Util = {
+import React from 'react';
+
+function noop() {
+  return null;
+}
+function trueNoop() {
+  return true;
+}
+
+function es6ify(mixin) {
+  if (typeof mixin === 'function') {
+    // mixin is already es6 style
+    return mixin;
+  }
+
+  return function (Base) {
+    // mixin is old-react style plain object
+    // convert to ES6 class
+    class MixinClass extends Base {}
+
+    const clonedMixin = Util.extend({}, mixin);
+    // These React properties are defined as ES7 class static properties
+    let staticProps = [
+      'childContextTypes', 'contextTypes',
+      'defaultProps', 'propTypes'
+    ];
+    staticProps.forEach(function (staticProp) {
+      MixinClass[staticProp] = clonedMixin[staticProp];
+      delete clonedMixin[staticProp];
+    });
+
+    MixinClass = Util.extend(MixinClass.prototype, clonedMixin);
+    return MixinClass.constructor;
+  };
+}
+
+let Util = {
+
+  /*
+   * https://raw.githubusercontent.com/angus-c/es6-react-mixins/master/src/mixin.js
+  */
+  mixin(...mixins) {
+    // Creates base class
+    let Base = class base extends React.Component {};
+    Base.prototype.shouldComponentUpdate = trueNoop;
+
+    // No-ops so we need not check before calling super()
+    let functions = [
+      'componentWillMount', 'componentDidMount',
+      'componentWillReceiveProps', 'componentWillUpdate', 'componentDidUpdate',
+      'componentWillUnmount', 'render'
+    ];
+    functions.forEach(function (lifecycleFn) {
+      Base.prototype[lifecycleFn] = noop;
+    });
+
+    mixins.reverse();
+
+    mixins.forEach(function (mixin) {
+      Base = es6ify(mixin)(Base);
+    });
+
+    return Base;
+  },
+
   arrayPush(array, values) {
     let index = -1,
       length = values.length,
@@ -49,6 +113,21 @@ const Util = {
     return result;
   },
 
+  extend(object, ...sources) {
+
+    sources.forEach(function (source) {
+      if (Object.prototype.toString.call(source) !== '[object Object]') {
+        return;
+      }
+
+      Object.keys(source).forEach(function (key) {
+        object[key] = source[key];
+      });
+    });
+
+    return object;
+  },
+
   baseValues(object, props) {
     let index = -1,
       length = props.length,
@@ -81,29 +160,13 @@ const Util = {
     if (object === null || typeof object != 'object') {
       return object;
     }
-    let copy = object.constructor();
+    let copy = {};
     for (let attr in object) {
       if (object.hasOwnProperty(attr)) {
         copy[attr] = object[attr];
       }
     }
     return copy;
-  },
-
-  extend(object, ...sources) {
-    object = Util.clone(object) || {};
-
-    sources.forEach(function (source) {
-      if (toString.call(source) !== '[object Object]') {
-        return;
-      }
-
-      Object.keys(source).forEach(function (key) {
-        object[key] = source[key];
-      });
-    });
-
-    return object;
   },
 
   find(objects, predicate) {
