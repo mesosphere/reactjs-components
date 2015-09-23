@@ -1,7 +1,8 @@
-import BindMixin from '../Mixin/BindMixin';
-import * as DOMUtil from '../Util/DOMUtil';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
+
+import BindMixin from '../Mixin/BindMixin';
+import * as DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
 
 /**

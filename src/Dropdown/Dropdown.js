@@ -1,7 +1,8 @@
-import BindMixin from '../Mixin/BindMixin';
 import classNames from 'classnames';
-import DOMUtil from '../Util/DOMUtil';
 import React from 'react/addons';
+
+import BindMixin from '../Mixin/BindMixin';
+import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;

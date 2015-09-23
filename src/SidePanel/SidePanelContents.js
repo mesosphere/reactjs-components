@@ -1,7 +1,8 @@
-import BindMixin from '../Mixin/BindMixin';
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
+
+import BindMixin from '../Mixin/BindMixin';
 import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;

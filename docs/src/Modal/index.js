@@ -1,6 +1,7 @@
+import React from 'react';
+
 import BindMixin from '../../../src/Mixin/BindMixin';
 import Modal from '../../../src/Modal/Modal.js';
-import React from 'react';
 import Util from '../../../src/Util/Util';
 
 class ModalExample extends Util.mixin(BindMixin) {
