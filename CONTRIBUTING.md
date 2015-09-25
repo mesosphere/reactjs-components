@@ -54,7 +54,7 @@ If you want to add a new npm package to `node_modules`:
 
 4. After PR is merged, the merger will create tags and publish the module
 
-## Making the PR
+## Making a PR
 
 Before you submit your pull request consider the following guidelines:
 
