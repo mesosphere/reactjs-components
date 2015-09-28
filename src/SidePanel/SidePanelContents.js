@@ -8,15 +8,15 @@ import Util from '../Util/Util';
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class SidePanelContents extends Util.mixin(BindMixin) {
-  constructor() {
-
-    const methodsToBind = [
+  get methodsToBind() {
+    return [
       'handleBackdropClick',
       'closeSidePanel'
     ];
-    super();
+  }
 
-    this.bindMethods(methodsToBind);
+  constructor() {
+    super();
   }
 
   componentDidMount() {

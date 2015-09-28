@@ -29,8 +29,8 @@ function es6ify(mixin) {
       delete clonedMixin[staticProp];
     });
 
-    MixinClass = Util.extend(MixinClass.prototype, clonedMixin);
-    return MixinClass.constructor;
+    MixinClass.prototype = Util.extend(MixinClass.prototype, clonedMixin);
+    return MixinClass;
   };
 }
 
@@ -41,7 +41,7 @@ const Util = {
   */
   mixin(...mixins) {
     // Creates base class
-    let Base = class base extends React.Component {};
+    class Base extends React.Component {}
     Base.prototype.shouldComponentUpdate = trueNoop;
 
     // No-ops so we need not check before calling super()
@@ -160,7 +160,7 @@ const Util = {
     if (object === null || typeof object != 'object') {
       return object;
     }
-    let copy = {};
+    let copy = object.constructor();
     for (let attr in object) {
       if (object.hasOwnProperty(attr)) {
         copy[attr] = object[attr];

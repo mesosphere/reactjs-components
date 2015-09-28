@@ -8,18 +8,20 @@ import Util from '../Util/Util';
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class Dropdown extends Util.mixin(BindMixin) {
-  constructor() {
-    const methodsToBind = [
+  get methodsToBind() {
+    return [
       'handleMenuToggle',
       'handleExternalClick',
       'handleWrapperBlur'
     ];
+  }
+
+  constructor() {
     super();
     this.state = {
       isOpen: false,
       selectedID: null
     };
-    this.bindMethods(methodsToBind);
   }
 
   componentWillMount() {

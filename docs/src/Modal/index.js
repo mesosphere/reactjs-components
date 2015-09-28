@@ -5,15 +5,16 @@ import Modal from '../../../src/Modal/Modal.js';
 import Util from '../../../src/Util/Util';
 
 class ModalExample extends Util.mixin(BindMixin) {
-  constructor() {
-    const methodsToBind = [
+  get methodsToBind() {
+    return [
       'handleModalOpen',
       'handleModalClose'
     ];
+  }
+
+  constructor() {
     super();
     this.state = {};
-
-    this.bindMethods(methodsToBind);
   }
 
   // In order to use a modal, have an interaction that changes

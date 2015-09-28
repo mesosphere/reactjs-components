@@ -1,12 +1,12 @@
 const BindMixin = {
-
-  bindMethods: function (methods) {
-    if (methods) {
-      methods.forEach(function (method) {
+  constructor() {
+    super.constructor();
+    if (this.methodsToBind) {
+      this.methodsToBind.forEach((method) => {
         this[method] = this[method].bind(this);
-      }.bind(this));
+      });
     }
   }
 };
 
-module.exports = BindMixin;
+export default BindMixin;

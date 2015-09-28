@@ -14,14 +14,16 @@ import Util from '../Util/Util';
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class ModalContents extends Util.mixin(BindMixin) {
-  constructor() {
-    const methodsToBind = [
+  get methodsToBind() {
+    return [
       'handleWindowResize',
       'handleBackdropClick',
       'closeModal'
     ];
+  }
+
+  constructor() {
     super();
-    this.bindMethods(methodsToBind);
   }
 
   componentDidUpdate() {
