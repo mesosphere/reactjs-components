@@ -1,7 +1,9 @@
-import React, {PropTypes} from 'react/addons';
 import GeminiScrollbar from 'react-gemini-scrollbar';
+import React, {PropTypes} from 'react/addons';
 
+import BindMixin from '../Mixin/BindMixin';
 import * as DOMUtil from '../Util/DOMUtil';
+import Util from '../Util/Util';
 
 /**
  * Lifecycle of a Modal:
@@ -10,19 +12,18 @@ import * as DOMUtil from '../Util/DOMUtil';
  * get height of content -> rerender modal content and cap the height
  */
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = [
-  'handleWindowResize',
-  'handleBackdropClick',
-  'closeModal'
-];
 
-export default class ModalContents extends React.Component {
+export default class ModalContents extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return [
+      'handleWindowResize',
+      'handleBackdropClick',
+      'closeModal'
+    ];
+  }
+
   constructor() {
     super();
-
-    METHODS_TO_BIND.forEach(function (method) {
-      this[method] = this[method].bind(this);
-    }, this);
   }
 
   componentDidUpdate() {

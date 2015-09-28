@@ -1,19 +1,20 @@
 import React from 'react';
 
+import BindMixin from '../../../src/Mixin/BindMixin';
 import Modal from '../../../src/Modal/Modal.js';
+import Util from '../../../src/Util/Util';
 
-const METHODS_TO_BIND = [
-  'handleModalOpen',
-  'handleModalClose'
-];
-class ModalExample extends React.Component {
+class ModalExample extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return [
+      'handleModalOpen',
+      'handleModalClose'
+    ];
+  }
+
   constructor() {
     super();
     this.state = {};
-
-    METHODS_TO_BIND.forEach(function (method) {
-      this[method] = this[method].bind(this);
-    }, this);
   }
 
   // In order to use a modal, have an interaction that changes

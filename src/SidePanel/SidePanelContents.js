@@ -2,16 +2,21 @@ import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-const METHODS_TO_BIND = ['handleBackdropClick', 'closeSidePanel'];
+import BindMixin from '../Mixin/BindMixin';
+import Util from '../Util/Util';
 
-export default class SidePanelContents extends React.Component {
+const CSSTransitionGroup = React.addons.CSSTransitionGroup;
+
+export default class SidePanelContents extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return [
+      'handleBackdropClick',
+      'closeSidePanel'
+    ];
+  }
+
   constructor() {
     super();
-
-    METHODS_TO_BIND.forEach(function (method) {
-      this[method] = this[method].bind(this);
-    }, this);
   }
 
   componentDidMount() {
