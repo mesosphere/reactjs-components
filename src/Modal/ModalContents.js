@@ -73,20 +73,11 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     this.props.onClose();
   }
 
-  getHeaderAndFooterHeight() {
-    let footerContainer = this.refs.footerContainer;
-    let headerContainer = this.refs.headerContainer;
-    let totalHeight = 0;
+  getTotalHeight() {
+    let modalContainer = this.refs.modal;
+    let height = React.findDOMNode(modalContainer).offsetHeight;
 
-    if (headerContainer) {
-      totalHeight += React.findDOMNode(headerContainer).offsetHeight;
-    }
-
-    if (footerContainer) {
-      totalHeight += React.findDOMNode(footerContainer).offsetHeight;
-    }
-
-    return totalHeight;
+    return height;
   }
 
   getInnerContainerHeightInfo() {
@@ -104,7 +95,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
-    let totalContentHeight = this.getHeaderAndFooterHeight() + originalHeight;
+    let totalContentHeight = this.getTotalHeight();
 
     // Height without padding, margin, border.
     let innerHeight = DOMUtil.getComputedDimensions(
@@ -189,7 +180,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div ref="footerContainer" className={props.footerClass}>
+      <div className={props.footerClass}>
         <div className={props.footerContainerClass}>
           {props.footer}
         </div>
@@ -236,9 +227,9 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       <div
         className={props.containerClass}
         style={containerStyle}>
-        <div className={props.modalClass}>
+        <div ref="modal" className={props.modalClass}>
           {this.getCloseButton()}
-          <div ref="headerContainer" className={props.headerClass}>
+          <div className={props.headerClass}>
             <div className={props.headerContainerClass}>
               <h2 className={props.titleClass}>
                 {props.titleText}
@@ -275,7 +266,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 ModalContents.defaultProps = {
   closeByBackdropClick: true,
   footer: null,
-  maxHeightPercentage: 0.7,
+  maxHeightPercentage: 0.6,
   onClose: () => {},
   open: false,
   showCloseButton: false,
