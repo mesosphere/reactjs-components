@@ -13,6 +13,11 @@ import Util from '../Util/Util';
  */
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+const DEFAULT_HEIGHT = {
+  height: 'auto',
+  innerHeight: 'auto'
+};
+
 export default class ModalContents extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
@@ -30,18 +35,19 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     if (this.props.open) {
       this.checkHeight();
     } else {
-      this.heightInfo = null;
+      this.resetHeight();
       this.rerendered = false;
     }
   }
 
   componentWillMount() {
+    this.resetHeight();
     window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentWillUnmount() {
+    this.resetHeight();
     window.removeEventListener('resize', this.handleWindowResize);
-    this.heightInfo = null;
   }
 
   shouldComponentUpdate(nextProps) {
@@ -60,9 +66,13 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     this.forceUpdate();
   }
 
+  resetHeight() {
+    this.heightInfo = Util.clone(DEFAULT_HEIGHT);
+  }
+
   checkHeight() {
     // Calculate height and call a render on first render cycle
-    this.heightInfo = this.getInnerContainerHeightInfo();
+    this.heightInfo = this.calculateModalHeight();
     if (!this.rerendered) {
       this.rerendered = true;
       this.forceUpdate();
@@ -73,29 +83,14 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     this.props.onClose();
   }
 
-  getTotalHeight() {
-    let modalContainer = this.refs.modal;
-    let height = React.findDOMNode(modalContainer).offsetHeight;
-
-    return height;
-  }
-
   getInnerContainerHeightInfo() {
-    let heightInfo = {
-      innerHeight: null,
-      maxHeight: null,
-      originalHeight: null,
-      outerHeight: null,
-      totalContentHeight: null
-    };
-
     let innerContainer = this.refs.innerContainer;
     if (!innerContainer) {
-      return heightInfo;
+      return Util.clone(DEFAULT_HEIGHT);
     }
 
     let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
-    let totalContentHeight = this.getTotalHeight();
+    let totalContentHeight = React.findDOMNode(this.refs.modal).offsetHeight;
 
     // Height without padding, margin, border.
     let innerHeight = DOMUtil.getComputedDimensions(
@@ -111,22 +106,20 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       window.innerHeight * this.props.maxHeightPercentage
     ) + 10;
 
+    // We minus the maxHeight with the outerHeight because it will
+    // not show the content correctly due to 'box-sizing: border-box'.
+    innerHeight = Math.min(innerHeight, maxHeight - outerHeight);
+
     return {
-      // We minus the maxHeight with the outerHeight because it will
-      // not show the content correctly due to 'box-sizing: border-box'.
-      innerHeight: Math.min(innerHeight, maxHeight - outerHeight),
-
-      // Add 10 for the gemini horizontal scrollbar
-      maxHeight: maxHeight,
-
-      originalHeight: originalHeight,
-      outerHeight: outerHeight,
-      totalContentHeight: totalContentHeight
+      innerHeight,
+      maxHeight,
+      originalHeight,
+      outerHeight,
+      totalContentHeight
     };
   }
 
-  calculateModalHeight(heightInfo) {
-    heightInfo = heightInfo || {};
+  calculateModalHeight() {
     let height = 0;
     let {
       innerHeight,
@@ -134,7 +127,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       originalHeight,
       outerHeight,
       totalContentHeight
-    } = heightInfo;
+    } = this.getInnerContainerHeightInfo();
 
     if (totalContentHeight > maxHeight) {
       height = maxHeight - (totalContentHeight - originalHeight);
@@ -144,15 +137,11 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     // Default to auto height
-    if (!height) {
-      height = 'auto';
-      innerHeight = 'auto';
+    if (height == null || height <= 0) {
+      return Util.clone(DEFAULT_HEIGHT);
     }
 
-    return {
-      height: height,
-      innerHeight: innerHeight
-    };
+    return {height, innerHeight};
   }
 
   getCloseButton() {
@@ -213,7 +202,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       return null;
     }
 
-    let calculatedHeight = this.calculateModalHeight(this.heightInfo);
+    let calculatedHeight = this.heightInfo;
     let containerStyle = {height: window.innerHeight};
     let innerHeight = calculatedHeight.innerHeight;
     let modalStyle = {height: calculatedHeight.height};
