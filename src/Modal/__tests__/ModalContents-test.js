@@ -121,17 +121,23 @@ describe('ModalContents', function () {
       this.instance = TestUtils.renderIntoDocument(
         <ModalContents open={true} />
       );
+
+      // Mock height calculation
+      this.mockHeight = {};
+      this.instance.getInnerContainerHeightInfo = function () {
+        return this.mockHeight;
+      }.bind(this);
     });
 
     it('should default to auto if a bad value is passed in', function () {
-      var calculatedHeight = this.instance.calculateModalHeight(null);
-
+      var calculatedHeight = this.instance.calculateModalHeight();
+      this.mockHeight = null;
       expect(calculatedHeight.height).toEqual('auto');
       expect(calculatedHeight.innerHeight).toEqual('auto');
     });
 
     it('should not give a height that is bigger than maxHeight', function () {
-      var heightInfo = {
+      this.mockHeight = {
         innerHeight: 500,
         originalHeight: 600,
         outerHeight: 100,
@@ -139,19 +145,19 @@ describe('ModalContents', function () {
         totalContentHeight: 800
       };
 
-      var calculatedHeight = this.instance.calculateModalHeight(heightInfo);
+      var calculatedHeight = this.instance.calculateModalHeight();
       var headerAndFooterHeight =
-        heightInfo.totalContentHeight - heightInfo.originalHeight;
+        this.mockHeight.totalContentHeight - this.mockHeight.originalHeight;
 
       expect(calculatedHeight.height)
-        .toEqual(heightInfo.maxHeight - headerAndFooterHeight);
+        .toEqual(this.mockHeight.maxHeight - headerAndFooterHeight);
 
       expect(calculatedHeight.innerHeight)
-        .toEqual(calculatedHeight.height - heightInfo.outerHeight);
+        .toEqual(calculatedHeight.height - this.mockHeight.outerHeight);
     });
 
     it('should return originalHeight if smaller than maxHeight', function () {
-      var heightInfo = {
+      this.mockHeight = {
         innerHeight: 500,
         originalHeight: 600,
         outerHeight: 100,
@@ -159,10 +165,10 @@ describe('ModalContents', function () {
         totalContentHeight: 800
       };
 
-      var calculatedHeight = this.instance.calculateModalHeight(heightInfo);
+      var calculatedHeight = this.instance.calculateModalHeight();
 
-      expect(calculatedHeight.height).toEqual(heightInfo.originalHeight);
-      expect(calculatedHeight.innerHeight).toEqual(heightInfo.innerHeight);
+      expect(calculatedHeight.height).toEqual(this.mockHeight.originalHeight);
+      expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.innerHeight);
     });
   });
 });
