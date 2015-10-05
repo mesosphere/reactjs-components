@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react/addons';
-import * as Util from '../Util/Util';
+import DOMUtil from '../Util/DOMUtil';
+import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -55,10 +56,26 @@ export default class Table extends React.Component {
     }
   }
 
+  componentDidMount() {
+    if (this.props.contentMaxHeight) {
+      this.updateHeight();
+      this.forceUpdate();
+    }
+  }
+
   componentWillReceiveProps() {
+    if (this.props.contentMaxHeight) {
+      this.updateHeight();
+    }
     if (this.props.sortBy.prop) {
       this.handleSort(this.props.sortBy.prop, {toggle: false});
     }
+  }
+
+  updateHeight() {
+    this.currentHeight = DOMUtil.getComputedDimensions(
+      React.findDOMNode(this.refs.tableBody)
+    ).height;
   }
 
   getHeaders(headers, sortBy) {
@@ -182,23 +199,44 @@ export default class Table extends React.Component {
     let buildRowOptions = this.props.buildRowOptions;
     let columns = this.props.columns;
     let data = this.props.data;
+    let contentMaxHeight = this.props.contentMaxHeight;
     let keys = this.props.keys;
     let sortBy = this.state.sortBy;
     let sortedData = sortData(columns, data, sortBy);
 
     let headers = this.getHeaders(columns, sortBy);
     let rows = this.getRows(sortedData, columns, keys, buildRowOptions);
-    let tbody;
+    let tableBody;
+
+    // Wrap another table in scrolling div,
+    // when higher than specified max height
+    if (this.currentHeight && this.currentHeight > contentMaxHeight) {
+      rows = (
+        <tr className="table-scroll">
+          <td colSpan={columns.length}>
+            <div className="table-scroll-content"
+              style={{height: `${contentMaxHeight}px`}}>
+              <table>
+                {this.props.colGroup}
+                <tbody>
+                  {rows}
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      );
+    }
 
     if (this.props.transition === true) {
-      tbody = (
-        <CSSTransitionGroup component="tbody" transitionName="table-row">
+      tableBody = (
+        <CSSTransitionGroup component="tbody" transitionName="table-row" ref="tableBody">
           {rows}
         </CSSTransitionGroup>
       );
     } else {
-      tbody = (
-        <tbody>
+      tableBody = (
+        <tbody ref="tableBody">
           {rows}
         </tbody>
       );
@@ -212,7 +250,7 @@ export default class Table extends React.Component {
             {headers}
           </tr>
         </thead>
-        {tbody}
+        {tableBody}
       </table>
     );
   }
@@ -259,6 +297,9 @@ Table.propTypes = {
 
   // Provide what attributes in the data make a row unique.
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+
+  // Maximum height in pixels
+  contentMaxHeight: PropTypes.number,
 
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,
