@@ -1,3 +1,4 @@
+import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
@@ -212,16 +213,21 @@ export default class Table extends React.Component {
     // when higher than specified max height
     if (this.currentHeight && this.currentHeight > contentMaxHeight) {
       rows = (
-        <tr className="table-scroll">
-          <td colSpan={columns.length}>
-            <div className="table-scroll-content"
-              style={{height: `${contentMaxHeight}px`}}>
-              <table>
-                {this.props.colGroup}
-                <tbody>
-                  {rows}
-                </tbody>
-              </table>
+        <tr>
+          <td className={this.props.scrollTableClass}
+            colSpan={columns.length}>
+            <div className={this.props.scrollContainerClass}>
+              <GeminiScrollbar
+                style={{height: `${contentMaxHeight}px`}}
+                autoshow={true}>
+                <table style={{width: '100%'}}
+                  className={this.props.scrollElementClass}>
+                  {this.props.colGroup}
+                  <tbody>
+                    {rows}
+                  </tbody>
+                </table>
+              </GeminiScrollbar>
             </div>
           </td>
         </tr>
@@ -230,7 +236,10 @@ export default class Table extends React.Component {
 
     if (this.props.transition === true) {
       tableBody = (
-        <CSSTransitionGroup component="tbody" transitionName="table-row" ref="tableBody">
+        <CSSTransitionGroup
+          component="tbody"
+          transitionName="table-row"
+          ref="tableBody">
           {rows}
         </CSSTransitionGroup>
       );
@@ -258,7 +267,10 @@ export default class Table extends React.Component {
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {}
+  sortBy: {},
+  scrollContainerClass: 'flex-container-col',
+  scrollElementClass: 'container-scrollable',
+  scrollTableClass: 'scroll-table'
 };
 
 Table.propTypes = {
@@ -311,6 +323,13 @@ Table.propTypes = {
   }),
 
   // Optional property to add transitions or turn them off. Default is off.
-  transition: PropTypes.bool
+  transition: PropTypes.bool,
 
+  // Optional classes
+  // scroll element class
+  scrollElementClass: PropTypes.string,
+  // scroll container class
+  scrollContainerClass: PropTypes.string,
+  // scroll table class
+  scrollTableClass: PropTypes.string
 };
