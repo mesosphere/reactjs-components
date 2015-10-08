@@ -276,49 +276,49 @@ class TableExample extends React.Component {
       rowButtonLabel = 'Add Row';
     }
 
-        // <section className="row canvas-pod">
-        //   <div className="container container-pod">
-        //     <h3>Here is a large, sortable table.</h3>
-        //     <Table
-        //       className="table"
-        //       colGroup={this.getColGroup('large')}
-        //       columns={this.getColumns('large')}
-        //       data={this.getRows('large')}
-        //       keys={['id']}
-        //       sortBy={{
-        //         prop: 'name',
-        //         order: 'desc'
-        //       }} />
-        //   </div>
-        // </section>
-        // <section className="row canvas-pod canvas-pod-dark">
-        //   <div className="container container-pod">
-        //     <div className="row">
-        //       <div className="column-9">
-        //         <h3 className="inverse flush-top">
-        //           Here is a table with less data and sorting disabled.
-        //         </h3>
-        //       </div>
-        //       <div className="column-3 text-align-right">
-        //         <button
-        //           className="button button-small button-primary
-        //             button-stroke button-inverse"
-        //           onClick={this.handleToggleExtraRow}>
-        //           {rowButtonLabel}
-        //         </button>
-        //       </div>
-        //     </div>
-        //     <Table
-        //       className="table inverse"
-        //       colGroup={this.getColGroup('small')}
-        //       columns={this.getColumns('small')}
-        //       data={this.getRows('small')}
-        //       keys={['id']}
-        //       transition={true} />
-        //   </div>
-        // </section>
     return (
       <div>
+        <section className="row canvas-pod">
+          <div className="container container-pod">
+            <h3>Here is a large, sortable table.</h3>
+            <Table
+              className="table"
+              colGroup={this.getColGroup('large')}
+              columns={this.getColumns('large')}
+              data={this.getRows('large')}
+              keys={['id']}
+              sortBy={{
+                prop: 'name',
+                order: 'desc'
+              }} />
+          </div>
+        </section>
+        <section className="row canvas-pod canvas-pod-dark">
+          <div className="container container-pod">
+            <div className="row">
+              <div className="column-9">
+                <h3 className="inverse flush-top">
+                  Here is a table with less data and sorting disabled.
+                </h3>
+              </div>
+              <div className="column-3 text-align-right">
+                <button
+                  className="button button-small button-primary
+                    button-stroke button-inverse"
+                  onClick={this.handleToggleExtraRow}>
+                  {rowButtonLabel}
+                </button>
+              </div>
+            </div>
+            <Table
+              className="table inverse"
+              colGroup={this.getColGroup('small')}
+              columns={this.getColumns('small')}
+              data={this.getRows('small')}
+              keys={['id']}
+              transition={true} />
+          </div>
+        </section>
         <section className="row canvas-pod">
           <div className="container container-pod">
             <div className="row">
