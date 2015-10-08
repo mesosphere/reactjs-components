@@ -1,4 +1,4 @@
-import VirtualList from 'react-virtual-list';
+import VirtualList from '../VirtualList/VirtualList';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import DOMUtil from '../Util/DOMUtil';
@@ -79,10 +79,10 @@ export default class Table extends React.Component {
   }
 
   updateHeight() {
-    this.containerNode = React.findDOMNode(this.refs.virtualContainer);
-    let dimensions = DOMUtil.getComputedDimensions(React.findDOMNode(this.refs.tableBody));
-    this.currentHeight = dimensions.height;
-    this.currentWidth = dimensions.width;
+    this.containerNode = React.findDOMNode(this.refs.virtualContainer.refs['scroll-view']);
+    // let dimensions = DOMUtil.getComputedDimensions(React.findDOMNode(this.refs.tableBody));
+    // this.currentHeight = dimensions.height;
+    // this.currentWidth = dimensions.width;
   }
 
   getHeaders(headers, sortBy) {
@@ -127,12 +127,15 @@ export default class Table extends React.Component {
     });
   }
 
+  getBufferItem(columns, styles) {
+    return <tr style={styles}><td colSpan={columns.length} /></tr>;
+  }
+
   getRowCells(columns, sortBy, buildRowOptions, keys, row) {
     // console.log(columns, sortBy, row);
     let rowCells = columns.map((column, index) => {
       // For each column in the data, output a cell in each row with the value
       // specified by the data prop.
-      let cellAttributes = column.attributes;
       let cellClassName = getClassName(column, sortBy, row);
 
       let cellValue = row[column.prop];
@@ -147,7 +150,7 @@ export default class Table extends React.Component {
       }
 
       return (
-        <td {...cellAttributes} className={cellClassName} key={index}>
+        <td {...column.attributes} className={cellClassName} key={index}>
           {cellValue}
         </td>
       );
@@ -214,83 +217,80 @@ export default class Table extends React.Component {
     let sortBy = this.state.sortBy;
     let sortedData = sortData(columns, this.props.data, sortBy);
 
-    let tableBody = null;
-    // <GeminiScrollbar
-    //   containerHeight={contentMaxHeight}
-    //   style={{height: `${contentMaxHeight}px`}}
-    //   autoshow={true}>
-    // </GeminiScrollbar>
+    // let tableBody = null;
+
     let content = (<tbody></tbody>);
     // Wrap another table in scrolling div,
     // when higher than specified max height
     // if (this.currentHeight && this.currentHeight > contentMaxHeight) {
     if (this.containerNode) {
+      let visibleItems = contentMaxHeight / 41;
       content = (
         <VirtualList
           items={sortedData}
           container={this.containerNode}
-          className="virtual-list"
-          itemHeight={24}
+          itemHeight={41}
           tagName="tbody"
+          renderBufferItem={this.getBufferItem.bind(this, columns)}
           renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-          itemBuffer={contentMaxHeight / 24}
-          scrollDelay={0} />
+          itemBuffer={20 * visibleItems}
+          scrollDelay={visibleItems / 4} />
       );
     }
     // td should have
     // table should have
-    let rows = (
-      <tr>
-        <td colSpan={columns.length} className={this.props.scrollTableClass}>
-          <div ref="virtualContainer" style={{height: `${contentMaxHeight}px`, overflow: 'scroll'}}>
-            <table className={this.props.scrollElementClass}>
-              {this.props.colGroup}
-              {content}
-            </table>
-          </div>
-        </td>
-      </tr>
-    );
+    // let rows = (
+    //   <tr>
+    //     <td colSpan={columns.length}>
+
+    //     </td>
+    //   </tr>
+    // );
     // } else {
     //   rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, keys);
     // }
 
-    if (this.props.transition === true) {
-      tableBody = (
-        <CSSTransitionGroup
-          component="tbody"
-          transitionName="table-row"
-          ref="tableBody">
-          {rows}
-        </CSSTransitionGroup>
-      );
-    } else {
-      tableBody = (
-        <tbody ref="tableBody">
-          {rows}
-        </tbody>
-      );
-    }
+    // if (this.props.transition === true) {
+    //   tableBody = (
+    //     <CSSTransitionGroup
+    //       component="tbody"
+    //       transitionName="table-row"
+    //       ref="tableBody">
+    //       {rows}
+    //     </CSSTransitionGroup>
+    //   );
+    // } else {
+    //   tableBody = (
+    //     <tbody ref="tableBody">
+    //       {rows}
+    //     </tbody>
+    //   );
+    // }
+    // className={this.props.scrollElementClass}
     return (
-      <table className={this.props.className}>
-        {this.props.colGroup}
-        <thead>
-          <tr>
-            {this.getHeaders(columns, sortBy)}
-          </tr>
-        </thead>
-        {tableBody}
-      </table>
+      <div>
+        <table className={this.props.className + " flush-bottom"}>
+          {this.props.colGroup}
+          <thead>
+            <tr>
+              {this.getHeaders(columns, sortBy)}
+            </tr>
+          </thead>
+        </table>
+        <GeminiScrollbar ref="virtualContainer" autoshow={true} style={{height: `${contentMaxHeight}px`, overflow: 'auto'}}>
+          <table className={this.props.className + " flush-bottom"}>
+            {this.props.colGroup}
+            {content}
+          </table>
+        </GeminiScrollbar>
+      </div>
     );
   }
 }
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {},
-  scrollContainerClass: 'flex-container-col',
-  scrollElementClass: 'container-scrollable',
-  scrollTableClass: 'scroll-table'
+  sortBy: {}
 };
 
 Table.propTypes = {
@@ -343,13 +343,5 @@ Table.propTypes = {
   }),
 
   // Optional property to add transitions or turn them off. Default is off.
-  transition: PropTypes.bool,
-
-  // Optional classes
-  // scroll element class
-  scrollElementClass: PropTypes.string,
-  // scroll container class
-  scrollContainerClass: PropTypes.string,
-  // scroll table class
-  scrollTableClass: PropTypes.string
+  transition: PropTypes.bool
 };

@@ -8,6 +8,14 @@ let computeInnerBound = (compstyle, acc, key) => {
   }
 };
 
+function topFromWindow(element) {
+  if (!element || element === window) {
+    return 0;
+  }
+
+  return element.offsetTop + topFromWindow(element.offsetParent);
+}
+
 const DOMUtil = {
 
   closest(el, selector) {
@@ -63,7 +71,12 @@ const DOMUtil = {
       width: width,
       height: height
     };
+  },
+
+  topDifference(element, container) {
+    return topFromWindow(element) - topFromWindow(container);
   }
+
 };
 
 export default DOMUtil;
