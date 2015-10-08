@@ -1,3 +1,4 @@
+import VirtualList from 'react-virtual-list';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import DOMUtil from '../Util/DOMUtil';
@@ -73,10 +74,15 @@ export default class Table extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps) {
+    return this.props.data !== nextProps.data;
+  }
+
   updateHeight() {
-    this.currentHeight = DOMUtil.getComputedDimensions(
-      React.findDOMNode(this.refs.tableBody)
-    ).height;
+    this.containerNode = React.findDOMNode(this.refs.virtualContainer);
+    let dimensions = DOMUtil.getComputedDimensions(React.findDOMNode(this.refs.tableBody));
+    this.currentHeight = dimensions.height;
+    this.currentWidth = dimensions.width;
   }
 
   getHeaders(headers, sortBy) {
@@ -121,7 +127,46 @@ export default class Table extends React.Component {
     });
   }
 
-  getRows(data, columns, keys, buildRowOptions) {
+  getRowCells(columns, sortBy, buildRowOptions, keys, row) {
+    // console.log(columns, sortBy, row);
+    let rowCells = columns.map((column, index) => {
+      // For each column in the data, output a cell in each row with the value
+      // specified by the data prop.
+      let cellAttributes = column.attributes;
+      let cellClassName = getClassName(column, sortBy, row);
+
+      let cellValue = row[column.prop];
+
+      if (column.render) {
+        cellValue = column.render(column.prop, row);
+      }
+
+      if (cellValue === undefined) {
+        cellValue = column.defaultContent;
+        cellClassName += ' empty-cell';
+      }
+
+      return (
+        <td {...cellAttributes} className={cellClassName} key={index}>
+          {cellValue}
+        </td>
+      );
+    });
+
+    // Create the custom row attributes object, always with a key.
+    let rowAttributes = Util.extend(
+      {key: Util.values(Util.pick(row, keys))},
+      buildRowOptions(row, this)
+    );
+
+    return (
+      <tr {...rowAttributes}>
+        {rowCells}
+      </tr>
+    );
+  }
+
+  getRows(data, columns, sortBy, buildRowOptions, keys) {
     if (data.length === 0) {
       return (
         <tr>
@@ -132,42 +177,7 @@ export default class Table extends React.Component {
       );
     }
 
-    return data.map((row) => {
-      // Create the custom row attributes object, always with a key.
-      let rowAttributes = Util.extend(
-        {key: Util.values(Util.pick(row, keys))},
-        buildRowOptions(row, this));
-
-      // For each column in the data, output a cell in each row with the value
-      // specified by the data prop.
-      let rowCells = columns.map((column, index) => {
-        let cellAttributes = column.attributes;
-        let cellClassName = getClassName(column, this.state.sortBy, row);
-
-        let cellValue = row[column.prop];
-
-        if (column.render) {
-          cellValue = column.render(column.prop, row);
-        }
-
-        if (cellValue === undefined) {
-          cellValue = column.defaultContent;
-          cellClassName += ' empty-cell';
-        }
-
-        return (
-          <td {...cellAttributes} className={cellClassName} key={index}>
-            {cellValue}
-          </td>
-        );
-      });
-
-      return (
-        <tr {...rowAttributes}>
-          {rowCells}
-        </tr>
-      );
-    });
+    return data.map((row) => this.getRowCells(columns, sortBy, buildRowOptions, keys, row));
   }
 
   handleSort(prop, options) {
@@ -199,40 +209,51 @@ export default class Table extends React.Component {
   render() {
     let buildRowOptions = this.props.buildRowOptions;
     let columns = this.props.columns;
-    let data = this.props.data;
     let contentMaxHeight = this.props.contentMaxHeight;
     let keys = this.props.keys;
     let sortBy = this.state.sortBy;
-    let sortedData = sortData(columns, data, sortBy);
+    let sortedData = sortData(columns, this.props.data, sortBy);
 
-    let headers = this.getHeaders(columns, sortBy);
-    let rows = this.getRows(sortedData, columns, keys, buildRowOptions);
-    let tableBody;
-
+    let tableBody = null;
+    // <GeminiScrollbar
+    //   containerHeight={contentMaxHeight}
+    //   style={{height: `${contentMaxHeight}px`}}
+    //   autoshow={true}>
+    // </GeminiScrollbar>
+    let content = (<tbody></tbody>);
     // Wrap another table in scrolling div,
     // when higher than specified max height
-    if (this.currentHeight && this.currentHeight > contentMaxHeight) {
-      rows = (
-        <tr>
-          <td className={this.props.scrollTableClass}
-            colSpan={columns.length}>
-            <div className={this.props.scrollContainerClass}>
-              <GeminiScrollbar
-                style={{height: `${contentMaxHeight}px`}}
-                autoshow={true}>
-                <table style={{width: '100%'}}
-                  className={this.props.scrollElementClass}>
-                  {this.props.colGroup}
-                  <tbody>
-                    {rows}
-                  </tbody>
-                </table>
-              </GeminiScrollbar>
-            </div>
-          </td>
-        </tr>
+    // if (this.currentHeight && this.currentHeight > contentMaxHeight) {
+    if (this.containerNode) {
+      content = (
+        <VirtualList
+          items={sortedData}
+          container={this.containerNode}
+          className="virtual-list"
+          itemHeight={24}
+          tagName="tbody"
+          renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
+          itemBuffer={contentMaxHeight / 24}
+          scrollDelay={0} />
       );
     }
+    // td should have
+    // table should have
+    let rows = (
+      <tr>
+        <td colSpan={columns.length} className={this.props.scrollTableClass}>
+          <div ref="virtualContainer" style={{height: `${contentMaxHeight}px`, overflow: 'scroll'}}>
+            <table className={this.props.scrollElementClass}>
+              {this.props.colGroup}
+              {content}
+            </table>
+          </div>
+        </td>
+      </tr>
+    );
+    // } else {
+    //   rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, keys);
+    // }
 
     if (this.props.transition === true) {
       tableBody = (
@@ -250,13 +271,12 @@ export default class Table extends React.Component {
         </tbody>
       );
     }
-
     return (
       <table className={this.props.className}>
         {this.props.colGroup}
         <thead>
           <tr>
-            {headers}
+            {this.getHeaders(columns, sortBy)}
           </tr>
         </thead>
         {tableBody}

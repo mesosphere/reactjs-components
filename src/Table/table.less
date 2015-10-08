@@ -7,15 +7,18 @@
   }
 
   // Scroll table
-  tbody .scroll-table {
-    overflow: auto;
+  tbody td.scroll-table {
     padding: 0;
     margin: 0;
 
-    > td {
-      padding: 0;
-      margin: 0;
+    .container-scrollable {
+      width: 100%;
     }
+  }
+
+  // TODO: This should be removed!
+  .virtual-list {
+    display: block;
   }
 }
 
