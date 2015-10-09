@@ -61,7 +61,9 @@ export default class Table extends React.Component {
   componentDidMount() {
     if (this.props.contentMaxHeight) {
       this.updateHeight();
-      this.forceUpdate();
+      this.forceUpdate(function () {
+        this.forceUpdate();
+      }.bind(this));
     }
   }
 
@@ -209,7 +211,7 @@ export default class Table extends React.Component {
     }
   }
 
-  render() {
+  getTable() {
     let buildRowOptions = this.props.buildRowOptions;
     let columns = this.props.columns;
     let contentMaxHeight = this.props.contentMaxHeight;
@@ -218,14 +220,40 @@ export default class Table extends React.Component {
     let sortedData = sortData(columns, this.props.data, sortBy);
 
     // let tableBody = null;
+    let innerContent = null;
 
-    let tableContents = null;
+    if (this.props.transition === true) {
+      innerContent = (
+        <CSSTransitionGroup
+          component="tbody"
+          transitionName="table-row"
+          ref="tableBody">
+          {this.getRows(sortedData, columns, sortBy, buildRowOptions, keys)}
+        </CSSTransitionGroup>
+      );
+    } else {
+      innerContent = (
+        <tbody>
+          {this.getRows(sortedData, columns, sortBy, buildRowOptions, keys)}
+        </tbody>
+      );
+    }
+
+    if (contentMaxHeight === undefined) {
+      return (
+        <table className={this.props.className + ' flush-bottom'}>
+          {this.props.colGroup}
+          {innerContent}
+        </table>
+      );
+    }
+
     // Wrap another table in scrolling div,
     // when higher than specified max height
-    if (this.containerNode) {
+    if (contentMaxHeight && this.containerNode) {
       let visibleItems = contentMaxHeight / 41;
-      tableContents = (
-        <table className={this.props.className + " flush-bottom"}>
+      return (
+        <table className={this.props.className + ' flush-bottom'}>
           {this.props.colGroup}
           <VirtualList
             items={sortedData}
@@ -239,21 +267,16 @@ export default class Table extends React.Component {
         </table>
       );
     }
+  }
 
-    if (this.props.transition === true) {
-      tableContents = (
-        <CSSTransitionGroup
-          component="tbody"
-          transitionName="table-row"
-          ref="tableBody">
-          {tableContents}
-        </CSSTransitionGroup>
-      );
-    }
+  render() {
+    let columns = this.props.columns;
+    let sortBy = this.state.sortBy;
+    let contentMaxHeight = this.props.contentMaxHeight;
 
     return (
       <div>
-        <table className={this.props.className + " flush-bottom"}>
+        <table className={this.props.className + ' flush-bottom'}>
           {this.props.colGroup}
           <thead>
             <tr>
@@ -261,8 +284,8 @@ export default class Table extends React.Component {
             </tr>
           </thead>
         </table>
-        <GeminiScrollbar ref="virtualContainer" autoshow={true} style={{height: `${contentMaxHeight}px`, overflow: 'auto'}}>
-          {tableContents}
+        <GeminiScrollbar ref="virtualContainer" autoshow={true} style={{height: `${contentMaxHeight || 'auto'}`, overflow: 'auto'}}>
+          {this.getTable()}
         </GeminiScrollbar>
       </div>
     );

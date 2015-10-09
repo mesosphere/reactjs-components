@@ -264,35 +264,35 @@ class TableExample extends React.Component {
   render() {
     let rowButtonLabel;
     let contentMaxHeight = 500;
-    let scrollButtonLabel = 'Disable scroll';
-    if (this.state.shouldScroll) {
-      contentMaxHeight = 700;
-      scrollButtonLabel = 'Enable scroll';
-    }
+    // let scrollButtonLabel = 'Disable scroll';
+    // if (this.state.shouldScroll) {
+    //   contentMaxHeight = 700;
+    //   scrollButtonLabel = 'Enable scroll';
+    // }
 
     if (this.state.rowAdded) {
       rowButtonLabel = 'Remove Row';
     } else {
       rowButtonLabel = 'Add Row';
     }
+        // <section className="row canvas-pod">
+        //   <div className="container container-pod">
+        //     <h3>Here is a large, sortable table.</h3>
+        //     <Table
+        //       className="table"
+        //       colGroup={this.getColGroup('large')}
+        //       columns={this.getColumns('large')}
+        //       data={this.getRows('small')}
+        //       keys={['id']}
+        //       sortBy={{
+        //         prop: 'name',
+        //         order: 'desc'
+        //       }} />
+        //   </div>
+        // </section>
 
     return (
       <div>
-        <section className="row canvas-pod">
-          <div className="container container-pod">
-            <h3>Here is a large, sortable table.</h3>
-            <Table
-              className="table"
-              colGroup={this.getColGroup('large')}
-              columns={this.getColumns('large')}
-              data={this.getRows('large')}
-              keys={['id']}
-              sortBy={{
-                prop: 'name',
-                order: 'desc'
-              }} />
-          </div>
-        </section>
         <section className="row canvas-pod canvas-pod-dark">
           <div className="container container-pod">
             <div className="row">
@@ -324,15 +324,8 @@ class TableExample extends React.Component {
             <div className="row">
               <div className="column-9">
                 <h3 className="flush-top">
-                  Here is a that can scroll and sort.
+                  Here is a table with 100k items. Woah.
                 </h3>
-              </div>
-              <div className="column-3 text-align-right">
-                <button
-                  className="button button-small button-primary button-stroke"
-                  onClick={this.handleToggleScroll}>
-                  {scrollButtonLabel}
-                </button>
               </div>
             </div>
             <Table
