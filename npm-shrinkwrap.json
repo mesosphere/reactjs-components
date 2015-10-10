@@ -155,10 +155,6 @@
           "resolved": "http://registry.npmjs.org/gemini-scrollbar/-/gemini-scrollbar-1.2.4.tgz"
         }
       }
-    },
-    "react-virtual-list": {
-      "version": "1.5.1",
-      "resolved": "http://registry.npmjs.org/react-virtual-list/-/react-virtual-list-1.5.1.tgz"
     }
   }
 }
