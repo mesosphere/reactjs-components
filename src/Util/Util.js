@@ -1,12 +1,5 @@
 import React from 'react';
 
-function noop() {
-  return null;
-}
-function trueNoop() {
-  return true;
-}
-
 function es6ify(mixin) {
   if (typeof mixin === 'function') {
     // mixin is already es6 style
@@ -42,7 +35,7 @@ const Util = {
   mixin(...mixins) {
     // Creates base class
     class Base extends React.Component {}
-    Base.prototype.shouldComponentUpdate = trueNoop;
+    Base.prototype.shouldComponentUpdate = Util.trueNoop;
 
     // No-ops so we need not check before calling super()
     let functions = [
@@ -51,7 +44,7 @@ const Util = {
       'componentWillUnmount', 'render'
     ];
     functions.forEach(function (lifecycleFn) {
-      Base.prototype[lifecycleFn] = noop;
+      Base.prototype[lifecycleFn] = Util.noop;
     });
 
     mixins.reverse();
@@ -211,6 +204,14 @@ const Util = {
   isFunction(value) {
     return (typeof value === 'object' || typeof value === 'function') &&
       Object.prototype.toString.call(value) === '[object Function]';
+  },
+
+  noop() {
+    return null;
+  },
+
+  trueNoop() {
+    return true;
   },
 
   pick(object, props) {

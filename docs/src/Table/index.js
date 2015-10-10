@@ -3,6 +3,28 @@ import classNames from 'classnames';
 
 import Table from '../../../src/Table/Table.js';
 
+function compareValues(a, b) {
+  if (a > b) {
+    return 1;
+  } else if (a < b) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function getSortFunction(tieBreaker) {
+  return function (prop) {
+    return function (a, b) {
+      if (a[prop] === b[prop]) {
+        return compareValues(a[tieBreaker], b[tieBreaker]);
+      }
+
+      return compareValues(a[prop], b[prop]);
+    };
+  };
+}
+
 class TableExample extends React.Component {
   constructor(props) {
     super(props);
@@ -52,6 +74,7 @@ class TableExample extends React.Component {
 
     switch (size) {
       case 'large':
+      case 'huge':
         colGroup = (
           <colgroup>
             <col style={{width: '40%'}} />
@@ -79,31 +102,38 @@ class TableExample extends React.Component {
 
     switch (size) {
       case 'large':
+      case 'huge':
         columns = [
           {
             className: 'name',
             heading: this.getColumnHeading,
             prop: 'name',
             sortable: true
+            // Using default sorting.
+            // Uncomment this to use age as tie breaker for name
+            // sortFunction: getSortFunction('age')
           },
           {
             className: 'age',
             heading: this.getColumnHeading,
             prop: 'age',
-            sortable: true
+            sortable: true,
+            sortFunction: getSortFunction('name')
           },
           {
             className: 'location',
             defaultContent: 'None Specified',
             heading: this.getColumnHeading,
             prop: 'location',
-            sortable: true
+            sortable: true,
+            sortFunction: getSortFunction('name')
           },
           {
             className: 'gender',
             heading: this.getColumnHeading,
             prop: 'gender',
-            sortable: true
+            sortable: true,
+            sortFunction: getSortFunction('name')
           }
         ];
         break;
@@ -131,120 +161,98 @@ class TableExample extends React.Component {
   }
 
   getRows(size) {
-    let rows;
+    let rows = [
+      {
+        name: 'Zach',
+        age: 11,
+        gender: 'Male',
+        location: 'San Francisco, CA',
+        id: 'a'
+      },
+      {
+        name: 'Francis',
+        age: 34,
+        gender: 'Female',
+        location: 'Boston, MA',
+        id: 'b'
+      },
+      {
+        name: 'Sandy',
+        age: 68,
+        gender: 'Female',
+        location: 'Kalamazoo, MI',
+        id: 'c'
+      },
+      {
+        name: 'Jeffrey',
+        age: 21,
+        gender: 'Male',
+        id: 'd'
+      },
+      {
+        name: 'Louise',
+        age: 94,
+        gender: 'Female',
+        location: 'Boulder, CO',
+        id: 'e'
+      },
+      {
+        name: 'Nancy',
+        age: 28,
+        gender: 'Female',
+        location: 'Salt Lake, UT',
+        id: 'f'
+      },
+      {
+        name: 'Anna',
+        age: 63,
+        gender: 'Female',
+        location: 'Las Vegas, NV',
+        id: 'g'
+      },
+      {
+        name: 'Jay',
+        age: 35,
+        gender: 'Male',
+        location: 'Washington, DC',
+        id: 'h'
+      },
+      {
+        name: 'Bob',
+        age: 47,
+        gender: 'Male',
+        location: 'New Oleans, LA',
+        id: 'i'
+      },
+      {
+        name: 'Nick',
+        age: 51,
+        gender: 'Male',
+        location: 'Houston, TX',
+        id: 'j'
+      }
+    ];
 
     switch (size) {
       case 'large':
-        rows = [
-          {
-            name: 'Zach',
-            age: 11,
-            gender: 'Male',
-            location: 'San Francisco, CA',
-            id: 'a'
-          },
-          {
-            name: 'Francis',
-            age: 34,
-            gender: 'Female',
-            location: 'Boston, MA',
-            id: 'b'
-          },
-          {
-            name: 'Sandy',
-            age: 68,
-            gender: 'Female',
-            location: 'Kalamazoo, MI',
-            id: 'c'
-          },
-          {
-            name: 'Jeffrey',
-            age: 21,
-            gender: 'Male',
-            id: 'd'
-          },
-          {
-            name: 'Louise',
-            age: 94,
-            gender: 'Female',
-            location: 'Boulder, CO',
-            id: 'e'
-          },
-          {
-            name: 'Nancy',
-            age: 28,
-            gender: 'Female',
-            location: 'Salt Lake, UT',
-            id: 'f'
-          },
-          {
-            name: 'Anna',
-            age: 63,
-            gender: 'Female',
-            location: 'Las Vegas, NV',
-            id: 'g'
-          },
-          {
-            name: 'Jay',
-            age: 35,
-            gender: 'Male',
-            location: 'Washington, DC',
-            id: 'h'
-          },
-          {
-            name: 'Bob',
-            age: 47,
-            gender: 'Male',
-            location: 'New Oleans, LA',
-            id: 'i'
-          },
-          {
-            name: 'Nick',
-            age: 51,
-            gender: 'Male',
-            location: 'Houston, TX',
-            id: 'j'
-          }
-        ];
-
-        for (var i = 0; i < 10000; i++) {
+        // Do nothing
+        break;
+      case 'huge':
+        let oldRows = rows.slice(0);
+        rows = [];
+        for (var i = 0; i < 100000; i++) {
+          let item = oldRows[Math.floor(Math.random() * oldRows.length)];
           rows.push({
-            name: 'Nick',
-            age: 51,
-            gender: 'Male',
-            location: 'Houston, TX',
-            id: 'j' + i
+            name: item.name,
+            age: item.age,
+            gender: item.gender,
+            location: item.location,
+            id: i
           });
         }
         break;
       case 'small':
-        rows = [
-          {
-            name: 'Zach',
-            age: 11,
-            id: 'a'
-          },
-          {
-            name: 'Frederick',
-            age: 34,
-            id: 'b'
-          },
-          {
-            name: 'Andy',
-            age: 68,
-            id: 'c'
-          },
-          {
-            name: 'Jeffrey',
-            age: 21,
-            id: 'd'
-          },
-          {
-            name: 'Lewis',
-            age: 94,
-            id: 'e'
-          }
-        ];
+        rows = rows.slice(0, 5);
         break;
     }
 
@@ -263,36 +271,30 @@ class TableExample extends React.Component {
 
   render() {
     let rowButtonLabel;
-    let contentMaxHeight = 500;
-    // let scrollButtonLabel = 'Disable scroll';
-    // if (this.state.shouldScroll) {
-    //   contentMaxHeight = 700;
-    //   scrollButtonLabel = 'Enable scroll';
-    // }
 
     if (this.state.rowAdded) {
       rowButtonLabel = 'Remove Row';
     } else {
       rowButtonLabel = 'Add Row';
     }
-        // <section className="row canvas-pod">
-        //   <div className="container container-pod">
-        //     <h3>Here is a large, sortable table.</h3>
-        //     <Table
-        //       className="table"
-        //       colGroup={this.getColGroup('large')}
-        //       columns={this.getColumns('large')}
-        //       data={this.getRows('small')}
-        //       keys={['id']}
-        //       sortBy={{
-        //         prop: 'name',
-        //         order: 'desc'
-        //       }} />
-        //   </div>
-        // </section>
 
     return (
       <div>
+        <section className="row canvas-pod">
+          <div className="container container-pod">
+            <h3>Here is a large, sortable table.</h3>
+            <Table
+              className="table"
+              colGroup={this.getColGroup('large')}
+              columns={this.getColumns('large')}
+              data={this.getRows('large')}
+              keys={['id']}
+              sortBy={{
+                prop: 'name',
+                order: 'desc'
+              }} />
+          </div>
+        </section>
         <section className="row canvas-pod canvas-pod-dark">
           <div className="container container-pod">
             <div className="row">
@@ -324,16 +326,15 @@ class TableExample extends React.Component {
             <div className="row">
               <div className="column-9">
                 <h3 className="flush-top">
-                  Here is a table with 100k items. Woah.
+                  Here is a scroll table with 100k items. It will not grow beyond window height.
                 </h3>
               </div>
             </div>
             <Table
               className="table"
-              colGroup={this.getColGroup('large')}
-              columns={this.getColumns('large')}
-              data={this.getRows('large')}
-              contentMaxHeight={contentMaxHeight}
+              colGroup={this.getColGroup('huge')}
+              columns={this.getColumns('huge')}
+              data={this.getRows('huge')}
               keys={['id']}
               sortBy={{
                 prop: 'name',

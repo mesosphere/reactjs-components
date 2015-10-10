@@ -1,8 +1,9 @@
-import VirtualList from '../VirtualList/VirtualList';
+import classNames from 'classnames';
+import DOMUtil from '../Util/DOMUtil';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
-import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
+import VirtualList from '../VirtualList/VirtualList';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
@@ -44,6 +45,15 @@ let getClassName = (column, sortBy, data) => {
   return column.className || '';
 };
 
+// Superficial array check
+let arrayDiff = (a, b) => {
+  if (!a || !b) {
+    return true;
+  }
+
+  return a.length !== b.length;
+};
+
 export default class Table extends React.Component {
   constructor() {
     super();
@@ -59,32 +69,45 @@ export default class Table extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.contentMaxHeight) {
-      this.updateHeight();
-      this.forceUpdate(function () {
-        this.forceUpdate();
-      }.bind(this));
-    }
+    this.updateHeight();
+    this.forceUpdate();
   }
 
   componentWillReceiveProps() {
-    if (this.props.contentMaxHeight) {
-      this.updateHeight();
-    }
+    this.updateHeight();
+
     if (this.props.sortBy.prop) {
       this.handleSort(this.props.sortBy.prop, {toggle: false});
     }
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props.data !== nextProps.data;
+  shouldComponentUpdate(nextProps, nextState) {
+    let props = this.props;
+    let sortBy = this.state.sortBy;
+    let nextSortBy = nextState.sortBy;
+
+    // Only update on props that should cause a re-render
+    return props.keys !== nextProps.keys ||
+      props.maxVisibleItems !== nextProps.maxVisibleItems ||
+      sortBy.prop !== nextSortBy.prop ||
+      sortBy.order !== nextSortBy.order ||
+      arrayDiff(props.columns, nextProps.columns) ||
+      arrayDiff(props.data, nextProps.data);
   }
 
   updateHeight() {
-    this.containerNode = React.findDOMNode(this.refs.virtualContainer.refs['scroll-view']);
-    // let dimensions = DOMUtil.getComputedDimensions(React.findDOMNode(this.refs.tableBody));
-    // this.currentHeight = dimensions.height;
-    // this.currentWidth = dimensions.width;
+    if (this.refs.gemini != null) {
+      this.containerNode = React.findDOMNode(
+        this.refs.gemini.refs['scroll-view']
+      );
+    }
+
+    // Calculate content height only once and when node is ready
+    if (this.refs.itemHeightContainer != null && this.itemHeight == null) {
+      this.itemHeight = DOMUtil.getComputedDimensions(
+        React.findDOMNode(this.refs.itemHeightContainer).children[0]
+      ).height;
+    }
   }
 
   getHeaders(headers, sortBy) {
@@ -133,8 +156,17 @@ export default class Table extends React.Component {
     return <tr style={styles}><td colSpan={columns.length} /></tr>;
   }
 
+  getEmptyRowCell(columns) {
+    return (
+      <tr>
+        <td colSpan={columns.length}>
+          No data
+        </td>
+      </tr>
+    );
+  }
+
   getRowCells(columns, sortBy, buildRowOptions, keys, row) {
-    // console.log(columns, sortBy, row);
     let rowCells = columns.map((column, index) => {
       // For each column in the data, output a cell in each row with the value
       // specified by the data prop.
@@ -173,13 +205,7 @@ export default class Table extends React.Component {
 
   getRows(data, columns, sortBy, buildRowOptions, keys) {
     if (data.length === 0) {
-      return (
-        <tr>
-          <td colSpan={columns.length}>
-            No data
-          </td>
-        </tr>
-      );
+      return this.getEmptyRowCell(columns);
     }
 
     return data.map((row) => this.getRowCells(columns, sortBy, buildRowOptions, keys, row));
@@ -211,72 +237,106 @@ export default class Table extends React.Component {
     }
   }
 
-  getTable() {
+  getTable(columns, data, sortBy) {
     let buildRowOptions = this.props.buildRowOptions;
-    let columns = this.props.columns;
-    let contentMaxHeight = this.props.contentMaxHeight;
     let keys = this.props.keys;
-    let sortBy = this.state.sortBy;
-    let sortedData = sortData(columns, this.props.data, sortBy);
+    let sortedData = sortData(columns, data, sortBy);
 
-    // let tableBody = null;
-    let innerContent = null;
+    let rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, keys);
 
+    // Can only use transitions in tables that does not scroll
     if (this.props.transition === true) {
-      innerContent = (
-        <CSSTransitionGroup
-          component="tbody"
-          transitionName="table-row"
-          ref="tableBody">
-          {this.getRows(sortedData, columns, sortBy, buildRowOptions, keys)}
+      rows = (
+        <CSSTransitionGroup component="tbody" transitionName="table-row">
+          {rows}
         </CSSTransitionGroup>
-      );
-    } else {
-      innerContent = (
-        <tbody>
-          {this.getRows(sortedData, columns, sortBy, buildRowOptions, keys)}
-        </tbody>
       );
     }
 
-    if (contentMaxHeight === undefined) {
-      return (
-        <table className={this.props.className + ' flush-bottom'}>
+    return (
+      <table className={this.props.className}>
+        {this.props.colGroup}
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    );
+  }
+
+  getScrollTable(columns, data, sortBy, containerHeight) {
+    let classes = classNames(this.props.className, 'flush-bottom');
+    let buildRowOptions = this.props.buildRowOptions;
+    let keys = this.props.keys;
+
+    let innerContent = (
+      <tbody ref="itemHeightContainer">
+        {this.getRowCells(columns, sortBy, buildRowOptions, keys, data[0])}
+      </tbody>
+    );
+
+    let style = {};
+
+    if (this.containerNode != null) {
+      style.height = containerHeight;
+      let visibleItems = Math.ceil(containerHeight / this.itemHeight);
+
+      // Re-render on ready, since VirtualList needs to be rendered on mount
+      // and we need gemini to update accordingly.
+      // Set itemBuffer and scrollDelay based on no. visible items.
+      innerContent = (
+        <VirtualList
+          items={sortData(columns, data, sortBy)}
+          container={this.containerNode}
+          itemHeight={this.itemHeight}
+          onReady={this.forceUpdate.bind(this)}
+          tagName="tbody"
+          renderBufferItem={this.getBufferItem.bind(this, columns)}
+          renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
+          itemBuffer={20 * visibleItems}
+          scrollDelay={visibleItems / 4} />
+      );
+    }
+
+    return (
+      <GeminiScrollbar
+        autoshow={true}
+        ref="gemini"
+        style={style}>
+        <table className={classes}>
           {this.props.colGroup}
           {innerContent}
         </table>
-      );
-    }
-
-    // Wrap another table in scrolling div,
-    // when higher than specified max height
-    if (contentMaxHeight && this.containerNode) {
-      let visibleItems = contentMaxHeight / 41;
-      return (
-        <table className={this.props.className + ' flush-bottom'}>
-          {this.props.colGroup}
-          <VirtualList
-            items={sortedData}
-            container={this.containerNode}
-            itemHeight={41}
-            tagName="tbody"
-            renderBufferItem={this.getBufferItem.bind(this, columns)}
-            renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-            itemBuffer={20 * visibleItems}
-            scrollDelay={visibleItems / 4} />
-        </table>
-      );
-    }
+      </GeminiScrollbar>
+    );
   }
 
   render() {
+    let classes = classNames(this.props.className, 'flush-bottom');
     let columns = this.props.columns;
+    let data = this.props.data;
     let sortBy = this.state.sortBy;
-    let contentMaxHeight = this.props.contentMaxHeight;
+    let tableContent = null;
+
+    let itemHeight = this.itemHeight || 0;
+    let itemListHeight = itemHeight * data.length;
+
+    // Can't grow beyond 80% of the viewport height
+    let viewportHeight = 0.8 * DOMUtil.getViewportHeight();
+
+    // Calculate the minimum of either the content or 80% of the window height
+    let containerHeight = Math.min(itemListHeight, viewportHeight);
+
+    // Use scroll table on first render to check if we need to scroll
+    // and if content is bigger than its container
+    if (itemHeight === 0 || itemListHeight > containerHeight) {
+      tableContent = this.getScrollTable(columns, data, sortBy, containerHeight);
+    } else {
+      tableContent = this.getTable(columns, data, sortBy);
+    }
 
     return (
       <div>
-        <table className={this.props.className + ' flush-bottom'}>
+        <table className={classes}>
           {this.props.colGroup}
           <thead>
             <tr>
@@ -284,9 +344,7 @@ export default class Table extends React.Component {
             </tr>
           </thead>
         </table>
-        <GeminiScrollbar ref="virtualContainer" autoshow={true} style={{height: `${contentMaxHeight || 'auto'}`, overflow: 'auto'}}>
-          {this.getTable()}
-        </GeminiScrollbar>
+        {tableContent}
       </div>
     );
   }
@@ -335,7 +393,7 @@ Table.propTypes = {
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
 
   // Maximum height in pixels
-  contentMaxHeight: PropTypes.number,
+  maxVisibleItems: PropTypes.number,
 
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,
@@ -347,5 +405,6 @@ Table.propTypes = {
   }),
 
   // Optional property to add transitions or turn them off. Default is off.
+  // Only available for tables that does not scroll
   transition: PropTypes.bool
 };

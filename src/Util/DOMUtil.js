@@ -73,6 +73,10 @@ const DOMUtil = {
     };
   },
 
+  getViewportHeight() {
+    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  },
+
   topDifference(element, container) {
     return topFromWindow(element) - topFromWindow(container);
   }
