@@ -88,7 +88,6 @@ export default class Table extends React.Component {
 
     // Only update on props that should cause a re-render
     return props.keys !== nextProps.keys ||
-      props.maxVisibleItems !== nextProps.maxVisibleItems ||
       sortBy.prop !== nextSortBy.prop ||
       sortBy.order !== nextSortBy.order ||
       arrayDiff(props.columns, nextProps.columns) ||
@@ -391,9 +390,6 @@ Table.propTypes = {
 
   // Provide what attributes in the data make a row unique.
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-
-  // Maximum height in pixels
-  maxVisibleItems: PropTypes.number,
 
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,
