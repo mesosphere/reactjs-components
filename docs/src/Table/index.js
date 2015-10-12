@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import Table from '../../../src/Table/Table.js';
 
 function compareValues(a, b) {
-  if (a > b) {
+  if (b == null || a > b) {
     return 1;
-  } else if (a < b) {
+  } else if (a == null || a < b) {
     return -1;
   } else {
     return 0;
