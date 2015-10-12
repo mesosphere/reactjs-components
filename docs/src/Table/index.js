@@ -34,6 +34,9 @@ class TableExample extends React.Component {
     ['handleToggleExtraRow', 'handleToggleScroll'].forEach((method) => {
       this[method] = this[method].bind(this);
     }, this);
+
+    // Cache huge rows so we don't recreate the data every update.
+    this.hugeRows = this.getRows('huge');
   }
 
   handleToggleExtraRow() {
@@ -334,7 +337,7 @@ class TableExample extends React.Component {
               className="table"
               colGroup={this.getColGroup('huge')}
               columns={this.getColumns('huge')}
-              data={this.getRows('huge')}
+              data={this.hugeRows}
               keys={['id']}
               sortBy={{
                 prop: 'name',
