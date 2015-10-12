@@ -31,9 +31,10 @@ const VirtualList = React.createClass({
   getVirtualState: function (props) {
     // default values
     let state = {
-      items: [],
+      bufferEnd: 0,
       bufferStart: 0,
-      height: 0
+      height: 0,
+      items: []
     };
 
     // early return if nothing to render
