@@ -24,7 +24,7 @@ let sortData = (columns, data, sortBy) => {
     data = Util.sortBy(data, sortBy.prop);
   }
 
-  if (sortBy.order === 'asc') {
+  if (sortBy.order === 'desc') {
     data.reverse();
   }
 
@@ -162,7 +162,7 @@ export default class Table extends React.Component {
     if (options.toggle) {
       let order;
 
-      if (sortBy.order === 'desc') {
+      if (sortBy.order === 'desc' || sortBy.prop !== prop) {
         order = 'asc';
       } else {
         order = 'desc';
