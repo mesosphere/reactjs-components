@@ -264,6 +264,7 @@ export default class Table extends React.Component {
 
   getScrollTable(columns, data, sortBy, containerHeight) {
     let classes = classNames(this.props.className, 'flush-bottom');
+    let containerNode = this.containerNode;
     let buildRowOptions = this.props.buildRowOptions;
     let keys = this.props.keys;
 
@@ -275,7 +276,7 @@ export default class Table extends React.Component {
 
     let style = {};
 
-    if (this.containerNode != null) {
+    if (containerNode != null) {
       style.height = containerHeight;
       let visibleItems = Math.ceil(containerHeight / this.itemHeight);
 
@@ -285,7 +286,7 @@ export default class Table extends React.Component {
       innerContent = (
         <VirtualList
           items={sortData(columns, data, sortBy)}
-          container={this.containerNode}
+          container={containerNode}
           itemHeight={this.itemHeight}
           onReady={this.forceUpdate.bind(this)}
           tagName="tbody"
