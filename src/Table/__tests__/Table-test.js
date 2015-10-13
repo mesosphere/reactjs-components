@@ -2,7 +2,9 @@ var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
 jest.dontMock('../Table');
+jest.dontMock('../../VirtualList/VirtualList');
 jest.dontMock('../../Util/Util');
+jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('./fixtures/MockTable');
 
 var MockTable = require('./fixtures/MockTable');
