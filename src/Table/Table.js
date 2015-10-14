@@ -81,8 +81,7 @@ export default class Table extends React.Component {
     return props.keys !== nextProps.keys ||
       sortBy.prop !== nextSortBy.prop ||
       sortBy.order !== nextSortBy.order ||
-      Util.arrayDiff(props.columns, nextProps.columns) ||
-      Util.arrayDiff(props.data, nextProps.data);
+      Util.arrayDiff(props.columns, nextProps.columns);
   }
 
   updateHeight() {
