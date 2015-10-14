@@ -8,12 +8,13 @@ let computeInnerBound = (compstyle, acc, key) => {
   }
 };
 
-function topFromWindow(element) {
+// Calculates the distance from window top to element top
+function windowTopToElemenTop(element) {
   if (!element || element === window) {
     return 0;
   }
 
-  return element.offsetTop + topFromWindow(element.offsetParent);
+  return element.offsetTop + windowTopToElemenTop(element.offsetParent);
 }
 
 const DOMUtil = {
@@ -77,8 +78,9 @@ const DOMUtil = {
     return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
   },
 
+  // Calculates the difference between element top and container top
   topDifference(element, container) {
-    return topFromWindow(element) - topFromWindow(container);
+    return windowTopToElemenTop(element) - windowTopToElemenTop(container);
   }
 
 };
