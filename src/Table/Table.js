@@ -282,7 +282,8 @@ export default class Table extends React.Component {
 
       // Re-render on ready, since VirtualList needs to be rendered on mount
       // and we need gemini to update accordingly.
-      // Set itemBuffer and scrollDelay based on no. visible items.
+      // Set itemBuffer and scrollDelay based on no. visible items,
+      // but both have a max value cutoff.
       innerContent = (
         <VirtualList
           items={sortData(columns, data, sortBy)}
@@ -292,8 +293,8 @@ export default class Table extends React.Component {
           tagName="tbody"
           renderBufferItem={this.getBufferItem.bind(this, columns)}
           renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-          itemBuffer={20 * visibleItems}
-          scrollDelay={visibleItems / 4} />
+          itemBuffer={Math.min(20 * visibleItems, 200)}
+          scrollDelay={Math.min(visibleItems / 4, 2.5)} />
       );
     }
 
