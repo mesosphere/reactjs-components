@@ -199,7 +199,9 @@ export default class Table extends React.Component {
       return this.getEmptyRowCell(columns);
     }
 
-    return data.map((row) => this.getRowCells(columns, sortBy, buildRowOptions, keys, row));
+    return data.map((row) =>
+      this.getRowCells(columns, sortBy, buildRowOptions, keys, row)
+    );
   }
 
   handleSort(prop, options) {
