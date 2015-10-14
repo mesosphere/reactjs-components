@@ -87,6 +87,8 @@ export default class Table extends React.Component {
 
   updateHeight() {
     if (this.refs.gemini != null) {
+      // Get the Gemini scroll view as the container view.
+      // We need this since both Gemini and VirtualList needs the same element
       this.containerNode = React.findDOMNode(
         this.refs.gemini.refs['scroll-view']
       );
