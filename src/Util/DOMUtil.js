@@ -58,14 +58,14 @@ const DOMUtil = {
       'paddingRight',
       'borderLeftWidth',
       'borderRightWidth'
-    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetWidth);
+    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetWidth || 0);
 
     var height = [
       'paddingTop',
       'paddingBottom',
       'borderTopWidth',
       'borderBottomWidth'
-    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetHeight);
+    ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetHeight || 0);
 
     return {
       width: width,
@@ -74,7 +74,7 @@ const DOMUtil = {
   },
 
   getViewportHeight() {
-    return Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    return Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
   },
 
   topDifference(element, container) {
