@@ -45,15 +45,6 @@ let getClassName = (column, sortBy, data) => {
   return column.className || '';
 };
 
-// Superficial array check
-let arrayDiff = (a, b) => {
-  if (!a || !b) {
-    return true;
-  }
-
-  return a.length !== b.length;
-};
-
 export default class Table extends React.Component {
   constructor() {
     super();
@@ -90,8 +81,8 @@ export default class Table extends React.Component {
     return props.keys !== nextProps.keys ||
       sortBy.prop !== nextSortBy.prop ||
       sortBy.order !== nextSortBy.order ||
-      arrayDiff(props.columns, nextProps.columns) ||
-      arrayDiff(props.data, nextProps.data);
+      Util.arrayDiff(props.columns, nextProps.columns) ||
+      Util.arrayDiff(props.data, nextProps.data);
   }
 
   updateHeight() {
@@ -282,8 +273,8 @@ export default class Table extends React.Component {
 
       // Re-render on ready, since VirtualList needs to be rendered on mount
       // and we need gemini to update accordingly.
-      // Set itemBuffer and scrollDelay based on no. visible items,
-      // but both have a max value cutoff.
+      // itemBuffer is based on number of visible items with a max value cutoff.
+      // scrollDelay is a fixed value
       innerContent = (
         <VirtualList
           items={sortData(columns, data, sortBy)}
@@ -293,8 +284,8 @@ export default class Table extends React.Component {
           tagName="tbody"
           renderBufferItem={this.getBufferItem.bind(this, columns)}
           renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-          itemBuffer={Math.min(20 * visibleItems, 200)}
-          scrollDelay={Math.min(visibleItems / 4, 2.5)} />
+          itemBuffer={Math.min(10 * visibleItems, 200)}
+          scrollDelay={2.5} />
       );
     }
 

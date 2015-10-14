@@ -56,6 +56,15 @@ const Util = {
     return Base;
   },
 
+  // Superficial array check
+  arrayDiff(a, b) {
+    if (!a || !b) {
+      return true;
+    }
+
+    return a.length !== b.length;
+  },
+
   arrayPush(array, values) {
     let index = -1,
       length = values.length,
