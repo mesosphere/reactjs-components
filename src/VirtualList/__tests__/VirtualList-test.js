@@ -3,6 +3,13 @@ var VirtualList = require('../VirtualList');
 jest.dontMock('../VirtualList');
 jest.dontMock('../../Util/Util');
 
+var mathFloor = Math.floor;
+var mathRandom = Math.random;
+
+function random(min, max) {
+  return mathFloor((mathRandom() * max) + min);
+}
+
 describe('VirtualList', function () {
 
   describe('#getBox box that defines the visible part of the list', function () {
@@ -123,6 +130,32 @@ describe('VirtualList', function () {
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(1000);
+    });
+
+    it('performs well', function () {
+      var count = 1000000;
+      var start = Date.now();
+
+      for (var i = 0; i < count; i++) {
+        var view = {
+          top: random(0, 1000),
+          bottom: random(1000, 2000)
+        };
+
+        var list = {
+          top: random(0, 1000),
+          bottom: random(0, 200 * 500)
+        };
+
+        VirtualList.getBox(view, list);
+      }
+
+      var end = Date.now();
+      var duration = end - start;
+
+      // console.log('VirtualRenderer.getBox ran %d iterations in %d ms', count, end - start);
+
+      expect(duration).toBeLessThan(1000);
     });
   });
 
@@ -251,6 +284,22 @@ describe('VirtualList', function () {
       var result = VirtualList.getItems(1000, viewport, 0, itemHeight, itemCount, 5);
 
       expect(result.itemsInView).toBe(15);
+    });
+
+    it('performs well', function () {
+      var count = 1000000;
+      var start = Date.now();
+
+      for (var i = 0; i < count; i++) {
+        VirtualList.getItems(random(0, 1000), random(0, 1000), random(0, 1000), random(0, 500), random(500, 1000), random(0, 100));
+      }
+
+      var end = Date.now();
+      var duration = end - start;
+
+      // console.log('new VirtualRenderer().getItems ran %d iterations in %d ms', count, end - start);
+
+      expect(duration).toBeLessThan(1000);
     });
   });
 });
