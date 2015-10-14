@@ -80,15 +80,18 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   onScrollLock(e) {
-    let elem = this.props.container;
-    let scrollHeight = elem.scrollHeight;
-    let isDeltaPositive = e.deltaY > 0;
+    var elem = this.props.container;
+    var scrollTop = elem.scrollTop;
+    var scrollHeight = elem.scrollHeight;
+    var height = elem.clientHeight;
+    var wheelDelta = e.deltaY;
+    var isDeltaPositive = wheelDelta > 0;
 
-    if (isDeltaPositive && this.state.bufferEnd === 0) {
+    if (isDeltaPositive && wheelDelta > scrollHeight - height - scrollTop) {
       elem.scrollTop = scrollHeight;
       return cancelScrollEvent(e);
     }
-    else if (!isDeltaPositive && this.state.bufferStart === 0) {
+    else if (!isDeltaPositive && -wheelDelta > scrollTop) {
       elem.scrollTop = 0;
       return cancelScrollEvent(e);
     }
