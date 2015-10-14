@@ -9,6 +9,10 @@ import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import Util from '../Util/Util';
 
+let mathMax = Math.max;
+let mathMin = Math.min;
+let mathFloor = Math.floor;
+let mathCeil = Math.ceil;
 export default class VirtualList extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return ['onScroll'];
@@ -166,8 +170,8 @@ VirtualList.getBox = function (view, list) {
   list.height = list.height || list.bottom - list.top;
 
   return {
-    top: Math.max(0, Math.min(view.top - list.top)),
-    bottom: Math.max(0, Math.min(list.height, view.bottom - list.top))
+    top: mathMax(0, mathMin(view.top - list.top)),
+    bottom: mathMax(0, mathMin(list.height, view.bottom - list.top))
   };
 };
 
@@ -183,6 +187,7 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
 
   let listBox = {
     top: listTop,
+    height: listHeight,
     bottom: listTop + listHeight
   };
 
@@ -211,8 +216,8 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
 
   let listViewBox = VirtualList.getBox(viewBox, listBox);
 
-  let firstItemIndex = Math.max(0, Math.floor(listViewBox.top / itemHeight));
-  let lastItemIndex = Math.ceil(listViewBox.bottom / itemHeight) - 1;
+  let firstItemIndex = mathMax(0, mathFloor(listViewBox.top / itemHeight));
+  let lastItemIndex = mathCeil(listViewBox.bottom / itemHeight) - 1;
 
   let itemsInView = lastItemIndex - firstItemIndex + 1;
 
