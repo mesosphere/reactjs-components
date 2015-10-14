@@ -3,6 +3,7 @@
  * https://github.com/developerdizzle/react-virtual-list
  */
 
+/* eslint react/no-did-mount-set-state: 0 */
 import React from 'react';
 import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
