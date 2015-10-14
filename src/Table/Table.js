@@ -158,7 +158,7 @@ export default class Table extends React.Component {
   }
 
   getRowCells(columns, sortBy, buildRowOptions, keys, row) {
-    let rowCells = columns.map((column, index) => {
+    let rowCells = columns.map(function (column, index) {
       // For each column in the data, output a cell in each row with the value
       // specified by the data prop.
       let cellClassName = getClassName(column, sortBy, row);
