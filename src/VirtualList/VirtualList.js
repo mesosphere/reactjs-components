@@ -13,9 +13,17 @@ let mathMax = Math.max;
 let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
+
+let cancelScrollEvent = function (e) {
+  e.stopImmediatePropagation();
+  e.preventDefault();
+  e.returnValue = false;
+  return false;
+};
+
 export default class VirtualList extends Util.mixin(BindMixin) {
   get methodsToBind() {
-    return ['onScroll'];
+    return ['onScroll', 'onScrollLock'];
   }
   constructor() {
     super(arguments);
@@ -51,20 +59,39 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
-    let state = this.getVirtualState(this.props);
-    let onReady = this.props.onReady || Util.noop;
+    let props = this.props;
+    let state = this.getVirtualState(props);
+    let onReady = props.onReady || Util.noop;
     this.setState(state, onReady);
 
-    this.props.container.addEventListener('scroll', this.onScrollDebounced);
+    props.container.addEventListener('scroll', this.onScrollDebounced);
+    props.container.addEventListener('wheel', this.onScrollLock);
   }
 
   componentWillUnmount() {
-    this.props.container.removeEventListener('scroll', this.onScrollDebounced);
+    let props = this.props;
+    props.container.removeEventListener('scroll', this.onScrollDebounced);
+    props.container.removeEventListener('wheel', this.onScrollLock);
   }
 
   onScroll() {
     let state = this.getVirtualState(this.props);
     this.setState(state);
+  }
+
+  onScrollLock(e) {
+    let elem = this.props.container;
+    let scrollHeight = elem.scrollHeight;
+    let isDeltaPositive = e.deltaY > 0;
+
+    if (isDeltaPositive && this.state.bufferEnd === 0) {
+      elem.scrollTop = scrollHeight;
+      return cancelScrollEvent(e);
+    }
+    else if (!isDeltaPositive && this.state.bufferStart === 0) {
+      elem.scrollTop = 0;
+      return cancelScrollEvent(e);
+    }
   }
 
   getVirtualState(props) {
