@@ -1,11 +1,11 @@
 jest.dontMock('../Table');
 jest.dontMock('../../Util/Util');
-jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('./fixtures/MockTable');
 
 import React from 'react/addons';
 import Table from '../Table';
 import Util from '../../Util/Util';
+import DOMUtil from '../../Util/DOMUtil';
 
 var TestUtils = React.addons.TestUtils;
 var MockTable = require('./fixtures/MockTable');
@@ -29,6 +29,14 @@ describe('Table', function () {
         onSortCallback={this.callback} />
     );
     this.instance.itemHeight = 0;
+    this.getComputedDimensions = DOMUtil.getComputedDimensions;
+    DOMUtil.getComputedDimensions = function () {
+      return {width: 0, height: 0};
+    };
+  });
+
+  afterEach(function () {
+    DOMUtil.getComputedDimensions = this.getComputedDimensions;
   });
 
   it('should render the proper number of columns', function () {
