@@ -94,7 +94,9 @@ export default class Table extends React.Component {
     }
 
     // Calculate content height only once and when node is ready
-    if (this.refs.itemHeightContainer != null && this.itemHeight == null) {
+    if (this.props.itemHeight == null &&
+      this.refs.itemHeightContainer != null &&
+      this.itemHeight == null) {
       this.itemHeight = DOMUtil.getComputedDimensions(
         React.findDOMNode(this.refs.itemHeightContainer).children[0]
       ).height;
@@ -256,7 +258,7 @@ export default class Table extends React.Component {
     );
   }
 
-  getScrollTable(columns, data, sortBy, containerHeight) {
+  getScrollTable(columns, data, sortBy, itemHeight, containerHeight) {
     let classes = classNames(this.props.className, 'flush-bottom');
     let containerNode = this.containerNode;
     let buildRowOptions = this.props.buildRowOptions;
@@ -272,7 +274,7 @@ export default class Table extends React.Component {
 
     if (containerNode != null) {
       style.height = containerHeight;
-      let visibleItems = Math.ceil(containerHeight / this.itemHeight);
+      let visibleItems = Math.ceil(containerHeight / itemHeight);
 
       // Re-render on ready, since VirtualList needs to be rendered on mount
       // and we need gemini to update accordingly.
@@ -282,7 +284,7 @@ export default class Table extends React.Component {
         <VirtualList
           items={sortData(columns, data, sortBy)}
           container={containerNode}
-          itemHeight={this.itemHeight}
+          itemHeight={itemHeight}
           onReady={this.forceUpdate.bind(this)}
           tagName="tbody"
           renderBufferItem={this.getBufferItem.bind(this, columns)}
@@ -312,7 +314,7 @@ export default class Table extends React.Component {
     let sortBy = this.state.sortBy;
     let tableContent = null;
 
-    let itemHeight = this.itemHeight || 0;
+    let itemHeight = this.props.itemHeight || this.itemHeight || 0;
     let itemListHeight = itemHeight * data.length;
 
     // Can't grow beyond 80% of the viewport height
@@ -324,7 +326,8 @@ export default class Table extends React.Component {
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
     if (itemHeight === 0 || itemListHeight > containerHeight) {
-      tableContent = this.getScrollTable(columns, data, sortBy, containerHeight);
+      tableContent =
+        this.getScrollTable(columns, data, sortBy, itemHeight, containerHeight);
     } else {
       tableContent = this.getTable(columns, data, sortBy);
     }
@@ -383,6 +386,11 @@ Table.propTypes = {
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
+
+  // Optional item height for the scroll table. If not provided, it will render
+  // once to measure the height of the first child.
+  // NB: Initial render will stop any ongoing animation, if this is not provided
+  itemHeight: PropTypes.number,
 
   // Provide what attributes in the data make a row unique.
   keys: PropTypes.arrayOf(PropTypes.string).isRequired,
