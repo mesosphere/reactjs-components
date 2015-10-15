@@ -291,7 +291,7 @@ class TableExample extends React.Component {
               colGroup={this.getColGroup('large')}
               columns={this.getColumns('large')}
               data={this.getRows('large')}
-              keys={['id']}
+              idAttribute="id"
               sortBy={{
                 prop: 'name',
                 order: 'desc'
@@ -320,7 +320,7 @@ class TableExample extends React.Component {
               colGroup={this.getColGroup('small')}
               columns={this.getColumns('small')}
               data={this.getRows('small')}
-              keys={['id']}
+              idAttribute="id"
               transition={true} />
           </div>
         </section>
@@ -329,7 +329,7 @@ class TableExample extends React.Component {
             <div className="row">
               <div className="column-9">
                 <h3 className="flush-top">
-                  Here is a scroll table with 100k items. It will not grow beyond window height.
+                  Here is a scroll table with 100k items. It will not grow beyond window height. The data is not sorted by default.
                 </h3>
               </div>
             </div>
@@ -338,11 +338,7 @@ class TableExample extends React.Component {
               colGroup={this.getColGroup('huge')}
               columns={this.getColumns('huge')}
               data={this.hugeRows}
-              keys={['id']}
-              sortBy={{
-                prop: 'name',
-                order: 'desc'
-              }} />
+              idAttribute="id" />
           </div>
         </section>
       </div>

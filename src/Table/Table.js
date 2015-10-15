@@ -51,6 +51,7 @@ export default class Table extends React.Component {
     this.state = {
       sortBy: {}
     };
+    this.cachedRows = {};
   }
 
   componentWillMount() {
@@ -72,16 +73,9 @@ export default class Table extends React.Component {
     }
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    let props = this.props;
-    let sortBy = this.state.sortBy;
-    let nextSortBy = nextState.sortBy;
-
-    // Only update on props that should cause a re-render
-    return props.keys !== nextProps.keys ||
-      sortBy.prop !== nextSortBy.prop ||
-      sortBy.order !== nextSortBy.order ||
-      Util.arrayDiff(props.columns, nextProps.columns);
+  componentWillUpdate() {
+    // Clear cached rows
+    this.cachedRows = {};
   }
 
   updateHeight() {
@@ -159,50 +153,56 @@ export default class Table extends React.Component {
     );
   }
 
-  getRowCells(columns, sortBy, buildRowOptions, keys, row) {
-    let rowCells = columns.map(function (column, index) {
-      // For each column in the data, output a cell in each row with the value
-      // specified by the data prop.
-      let cellClassName = getClassName(column, sortBy, row);
+  getRowCells(columns, sortBy, buildRowOptions, idAttribute, row) {
+    let id = row[idAttribute];
+    // Skip build row if we have it memoized
+    if (this.cachedRows[id] == null) {
+      let rowCells = columns.map(function (column, index) {
+        // For each column in the data, output a cell in each row with the value
+        // specified by the data prop.
+        let cellClassName = getClassName(column, sortBy, row);
 
-      let cellValue = row[column.prop];
+        let cellValue = row[column.prop];
 
-      if (column.render) {
-        cellValue = column.render(column.prop, row);
-      }
+        if (column.render) {
+          cellValue = column.render(column.prop, row);
+        }
 
-      if (cellValue === undefined) {
-        cellValue = column.defaultContent;
-        cellClassName += ' empty-cell';
-      }
+        if (cellValue === undefined) {
+          cellValue = column.defaultContent;
+          cellClassName += ' empty-cell';
+        }
 
-      return (
-        <td {...column.attributes} className={cellClassName} key={index}>
-          {cellValue}
-        </td>
+        return (
+          <td {...column.attributes} className={cellClassName} key={index}>
+            {cellValue}
+          </td>
+        );
+      });
+
+      // Create the custom row attributes object, always with a key.
+      let rowAttributes = Util.extend(
+        {key: id},
+        buildRowOptions(row, this)
       );
-    });
 
-    // Create the custom row attributes object, always with a key.
-    let rowAttributes = Util.extend(
-      {key: Util.values(Util.pick(row, keys))},
-      buildRowOptions(row, this)
-    );
+      this.cachedRows[id] = (
+        <tr {...rowAttributes}>
+          {rowCells}
+        </tr>
+      );
+    }
 
-    return (
-      <tr {...rowAttributes}>
-        {rowCells}
-      </tr>
-    );
+    return this.cachedRows[id];
   }
 
-  getRows(data, columns, sortBy, buildRowOptions, keys) {
+  getRows(data, columns, sortBy, buildRowOptions, idAttribute) {
     if (data.length === 0) {
       return this.getEmptyRowCell(columns);
     }
 
     return data.map((row) =>
-      this.getRowCells(columns, sortBy, buildRowOptions, keys, row)
+      this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, row)
     );
   }
 
@@ -232,12 +232,11 @@ export default class Table extends React.Component {
     }
   }
 
-  getTable(columns, data, sortBy) {
+  getTable(columns, data, sortBy, idAttribute) {
     let buildRowOptions = this.props.buildRowOptions;
-    let keys = this.props.keys;
     let sortedData = sortData(columns, data, sortBy);
 
-    let rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, keys);
+    let rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, idAttribute);
 
     // Can only use transitions in tables that does not scroll
     if (this.props.transition === true) {
@@ -258,15 +257,14 @@ export default class Table extends React.Component {
     );
   }
 
-  getScrollTable(columns, data, sortBy, itemHeight, containerHeight) {
+  getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
     let classes = classNames(this.props.className, 'flush-bottom');
     let containerNode = this.containerNode;
     let buildRowOptions = this.props.buildRowOptions;
-    let keys = this.props.keys;
 
     let innerContent = (
       <tbody ref="itemHeightContainer">
-        {this.getRowCells(columns, sortBy, buildRowOptions, keys, data[0])}
+        {this.getRowCells(columns, sortBy, buildRowOptions, data[0], idAttribute)}
       </tbody>
     );
 
@@ -278,18 +276,18 @@ export default class Table extends React.Component {
 
       // Re-render on ready, since VirtualList needs to be rendered on mount
       // and we need gemini to update accordingly.
-      // itemBuffer is based on number of visible items with a max value cutoff.
-      // scrollDelay is a fixed value
+      // itemBuffer and scrollDelay is based on number of visible items
+      // with a max value cutoff.
       innerContent = (
         <VirtualList
           container={containerNode}
-          itemBuffer={Math.min(10 * visibleItems, 200)}
+          itemBuffer={Math.min(200, 10 * visibleItems)}
           itemHeight={itemHeight}
           items={sortData(columns, data, sortBy)}
           onReady={this.forceUpdate.bind(this)}
           renderBufferItem={this.getBufferItem.bind(this, columns)}
-          renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-          scrollDelay={2.5}
+          renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, idAttribute)}
+          scrollDelay={Math.min(5, visibleItems / 4)}
           tagName="tbody" />
       );
     }
@@ -311,6 +309,7 @@ export default class Table extends React.Component {
     let classes = classNames(this.props.className, 'flush-bottom');
     let columns = this.props.columns;
     let data = this.props.data;
+    let idAttribute = this.props.idAttribute;
     let sortBy = this.state.sortBy;
     let tableContent = null;
 
@@ -327,9 +326,9 @@ export default class Table extends React.Component {
     // and if content is bigger than its container
     if (itemHeight === 0 || itemListHeight > containerHeight) {
       tableContent =
-        this.getScrollTable(columns, data, sortBy, itemHeight, containerHeight);
+        this.getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute);
     } else {
-      tableContent = this.getTable(columns, data, sortBy);
+      tableContent = this.getTable(columns, data, sortBy, idAttribute);
     }
 
     return (
@@ -392,8 +391,8 @@ Table.propTypes = {
   // NB: Initial render will stop any ongoing animation, if this is not provided
   itemHeight: PropTypes.number,
 
-  // Provide what attributes in the data make a row unique.
-  keys: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // Provide what attribute in the data make a row unique.
+  idAttribute: PropTypes.string.isRequired,
 
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,

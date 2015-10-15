@@ -14,16 +14,9 @@ let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
 
-let cancelScrollEvent = function (e) {
-  e.stopImmediatePropagation();
-  e.preventDefault();
-  e.returnValue = false;
-  return false;
-};
-
 export default class VirtualList extends Util.mixin(BindMixin) {
   get methodsToBind() {
-    return ['onScroll', 'onScrollLock'];
+    return ['onScroll'];
   }
   constructor() {
     super(arguments);
@@ -36,17 +29,6 @@ export default class VirtualList extends Util.mixin(BindMixin) {
 
   componentWillReceiveProps(nextProps) {
     let state = this.getVirtualState(nextProps);
-
-    this.props.container.removeEventListener('scroll', this.onScrollDebounced);
-
-    this.onScrollDebounced = Util.debounce(
-      this.onScroll,
-      nextProps.scrollDelay,
-      false
-    );
-
-    nextProps.container.addEventListener('scroll', this.onScrollDebounced);
-
     this.setState(state);
   }
 
@@ -65,36 +47,16 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     this.setState(state, onReady);
 
     props.container.addEventListener('scroll', this.onScrollDebounced);
-    props.container.addEventListener('wheel', this.onScrollLock);
   }
 
   componentWillUnmount() {
     let props = this.props;
     props.container.removeEventListener('scroll', this.onScrollDebounced);
-    props.container.removeEventListener('wheel', this.onScrollLock);
   }
 
   onScroll() {
     let state = this.getVirtualState(this.props);
     this.setState(state);
-  }
-
-  onScrollLock(e) {
-    var elem = this.props.container;
-    var scrollTop = elem.scrollTop;
-    var scrollHeight = elem.scrollHeight;
-    var height = elem.clientHeight;
-    var wheelDelta = e.deltaY;
-    var isDeltaPositive = wheelDelta > 0;
-
-    if (isDeltaPositive && wheelDelta > scrollHeight - height - scrollTop) {
-      elem.scrollTop = scrollHeight;
-      return cancelScrollEvent(e);
-    }
-    else if (!isDeltaPositive && -wheelDelta > scrollTop) {
-      elem.scrollTop = 0;
-      return cancelScrollEvent(e);
-    }
   }
 
   getVirtualState(props) {
@@ -268,12 +230,30 @@ VirtualList.defaultProps = {
 };
 
 VirtualList.propTypes = {
+  // Array of items to render
   items: React.PropTypes.array.isRequired,
+
+  // The fixed height of a single item. Needs to be the same for all items
+  // We suggest that you add a CSS rule to set the row height to the same value
   itemHeight: React.PropTypes.number.isRequired,
+
+  // Optional callback function. Gets called when list is fully loaded
   onReady: React.PropTypes.func,
+
+  // This function should return the item view, the data model and the index
+  // is passed to the function.
+  // If you want to tweak performance, we suggest you memoize the results
   renderItem: React.PropTypes.func.isRequired,
+
+  // Optional item that the items should be rendered within. Defaults to window
   container: React.PropTypes.object.isRequired,
-  tagName: React.PropTypes.string.isRequired,
+
+  // Optional Specify which tag the container should render
+  tagName: React.PropTypes.string,
+
+  // Optional scroll delay to use in debounce function
   scrollDelay: React.PropTypes.number,
+
+  // Optional number of items to use as buffer, before and after viewport
   itemBuffer: React.PropTypes.number
 };
