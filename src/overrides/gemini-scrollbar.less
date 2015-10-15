@@ -1,3 +1,5 @@
+@import (inline) "../../node_modules/react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css";
+
 .gm-scrollbar {
   border-radius: 4px;
   bottom: 3px;
@@ -68,6 +70,14 @@
   overflow: auto;
   > .gm-scrollbar-container {
     height: 100%;
+    width: 100%;
+  }
+}
+
+.gm-prevented {
+  .gm-scroll-view {
+    height: 100%;
+    overflow: auto;
     width: 100%;
   }
 }

@@ -8,6 +8,15 @@ let computeInnerBound = (compstyle, acc, key) => {
   }
 };
 
+// Calculates the distance from window top to element top
+function windowTopToElemenTop(element) {
+  if (!element || element === window) {
+    return 0;
+  }
+
+  return element.offsetTop + windowTopToElemenTop(element.offsetParent);
+}
+
 const DOMUtil = {
 
   closest(el, selector) {
@@ -63,7 +72,20 @@ const DOMUtil = {
       width: width,
       height: height
     };
+  },
+
+  getViewportHeight() {
+    return Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
+  },
+
+  // Calculates the difference between element top and container top
+  topDifference(element, container) {
+    return windowTopToElemenTop(element) - windowTopToElemenTop(container);
   }
+
 };
 
 export default DOMUtil;

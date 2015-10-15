@@ -51,7 +51,7 @@ class ModalExample extends Util.mixin(BindMixin) {
 
   render() {
     return (
-      <div className="row canvas-pod">
+      <div className="row canvas-pod canvas-pod-light">
         <div className="container container-pod">
           <h2>Here are various modals.</h2>
           <section className="row canvas-pod">

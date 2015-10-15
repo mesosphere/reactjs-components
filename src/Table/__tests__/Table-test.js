@@ -1,47 +1,58 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
-
 jest.dontMock('../Table');
 jest.dontMock('../../Util/Util');
 jest.dontMock('./fixtures/MockTable');
 
+import React from 'react/addons';
+import Table from '../Table';
+import Util from '../../Util/Util';
+import DOMUtil from '../../Util/DOMUtil';
+
+var TestUtils = React.addons.TestUtils;
 var MockTable = require('./fixtures/MockTable');
-var Table = require('../Table');
 
 describe('Table', function () {
 
   beforeEach(function () {
     this.callback = jasmine.createSpy();
+    this.keys = ['id'];
+    this.sortBy = {
+      prop: 'name',
+      order: 'desc'
+    };
     this.instance = TestUtils.renderIntoDocument(
       <Table
         className="table"
         columns={MockTable.columns}
         data={MockTable.rows}
-        keys={['id']}
-        sortBy={{
-          prop: 'name',
-          order: 'desc'
-        }}
+        keys={this.keys}
+        sortBy={this.sortBy}
         onSortCallback={this.callback} />
     );
+    this.instance.itemHeight = 0;
+    this.getComputedDimensions = DOMUtil.getComputedDimensions;
+    DOMUtil.getComputedDimensions = function () {
+      return {width: 0, height: 0};
+    };
+  });
+
+  afterEach(function () {
+    DOMUtil.getComputedDimensions = this.getComputedDimensions;
   });
 
   it('should render the proper number of columns', function () {
-    var thElements = TestUtils.scryRenderedDOMComponentsWithTag(
-      this.instance, 'th'
-    );
-
-    expect(thElements.length).toEqual(MockTable.columns.length);
+    expect(this.instance.getHeaders(MockTable.columns, this.sortBy).length)
+      .toEqual(4);
   });
 
   it('should render the proper number of rows', function () {
-    var tbody = TestUtils.findRenderedDOMComponentWithTag(
-      this.instance, 'tbody'
+    var rows = this.instance.getRows(
+      MockTable.rows,
+      MockTable.columns,
+      this.sortBy,
+      Util.noop,
+      this.keys
     );
-    var trElements = TestUtils.scryRenderedDOMComponentsWithTag(
-      tbody, 'tr'
-    );
-    expect(trElements.length).toEqual(MockTable.rows.length);
+    expect(rows.length).toEqual(5);
   });
 
   it('should call the callback when the data is sorted', function () {
