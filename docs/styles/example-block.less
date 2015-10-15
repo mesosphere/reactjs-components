@@ -158,8 +158,13 @@ Example Block
 
 }
 
+.container.container-pod .example-block .example-block-content.no-tag {
+  padding-top: @base-spacing-unit * 2;
 
-
+  &:before {
+    display: none;
+  }
+}
 
 
 
@@ -213,10 +218,6 @@ Example Block
 }
 
 
-
-
-
-
 & when (@screen-small-enabled) {
 
 	/* ----------------------------------------------------------------------------------------------------
@@ -267,6 +268,7 @@ Example Block
 	}
 
 }
+
 
 
 

@@ -9,21 +9,66 @@
   </head>
   <body onload="prettyPrint()">
     <div id="page">
-      <section class="row canvas-pod canvas-pod-dark">
-        <div class="container container-pod">
-          <h1 class="inverse short-top">Documentation</h1>
+      <section id="page-header" class="row canvas-pod canvas-pod-dark">
+        <div id="page-header-inner">
+          <div class="container container-pod">
+            <div class="row">
+              <div class="column-mini-8 column-mini-offset-2 column-small-10 column-small-offset-1">
+                <h1 class="page-header-headline inverse text-align-center inverse">ReactJS Components</h1>
+                <p class="inverse page-header-description lead text-align-center">A library of reusable React components. Want to dig into the code? See the <a href="https://github.com/mesosphere/reactjs-components">GitHub repository</a>.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
       <section class="row canvas-pod canvas-pod-light">
-        <div class="container container-pod">
-          <p><a href="https://github.com/mesosphere/reactjs-components">ReactJS components</a> is a library of reusable React components.</p>
-          <h3>Goals:</h3>
+        <div class="container container-pod flush-top">
+          <h3>Goals</h3>
           <ul>
-            <li><span class="emphasize">Independent</span> - pick and use only the components you need.</li>
-            <li><span class="emphasize">Styled</span> - default classes from <a href="http://http://mesosphere.github.io/canvas/">Canvas UI</a> (use is optional.)</li>
-            <li><span class="emphasize">Customizable</span> - properties allow many different settings to adapt to your app.</li>
-            <li><span class="emphasize">Reliable</span> - each component is rigorously tested.</li>
+            <li><span class="emphasize">Independent</span> &mdash; pick and use only the components you need.</li>
+            <li><span class="emphasize">Styled</span> &mdash; default classes from <a href="http://http://mesosphere.github.io/canvas/">Canvas UI</a> (use is optional).</li>
+            <li><span class="emphasize">Customizable</span> &mdash; properties allow many different settings to adapt to your app.</li>
+            <li><span class="emphasize">Reliable</span> &mdash; each component is rigorously tested.</li>
           </ul>
+          <h3>Getting Started</h3>
+          <div class="example-block">
+            <div class="example-block-content no-tag">
+              <p><span class="emphasize">1.</span> From the command line inside of your project</p>
+              <pre class="flush-bottom">
+        npm install --save reactjs-components</pre>
+            </div>
+          </div>
+          <div class="example-block">
+            <div class="example-block-content no-tag">
+              <p><span class="emphasize">2.</span> Import the component that you want to use</p>
+            </div>
+            <pre class="prettyprint linenums flush-bottom">
+// es6
+import {Modal} from 'reactjs-components';
+
+// es5
+var Modal = require('reactjs-components').Modal;
+            </pre>
+          </div>
+          <div class="example-block flush-bottom">
+            <div class="example-block-content no-tag">
+              <p><span class="emphasize">3.</span> Use as if it was any other component</p>
+            </div>
+            <div class="example-block-footer example-block-footer-codeblock">
+              <pre class="prettyprint linenums flush-bottom">
+// ...
+
+render: function () {
+  return (
+    // ...
+    &#60;Modal ...{props}&#62;
+      // Content
+    &#60;Modal /&#62;
+  );
+}
+              </pre>
+            </div>
+          </div>
         </div>
       </section>
       <div id="dropdown"></div>
@@ -32,6 +77,6 @@
       <div id="modal"></div>
       <div id="side-panel"></div>
     </div>
-    <script src="./index.js"></script>
+<script src="./index.js"></script>
   </body>
 </html>
