@@ -98,7 +98,7 @@ export default class Table extends React.Component {
       this.refs.itemHeightContainer != null &&
       this.itemHeight == null) {
       this.itemHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(this.refs.itemHeightContainer).children[0]
+        React.findDOMNode(this.refs.itemHeightContainer).querySelector('tr')
       ).height;
     }
   }
