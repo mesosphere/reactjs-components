@@ -11,28 +11,17 @@ class SidePanelExample extends React.Component {
 
   // In order to use a panel, have an interaction that changes
   // `open` to true.
-  handlePanelOpen(id) {
-    let state = {};
-    state[`panel${id}Open`] = true;
-    this.setState(state);
+  handlePanelOpen() {
+    this.setState({panelIsOpen: true});
   }
 
   // Pass the panel a function that will allow itself to close, by
   // setting `open` to false.
-  handlePanelClose(id) {
-    let state = {};
-    state[`panel${id}Open`] = false;
-    this.setState(state);
+  handlePanelClose() {
+    this.setState({panelIsOpen: false});
   }
 
-  alertAndClosePanelID(id) {
-    /*eslint-disable no-alert */
-    alert(`You just closed panel number ${id}!`);
-    /*eslint-enable no-alert */
-    this.handlePanelClose(id);
-  }
-
-  getHeader(id, description) {
+  getHeader() {
     return [
       <div
         key="header-actions-primary"
@@ -40,7 +29,7 @@ class SidePanelExample extends React.Component {
         <button
           className="side-panel-header-action button button-stroke
             button-rounded"
-          onClick={this.handlePanelClose.bind(this, id)}>
+          onClick={this.handlePanelClose.bind(this)}>
           ✕
         </button>
       </div>,
@@ -48,11 +37,11 @@ class SidePanelExample extends React.Component {
         key="header-content"
         className="side-panel-header-content">
         <h3 className="side-panel-header-content-title text-align-center flush">
-          {`Panel #${id}`}
+          Side Panel
         </h3>
         <p
           className="side-panel-header-content-subtitle text-align-center flush">
-          {description}
+          This is a subheader
         </p>
       </div>,
       <div
@@ -82,7 +71,7 @@ class SidePanelExample extends React.Component {
                   </p>
                   <button
                     className="button button-inverse"
-                    onClick={this.handlePanelOpen.bind(this, 1)}>
+                    onClick={this.handlePanelOpen.bind(this)}>
                     Open side panel
                   </button>
                 </div>
@@ -120,9 +109,9 @@ class SidePanelExample extends React.Component {
           </div>
         </div>
 
-        <SidePanel header={this.getHeader(1, 'Long content')}
-          open={this.state.panel1Open}
-          onClose={this.handlePanelClose.bind(this, 1)}>
+        <SidePanel header={this.getHeader()}
+          open={this.state.panelIsOpen}
+          onClose={this.handlePanelClose.bind(this)}>
           <div className="container container-fluid container-pod">
             <p>
               This side panel will scroll vertically, but not horizontally.
