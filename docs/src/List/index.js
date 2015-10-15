@@ -105,6 +105,8 @@ class ListExample extends React.Component {
                 </h2>
                 <p>
                   Create lists with custom elements and transitions.
+                  View full source
+                  <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/List/index.js"> here</a>.
                 </p>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
@@ -128,7 +130,11 @@ class ListExample extends React.Component {
                   <div className="example-block-footer example-block-footer-codeblock">
                     <pre className="prettyprint linenums flush-bottom">
 
-{`var complexNestedList = [
+{`import List from 'List.js';
+
+[...]
+
+var complexNestedList = [
   {
     value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
   },
@@ -185,7 +191,9 @@ class ListExample extends React.Component {
   {
     value: 'Vestibulum auctor dapibus neque.'
   }
-];`}
+];
+
+[...]`}
 
                     </pre>
                   </div>
