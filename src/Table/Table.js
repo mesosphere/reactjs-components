@@ -282,15 +282,15 @@ export default class Table extends React.Component {
       // scrollDelay is a fixed value
       innerContent = (
         <VirtualList
-          items={sortData(columns, data, sortBy)}
           container={containerNode}
+          itemBuffer={Math.min(10 * visibleItems, 200)}
           itemHeight={itemHeight}
+          items={sortData(columns, data, sortBy)}
           onReady={this.forceUpdate.bind(this)}
-          tagName="tbody"
           renderBufferItem={this.getBufferItem.bind(this, columns)}
           renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, keys)}
-          itemBuffer={Math.min(10 * visibleItems, 200)}
-          scrollDelay={2.5} />
+          scrollDelay={2.5}
+          tagName="tbody" />
       );
     }
 
