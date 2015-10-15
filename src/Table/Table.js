@@ -261,10 +261,15 @@ export default class Table extends React.Component {
     let classes = classNames(this.props.className, 'flush-bottom');
     let containerNode = this.containerNode;
     let buildRowOptions = this.props.buildRowOptions;
+    let childToMeasure;
+
+    if (itemHeight === 0) {
+      childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, data[0]);
+    }
 
     let innerContent = (
       <tbody ref="itemHeightContainer">
-        {this.getRowCells(columns, sortBy, buildRowOptions, data[0], idAttribute)}
+        {childToMeasure}
       </tbody>
     );
 

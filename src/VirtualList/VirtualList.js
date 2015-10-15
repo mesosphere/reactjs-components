@@ -88,8 +88,8 @@ export default class VirtualList extends Util.mixin(BindMixin) {
       return state;
     }
 
-    let list = React.findDOMNode(this);
-    let offsetTop = DOMUtil.topDifference(list, container);
+    let offsetTop = this.props.offsetTop ||
+      DOMUtil.topDifference(React.findDOMNode(this), container);
     let viewTop;
     if (typeof container.scrollY !== 'undefined') {
       viewTop = container.scrollY;
@@ -224,9 +224,10 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
 
 VirtualList.defaultProps = {
   container: typeof window !== 'undefined' ? window : undefined,
-  tagName: 'div',
+  offsetTop: 0,
+  itemBuffer: 0,
   scrollDelay: 0,
-  itemBuffer: 0
+  tagName: 'div'
 };
 
 VirtualList.propTypes = {
@@ -239,6 +240,11 @@ VirtualList.propTypes = {
 
   // Optional callback function. Gets called when list is fully loaded
   onReady: React.PropTypes.func,
+
+  // Optional number to provide the difference between container and
+  // the virtual list. It will default to 0. If undefined is provided,
+  // it will be measured, but be careful! This might break animations!
+  offsetTop: React.PropTypes.number,
 
   // This function should return the item view, the data model and the index
   // is passed to the function.
