@@ -5,7 +5,6 @@
 
 /* eslint react/no-did-mount-set-state: 0 */
 import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import Util from '../Util/Util';
 
@@ -88,8 +87,6 @@ export default class VirtualList extends Util.mixin(BindMixin) {
       return state;
     }
 
-    let offsetTop = this.props.offsetTop ||
-      DOMUtil.topDifference(React.findDOMNode(this), container);
     let viewTop;
     if (typeof container.scrollY !== 'undefined') {
       viewTop = container.scrollY;
@@ -100,7 +97,7 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     let renderStats = VirtualList.getItems(
       viewTop,
       viewHeight,
-      offsetTop,
+      props.offsetTop,
       props.itemHeight,
       items.length,
       props.itemBuffer
@@ -242,8 +239,7 @@ VirtualList.propTypes = {
   onReady: React.PropTypes.func,
 
   // Optional number to provide the difference between container and
-  // the virtual list. It will default to 0. If undefined is provided,
-  // it will be measured, but be careful! This might break animations!
+  // the virtual list. It will default to 0.
   offsetTop: React.PropTypes.number,
 
   // This function should return the item view, the data model and the index
