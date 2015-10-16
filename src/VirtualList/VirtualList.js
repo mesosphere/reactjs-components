@@ -97,7 +97,7 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     let renderStats = VirtualList.getItems(
       viewTop,
       viewHeight,
-      props.offsetTop,
+      0,
       props.itemHeight,
       items.length,
       props.itemBuffer
@@ -221,7 +221,6 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
 
 VirtualList.defaultProps = {
   container: typeof window !== 'undefined' ? window : undefined,
-  offsetTop: 0,
   itemBuffer: 0,
   scrollDelay: 0,
   tagName: 'div'
@@ -237,10 +236,6 @@ VirtualList.propTypes = {
 
   // Optional callback function. Gets called when list is fully loaded
   onReady: React.PropTypes.func,
-
-  // Optional number to provide the difference between container and
-  // the virtual list. It will default to 0.
-  offsetTop: React.PropTypes.number,
 
   // This function should return the item view, the data model and the index
   // is passed to the function.
