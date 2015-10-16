@@ -79,7 +79,37 @@ class SidePanelExample extends React.Component {
             </div>
             <div className="example-block-footer example-block-footer-codeblock">
               <pre className="prettyprint linenums flush-bottom">
-{`<SidePanel
+{`
+getHeader() {
+  return (
+    <div>
+      <button className="button button-stroke button-rounded"
+        onClick={this.handlePanelClose.bind(this)}>
+        ✕
+      </button>
+      <h2 className="side-panel-header-title text-align-center flush-top flush-bottom">
+        Side Panel
+      </h2>
+      <p className="center">Subheader</p>
+    </div>
+  );
+}
+
+// In order to use a panel, have an interaction that changes
+// \`open\` to true.
+handlePanelOpen() {
+  this.setState({panelIsOpen: true});
+}
+
+// Pass the panel a function that will allow itself to close, by
+// setting \`open\` to false.
+handlePanelClose() {
+  this.setState({panelIsOpen: false});
+}
+
+//...
+
+<SidePanel
   header={this.getHeader()}
   open={this.state.panelIsOpen}
   onClose={this.handlePanelClose.bind(this)}>
