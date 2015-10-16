@@ -65,7 +65,7 @@ class SidePanelExample extends React.Component {
           <div className="example-block flush-bottom">
             <div className="example-block-content">
               <section className="row canvas-pod">
-                <div className="column-6">
+                <div className="column-12">
                   <p>
                     The panel will pop out from the side; thus, the side panel.
                   </p>
