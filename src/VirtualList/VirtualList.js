@@ -5,7 +5,6 @@
 
 /* eslint react/no-did-mount-set-state: 0 */
 import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import Util from '../Util/Util';
 
@@ -88,8 +87,6 @@ export default class VirtualList extends Util.mixin(BindMixin) {
       return state;
     }
 
-    let list = React.findDOMNode(this);
-    let offsetTop = DOMUtil.topDifference(list, container);
     let viewTop;
     if (typeof container.scrollY !== 'undefined') {
       viewTop = container.scrollY;
@@ -100,7 +97,7 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     let renderStats = VirtualList.getItems(
       viewTop,
       viewHeight,
-      offsetTop,
+      0,
       props.itemHeight,
       items.length,
       props.itemBuffer
@@ -224,9 +221,9 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
 
 VirtualList.defaultProps = {
   container: typeof window !== 'undefined' ? window : undefined,
-  tagName: 'div',
+  itemBuffer: 0,
   scrollDelay: 0,
-  itemBuffer: 0
+  tagName: 'div'
 };
 
 VirtualList.propTypes = {
