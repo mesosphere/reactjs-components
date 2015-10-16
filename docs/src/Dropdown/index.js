@@ -96,7 +96,8 @@ class DropdownExample extends React.Component {
                   Dropdowns
                 </h2>
                 <p>
-                  Use custom html elements within dropdowns, style with dividers, and add callbacks.
+                  Use custom html elements within dropdown menus and add callbacks. View the <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Dropdown/Dropdown.js">component source</a> for all props and
+                  customizations. To see the full context of these examples, view the <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Dropdown/index.js">example source</a>.
                 </p>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
@@ -216,9 +217,10 @@ let dropdownItems = [
               <h4>
                 Custom HTML elements
               </h4>
+              <p>Use HTML to style dropdown elements.</p>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
-                    <p>Here is a dropdown with custom HTML elements.</p>
+                  <p>Here is a styled dropdown.</p>
                     <Dropdown buttonClassName="button dropdown-toggle"
                       dropdownMenuClassName="dropdown-menu"
                       dropdownMenuListClassName="dropdown-menu-list"
