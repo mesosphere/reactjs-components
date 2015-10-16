@@ -1,140 +1,402 @@
+/* ----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+
+components/example-block.less
+
+-------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------- */
+
+
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+
+Variables
+
+-------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------- */
+
+
+
+
+
+
+/* ----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------
+
+Example Block
+
+-------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------- */
+
 .example-block {
-  border-radius: 5px;
-  box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.1), 0px 2px 1px 0px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  margin-bottom: 12px;
-}
-.example-block.example-block-overflow {
-  overflow: visible;
-}
-.example-block .example-block-content {
-  background: #ffffff;
-  padding: 12px;
-  padding-top: 34px;
-  position: relative;
-}
-.example-block .example-block-content:before {
-  content: 'Example';
-  background: #f5f5f6;
-  border-right: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px 0px 5px 0px;
-  font-size: 11.2px;
-  line-height: 16px;
-  padding: 3px 6px;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  text-transform: uppercase;
-}
-.example-block .example-block-content + .example-block-footer {
-  border-radius: 0px 0px 5px 5px;
-}
-.example-block .example-block-content .dropdown-open {
-  *zoom: 1;
-}
-.example-block .example-block-content .dropdown-open:before,
-.example-block .example-block-content .dropdown-open:after {
-  display: table;
-  content: "";
-  line-height: 0;
-}
-.example-block .example-block-content .dropdown-open:after {
-  clear: both;
-}
-.example-block .example-block-content .dropdown-open .dropdown-toggle {
-  float: left;
-}
-.example-block .example-block-content .dropdown-open .dropdown-menu {
-  position: static;
-  display: block;
-  clear: left;
-}
-.example-block .example-block-footer {
-  border-radius: 5px;
-  padding: 12px;
-  background: #f5f5f6;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-.example-block .example-block-footer.example-block-footer-codeblock {
-  padding: 0px;
-}
-.example-block.inverse .example-block-content {
-  background: #232937;
-  margin: 3px;
-  border-radius: 3px 3px 0px 0px;
-}
-.example-block.inverse .example-block-content:before {
-  top: -3px;
-  left: -3px;
+
+	.border-radius(5px);
+	@shadow:	0px 0px 0px 1px rgba(0, 0, 0, 0.1),
+				0px 2px 1px 0px rgba(0, 0, 0, 0.1);
+	.box-shadow(@shadow);
+	overflow: hidden;
+	margin-bottom: @base-spacing-unit * 0.5;
+
+
+
+	&.example-block-overflow {
+
+		overflow: visible;
+
+	}
+
+
+
+	.example-block-content {
+
+		background: @white;
+		padding: (@grid-gutter-width * 0.5);
+		padding-top: (@grid-gutter-width * 0.5) + (2 * @grid-gutter-width * 0.125) + (@small-text-line-height);
+		position: relative;
+
+		&:before {
+
+			content: 'Example';
+			background: color-lighten(@neutral, 95);
+			border-right: 1px solid rgba(0, 0, 0, 0.1);
+			border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			.border-radius(5px 0px 5px 0px);
+			font-size: @small-text-font-size;
+			line-height: @small-text-line-height;
+			padding: (@grid-gutter-width * 0.125) (@grid-gutter-width * 0.25);
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			text-transform: uppercase;
+
+		}
+
+		& + .example-block-footer {
+
+			.border-radius(0px 0px 5px 5px);
+
+		}
+
+
+
+		/* ----------------------------------------------------------------------------------------------------
+		Dropdown Open/Expanded
+		---------------------------------------------------------------------------------------------------- */
+
+		.dropdown-open {
+
+			.clearfix();
+
+			.dropdown-toggle {
+
+				float: left;
+
+			}
+
+			.dropdown-menu {
+
+				position: static;
+				display: block;
+				clear: left;
+
+			}
+
+		}
+
+	}
+
+	.example-block-footer {
+
+		.border-radius(5px);
+		padding: (@grid-gutter-width * 0.5);
+		background: color-lighten(@neutral, 95);
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+		overflow: hidden;
+
+		&.example-block-footer-codeblock {
+
+			padding: 0px;
+
+		}
+
+	}
+
+
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Inverse
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	&.inverse {
+
+		.example-block-content {
+
+			background: @canvas-pod-dark-background-color;
+			margin: 3px;
+			.border-radius(3px 3px 0px 0px);
+
+			&:before {
+
+				top: -3px;
+				left: -3px;
+
+			}
+
+		}
+
+	}
+
 }
 
-@media (min-width: 480px) {
-  .example-block .example-block-content {
-    padding: 12px;
-    padding-top: 34px;
-  }
-  .example-block .example-block-content:before {
-    padding: 3px 6px;
-    font-size: 11.2px;
-    line-height: 16px;
-  }
-  .example-block .example-block-footer {
-    padding: 12px;
-  }
+
+
+
+
+
+& when (@screen-mini-enabled) {
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Screen Size: Mini (@screen-mini) and above
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	@media (min-width: @screen-mini) {
+
+		/* ----------------------------------------------------------------------------------------------------
+		-------------------------------------------------------------------------------------------------------
+
+		Example Block
+
+		-------------------------------------------------------------------------------------------------------
+		---------------------------------------------------------------------------------------------------- */
+
+		.example-block {
+
+			.example-block-content {
+
+				padding: (@base-spacing-unit-screen-mini * 0.5);
+				padding-top: (@base-spacing-unit-screen-mini * 0.5) + (2 * @base-spacing-unit-screen-mini * 0.125) + (@small-text-line-height * @small-text-line-height-scale-screen-mini);
+
+				&:before {
+
+					padding: (@base-spacing-unit-screen-mini * 0.125) (@base-spacing-unit-screen-mini * 0.25);
+					font-size: @small-text-font-size * @small-text-font-size-scale-screen-mini;
+					line-height: @small-text-line-height * @small-text-line-height-scale-screen-mini;
+
+				}
+
+			}
+
+			.example-block-footer {
+
+				padding: (@base-spacing-unit-screen-mini * 0.5);
+
+			}
+
+		}
+
+	}
+
 }
 
-@media (min-width: 768px) {
-  .example-block {
-    margin-bottom: 16px;
-  }
-  .example-block .example-block-content {
-    padding: 16px;
-    padding-top: 41.6px;
-  }
-  .example-block .example-block-content:before {
-    padding: 4px 8px;
-    font-size: 12.32px;
-    line-height: 17.6px;
-  }
-  .example-block .example-block-footer {
-    padding: 16px;
-  }
+
+
+
+
+
+& when (@screen-small-enabled) {
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Screen Size: Small (@screen-small) and above
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	@media (min-width: @screen-small) {
+
+		/* ----------------------------------------------------------------------------------------------------
+		-------------------------------------------------------------------------------------------------------
+
+		Example Block
+
+		-------------------------------------------------------------------------------------------------------
+		---------------------------------------------------------------------------------------------------- */
+
+		.example-block {
+
+			margin-bottom: @base-spacing-unit-screen-small * 0.5;
+
+			.example-block-content {
+
+				padding: (@base-spacing-unit-screen-small * 0.5);
+				padding-top: (@base-spacing-unit-screen-small * 0.5) + (2 * @base-spacing-unit-screen-small * 0.125) + (@small-text-line-height * @small-text-line-height-scale-screen-small);
+
+				&:before {
+
+					padding: (@base-spacing-unit-screen-small * 0.125) (@base-spacing-unit-screen-small * 0.25);
+					font-size: @small-text-font-size * @small-text-font-size-scale-screen-small;
+					line-height: @small-text-line-height * @small-text-line-height-scale-screen-small;
+
+				}
+
+			}
+
+			.example-block-footer {
+
+				padding: (@base-spacing-unit-screen-small * 0.5);
+
+			}
+
+		}
+
+	}
+
 }
 
-@media (min-width: 992px) {
-  .example-block {
-    margin-bottom: 24px;
-  }
-  .example-block .example-block-content {
-    padding: 24px;
-    padding-top: 55.2px;
-  }
-  .example-block .example-block-content:before {
-    padding: 6px 12px;
-    font-size: 13.44px;
-    line-height: 19.2px;
-  }
-  .example-block .example-block-footer {
-    padding: 24px;
-  }
+
+
+
+
+
+& when (@screen-medium-enabled) {
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Screen Size: Large (@screen-medium) and above
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	@media (min-width: @screen-medium) {
+
+		/* ----------------------------------------------------------------------------------------------------
+		-------------------------------------------------------------------------------------------------------
+
+		Example Block
+
+		-------------------------------------------------------------------------------------------------------
+		---------------------------------------------------------------------------------------------------- */
+
+		.example-block {
+
+			margin-bottom: @base-spacing-unit-screen-medium * 0.5;
+
+			.example-block-content {
+
+				padding: (@base-spacing-unit-screen-medium * 0.5);
+				padding-top: (@base-spacing-unit-screen-medium * 0.5) + (2 * @base-spacing-unit-screen-medium * 0.125) + (@small-text-line-height * @small-text-line-height-scale-screen-medium);
+
+				&:before {
+
+					padding: (@base-spacing-unit-screen-medium * 0.125) (@base-spacing-unit-screen-medium * 0.25);
+					font-size: @small-text-font-size * @small-text-font-size-scale-screen-medium;
+					line-height: @small-text-line-height * @small-text-line-height-scale-screen-medium;
+
+				}
+
+			}
+
+			.example-block-footer {
+
+				padding: (@base-spacing-unit-screen-medium * 0.5);
+
+			}
+
+		}
+
+	}
+
 }
 
-@media (min-width: 1400px) {
-  .example-block {
-    margin-bottom: 32px;
-  }
-  .example-block .example-block-content {
-    padding: 32px;
-    padding-top: 67.2px;
-  }
-  .example-block .example-block-content:before {
-    padding: 8px 16px;
-    font-size: 13.44px;
-    line-height: 19.2px;
-  }
-  .example-block .example-block-footer {
-    padding: 32px;
-  }
+
+
+
+
+
+& when (@screen-large-enabled) {
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Screen Size: Large (@screen-large) and above
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	@media (min-width: @screen-large) {
+
+		/* ----------------------------------------------------------------------------------------------------
+		-------------------------------------------------------------------------------------------------------
+
+		Example Block
+
+		-------------------------------------------------------------------------------------------------------
+		---------------------------------------------------------------------------------------------------- */
+
+		.example-block {
+
+			margin-bottom: @base-spacing-unit-screen-large * 0.5;
+
+			.example-block-content {
+
+				padding: (@base-spacing-unit-screen-large * 0.5);
+				padding-top: (@base-spacing-unit-screen-large * 0.5) + (2 * @base-spacing-unit-screen-large * 0.125) + (@small-text-line-height * @small-text-line-height-scale-screen-large);
+
+				&:before {
+
+					padding: (@base-spacing-unit-screen-large * 0.125) (@base-spacing-unit-screen-large * 0.25);
+					font-size: @small-text-font-size * @small-text-font-size-scale-screen-large;
+					line-height: @small-text-line-height * @small-text-line-height-scale-screen-large;
+
+				}
+
+			}
+
+			.example-block-footer {
+
+				padding: (@base-spacing-unit-screen-large * 0.5);
+
+			}
+
+		}
+
+	}
+
+}
+
+
+
+
+
+
+& when (@screen-resolution-2x-enabled) {
+
+	/* ----------------------------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------
+
+	Screen Resolution: 2x
+
+	-------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------- */
+
+	@media only screen and (-webkit-min-device-pixel-ratio: 2) {
+
+	}
+
 }
