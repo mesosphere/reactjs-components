@@ -3,16 +3,17 @@ import React from 'react';
 import List from '../../../src/List/List.js';
 
 class ListExample extends React.Component {
-
   constructor() {
     super();
+
     this.state = {
       itemAdded: false
     };
-    this.handleToggleExtraItem = this.handleToggleExtraItem.bind(this);
+
+    this.handleExtraItemToggle = this.handleExtraItemToggle.bind(this);
   }
 
-  handleToggleExtraItem() {
+  handleExtraItemToggle() {
     this.setState({
       itemAdded: !this.state.itemAdded
     });
@@ -20,27 +21,25 @@ class ListExample extends React.Component {
 
   getComplexNestedList() {
     // Here's an example of a list with customized list items.
-
-    var complexNestedList = [
+    var complexList = [
+      // First item
       {
         value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
       },
+      // Second item
       {
+        // Nested items
         items: [
           {
-            attributes: {
-              className: 'text-uppercase',
-              style: {
-                display: 'block'
-              }
+            className: 'text-uppercase',
+            style: {
+              display: 'block'
             },
             tag: 'strong',
             value: 'Cu movet numquam.'
           },
           {
-            attributes: {
-              className: 'list a'
-            },
+            className: 'list a',
             tag: 'ol',
             items: [
               {
@@ -53,19 +52,18 @@ class ListExample extends React.Component {
                     value: 'Mauris placerat eleifend leo.'
                   },
                   {
-                    attributes: {
-                      className: 'list I'
-                    },
+                    className: 'list I',
                     tag: 'ol',
                     items: [
                       {
                         value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                       },
                       {
-                        value:
+                        value: (
                           <a href="#">
                             Gravida convallis. Morbi vitae ante.
                           </a>
+                        )
                       }
                     ]
                   }
@@ -75,16 +73,17 @@ class ListExample extends React.Component {
           }
         ]
       },
+      // Third item
       {
         value: 'Vestibulum auctor dapibus neque.'
       }
     ];
 
     if (this.state.itemAdded) {
-      complexNestedList.push({value: 'A wild transitioned list item appears.'});
+      complexList.push({value: 'A wild transitioned list item appears.'});
     }
 
-    return complexNestedList;
+    return complexList;
   }
 
   render() {
@@ -105,8 +104,10 @@ class ListExample extends React.Component {
                 </h2>
                 <p>
                   Create lists with custom elements and transitions.
-                  View full source
-                  <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/List/index.js"> here</a>.
+                </p>
+                <p>
+                  View full source&nbsp;
+                  <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/List/List.js">here</a>.
                 </p>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
@@ -114,14 +115,12 @@ class ListExample extends React.Component {
                       <div className="column-9">
                         <List
                           items={this.getComplexNestedList()}
-                          tag="ol"
-                          transition={true}
-                          transitionName="list-item" />
+                          tag="ol" />
                       </div>
                       <div className="column-3">
                         <button
-                          className="button button-small button-primary button-stroke"
-                          onClick={this.handleToggleExtraItem}>
+                          className="button button-small button-primary button-stroke pull-right"
+                          onClick={this.handleExtraItemToggle}>
                           {toggleText}
                         </button>
                       </div>
@@ -130,30 +129,27 @@ class ListExample extends React.Component {
                   <div className="example-block-footer example-block-footer-codeblock">
                     <pre className="prettyprint linenums flush-bottom">
 
-{`import List from 'List.js';
+{`import {List} from 'reactjs-components';
 
-[...]
-
-var complexNestedList = [
+var complexList = [
+  // First item
   {
     value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
   },
+  // Second item
   {
+    // Nested items
     items: [
       {
-        attributes: {
-          className: 'text-uppercase',
-          style: {
-            display: 'block'
-          }
+        className: 'text-uppercase',
+        style: {
+          display: 'block'
         },
         tag: 'strong',
         value: 'Cu movet numquam.'
       },
       {
-        attributes: {
-          className: 'list a'
-        },
+        className: 'list a',
         tag: 'ol',
         items: [
           {
@@ -166,19 +162,18 @@ var complexNestedList = [
                 value: 'Mauris placerat eleifend leo.'
               },
               {
-                attributes: {
-                  className: 'list I'
-                },
+                className: 'list I',
                 tag: 'ol',
                 items: [
                   {
                     value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                   },
                   {
-                    value:
+                    value: (
                       <a href="#">
                         Gravida convallis. Morbi vitae ante.
                       </a>
+                    )
                   }
                 ]
               }
@@ -188,12 +183,13 @@ var complexNestedList = [
       }
     ]
   },
+  // Third item
   {
     value: 'Vestibulum auctor dapibus neque.'
   }
 ];
 
-[...]`}
+<List items={complexList} tag="ol" />`}
 
                     </pre>
                   </div>
@@ -205,7 +201,6 @@ var complexNestedList = [
       </div>
     );
   }
-
 }
 
 React.render(<ListExample />, document.getElementById('list'));

@@ -1,37 +1,27 @@
-{
-  "list": [
-    {
-      "attributes": {
-        "className": "my-custom-row-class my-custom-row-class--first-row"
-      },
-      "items": [
-        {
-          "attributes": {
-            "className": "my-custom-item-class",
-            "style": {
-              "display": "inline-block"
-            }
-          },
-          "tag": "span",
-          "value": "Row 1: Item 1"
+[
+  {
+    "className": "my-custom-row-class my-custom-row-class--first-row",
+    "items": [
+      {
+        "className": "my-custom-item-class",
+        "style": {
+          "display": "inline-block"
         },
-        {
-          "attributes": {
-            "className": "my-custom-item-class",
-            "style": {
-              "display": "inline-block"
-            }
-          },
-          "tag": "span",
-          "value": "Row 1: Item 2"
-        }
-      ]
-    },
-    {
-      "attributes": {
-        "className": "my-custom-row-class"
+        "tag": "span",
+        "value": "Row 1: Item 1"
       },
-      "value": "Row 2: Item 1"
-    }
-  ]
-}
+      {
+        "className": "my-custom-item-class",
+        "style": {
+          "display": "inline-block"
+        },
+        "tag": "span",
+        "value": "Row 1: Item 2"
+      }
+    ]
+  },
+  {
+    "className": "my-custom-row-class",
+    "value": "Row 2: Item 1"
+  }
+]

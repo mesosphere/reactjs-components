@@ -1,30 +1,30 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react/addons';
 
 import ListItem from './ListItem';
+import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class List extends React.Component {
+  getListItemContents(item, childIndex) {
+    if (item.items) {
+      return this.getListItems(item.items, childIndex);
+    } else {
+      return item.value;
+    }
+  }
 
   getListItems(list, childIndex = 0) {
     let items = list.map(function (item, parentIndex) {
       let key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
-      if (item.items) {
-        return (
-          <ListItem key={key} tag={item.tag} attributes={item.attributes}>
-            {this.getListItems(item.items, childIndex)}
-          </ListItem>
-        );
-      } else {
-        return (
-          <ListItem key={key} tag={item.tag} attributes={item.attributes}>
-            {item.value}
-          </ListItem>
-        );
-      }
-
+      return (
+        <ListItem key={key} {...Util.exclude(item, ['items', 'value'])}>
+          {this.getListItemContents(item, childIndex)}
+        </ListItem>
+      );
     }, this);
 
     if (this.props.transition) {
@@ -39,34 +39,32 @@ export default class List extends React.Component {
   }
 
   render() {
+    let defaultClass = List.defaultProps.className;
+    let classes = classNames(this.props.className, defaultClass);
     let Tag = this.props.tag;
 
+    // Uses all passed properties as attributes, excluding propTypes
+    let attributes = Util.exclude(this.props, Object.keys(List.propTypes));
+
     return (
-      <Tag {...this.props} className={this.props.className}>
+      <Tag {...attributes} className={classes}>
         {this.getListItems(this.props.items)}
       </Tag>
     );
   }
-
 }
 
 List.defaultProps = {
-  attributes: {
-    className: ''
-  },
+  className: 'list',
   tag: 'ul',
-
-  // Default classes.
-  className: 'list'
+  transition: true,
+  transitionName: 'list-item'
 };
 
 List.propTypes = {
-  attributes: PropTypes.object,
+  className: PropTypes.string,
   items: PropTypes.array.isRequired,
   tag: PropTypes.string,
   transition: PropTypes.bool,
-  transitionName: PropTypes.string,
-
-  // Classes.
-  className: PropTypes.string
+  transitionName: PropTypes.string
 };
