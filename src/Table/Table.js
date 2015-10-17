@@ -100,24 +100,26 @@ export default class Table extends React.Component {
       ).height;
     }
 
-    if (state.viewportHeight == null &&
-      refs.container != null &&
-      refs.headers != null) {
-      // Can't grow beyond the specified ratio of the viewport height
-      newState.viewportHeight = props.windowRatio * DOMUtil.getViewportHeight();
+    if (state.viewportHeight == null) {
+      let headerHeight = DOMUtil.getComputedDimensions(
+        React.findDOMNode(refs.headers)
+      ).height;
 
-      let growContainer =
+      // Default to not grow beyond the specified ratio of viewport height
+      newState.viewportHeight =
+        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
+      // Calculated scroll container height
+      let scrollContainerHeight =
         DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
-        DOMUtil.getComputedDimensions(React.findDOMNode(refs.headers)).height -
+        headerHeight;
+      // Calculate the element we grow with flex
+      let growContainer = scrollContainerHeight -
         DOMUtil.getComputedDimensions(newState.scrollContainer).height;
 
       // Check if the table can grow to take up the rest of its parent.
       // If it can select the smallest viewport; parent or window.
       if (growContainer > 0) {
-        newState.viewportHeight = Math.min(
-          props.windowRatio * DOMUtil.getViewportHeight(),
-          growContainer
-        );
+        newState.viewportHeight = scrollContainerHeight;
       }
     }
 
