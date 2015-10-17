@@ -62,7 +62,6 @@ export default class Table extends React.Component {
 
   componentDidMount() {
     this.updateHeight();
-    this.forceUpdate();
   }
 
   componentWillReceiveProps() {
@@ -79,21 +78,54 @@ export default class Table extends React.Component {
   }
 
   updateHeight() {
-    if (this.refs.gemini != null) {
+    let newState = {};
+    let props = this.props;
+    let state = this.state;
+    let refs = this.refs;
+
+    if (state.scrollContainer == null && refs.gemini != null) {
       // Get the Gemini scroll view as the container view.
       // We need this since both Gemini and VirtualList need the same element
-      this.containerNode = React.findDOMNode(
-        this.refs.gemini.refs['scroll-view']
+      newState.scrollContainer = React.findDOMNode(
+        refs.gemini.refs['scroll-view']
       );
     }
 
-    // Calculate content height only once and when node is ready
-    if (this.props.itemHeight == null &&
-      this.refs.itemHeightContainer != null &&
-      this.itemHeight == null) {
-      this.itemHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(this.refs.itemHeightContainer).querySelector('tr')
+    if (props.itemHeight == null &&
+      state.itemHeight == null &&
+      refs.itemHeightContainer != null) {
+      // Calculate content height only once and when node is ready
+      newState.itemHeight = DOMUtil.getComputedDimensions(
+        React.findDOMNode(refs.itemHeightContainer).querySelector('tr')
       ).height;
+    }
+
+    if (state.viewportHeight == null &&
+      refs.container != null &&
+      refs.headers != null) {
+      // Can't grow beyond the specified ratio of the viewport height
+      newState.viewportHeight = props.windowRatio * DOMUtil.getViewportHeight();
+
+      let growContainer =
+        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
+        DOMUtil.getComputedDimensions(React.findDOMNode(refs.headers)).height -
+        DOMUtil.getComputedDimensions(newState.scrollContainer).height;
+
+      // Check if the table can grow to take up the rest of its parent.
+      // If it can select the smallest viewport; parent or window.
+      if (growContainer > 0) {
+        newState.viewportHeight = Math.min(
+          props.windowRatio * DOMUtil.getViewportHeight(),
+          growContainer
+        );
+      }
+    }
+
+    // Only update if we have a change
+    if (state.scrollContainer !== newState.scrollContainer ||
+      state.itemHeight !== newState.itemHeight ||
+      state.viewportHeight !== newState.viewportHeight) {
+      this.setState(newState);
     }
   }
 
@@ -259,7 +291,7 @@ export default class Table extends React.Component {
 
   getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
     let classes = classNames(this.props.className, 'flush-bottom');
-    let containerNode = this.containerNode;
+    let scrollContainer = this.state.scrollContainer;
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
@@ -275,21 +307,18 @@ export default class Table extends React.Component {
 
     let style = {};
 
-    if (containerNode != null) {
+    if (scrollContainer != null) {
       style.height = containerHeight;
       let visibleItems = Math.ceil(containerHeight / itemHeight);
 
-      // Re-render on ready, since VirtualList needs to be rendered on mount
-      // and we need gemini to update accordingly.
       // itemBuffer and scrollDelay is based on number of visible items
       // with a max value cutoff.
       innerContent = (
         <VirtualList
-          container={containerNode}
+          container={scrollContainer}
           itemBuffer={Math.min(200, 10 * visibleItems)}
           itemHeight={itemHeight}
           items={sortData(columns, data, sortBy)}
-          onReady={this.forceUpdate.bind(this)}
           renderBufferItem={this.getBufferItem.bind(this, columns)}
           renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, idAttribute)}
           scrollDelay={Math.min(5, visibleItems / 4)}
@@ -311,21 +340,20 @@ export default class Table extends React.Component {
   }
 
   render() {
-    let classes = classNames(this.props.className, 'flush-bottom');
-    let columns = this.props.columns;
-    let data = this.props.data;
-    let idAttribute = this.props.idAttribute;
-    let sortBy = this.state.sortBy;
+    let props = this.props;
+    let state = this.state;
+    let classes = classNames(props.className, 'flush-bottom');
+    let columns = props.columns;
+    let data = props.data;
+    let idAttribute = props.idAttribute;
+    let sortBy = state.sortBy;
     let tableContent = null;
 
-    let itemHeight = this.props.itemHeight || this.itemHeight || 0;
+    let itemHeight = state.itemHeight || props.itemHeight || 0;
     let itemListHeight = itemHeight * data.length;
 
-    // Can't grow beyond 80% of the viewport height
-    let viewportHeight = 0.8 * DOMUtil.getViewportHeight();
-
-    // Calculate the minimum of either the content or 80% of the window height
-    let containerHeight = Math.min(itemListHeight, viewportHeight);
+    // Calculate the minimum of either the content or viewport height
+    let containerHeight = Math.min(itemListHeight, state.viewportHeight);
 
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
@@ -335,11 +363,15 @@ export default class Table extends React.Component {
     } else {
       tableContent = this.getTable(columns, data, sortBy, idAttribute);
     }
+    let styles = {};
+    if (state.viewportHeight == null) {
+      styles.flexGrow = 1;
+    }
 
     return (
-      <div>
-        <table className={classes}>
-          {this.props.colGroup}
+      <div ref="container" style={styles}>
+        <table ref="headers" className={classes}>
+          {props.colGroup}
           <thead>
             <tr>
               {this.getHeaders(columns, sortBy)}
@@ -354,7 +386,8 @@ export default class Table extends React.Component {
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {}
+  sortBy: {},
+  windowRatio: 0.8
 };
 
 Table.propTypes = {
@@ -410,5 +443,9 @@ Table.propTypes = {
 
   // Optional property to add transitions or turn them off. Default is off.
   // Only available for tables that does not scroll
-  transition: PropTypes.bool
+  transition: PropTypes.bool,
+
+  // Optional property to set a ratio of the window you want the table
+  // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
+  windowRatio: PropTypes.number
 };

@@ -42,8 +42,7 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   componentDidMount() {
     let props = this.props;
     let state = this.getVirtualState(props);
-    let onReady = props.onReady || Util.noop;
-    this.setState(state, onReady);
+    this.setState(state);
 
     props.container.addEventListener('scroll', this.onScrollDebounced);
   }
@@ -233,9 +232,6 @@ VirtualList.propTypes = {
   // The fixed height of a single item. Needs to be the same for all items
   // We suggest that you add a CSS rule to set the row height to the same value
   itemHeight: React.PropTypes.number.isRequired,
-
-  // Optional callback function. Gets called when list is fully loaded
-  onReady: React.PropTypes.func,
 
   // This function should return the item view, the data model and the index
   // is passed to the function.
