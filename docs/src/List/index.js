@@ -109,6 +109,38 @@ class ListExample extends React.Component {
                   View full source&nbsp;
                   <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/List/List.js">here</a>.
                 </p>
+                <div className="row row-flex row-flex">
+                  <div className="column-12">
+                    <h3>Properties API</h3>
+                    <div className="example-block">
+                      <div className="example-block-footer example-block-footer-codeblock">
+                        <pre className="prettyprint linenums flush-bottom">
+    {`List.propTypes = {
+      className: PropTypes.string,
+      // List of items in the list
+      items: PropTypes.arrayOf(
+        // Each item in the array should be an object
+        React.PropTypes.shape({
+          // Optionally add a class to a given item
+          className: PropTypes.string,
+          // An item can be a container of another ist
+          items: PropTypes.array,
+          // Optional tag for item instead of an \`li\`
+          tag: PropTypes.string,
+          // If this item isn't a list of other items just use a value
+          value: PropTypes.string
+        })
+      ).isRequired,
+      // Optional tag for the container of the list
+      tag: PropTypes.string,
+      transition: PropTypes.bool,
+      transitionName: PropTypes.string
+    };`}
+                        </pre>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
                     <div className="row row-flex">

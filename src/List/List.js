@@ -63,7 +63,21 @@ List.defaultProps = {
 
 List.propTypes = {
   className: PropTypes.string,
-  items: PropTypes.array.isRequired,
+  // List of items in the list
+  items: PropTypes.arrayOf(
+    // Each item in the array should be an object
+    React.PropTypes.shape({
+      // Optionally add a class to a given item
+      className: PropTypes.string,
+      // An item can be a container of another ist
+      items: PropTypes.array,
+      // Optional tag for item instead of an `li`
+      tag: PropTypes.string,
+      // If this item isn't a list of other items just use a value
+      value: PropTypes.string
+    })
+  ).isRequired,
+  // Optional tag for the container of the list
   tag: PropTypes.string,
   transition: PropTypes.bool,
   transitionName: PropTypes.string
