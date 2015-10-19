@@ -62,6 +62,33 @@ class SidePanelExample extends React.Component {
           <p>
             Create a panel that shows itself based on user-interaction. View full source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
           </p>
+            <h3>Properties API</h3>
+            <div className="example-block">
+              <div className="example-block-footer example-block-footer-codeblock">
+                <pre className="prettyprint linenums flush-bottom">
+{`SidePanelContents.propTypes = {
+  // Nodes to render inside of side panel.
+  children: PropTypes.node,
+  // Set to false to disable the backdrop click listener for close.
+  closeByBackdropClick: PropTypes.bool,
+  // Node to render for header.
+  header: PropTypes.node,
+  // Function to call on close.
+  onClose: PropTypes.func,
+  // Bool that states if side panel is open or not.
+  open: PropTypes.bool,
+
+  // Classes.
+  backdropClass: PropTypes.string,
+  bodyClass: PropTypes.string,
+  containerClass: PropTypes.string,
+  headerClass: PropTypes.string,
+  headerContainerClass: PropTypes.string,
+  sidePanelClass: PropTypes.string
+};`}
+                </pre>
+              </div>
+            </div>
           <div className="example-block flush-bottom">
             <div className="example-block-content">
               <section className="row canvas-pod">
