@@ -213,7 +213,11 @@ var list = [
   }
 ];
 
-<List items={list} tag="ol" />`}
+class ListExample extends React.Component {
+  render() {
+    return <List items={list} tag="ol" />
+  }
+}`}
 
                     </pre>
                   </div>
