@@ -21,7 +21,7 @@ class ListExample extends React.Component {
 
   getComplexNestedList() {
     // Here's an example of a list with customized list items.
-    var complexList = [
+    var list = [
       // First item
       {
         value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
@@ -59,11 +59,7 @@ class ListExample extends React.Component {
                         value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                       },
                       {
-                        value: (
-                          <a href="#">
-                            Gravida convallis. Morbi vitae ante.
-                          </a>
-                        )
+                        value: <a>Gravida convallis. Morbi vitae ante.</a>
                       }
                     ]
                   }
@@ -80,10 +76,10 @@ class ListExample extends React.Component {
     ];
 
     if (this.state.itemAdded) {
-      complexList.push({value: 'A wild transitioned list item appears.'});
+      list.push({value: 'A wild transitioned list item appears.'});
     }
 
-    return complexList;
+    return list;
   }
 
   render() {
@@ -163,7 +159,7 @@ class ListExample extends React.Component {
 
 {`import {List} from 'reactjs-components';
 
-var complexList = [
+var list = [
   // First item
   {
     value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
@@ -201,11 +197,7 @@ var complexList = [
                     value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                   },
                   {
-                    value: (
-                      <a href="#">
-                        Gravida convallis. Morbi vitae ante.
-                      </a>
-                    )
+                    value: <a>Gravida convallis. Morbi vitae ante.</a>
                   }
                 ]
               }
@@ -221,7 +213,7 @@ var complexList = [
   }
 ];
 
-<List items={complexList} tag="ol" />`}
+<List items={list} tag="ol" />`}
 
                     </pre>
                   </div>
