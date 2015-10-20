@@ -60,7 +60,11 @@ class SidePanelExample extends React.Component {
         <div className="container container-pod">
           <h2 className="short-bottom">Side panels</h2>
           <p>
-            Create a panel that shows itself based on user-interaction. View full source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
+            A side panel component that is hidden until opened by interaction. Useful for showing things that are useful only at certain times, such as a settings sidebar or specific item information.
+          </p>
+          <p>
+            View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
+            View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
           </p>
             <h3>Properties API</h3>
             <div className="example-block">
