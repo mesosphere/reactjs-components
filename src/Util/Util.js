@@ -207,11 +207,11 @@ const Util = {
   },
 
   isArrayLike(value) {
-    return value != null &&
+    return value != null && value.length &&
       !(
         typeof value === 'function' &&
         Object.prototype.toString.call(value) === '[object Function]'
-      ) && value.length;
+      ) && typeof value === 'object';
   },
 
   isObjectLike(value) {

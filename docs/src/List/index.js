@@ -24,42 +24,42 @@ class ListExample extends React.Component {
     var list = [
       // First item
       {
-        value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
+        content: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
       },
       // Second item
       {
         // Nested items
-        items: [
+        content: [
           {
             className: 'text-uppercase',
             style: {
               display: 'block'
             },
             tag: 'strong',
-            value: 'Cu movet numquam.'
+            content: 'Cu movet numquam.'
           },
           {
             className: 'list a',
             tag: 'ol',
-            items: [
+            content: [
               {
-                value: 'Aliquam tincidunt mauris eu risus.'
+                content: 'Aliquam tincidunt mauris eu risus.'
               },
               {
-                items: [
+                content: [
                   {
                     tag: 'em',
-                    value: 'Mauris placerat eleifend leo.'
+                    content: 'Mauris placerat eleifend leo.'
                   },
                   {
                     className: 'list I',
                     tag: 'ol',
-                    items: [
+                    content: [
                       {
-                        value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
+                        content: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                       },
                       {
-                        value: <a>Gravida convallis. Morbi vitae ante.</a>
+                        content: <a>Gravida convallis. Morbi vitae ante.</a>
                       }
                     ]
                   }
@@ -71,12 +71,12 @@ class ListExample extends React.Component {
       },
       // Third item
       {
-        value: 'Vestibulum auctor dapibus neque.'
+        content: 'Vestibulum auctor dapibus neque.'
       }
     ];
 
     if (this.state.itemAdded) {
-      list.push({value: 'A wild transitioned list item appears.'});
+      list[1].content[1].content.push({content: 'A wild transitioned list item appears.'});
     }
 
     return list;
@@ -162,42 +162,42 @@ class ListExample extends React.Component {
 var list = [
   // First item
   {
-    value: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
+    content: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'
   },
   // Second item
   {
     // Nested items
-    items: [
+    content: [
       {
         className: 'text-uppercase',
         style: {
           display: 'block'
         },
         tag: 'strong',
-        value: 'Cu movet numquam.'
+        content: 'Cu movet numquam.'
       },
       {
         className: 'list a',
         tag: 'ol',
-        items: [
+        content: [
           {
-            value: 'Aliquam tincidunt mauris eu risus.'
+            content: 'Aliquam tincidunt mauris eu risus.'
           },
           {
-            items: [
+            content: [
               {
                 tag: 'em',
-                value: 'Mauris placerat eleifend leo.'
+                content: 'Mauris placerat eleifend leo.'
               },
               {
                 className: 'list I',
                 tag: 'ol',
-                items: [
+                content: [
                   {
-                    value: 'Suspendisse laoreet. Fusce ut est sed dolor.'
+                    content: 'Suspendisse laoreet. Fusce ut est sed dolor.'
                   },
                   {
-                    value: <a>Gravida convallis. Morbi vitae ante.</a>
+                    content: <a>Gravida convallis. Morbi vitae ante.</a>
                   }
                 ]
               }
@@ -209,7 +209,7 @@ var list = [
   },
   // Third item
   {
-    value: 'Vestibulum auctor dapibus neque.'
+    content: 'Vestibulum auctor dapibus neque.'
   }
 ];
 

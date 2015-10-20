@@ -7,33 +7,30 @@ import Util from '../Util/Util';
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 export default class List extends React.Component {
-  getListItemContents(item, childIndex) {
-    if (item.items) {
-      return this.getListItems(item.items, childIndex);
-    } else {
-      return item.value;
-    }
-  }
-
   getListItems(list, childIndex = 0) {
     let items = list.map(function (item, parentIndex) {
       let key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
-      return (
-        <ListItem key={key} {...Util.exclude(item, ['items', 'value'])}>
-          {this.getListItemContents(item, childIndex)}
-        </ListItem>
-      );
+      if (Util.isArrayLike(item.content)) {
+        return (
+          <ListItem
+            {...Util.exclude(item, ['content'])}
+            key={key}
+            tag={item.tag}
+            transition={true}
+            transitionName={this.props.transitionName}>
+            {this.getListItems(item.content, childIndex)}
+          </ListItem>
+        );
+      } else {
+        return (
+          <ListItem key={key} {...Util.exclude(item, ['content'])}>
+            {item.content}
+          </ListItem>
+        );
+      }
     }, this);
-
-    if (this.props.transition) {
-      return (
-        <CSSTransitionGroup transitionName={this.props.transitionName}>
-          {items}
-        </CSSTransitionGroup>
-      );
-    }
 
     return items;
   }
@@ -45,6 +42,18 @@ export default class List extends React.Component {
 
     // Uses all passed properties as attributes, excluding propTypes
     let attributes = Util.exclude(this.props, Object.keys(List.propTypes));
+
+    if (this.props.transition) {
+      return (
+        <CSSTransitionGroup
+          {...attributes}
+          component={Tag}
+          transitionName={this.props.transitionName}
+          className={this.props.className}>
+          {this.getListItems(this.props.items)}
+        </CSSTransitionGroup>
+      );
+    }
 
     return (
       <Tag {...attributes} className={classes}>
