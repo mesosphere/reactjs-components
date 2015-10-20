@@ -234,6 +234,133 @@ class TableExample extends React.Component {
         <section className="row canvas-pod">
           <div className="container container-pod flush-bottom">
             <h2>Tables</h2>
+            <p>This is a simple Table component. This allows for displaying data in a structured way, that can also be sorted.</p>
+            <p>Useful for displaying small amounts of data. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll).</p>
+            <h3>Properties API</h3>
+            <div className="example-block">
+              <div className="example-block-footer example-block-footer-codeblock">
+                <pre className="prettyprint linenums flush-bottom">
+{`Table.propTypes = {
+  // Optional attributes to be passed to the row elements.
+  buildRowOptions: PropTypes.func,
+
+  className: PropTypes.string,
+
+  // Optional colgroup component.
+  colGroup: PropTypes.object,
+
+  // Define how columns should be rendered and if they are sortable.
+  columns: PropTypes.arrayOf(
+    PropTypes.shape({
+      attributes: React.PropTypes.object,
+      className: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func
+      ]),
+      defaultContent: PropTypes.string,
+      heading: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func
+      ]).isRequired,
+      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      sortable: PropTypes.bool,
+      // Custom sorting function. If this function returns null,
+      // it will fallback to default sorting.
+      sortFunction: PropTypes.func
+    })
+  ).isRequired,
+
+  // Data to display in the table.
+  // Make sure to clone the data, cannot be modified!
+  data: PropTypes.array.isRequired,
+
+  // Optional item height for the scroll table. If not provided, it will render
+  // once to measure the height of the first child.
+  // NB: Initial render will stop any ongoing animation, if this is not provided
+  itemHeight: PropTypes.number,
+
+  // Provide what attribute in the data make a row unique.
+  idAttribute: PropTypes.string.isRequired,
+
+  // Optional callback function when sorting is complete.
+  onSortCallback: PropTypes.func,
+
+  // Optional default sorting criteria.
+  sortBy: PropTypes.shape({
+    order: PropTypes.oneOf(['asc', 'desc']),
+    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  }),
+
+  // Optional property to add transitions or turn them off. Default is off.
+  // Only available for tables that does not scroll
+  transition: PropTypes.bool
+};
+`}
+                </pre>
+              </div>
+            </div>
+            <h3>A Closer Look At Table Columns</h3>
+            <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
+            <div className="example-block">
+              <div className="example-block-footer example-block-footer-codeblock">
+                <pre className="prettyprint linenums flush-bottom">
+{`
+getColumns() {
+  // We want to pass an array of objects. Each object should contain information about the settings for that column.
+  return [
+    // The first column will be a "name" column.
+    {
+      // Class to make each item in column, including header.
+      className: 'name',
+
+      // 'this.getColumnHeading' is a function that shows how the heading of the column should be rendered.
+      // The arguments will be: prop (prop to sort by), order (asc / desc), and sortBy (the sort function)
+      heading: this.getColumnHeading,
+
+      // What prop name this is.
+      prop: 'name',
+
+      // If true, the column will sort on column heading click.
+      sortable: true
+
+      // Using default sorting function.
+      // Uncomment this to use age as tie breaker for name
+      // sortFunction: getSortFunction('age')
+    },
+    {
+      className: 'age',
+      heading: this.getColumnHeading,
+      prop: 'age',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    },
+    {
+      className: 'location',
+      defaultContent: 'None Specified',
+      heading: this.getColumnHeading,
+      prop: 'location',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    },
+    {
+      className: 'gender',
+      heading: this.getColumnHeading,
+      prop: 'gender',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    }
+  ];
+}
+
+<Table
+  //...
+  columns={this.getColumns()} />
+
+`}
+                </pre>
+              </div>
+            </div>
+            <h3>Table Examples</h3>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
                 <div className="
@@ -279,42 +406,6 @@ getColGroup() {
       <col style={{width: '20%'}} />
     </colgroup>
   );
-}
-
-getColumns() {
-  return [
-    {
-      className: 'name',
-      heading: this.getColumnHeading,
-      prop: 'name',
-      sortable: true
-      // Using default sorting.
-      // Uncomment this to use age as tie breaker for name
-      // sortFunction: getSortFunction('age')
-    },
-    {
-      className: 'age',
-      heading: this.getColumnHeading,
-      prop: 'age',
-      sortable: true,
-      sortFunction: getSortFunction('name')
-    },
-    {
-      className: 'location',
-      defaultContent: 'None Specified',
-      heading: this.getColumnHeading,
-      prop: 'location',
-      sortable: true,
-      sortFunction: getSortFunction('name')
-    },
-    {
-      className: 'gender',
-      heading: this.getColumnHeading,
-      prop: 'gender',
-      sortable: true,
-      sortFunction: getSortFunction('name')
-    }
-  ];
 }
 
 getRows(size) {
