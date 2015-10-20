@@ -72,95 +72,51 @@ class TableExample extends React.Component {
     );
   }
 
-  getColGroup(size) {
-    let colGroup;
-
-    switch (size) {
-      case 'large':
-      case 'huge':
-        colGroup = (
-          <colgroup>
-            <col style={{width: '40%'}} />
-            <col style={{width: '20%'}} />
-            <col style={{width: '20%'}} />
-            <col style={{width: '20%'}} />
-          </colgroup>
-        );
-        break;
-      case 'small':
-        colGroup = (
-          <colgroup>
-            <col style={{width: '75%'}} />
-            <col style={{width: '25%'}} />
-          </colgroup>
-        );
-        break;
-    }
-
-    return colGroup;
+  getColGroup() {
+    return (
+      <colgroup>
+        <col style={{width: '40%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+      </colgroup>
+    );
   }
 
-  getColumns(size) {
-    let columns;
-
-    switch (size) {
-      case 'large':
-      case 'huge':
-        columns = [
-          {
-            className: 'name',
-            heading: this.getColumnHeading,
-            prop: 'name',
-            sortable: true
-            // Using default sorting.
-            // Uncomment this to use age as tie breaker for name
-            // sortFunction: getSortFunction('age')
-          },
-          {
-            className: 'age',
-            heading: this.getColumnHeading,
-            prop: 'age',
-            sortable: true,
-            sortFunction: getSortFunction('name')
-          },
-          {
-            className: 'location',
-            defaultContent: 'None Specified',
-            heading: this.getColumnHeading,
-            prop: 'location',
-            sortable: true,
-            sortFunction: getSortFunction('name')
-          },
-          {
-            className: 'gender',
-            heading: this.getColumnHeading,
-            prop: 'gender',
-            sortable: true,
-            sortFunction: getSortFunction('name')
-          }
-        ];
-        break;
-      case 'small':
-        columns = [
-          {
-            className: 'name',
-            defaultContent: '',
-            heading: this.getColumnHeading,
-            prop: 'name',
-            sortable: false
-          },
-          {
-            className: 'age',
-            defaultContent: 'None specified',
-            heading: this.getColumnHeading,
-            prop: 'age',
-            sortable: false
-          }
-        ];
-        break;
-    }
-
-    return columns;
+  getColumns() {
+    return [
+      {
+        className: 'name',
+        heading: this.getColumnHeading,
+        prop: 'name',
+        sortable: true
+        // Using default sorting.
+        // Uncomment this to use age as tie breaker for name
+        // sortFunction: getSortFunction('age')
+      },
+      {
+        className: 'age',
+        heading: this.getColumnHeading,
+        prop: 'age',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'location',
+        defaultContent: 'None Specified',
+        heading: this.getColumnHeading,
+        prop: 'location',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'gender',
+        heading: this.getColumnHeading,
+        prop: 'gender',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      }
+    ];
   }
 
   getRows(size) {
@@ -236,36 +192,28 @@ class TableExample extends React.Component {
       }
     ];
 
-    switch (size) {
-      case 'large':
-        // Do nothing
-        break;
-      case 'huge':
-        let oldRows = rows.slice(0);
-        rows = [];
-        for (var i = 0; i < 100000; i++) {
-          let item = oldRows[Math.floor(Math.random() * oldRows.length)];
-          rows.push({
-            name: item.name,
-            age: item.age,
-            gender: item.gender,
-            location: item.location,
-            id: i
-          });
-        }
-        break;
-      case 'small':
-        rows = rows.slice(0, 5);
-        break;
+    if (size === 'huge') {
+      let oldRows = rows.slice(0);
+      rows = [];
+      for (var i = 0; i < 100000; i++) {
+        let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+        rows.push({
+          name: item.name,
+          age: item.age,
+          gender: item.gender,
+          location: item.location,
+          id: i
+        });
+      }
     }
 
-    if (this.state.rowAdded && size === 'small') {
+    if (this.state.rowAdded && size === 'large') {
       rows.push({
         name: 'Cheryl',
         age: 28,
         gender: 'Female',
         location: 'Seattle, WA',
-        id: 'f'
+        id: 'k'
       });
     }
 
@@ -284,61 +232,201 @@ class TableExample extends React.Component {
     return (
       <div>
         <section className="row canvas-pod">
-          <div className="container container-pod">
-            <h3>Here is a large, sortable table.</h3>
-            <Table
-              className="table"
-              colGroup={this.getColGroup('large')}
-              columns={this.getColumns('large')}
-              data={this.getRows('large')}
-              idAttribute="id"
-              sortBy={{
-                prop: 'name',
-                order: 'desc'
-              }} />
-          </div>
-        </section>
-        <section className="row canvas-pod canvas-pod-dark">
-          <div className="container container-pod">
-            <div className="row">
-              <div className="column-9">
-                <h3 className="inverse flush-top">
-                  Here is a table with less data and sorting disabled.
-                </h3>
+          <div className="container container-pod flush-bottom">
+            <h2>Tables</h2>
+            <div className="example-block flush-bottom">
+              <div className="example-block-content">
+                <div className="
+                  container
+                  container-pod
+                  container-pod-short
+                  flush-top
+                  row
+                  row-flex">
+                  <div className="column-9">
+                    <p>A simple example table with transition enabled.</p>
+                  </div>
+                  <div className="column-3 text-align-right">
+                    <button
+                      className="button button-small button-primary
+                        button-stroke"
+                      onClick={this.handleToggleExtraRow}>
+                      {rowButtonLabel}
+                    </button>
+                  </div>
+                </div>
+                <Table
+                  className="table flush-bottom"
+                  colGroup={this.getColGroup()}
+                  columns={this.getColumns()}
+                  data={this.getRows('large')}
+                  idAttribute="id"
+                  transition={true} />
               </div>
-              <div className="column-3 text-align-right">
-                <button
-                  className="button button-small button-primary
-                    button-stroke button-inverse"
-                  onClick={this.handleToggleExtraRow}>
-                  {rowButtonLabel}
-                </button>
+              <div className="example-block-footer example-block-footer-codeblock">
+                <pre className="prettyprint linenums flush-bottom">
+{`
+import {Table} from 'reactjs-components';
+
+//...
+
+getColGroup() {
+  return (
+    <colgroup>
+      <col style={{width: '40%'}} />
+      <col style={{width: '20%'}} />
+      <col style={{width: '20%'}} />
+      <col style={{width: '20%'}} />
+    </colgroup>
+  );
+}
+
+getColumns() {
+  return [
+    {
+      className: 'name',
+      heading: this.getColumnHeading,
+      prop: 'name',
+      sortable: true
+      // Using default sorting.
+      // Uncomment this to use age as tie breaker for name
+      // sortFunction: getSortFunction('age')
+    },
+    {
+      className: 'age',
+      heading: this.getColumnHeading,
+      prop: 'age',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    },
+    {
+      className: 'location',
+      defaultContent: 'None Specified',
+      heading: this.getColumnHeading,
+      prop: 'location',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    },
+    {
+      className: 'gender',
+      heading: this.getColumnHeading,
+      prop: 'gender',
+      sortable: true,
+      sortFunction: getSortFunction('name')
+    }
+  ];
+}
+
+getRows(size) {
+  let rows = [
+    {
+      name: 'Zach',
+      age: 11,
+      gender: 'Male',
+      location: 'San Francisco, CA',
+      id: 'a'
+    },
+    {
+      name: 'Francis',
+      age: 34,
+      gender: 'Female',
+      location: 'Boston, MA',
+      id: 'b'
+    },
+
+    //...
+  ];
+
+  if (this.state.rowAdded && size === 'large') {
+    rows.push({
+      name: 'Cheryl',
+      age: 28,
+      gender: 'Female',
+      location: 'Seattle, WA',
+      id: 'k'
+    });
+  }
+
+  return rows;
+}
+
+<Table
+  className="table"
+  colGroup={this.getColGroup()}
+  columns={this.getColumns()}
+  data={this.getRows('large')}
+  idAttribute="id"
+  transition={true} />`}
+                </pre>
               </div>
             </div>
-            <Table
-              className="table inverse"
-              colGroup={this.getColGroup('small')}
-              columns={this.getColumns('small')}
-              data={this.getRows('small')}
-              idAttribute="id"
-              transition={true} />
           </div>
         </section>
         <section className="row canvas-pod">
           <div className="container container-pod">
-            <div className="row">
-              <div className="column-9">
-                <h3 className="flush-top">
-                  Here is a scroll table with 100k items. It will not grow beyond window height. The data is not sorted by default.
-                </h3>
+            <div className="example-block flush-bottom">
+              <div className="example-block-content">
+                <div className="
+                  container
+                  container-pod
+                  container-pod-short
+                  flush-top
+                  row
+                  row-flex">
+                  <div className="column-12">
+                    <p>
+                      Here is a scroll table with 100k items. It will not grow beyond window height. The data is not sorted by default.
+                    </p>
+                  </div>
+                </div>
+                <Table
+                  className="table"
+                  colGroup={this.getColGroup()}
+                  columns={this.getColumns()}
+                  data={this.hugeRows}
+                  idAttribute="id" />
+              </div>
+              <div className="example-block-footer example-block-footer-codeblock">
+                <pre className="prettyprint linenums flush-bottom">
+{`
+import {Table} from 'reactjs-components';
+
+//...
+
+getRows(size) {
+
+  //...
+
+  if (size === 'huge') {
+    let oldRows = rows.slice(0);
+    rows = [];
+    for (var i = 0; i < 100000; i++) {
+      let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+      rows.push({
+        name: item.name,
+        age: item.age,
+        gender: item.gender,
+        location: item.location,
+        id: i
+      });
+    }
+  }
+
+  //...
+
+  return rows;
+}
+
+<Table
+  className="table"
+  colGroup={this.getColGroup()}
+  columns={this.getColumns()}
+  data={this.hugeRows}
+  idAttribute="id" />
+`}
+                </pre>
               </div>
             </div>
-            <Table
-              className="table"
-              colGroup={this.getColGroup('huge')}
-              columns={this.getColumns('huge')}
-              data={this.hugeRows}
-              idAttribute="id" />
           </div>
         </section>
       </div>
