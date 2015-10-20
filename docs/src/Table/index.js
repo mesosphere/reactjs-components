@@ -250,21 +250,34 @@ class TableExample extends React.Component {
   // Optional colgroup component.
   colGroup: PropTypes.object,
 
-  // Define how columns should be rendered and if they are sortable.
+  // Settings for each column in table.
   columns: PropTypes.arrayOf(
     PropTypes.shape({
+      // Attributes to pass down to each column item.
       attributes: React.PropTypes.object,
+
+      // Class to give to each column item. Can be a function to programmatically create a class.
       className: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]),
+
+      // Content to default to in the case of no data for the prop.
       defaultContent: PropTypes.string,
+
+      // Function to render the header of the column. Can also be a string.
+      // The arguments to the function will be: prop (prop to sort by), order (asc / desc), and sortBy (the sort function)
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]).isRequired,
+
+      // What prop of the data object to use.
       prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+      // If true, the column will sort on column heading click.
       sortable: PropTypes.bool,
+
       // Custom sorting function. If this function returns null,
       // it will fallback to default sorting.
       sortFunction: PropTypes.func
@@ -311,17 +324,9 @@ getColumns() {
   return [
     // The first column will be a "name" column.
     {
-      // Class to make each item in column, including header.
       className: 'name',
-
-      // 'this.getColumnHeading' is a function that shows how the heading of the column should be rendered.
-      // The arguments will be: prop (prop to sort by), order (asc / desc), and sortBy (the sort function)
       heading: this.getColumnHeading,
-
-      // What prop name this is.
       prop: 'name',
-
-      // If true, the column will sort on column heading click.
       sortable: true
 
       // Using default sorting function.
