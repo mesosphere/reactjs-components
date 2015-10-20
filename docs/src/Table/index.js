@@ -363,13 +363,8 @@ getColumns() {
             <h3>Table Examples</h3>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
-                <div className="
-                  container
-                  container-pod
-                  container-pod-short
-                  flush-top
-                  row
-                  row-flex">
+                <div className="container container-pod container-pod-short
+                  flush-top row row-flex">
                   <div className="column-9">
                     <p>A simple example table with transition enabled.</p>
                   </div>
@@ -457,13 +452,8 @@ getRows(size) {
           <div className="container container-pod">
             <div className="example-block flush-bottom">
               <div className="example-block-content">
-                <div className="
-                  container
-                  container-pod
-                  container-pod-short
-                  flush-top
-                  row
-                  row-flex">
+                <div className="container container-pod container-pod-short
+                  flush-top row row-flex">
                   <div className="column-12">
                     <p>
                       Here is a scroll table with 100k items. It will not grow beyond window height. The data is not sorted by default.
