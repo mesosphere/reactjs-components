@@ -236,6 +236,7 @@ class TableExample extends React.Component {
             <h2>Tables</h2>
             <p>This is a simple Table component. This allows for displaying data in a structured way, that can also be sorted.</p>
             <p>Useful for displaying small amounts of data. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll).</p>
+            <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
             <h3>Properties API</h3>
             <div className="example-block">
               <div className="example-block-footer example-block-footer-codeblock">
