@@ -60,7 +60,7 @@ class SidePanelExample extends React.Component {
         <div className="container container-pod">
           <h2 className="short-bottom">Side panels</h2>
           <p>
-            A side panel component that is hidden until opened by interaction. Useful for showing things that are useful only at certain times, such as a settings sidebar or specific item information.
+            A side panel component that is hidden until opened by interaction. Can be used for showing things that are useful only at certain times, such as a settings sidebar or specific item information.
           </p>
           <p>
             View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
