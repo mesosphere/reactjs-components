@@ -3,7 +3,6 @@ jest.dontMock('../Util');
 var Util = require('../Util');
 
 describe('Util', function () {
-
   describe('#extend', function () {
     beforeEach(function () {
       this.originalObj = {
@@ -56,6 +55,51 @@ describe('Util', function () {
       for (var key in newObj) {
         expect(newObj[key]).toEqual(this.originalObj[key]);
       }
+    });
+  });
+
+  describe('#exclude', function () {
+    beforeEach(function () {
+      this.object = {
+        foo: 'foo',
+        bar: 'bar',
+        baz: 'baz'
+      };
+    });
+
+    it('doesn\'t exclude any properties', function () {
+      let expectedResult = {
+        foo: 'foo',
+        bar: 'bar',
+        baz: 'baz'
+      };
+      expect(Util.exclude(this.object, [])).toEqual(expectedResult);
+    });
+
+    it('excludes one property', function () {
+      let expectedResult = {
+        foo: 'foo',
+        baz: 'baz'
+      };
+      expect(Util.exclude(this.object, ['bar'])).toEqual(expectedResult);
+    });
+
+    it('excludes multiple properties', function () {
+      let expectedResult = {
+        baz: 'baz'
+      };
+      expect(Util.exclude(this.object, ['foo', 'bar', 'qux']))
+        .toEqual(expectedResult);
+    });
+
+    it('doesn\'t modify the original object', function () {
+      let expectedResult = {
+        foo: 'foo',
+        bar: 'bar',
+        baz: 'baz'
+      };
+      Util.exclude(this.object, ['bar']);
+      expect(this.object).toEqual(expectedResult);
     });
   });
 });

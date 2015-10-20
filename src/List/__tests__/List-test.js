@@ -13,7 +13,7 @@ describe('List', function () {
   beforeEach(function () {
     this.listTag = 'ul';
     this.instance = TestUtils.renderIntoDocument(
-      <List items={MockList.list} tag={this.listTag} />
+      <List items={MockList} tag={this.listTag} />
     );
   });
 
@@ -33,12 +33,12 @@ describe('List', function () {
     expect(listItems.length).toEqual(1);
   });
 
-  it('should render one row per top-level item in the list array', function () {
+  it('renders one row per top-level item in the list array', function () {
     var listItems = TestUtils.scryRenderedDOMComponentsWithClass(
       this.instance, 'my-custom-row-class'
     );
 
-    expect(listItems.length).toEqual(MockList.list.length);
+    expect(listItems.length).toEqual(MockList.length);
   });
 
 });

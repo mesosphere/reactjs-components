@@ -116,6 +116,25 @@ const Util = {
   },
 
   /**
+   * Excludes given properties from object
+   *
+   * @param  {Object} object
+   * @param  {Array} props Array of properties to remove
+   * @return {Object} New object without given props
+   */
+  exclude(object, props) {
+    let newObject = {};
+
+    Object.keys(object).forEach(function (prop) {
+      if (props.indexOf(prop) === -1) {
+        newObject[prop] = object[prop];
+      }
+    });
+
+    return newObject;
+  },
+
+  /**
    * @param {Function} func A callback function to be called
    * @param {Number} wait How long to wait
    * @param {Boolean} immediate If it should be called immediately

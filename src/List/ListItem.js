@@ -1,39 +1,32 @@
-import React, {PropTypes} from 'react';
 import classNames from 'classnames';
+import React, {PropTypes} from 'react';
+
+import Util from '../Util/Util';
 
 export default class ListItem extends React.Component {
-
   render() {
-    var defaultClasses = [
-      'list-item'
-    ];
+    let defaultClass = ListItem.defaultProps.className;
+    let classes = classNames(this.props.className, defaultClass);
+    let Tag = this.props.tag;
 
-    var classes = classNames(
-      defaultClasses.concat(this.props.attributes.className.split(' '))
-    );
-
-    var Tag = this.props.tag;
+    // Uses all passed properties as attributes, excluding propTypes
+    let attributes = Util.exclude(this.props, Object.keys(ListItem.propTypes));
 
     return (
-      <Tag {...this.props.attributes} className={classes}>
+      <Tag {...attributes} className={classes}>
         {this.props.children}
       </Tag>
     );
   }
-
 }
 
 ListItem.defaultProps = {
-  attributes: {
-    className: ''
-  },
-  className: '',
+  className: 'list-item',
   tag: 'li'
 };
 
 ListItem.propTypes = {
-  className: PropTypes.string,
   children: PropTypes.node,
-  attributes: PropTypes.object,
+  className: PropTypes.string,
   tag: PropTypes.string
 };
