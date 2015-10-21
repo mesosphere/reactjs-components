@@ -1,20 +1,15 @@
 import React from 'react';
 
-import BindMixin from '../../../src/Mixin/BindMixin';
 import Modal from '../../../src/Modal/Modal.js';
-import Util from '../../../src/Util/Util';
 
-class ModalExample extends Util.mixin(BindMixin) {
-  get methodsToBind() {
-    return [
-      'handleModalOpen',
-      'handleModalClose'
-    ];
-  }
+class ModalExample extends React.Component {
 
   constructor() {
     super();
     this.state = {};
+
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   // In order to use a modal, have an interaction that changes
@@ -37,14 +32,6 @@ class ModalExample extends Util.mixin(BindMixin) {
     );
   }
 
-  getModalSubheader() {
-    return (
-      <div>
-        <h5 className="text-align-center inverse">Example subheader</h5>
-      </div>
-    );
-  }
-
   render() {
     return (
       <div className="row canvas-pod">
@@ -54,7 +41,7 @@ class ModalExample extends Util.mixin(BindMixin) {
               <h2>Modals</h2>
               <p>
                 Style modals with optional header, footer, transition, and more.
-                For details, view full <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Modal/index.js">example source</a> and <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Modal/ModalContents.js">component source</a>.
+                For details, view the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Modal/ModalContents.js">component source</a>.
               </p>
               <div className="example-block flush-bottom">
                 <div className="example-block-content">
@@ -95,46 +82,58 @@ class ModalExample extends Util.mixin(BindMixin) {
                 <div className="example-block-footer example-block-footer-codeblock">
                   <pre className="prettyprint linenums flush-bottom">
 
-{`import Modal from 'Modal.js';
+{`import Modal from 'reactjs-components.js';
+import React from 'react';
 
-// In order to use a modal, have an interaction that changes
-// 'open' to true.
-handleModalOpen() {
-  this.setState({open: true});
-}
+class ModalExample extends React.Component {
 
-// Pass the modal a function that will allow itself to close, by
-// setting 'open' to false.
-handleModalClose() {
-  this.setState({open: false});
-}
+  constructor() {
+    super();
+    this.state = {};
 
-getModalFooter() {
-  return (
-    <div>
-      <h5 className="text-align-center">This is not a Footer</h5>
-    </div>
-  );
-}
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
+  }
 
-render() {
-  return (
-    <button className="button button-inverse"
-      onClick={this.handleModalOpen}>
-      Open Modal
-    </button>
-    <Modal
-      open={this.state.open}
-      footer={this.getModalFooter()}
-      showFooter={true}
-      onClose={this.handleModalClose}
-      size="large"
-      titleText="Modal">
+  // In order to use a modal, have an interaction that changes
+  // 'open' to true.
+  handleModalOpen() {
+    this.setState({open: true});
+  }
+
+  // Pass the modal a function that will allow itself to close, by
+  // setting 'open' to false.
+  handleModalClose() {
+    this.setState({open: false});
+  }
+
+  getModalFooter() {
+    return (
       <div>
-        Words words words
+        <h5 className="text-align-center">This is not a Footer</h5>
       </div>
-    </Modal>
-  )
+    );
+  }
+
+  render() {
+    return (
+      <button className="button button-inverse"
+        onClick={this.handleModalOpen}>
+        Open Modal
+      </button>
+      <Modal
+        open={this.state.open}
+        footer={this.getModalFooter()}
+        showFooter={true}
+        onClose={this.handleModalClose}
+        size="large"
+        titleText="Modal">
+        <div>
+          Words words words
+        </div>
+      </Modal>
+    )
+  }
 }
 `}
                   </pre>
