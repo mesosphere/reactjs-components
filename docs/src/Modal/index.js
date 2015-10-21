@@ -43,6 +43,40 @@ class ModalExample extends React.Component {
                 Style modals with optional header, footer, transition, and more.
                 For details, view the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Modal/ModalContents.js">component source</a>.
               </p>
+              <h3>Properties API</h3>
+              <div className="example-block">
+                <pre className="prettyprint linenums flush-bottom">
+{`ModalContents.propTypes = {
+children: PropTypes.node,
+closeByBackdropClick: PropTypes.bool,
+footer: PropTypes.object,
+maxHeightPercentage: PropTypes.number,
+onClose: PropTypes.func,
+open: PropTypes.bool,
+showCloseButton: PropTypes.bool,
+showFooter: PropTypes.bool,
+subHeader: PropTypes.node,
+titleText: PropTypes.string,
+
+// Classes.
+backdropClass: PropTypes.string,
+bodyClass: PropTypes.string,
+closeButtonClass: PropTypes.string,
+closeIconClass: PropTypes.string,
+closeTitleClass: PropTypes.string,
+containerClass: PropTypes.string,
+footerClass: PropTypes.string,
+footerContainerClass: PropTypes.string,
+headerClass: PropTypes.string,
+headerContainerClass: PropTypes.string,
+innerBodyClass: PropTypes.string,
+modalClass: PropTypes.string,
+titleClass: PropTypes.string
+};`}
+                </pre>
+              </div>
+
+
               <div className="example-block flush-bottom">
                 <div className="example-block-content">
                   <div className="row row-flex">
