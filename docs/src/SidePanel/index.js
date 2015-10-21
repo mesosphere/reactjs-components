@@ -110,61 +110,84 @@ class SidePanelExample extends React.Component {
             </div>
             <div className="example-block-footer example-block-footer-codeblock">
               <pre className="prettyprint linenums flush-bottom">
-{`
-getHeader() {
-  return (
-    <div>
-      <button className="button button-stroke button-rounded"
-        onClick={this.handlePanelClose.bind(this)}>
-        ✕
-      </button>
-      <h2 className="side-panel-header-title text-align-center flush-top flush-bottom">
-        Side Panel
-      </h2>
-      <p className="center">Subheader</p>
-    </div>
-  );
+{`import React from 'react';
+
+import {SidePanel} from 'reactjs-components';
+
+class SidePanelExample extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {};
+    this.handlePanelClose = this.handlePanelClose.bind(this);
+    this.handlePanelOpen = this.handlePanelOpen.bind(this);
+  }
+
+  getHeader() {
+    return (
+      <div>
+        <button className="button button-stroke button-rounded"
+          onClick={this.handlePanelClose.bind(this)}>
+          ✕
+        </button>
+        <h2 className="side-panel-header-title text-align-center flush-top flush-bottom">
+          Side Panel
+        </h2>
+        <p className="center">Subheader</p>
+      </div>
+    );
+  }
+
+  // In order to use a panel, have an interaction that changes
+  // \`open\` to true.
+  handlePanelOpen() {
+    this.setState({panelIsOpen: true});
+  }
+
+  // Pass the panel a function that will allow itself to close, by
+  // setting \`open\` to false.
+  handlePanelClose() {
+    this.setState({panelIsOpen: false});
+  }
+
+  render() {
+    return (
+      <div>
+        <button
+          className="button button-inverse"
+          onClick={this.handlePanelOpen}>
+          Open side panel
+        </button>
+        <SidePanel
+          header={this.getHeader()}
+          open={this.state.panelIsOpen}
+          onClose={this.handlePanelClose}>
+          <div>
+            <p className="container-pod container-pod-short flush-bottom">
+              This side panel will scroll vertically, but not horizontally.
+            </p>
+            <p className="container-pod container-pod-short flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
+            </p>
+            <p className="container-pod container-pod-short flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
+            </p>
+            <p className="container-pod container-pod-short flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
+            </p>
+            <p className="container-pod container-pod-short flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
+            </p>
+            <p className="container-pod container-pod-short flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
+            </p>
+          </div>
+        </SidePanel>
+      </div>
+    );
+  }
 }
-
-// In order to use a panel, have an interaction that changes
-// \`open\` to true.
-handlePanelOpen() {
-  this.setState({panelIsOpen: true});
-}
-
-// Pass the panel a function that will allow itself to close, by
-// setting \`open\` to false.
-handlePanelClose() {
-  this.setState({panelIsOpen: false});
-}
-
-//...
-
-<SidePanel
-  header={this.getHeader()}
-  open={this.state.panelIsOpen}
-  onClose={this.handlePanelClose.bind(this)}>
-  <div>
-    <p className="container-pod container-pod-short flush-bottom">
-      This side panel will scroll vertically, but not horizontally.
-    </p>
-    <p className="container-pod container-pod-short flush-bottom">
-      Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
-    </p>
-    <p className="container-pod container-pod-short flush-bottom">
-      Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
-    </p>
-    <p className="container-pod container-pod-short flush-bottom">
-      Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
-    </p>
-    <p className="container-pod container-pod-short flush-bottom">
-      Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
-    </p>
-    <p className="container-pod container-pod-short flush-bottom">
-      Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim ...
-    </p>
-  </div>
-</SidePanel>`}
+`}
               </pre>
             </div>
           </div>
