@@ -47,31 +47,40 @@ class ModalExample extends React.Component {
               <div className="example-block">
                 <pre className="prettyprint linenums flush-bottom">
 {`ModalContents.propTypes = {
-children: PropTypes.node,
-closeByBackdropClick: PropTypes.bool,
-footer: PropTypes.object,
-maxHeightPercentage: PropTypes.number,
-onClose: PropTypes.func,
-open: PropTypes.bool,
-showCloseButton: PropTypes.bool,
-showFooter: PropTypes.bool,
-subHeader: PropTypes.node,
-titleText: PropTypes.string,
+  children: PropTypes.node,
+  // Allow closing of modal when click happens outside modal. Defaults to true.
+  closeByBackdropClick: PropTypes.bool,
+  // Optional footer
+  footer: PropTypes.object,
+  // Maximum percent of the viewport the modal can be. Defaults to 0.5.
+  maxHeightPercentage: PropTypes.number,
+  // Optional callback function exected when modal is closed.
+  onClose: PropTypes.func,
+  // True if modal is open, false otherwise.
+  open: PropTypes.bool,
+  // Set true to show explicit close button. Defaults to false.
+  showCloseButton: PropTypes.bool,
+  // Set true to show footer. Defaults to false.
+  showFooter: PropTypes.bool,
+  // Optional subheader.
+  subHeader: PropTypes.node,
+  // Optional title.
+  titleText: PropTypes.string,
 
-// Classes.
-backdropClass: PropTypes.string,
-bodyClass: PropTypes.string,
-closeButtonClass: PropTypes.string,
-closeIconClass: PropTypes.string,
-closeTitleClass: PropTypes.string,
-containerClass: PropTypes.string,
-footerClass: PropTypes.string,
-footerContainerClass: PropTypes.string,
-headerClass: PropTypes.string,
-headerContainerClass: PropTypes.string,
-innerBodyClass: PropTypes.string,
-modalClass: PropTypes.string,
-titleClass: PropTypes.string
+  // HTML classes
+  backdropClass: PropTypes.string,
+  bodyClass: PropTypes.string,
+  closeButtonClass: PropTypes.string,
+  closeIconClass: PropTypes.string,
+  closeTitleClass: PropTypes.string,
+  containerClass: PropTypes.string,
+  footerClass: PropTypes.string,
+  footerContainerClass: PropTypes.string,
+  headerClass: PropTypes.string,
+  headerContainerClass: PropTypes.string,
+  innerBodyClass: PropTypes.string,
+  modalClass: PropTypes.string,
+  titleClass: PropTypes.string
 };`}
                 </pre>
               </div>
@@ -116,7 +125,7 @@ titleClass: PropTypes.string
                 <div className="example-block-footer example-block-footer-codeblock">
                   <pre className="prettyprint linenums flush-bottom">
 
-{`import Modal from 'reactjs-components.js';
+{`import {Modal} from 'reactjs-components';
 import React from 'react';
 
 class ModalExample extends React.Component {
@@ -151,21 +160,23 @@ class ModalExample extends React.Component {
 
   render() {
     return (
-      <button className="button button-inverse"
-        onClick={this.handleModalOpen}>
-        Open Modal
-      </button>
-      <Modal
-        open={this.state.open}
-        footer={this.getModalFooter()}
-        showFooter={true}
-        onClose={this.handleModalClose}
-        size="large"
-        titleText="Modal">
-        <div>
-          Words words words
-        </div>
-      </Modal>
+      <div>
+        <button className="button button-inverse"
+          onClick={this.handleModalOpen}>
+          Open Modal
+        </button>
+        <Modal
+          open={this.state.open}
+          footer={this.getModalFooter()}
+          showFooter={true}
+          onClose={this.handleModalClose}
+          size="large"
+          titleText="Modal">
+          <div>
+            Words words words
+          </div>
+        </Modal>
+      </div>
     )
   }
 }
