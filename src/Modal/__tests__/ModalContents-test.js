@@ -115,4 +115,60 @@ describe('ModalContents', function () {
       expect(instance.forceUpdate).toHaveBeenCalled();
     });
   });
+
+  describe('#calculateModalHeight', function () {
+    beforeEach(function () {
+      this.instance = TestUtils.renderIntoDocument(
+        <ModalContents open={true} />
+      );
+
+      // Mock height calculation
+      this.mockHeight = {};
+      this.instance.getInnerContainerHeightInfo = function () {
+        return this.mockHeight;
+      }.bind(this);
+    });
+
+    it('should default to auto if a bad value is passed in', function () {
+      var calculatedHeight = this.instance.calculateModalHeight();
+      this.mockHeight = null;
+      expect(calculatedHeight.height).toEqual('auto');
+      expect(calculatedHeight.innerHeight).toEqual('auto');
+    });
+
+    it('should not give a height that is bigger than maxHeight', function () {
+      this.mockHeight = {
+        innerHeight: 500,
+        originalHeight: 600,
+        outerHeight: 100,
+        maxHeight: 500,
+        totalContentHeight: 800
+      };
+
+      var calculatedHeight = this.instance.calculateModalHeight();
+      var headerAndFooterHeight =
+        this.mockHeight.totalContentHeight - this.mockHeight.originalHeight;
+
+      expect(calculatedHeight.height)
+        .toEqual(this.mockHeight.maxHeight - headerAndFooterHeight);
+
+      expect(calculatedHeight.innerHeight)
+        .toEqual(calculatedHeight.height - this.mockHeight.outerHeight);
+    });
+
+    it('should return originalHeight if smaller than maxHeight', function () {
+      this.mockHeight = {
+        innerHeight: 500,
+        originalHeight: 600,
+        outerHeight: 100,
+        maxHeight: 1000,
+        totalContentHeight: 800
+      };
+
+      var calculatedHeight = this.instance.calculateModalHeight();
+
+      expect(calculatedHeight.height).toEqual(this.mockHeight.originalHeight);
+      expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.innerHeight);
+    });
+  });
 });
