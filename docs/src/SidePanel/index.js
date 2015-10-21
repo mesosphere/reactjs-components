@@ -160,8 +160,8 @@ class SidePanelExample extends React.Component {
           header={this.getHeader()}
           open={this.state.panelIsOpen}
           onClose={this.handlePanelClose}>
-          <div>
-            <p className="container-pod container-pod-short flush-bottom">
+          <div className="container-pod container-pod-short flush-bottom">
+            <p>
               This side panel will scroll vertically, but not horizontally.
             </p>
             <p className="container-pod container-pod-short flush-bottom">
