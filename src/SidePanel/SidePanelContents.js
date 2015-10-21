@@ -143,13 +143,13 @@ SidePanelContents.defaultProps = {
   onClose: () => {},
   open: false,
 
-  // Default classes.
+  // Classes
   backdropClass: 'side-panel-backdrop',
-  bodyClass: 'side-panel-content container container-scrollable container-fluid container-fluid-narrow',
+  bodyClass: 'side-panel-content',
   containerClass: 'side-panel-container',
   headerClass: 'side-panel-header',
-  headerContainerClass: 'container container-pod container-pod-short',
-  sidePanelClass: 'side-panel side-panel-large flex-container-col container container-pod container-pod-short flush-top'
+  headerContainerClass: 'side-panel-header-container container container-fluid container-fluid-narrow container-pod container-pod-short',
+  sidePanelClass: 'side-panel side-panel-large flex-container-col container container-pod container-pod-short flush-top flush-bottom'
 };
 
 SidePanelContents.propTypes = {
