@@ -15,7 +15,7 @@ const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 const DEFAULT_HEIGHT = {
   height: 'auto',
-  innerHeight: 'auto'
+  contentHeight: 'auto'
 };
 
 export default class ModalContents extends Util.mixin(BindMixin) {
@@ -25,10 +25,6 @@ export default class ModalContents extends Util.mixin(BindMixin) {
       'handleBackdropClick',
       'closeModal'
     ];
-  }
-
-  constructor() {
-    super();
   }
 
   componentDidUpdate() {
@@ -85,20 +81,17 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   getInnerContainerHeightInfo() {
     let innerContainer = this.refs.innerContainer;
-    if (!innerContainer) {
-      return Util.clone(DEFAULT_HEIGHT);
-    }
 
     let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
     let totalContentHeight = React.findDOMNode(this.refs.modal).offsetHeight;
 
     // Height without padding, margin, border.
-    let innerHeight = DOMUtil.getComputedDimensions(
+    let contentHeight = DOMUtil.getComputedDimensions(
       innerContainer.getDOMNode()
     ).height;
 
     // Height of padding, margin, border.
-    let outerHeight = originalHeight - innerHeight;
+    let outerHeight = originalHeight - contentHeight;
 
     // Modal cannot be bigger than this height. Add 10 for the gemini
     // horizontal scrollbar.
@@ -108,10 +101,10 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
     // We minus the maxHeight with the outerHeight because it will
     // not show the content correctly due to 'box-sizing: border-box'.
-    innerHeight = Math.min(innerHeight, maxHeight - outerHeight);
+    contentHeight = Math.min(contentHeight, maxHeight - outerHeight);
 
     return {
-      innerHeight,
+      contentHeight,
       maxHeight,
       originalHeight,
       outerHeight,
@@ -122,7 +115,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
   calculateModalHeight() {
     let height = 0;
     let {
-      innerHeight,
+      contentHeight,
       maxHeight,
       originalHeight,
       outerHeight,
@@ -131,17 +124,18 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
     if (totalContentHeight > maxHeight) {
       height = maxHeight - (totalContentHeight - originalHeight);
-      innerHeight = height - outerHeight;
+      contentHeight = height - outerHeight;
     } else {
       height = originalHeight;
     }
 
-    // Default to auto height
+    // Default to auto height because we don't want height to be 0. This may
+    // happen when you close a modal and there is no content.
     if (height == null || height <= 0) {
       return Util.clone(DEFAULT_HEIGHT);
     }
 
-    return {height, innerHeight};
+    return {height, contentHeight};
   }
 
   getCloseButton() {
@@ -177,13 +171,13 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     );
   }
 
-  getModalContent(useScrollbar, innerHeight) {
+  getModalContent(useScrollbar, contentHeight) {
     if (!useScrollbar) {
       return this.props.children;
     }
 
     let geminiContainerStyle = {
-      height: innerHeight
+      height: contentHeight
     };
 
     return (
@@ -204,7 +198,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
     let calculatedHeight = this.heightInfo;
     let containerStyle = {height: window.innerHeight};
-    let innerHeight = calculatedHeight.innerHeight;
+    let contentHeight = calculatedHeight.contentHeight;
     let modalStyle = {height: calculatedHeight.height};
 
     let useScrollbar = false;
@@ -228,7 +222,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
           </div>
           <div className={props.bodyClass} style={modalStyle}>
             <div ref="innerContainer" className={props.innerBodyClass}>
-              {this.getModalContent(useScrollbar, innerHeight)}
+              {this.getModalContent(useScrollbar, contentHeight)}
             </div>
           </div>
           {this.getFooter()}
