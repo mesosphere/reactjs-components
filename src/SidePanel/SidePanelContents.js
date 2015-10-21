@@ -137,6 +137,8 @@ export default class SidePanelContents extends Util.mixin(BindMixin) {
 
 }
 
+
+
 SidePanelContents.defaultProps = {
   closeByBackdropClick: true,
   header: null,
@@ -153,10 +155,15 @@ SidePanelContents.defaultProps = {
 };
 
 SidePanelContents.propTypes = {
+  // Nodes to render inside of side panel.
   children: PropTypes.node,
+  // Set to false to disable the backdrop click listener for close.
   closeByBackdropClick: PropTypes.bool,
+  // Node to render for header.
   header: PropTypes.node,
+  // Function to call on close.
   onClose: PropTypes.func,
+  // Bool that states if side panel is open or not.
   open: PropTypes.bool,
 
   // Classes.

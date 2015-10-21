@@ -68,8 +68,7 @@ class SidePanelExample extends React.Component {
           </p>
             <h3>Properties API</h3>
             <div className="example-block">
-              <div className="example-block-footer example-block-footer-codeblock">
-                <pre className="prettyprint linenums flush-bottom">
+              <pre className="prettyprint linenums flush-bottom">
 {`SidePanelContents.propTypes = {
   // Nodes to render inside of side panel.
   children: PropTypes.node,
@@ -90,8 +89,7 @@ class SidePanelExample extends React.Component {
   headerContainerClass: PropTypes.string,
   sidePanelClass: PropTypes.string
 };`}
-                </pre>
-              </div>
+              </pre>
             </div>
           <div className="example-block flush-bottom">
             <div className="example-block-content">
@@ -110,9 +108,8 @@ class SidePanelExample extends React.Component {
             </div>
             <div className="example-block-footer example-block-footer-codeblock">
               <pre className="prettyprint linenums flush-bottom">
-{`import React from 'react';
-
-import {SidePanel} from 'reactjs-components';
+{`import {SidePanel} from 'reactjs-components';
+import React from 'react';
 
 class SidePanelExample extends React.Component {
   constructor() {
