@@ -161,6 +161,7 @@ class ListExample extends React.Component {
                     <pre className="prettyprint linenums flush-bottom">
 
 {`import {List} from 'reactjs-components';
+import React from 'react';
 
 var list = [
   // First item
