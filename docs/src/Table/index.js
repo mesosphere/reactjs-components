@@ -393,62 +393,156 @@ getColumns() {
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
-{`
-import {Table} from 'reactjs-components';
+{`import {Table} from 'reactjs-components';
+import React from 'react';
 
-//...
+class TableExample extends React.Component {
 
-getColGroup() {
-  return (
-    <colgroup>
-      <col style={{width: '40%'}} />
-      <col style={{width: '20%'}} />
-      <col style={{width: '20%'}} />
-      <col style={{width: '20%'}} />
-    </colgroup>
-  );
-}
-
-getRows(size) {
-  let rows = [
-    {
-      name: 'Zach',
-      age: 11,
-      gender: 'Male',
-      location: 'San Francisco, CA',
-      id: 'a'
-    },
-    {
-      name: 'Francis',
-      age: 34,
-      gender: 'Female',
-      location: 'Boston, MA',
-      id: 'b'
-    },
-
-    //...
-  ];
-
-  if (this.state.rowAdded && size === 'large') {
-    rows.push({
-      name: 'Cheryl',
-      age: 28,
-      gender: 'Female',
-      location: 'Seattle, WA',
-      id: 'k'
-    });
+  getColGroup() {
+    return (
+      <colgroup>
+        <col style={{width: '40%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+      </colgroup>
+    );
   }
 
-  return rows;
-}
+  getColumns() {
+    return [
+      {
+        className: 'name',
+        heading: this.getColumnHeading,
+        prop: 'name',
+        sortable: true
+        // Using default sorting.
+        // Uncomment this to use age as tie breaker for name
+        // sortFunction: getSortFunction('age')
+      },
+      {
+        className: 'age',
+        heading: this.getColumnHeading,
+        prop: 'age',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'location',
+        defaultContent: 'None Specified',
+        heading: this.getColumnHeading,
+        prop: 'location',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'gender',
+        heading: this.getColumnHeading,
+        prop: 'gender',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      }
+    ];
+  }
 
-<Table
-  className="table"
-  colGroup={this.getColGroup()}
-  columns={this.getColumns()}
-  data={this.getRows('large')}
-  idAttribute="id"
-  transition={true} />`}
+  getRows(size) {
+    let rows = [
+      {
+        name: 'Zach',
+        age: 11,
+        gender: 'Male',
+        location: 'San Francisco, CA',
+        id: 'a'
+      },
+      {
+        name: 'Francis',
+        age: 34,
+        gender: 'Female',
+        location: 'Boston, MA',
+        id: 'b'
+      },
+      {
+        name: 'Sandy',
+        age: 68,
+        gender: 'Female',
+        location: 'Kalamazoo, MI',
+        id: 'c'
+      },
+      {
+        name: 'Jeffrey',
+        age: 21,
+        gender: 'Male',
+        id: 'd'
+      },
+      {
+        name: 'Louise',
+        age: 94,
+        gender: 'Female',
+        location: 'Boulder, CO',
+        id: 'e'
+      },
+      {
+        name: 'Nancy',
+        age: 28,
+        gender: 'Female',
+        location: 'Salt Lake, UT',
+        id: 'f'
+      },
+      {
+        name: 'Anna',
+        age: 63,
+        gender: 'Female',
+        location: 'Las Vegas, NV',
+        id: 'g'
+      },
+      {
+        name: 'Jay',
+        age: 35,
+        gender: 'Male',
+        location: 'Washington, DC',
+        id: 'h'
+      },
+      {
+        name: 'Bob',
+        age: 47,
+        gender: 'Male',
+        location: 'New Oleans, LA',
+        id: 'i'
+      },
+      {
+        name: 'Nick',
+        age: 51,
+        gender: 'Male',
+        location: 'Houston, TX',
+        id: 'j'
+      }
+    ];
+
+    if (this.state.rowAdded && size === 'large') {
+      rows.push({
+        name: 'Cheryl',
+        age: 28,
+        gender: 'Female',
+        location: 'Seattle, WA',
+        id: 'k'
+      });
+    }
+
+    return rows;
+  }
+
+  render() {
+    return (
+      <Table
+        className="table"
+        colGroup={this.getColGroup()}
+        columns={this.getColumns()}
+        data={this.getRows('large')}
+        idAttribute="id"
+        transition={true} />
+    );
+  }
+}`}
                 </pre>
               </div>
             </div>
@@ -475,42 +569,160 @@ getRows(size) {
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
-{`
-import {Table} from 'reactjs-components';
+{`import {Table} from 'reactjs-components';
+import React from 'react';
 
-//...
+class InfiniteScrollExample extends React.Component {
 
-getRows(size) {
-
-  //...
-
-  if (size === 'huge') {
-    let oldRows = rows.slice(0);
-    rows = [];
-    for (var i = 0; i < 100000; i++) {
-      let item = oldRows[Math.floor(Math.random() * oldRows.length)];
-      rows.push({
-        name: item.name,
-        age: item.age,
-        gender: item.gender,
-        location: item.location,
-        id: i
-      });
-    }
+  getColGroup() {
+    return (
+      <colgroup>
+        <col style={{width: '40%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+        <col style={{width: '20%'}} />
+      </colgroup>
+    );
   }
 
-  //...
+  getColumns() {
+    return [
+      {
+        className: 'name',
+        heading: this.getColumnHeading,
+        prop: 'name',
+        sortable: true
+        // Using default sorting.
+        // Uncomment this to use age as tie breaker for name
+        // sortFunction: getSortFunction('age')
+      },
+      {
+        className: 'age',
+        heading: this.getColumnHeading,
+        prop: 'age',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'location',
+        defaultContent: 'None Specified',
+        heading: this.getColumnHeading,
+        prop: 'location',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      },
+      {
+        className: 'gender',
+        heading: this.getColumnHeading,
+        prop: 'gender',
+        sortable: true,
+        sortFunction: getSortFunction('name')
+      }
+    ];
+  }
 
-  return rows;
-}
+  getRows(size) {
+    let rows = [
+      {
+        name: 'Zach',
+        age: 11,
+        gender: 'Male',
+        location: 'San Francisco, CA',
+        id: 'a'
+      },
+      {
+        name: 'Francis',
+        age: 34,
+        gender: 'Female',
+        location: 'Boston, MA',
+        id: 'b'
+      },
+      {
+        name: 'Sandy',
+        age: 68,
+        gender: 'Female',
+        location: 'Kalamazoo, MI',
+        id: 'c'
+      },
+      {
+        name: 'Jeffrey',
+        age: 21,
+        gender: 'Male',
+        id: 'd'
+      },
+      {
+        name: 'Louise',
+        age: 94,
+        gender: 'Female',
+        location: 'Boulder, CO',
+        id: 'e'
+      },
+      {
+        name: 'Nancy',
+        age: 28,
+        gender: 'Female',
+        location: 'Salt Lake, UT',
+        id: 'f'
+      },
+      {
+        name: 'Anna',
+        age: 63,
+        gender: 'Female',
+        location: 'Las Vegas, NV',
+        id: 'g'
+      },
+      {
+        name: 'Jay',
+        age: 35,
+        gender: 'Male',
+        location: 'Washington, DC',
+        id: 'h'
+      },
+      {
+        name: 'Bob',
+        age: 47,
+        gender: 'Male',
+        location: 'New Oleans, LA',
+        id: 'i'
+      },
+      {
+        name: 'Nick',
+        age: 51,
+        gender: 'Male',
+        location: 'Houston, TX',
+        id: 'j'
+      }
+    ];
 
-<Table
-  className="table"
-  colGroup={this.getColGroup()}
-  columns={this.getColumns()}
-  data={this.hugeRows}
-  idAttribute="id" />
-`}
+    if (size === 'huge') {
+      let oldRows = rows.slice(0);
+      rows = [];
+      for (var i = 0; i < 100000; i++) {
+        let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+        rows.push({
+          name: item.name,
+          age: item.age,
+          gender: item.gender,
+          location: item.location,
+          id: i
+        });
+      }
+    }
+
+    return rows;
+  }
+
+  render() {
+    return (
+      <Table
+        className="table"
+        colGroup={this.getColGroup()}
+        columns={this.getColumns()}
+        data={this.hugeRows}
+        idAttribute="id" />
+    );
+  }
+}`}
                 </pre>
               </div>
             </div>
