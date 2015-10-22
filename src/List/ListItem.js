@@ -12,7 +12,7 @@ export default class ListItem extends React.Component {
     let Tag = this.props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    let attributes = Util.exclude(this.props, Object.keys(ListItem.propTypes));
+    let attributes = Util.exclude(this.props, Object.keys(ListItem.propTypes)) || {};
 
     if (attributes.transition) {
       return (
