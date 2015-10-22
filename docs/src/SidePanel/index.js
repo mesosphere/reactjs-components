@@ -66,19 +66,20 @@ class SidePanelExample extends React.Component {
             View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
             View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
           </p>
-            <h3>Properties API</h3>
-            <div className="example-block">
-              <pre className="prettyprint linenums flush-bottom">
+          <h3>Properties API</h3>
+          <div className="example-block">
+            <pre className="prettyprint linenums flush-bottom">
 {`SidePanelContents.propTypes = {
   // Nodes to render inside of side panel.
   children: PropTypes.node,
   // Set to false to disable the backdrop click listener for close.
+  // Default: true
   closeByBackdropClick: PropTypes.bool,
-  // Node to render for header.
+  // Node to render for header. Default: null
   header: PropTypes.node,
   // Function to call on close.
   onClose: PropTypes.func,
-  // Bool that states if side panel is open or not.
+  // Bool that states if side panel is open or not. Default: false
   open: PropTypes.bool,
 
   // Classes.
@@ -89,8 +90,8 @@ class SidePanelExample extends React.Component {
   headerContainerClass: PropTypes.string,
   sidePanelClass: PropTypes.string
 };`}
-              </pre>
-            </div>
+            </pre>
+          </div>
           <div className="example-block flush-bottom">
             <div className="example-block-content">
               <section className="row canvas-pod">
@@ -190,7 +191,8 @@ class SidePanelExample extends React.Component {
           </div>
         </div>
 
-        <SidePanel header={this.getHeader()}
+        <SidePanel
+          header={this.getHeader()}
           open={this.state.panelIsOpen}
           onClose={this.handlePanelClose.bind(this)}>
           <div className="container container-fluid container-pod">
