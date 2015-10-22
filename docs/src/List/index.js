@@ -111,27 +111,30 @@ class ListExample extends React.Component {
                     <div className="example-block">
                       <div className="example-block-footer example-block-footer-codeblock">
                         <pre className="prettyprint linenums flush-bottom">
-    {`List.propTypes = {
-      className: PropTypes.string,
-      // List of items in the list
-      items: PropTypes.arrayOf(
-        // Each item in the array should be an object
-        React.PropTypes.shape({
-          // Optionally add a class to a given item
-          className: PropTypes.string,
-          // An item can be a container of another ist
-          items: PropTypes.array,
-          // Optional tag for item instead of an \`li\`
-          tag: PropTypes.string,
-          // If this item isn't a list of other items just use a value
-          value: PropTypes.string
-        })
-      ).isRequired,
-      // Optional tag for the container of the list
-      tag: PropTypes.string,
-      transition: PropTypes.bool,
-      transitionName: PropTypes.string
-    };`}
+{`List.propTypes = {
+  className: PropTypes.string,
+  // Content of List. Can be either an array of objects or a string
+  content: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      // Each item in the array should be an object
+      PropTypes.shape({
+        // Optionally add a class to a given item
+        className: PropTypes.string,
+        // An item can be a container of another ist
+        items: PropTypes.array,
+        // Optional tag for item instead of an 'li'
+        tag: PropTypes.string,
+        // If this item isn't a list of other items just use a value
+        value: PropTypes.string
+      })
+    ),
+    PropTypes.string
+  ]).isRequired,
+  // Optional tag for the container of the list
+  tag: PropTypes.string,
+  transition: PropTypes.bool,
+  transitionName: PropTypes.string
+};`}
                         </pre>
                       </div>
                     </div>
@@ -142,7 +145,7 @@ class ListExample extends React.Component {
                     <div className="row row-flex">
                       <div className="column-9">
                         <List
-                          items={this.getComplexNestedList()}
+                          content={this.getComplexNestedList()}
                           tag="ol" />
                       </div>
                       <div className="column-3">
@@ -215,7 +218,7 @@ var list = [
 
 class ListExample extends React.Component {
   render() {
-    return <List items={list} tag="ol" />
+    return <List content={list} tag="ol" />
   }
 }`}
 
