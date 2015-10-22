@@ -33,18 +33,22 @@ class SidePanelExample extends React.Component {
   }
 
   getHeader(id, description) {
-    return (
-      <div>
-        <button className="button button-stroke button-rounded"
+    return [
+      <div key={"header-actions-primary"} className="side-panel-header-actions side-panel-header-actions-primary">
+        <button className="side-panel-header-action button button-stroke button-rounded"
           onClick={this.handlePanelClose.bind(this, id)}>
           ✕
         </button>
-        <h2 className="side-panel-header-title text-align-center flush-top flush-bottom">
+      </div>,
+      <div key={"header-content"} className="side-panel-header-content">
+        <h3 className="side-panel-header-content-title text-align-center flush">
           {`Panel #${id}`}
-        </h2>
-        <p className="center">{description}</p>
+        </h3>
+        <p className="side-panel-header-content-subtitle text-align-center flush">{description}</p>
+      </div>,
+      <div key={"header-actions-secondary"} className="side-panel-header-actions side-panel-header-actions-secondary">
       </div>
-    );
+    ];
   }
 
   render() {
@@ -103,23 +107,23 @@ class SidePanelExample extends React.Component {
         <SidePanel header={this.getHeader(1, 'Long content')}
           open={this.state.panel1Open}
           onClose={this.handlePanelClose.bind(this, 1)}>
-          <div>
-            <p className="container-pod container-pod-short flush-bottom">
+          <div className="container container-fluid container-pod">
+            <p>
               This side panel will scroll vertically, but not horizontally.
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p>
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p >
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p>
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p>
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p className="flush-bottom">
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
           </div>
@@ -128,28 +132,24 @@ class SidePanelExample extends React.Component {
         <SidePanel header={this.getHeader(2, 'Short, but wide content')}
           open={this.state.panel2Open}
           onClose={this.handlePanelClose.bind(this, 2)}>
-          <p className="container-pod container-pod-short">
-            This side panel will scroll horizontally, but not vertically.
-          </p>
-          <pre>
-            Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
-          </pre>
+          <div className="container container-fluid container-pod">
+            <p>
+              This side panel will scroll horizontally, but not vertically.
+            </p>
+            <pre className="flush-bottom">
+              Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
+            </pre>
+          </div>
         </SidePanel>
 
-        <SidePanel open={this.state.panel3Open}
+        <SidePanel header={this.getHeader(3, 'Alert on Close')}
+          open={this.state.panel3Open}
           onClose={this.alertAndClosePanelID.bind(this, 3)}>
-          <div className="container-pod container-pod-short">
-            <button className="button button-stroke button-rounded"
-              onClick={this.alertAndClosePanelID.bind(this, 3)}>
-              ✕
-            </button>
-            <h2 className="side-panel-header-title text-align-center flush-top flush-bottom">
-              Panel #3
-            </h2>
-            <p className="container-pod container-pod-short flush-bottom">
+          <div className="container container-fluid container-pod">
+            <p>
               This side panel will alert whenever the panel is closed
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p className="flush-bottom">
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
           </div>
@@ -159,11 +159,11 @@ class SidePanelExample extends React.Component {
           open={this.state.panel4Open}
           closeByBackdropClick={false}
           onClose={this.handlePanelClose.bind(this, 4)}>
-          <div>
-            <p className="container-pod container-pod-short flush-bottom">
+          <div className="container container-fluid container-pod">
+            <p>
               Only way to close this panel is clciking the close button
             </p>
-            <p className="container-pod container-pod-short flush-bottom">
+            <p className="cflush-bottom">
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
           </div>

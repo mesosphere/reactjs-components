@@ -28,7 +28,6 @@ Side Panel
   right: 0;
   width: @side-panel-width;
   height: 100%;
-
   margin: 0px;
   z-index: @z-index-side-panel + 1;
   background-color: @side-panel-background-color;
@@ -86,7 +85,8 @@ Side Panel
 
       align-items: center;
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
+      flex-direction: row;
 
     }
 
@@ -96,7 +96,8 @@ Side Panel
 
     .side-panel-header-content {
 
-      flex: 1;
+      flex-grow: 2;
+      flex-basis: 0;
 
       .side-panel-header-content-title {
 
@@ -132,7 +133,8 @@ Side Panel
 
     .side-panel-header-actions {
 
-      flex: 3;
+      flex-grow: 1;
+      flex-basis: 0;
 
       &.side-panel-header-actions-primary {
 
