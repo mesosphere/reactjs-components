@@ -320,7 +320,8 @@ class TableExample extends React.Component {
                 <pre className="prettyprint linenums flush-bottom">
 {`
 getColumns() {
-  // We want to pass an array of objects. Each object should contain information about the settings for that column.
+  // We want to pass an array of objects.
+  // Each object should contain information about the settings for that column.
   return [
     // The first column will be a "name" column.
     {
@@ -550,6 +551,7 @@ class TableExample extends React.Component {
         </section>
         <section className="row canvas-pod">
           <div className="container container-pod">
+            <h3>Infinite Scroll Example</h3>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
                 <div className="container container-pod container-pod-short
