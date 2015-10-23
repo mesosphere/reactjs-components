@@ -551,7 +551,7 @@ class TableExample extends React.Component {
         </section>
         <section className="row canvas-pod">
           <div className="container container-pod">
-            <h3>Infinite Scroll Example</h3>
+            <h4>Infinite Scroll Example</h4>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
                 <div className="container container-pod container-pod-short
