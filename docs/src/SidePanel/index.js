@@ -34,7 +34,8 @@ class SidePanelExample extends React.Component {
 
   getHeader(id, description) {
     return [
-      <div key={"header-actions-primary"} className="side-panel-header-actions side-panel-header-actions-primary">
+      <div
+        key={"header-actions-primary"} className="side-panel-header-actions side-panel-header-actions-primary">
         <button className="side-panel-header-action button button-stroke button-rounded"
           onClick={this.handlePanelClose.bind(this, id)}>
           ✕
@@ -45,8 +46,6 @@ class SidePanelExample extends React.Component {
           {`Panel #${id}`}
         </h3>
         <p className="side-panel-header-content-subtitle text-align-center flush">{description}</p>
-      </div>,
-      <div key={"header-actions-secondary"} className="side-panel-header-actions side-panel-header-actions-secondary">
       </div>
     ];
   }
@@ -114,7 +113,7 @@ class SidePanelExample extends React.Component {
             <p>
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
-            <p >
+            <p>
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
             <p>
@@ -163,7 +162,7 @@ class SidePanelExample extends React.Component {
             <p>
               Only way to close this panel is clciking the close button
             </p>
-            <p className="cflush-bottom">
+            <p className="flush-bottom">
               Fusce sed nibh luctus, ultricies urna eget, eleifend lectus. Etiam sagittis mauris et enim tristique, dignissim varius sem placeratSed molestie purus vitae hendrerit congue. Aliquam viverra cursus odio a ullamcorper.Curabitur venenatis ex quis volutpat suscipit. Nulla ante purus, laoreet vel fermentum vitae, sollicitudin nec erat.Proin venenatis libero sodales, dictum augue non, pretium dolor
             </p>
           </div>
