@@ -126,7 +126,7 @@ class DropdownExample extends React.Component {
       ])
     })
   ).isRequired,
-  // An optional callback when an item is slected. Will receive an arugment
+  // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
   // The ID of the item that should be selected by default.
@@ -360,7 +360,6 @@ class CustomHTMLDropdownExample extends React.Component {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={dropdownItems}
-        onItemSelection={this.onItemSelection}
         selectedID="foo"
         transition={true}
         wrapperClassName="dropdown" />
