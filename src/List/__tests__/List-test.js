@@ -4,6 +4,7 @@ var TestUtils = React.addons.TestUtils;
 jest.dontMock('../List.js');
 jest.dontMock('../ListItem.js');
 jest.dontMock('./fixtures/MockList');
+jest.dontMock('../../Util/Util');
 
 var MockList = require('./fixtures/MockList');
 var List = require('../List.js');
@@ -13,7 +14,7 @@ describe('List', function () {
   beforeEach(function () {
     this.listTag = 'ul';
     this.instance = TestUtils.renderIntoDocument(
-      <List items={MockList} tag={this.listTag} />
+      <List content={MockList} tag={this.listTag} />
     );
   });
 
