@@ -35,8 +35,10 @@ class SidePanelExample extends React.Component {
   getHeader(id, description) {
     return [
       <div
-        key={"header-actions-primary"} className="side-panel-header-actions side-panel-header-actions-primary">
-        <button className="side-panel-header-action button button-stroke button-rounded"
+        key={"header-actions-primary"} className="side-panel-header-actions
+        side-panel-header-actions-primary">
+        <button className="side-panel-header-action button button-stroke
+        button-rounded"
           onClick={this.handlePanelClose.bind(this, id)}>
           ✕
         </button>
@@ -45,7 +47,8 @@ class SidePanelExample extends React.Component {
         <h3 className="side-panel-header-content-title text-align-center flush">
           {`Panel #${id}`}
         </h3>
-        <p className="side-panel-header-content-subtitle text-align-center flush">{description}</p>
+        <p className="side-panel-header-content-subtitle text-align-center
+        flush">{description}</p>
       </div>
     ];
   }
