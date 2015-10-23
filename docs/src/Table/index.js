@@ -25,6 +25,78 @@ function getSortFunction(tieBreaker) {
   };
 }
 
+let rows = [
+  {
+    name: 'Zach',
+    age: 11,
+    gender: 'Male',
+    location: 'San Francisco, CA',
+    id: 'a'
+  },
+  {
+    name: 'Francis',
+    age: 34,
+    gender: 'Female',
+    location: 'Boston, MA',
+    id: 'b'
+  },
+  {
+    name: 'Sandy',
+    age: 68,
+    gender: 'Female',
+    location: 'Kalamazoo, MI',
+    id: 'c'
+  },
+  {
+    name: 'Jeffrey',
+    age: 21,
+    gender: 'Male',
+    id: 'd'
+  },
+  {
+    name: 'Louise',
+    age: 94,
+    gender: 'Female',
+    location: 'Boulder, CO',
+    id: 'e'
+  },
+  {
+    name: 'Nancy',
+    age: 28,
+    gender: 'Female',
+    location: 'Salt Lake, UT',
+    id: 'f'
+  },
+  {
+    name: 'Anna',
+    age: 63,
+    gender: 'Female',
+    location: 'Las Vegas, NV',
+    id: 'g'
+  },
+  {
+    name: 'Jay',
+    age: 35,
+    gender: 'Male',
+    location: 'Washington, DC',
+    id: 'h'
+  },
+  {
+    name: 'Bob',
+    age: 47,
+    gender: 'Male',
+    location: 'New Oleans, LA',
+    id: 'i'
+  },
+  {
+    name: 'Nick',
+    age: 51,
+    gender: 'Male',
+    location: 'Houston, TX',
+    id: 'j'
+  }
+];
+
 class TableExample extends React.Component {
   constructor(props) {
     super(props);
@@ -36,7 +108,7 @@ class TableExample extends React.Component {
     }, this);
 
     // Cache huge rows so we don't recreate the data every update.
-    this.hugeRows = this.getRows('huge');
+    this.hugeRows = this.getManyRows();
   }
 
   handleToggleExtraRow() {
@@ -119,96 +191,11 @@ class TableExample extends React.Component {
     ];
   }
 
-  getRows(size) {
-    let rows = [
-      {
-        name: 'Zach',
-        age: 11,
-        gender: 'Male',
-        location: 'San Francisco, CA',
-        id: 'a'
-      },
-      {
-        name: 'Francis',
-        age: 34,
-        gender: 'Female',
-        location: 'Boston, MA',
-        id: 'b'
-      },
-      {
-        name: 'Sandy',
-        age: 68,
-        gender: 'Female',
-        location: 'Kalamazoo, MI',
-        id: 'c'
-      },
-      {
-        name: 'Jeffrey',
-        age: 21,
-        gender: 'Male',
-        id: 'd'
-      },
-      {
-        name: 'Louise',
-        age: 94,
-        gender: 'Female',
-        location: 'Boulder, CO',
-        id: 'e'
-      },
-      {
-        name: 'Nancy',
-        age: 28,
-        gender: 'Female',
-        location: 'Salt Lake, UT',
-        id: 'f'
-      },
-      {
-        name: 'Anna',
-        age: 63,
-        gender: 'Female',
-        location: 'Las Vegas, NV',
-        id: 'g'
-      },
-      {
-        name: 'Jay',
-        age: 35,
-        gender: 'Male',
-        location: 'Washington, DC',
-        id: 'h'
-      },
-      {
-        name: 'Bob',
-        age: 47,
-        gender: 'Male',
-        location: 'New Oleans, LA',
-        id: 'i'
-      },
-      {
-        name: 'Nick',
-        age: 51,
-        gender: 'Male',
-        location: 'Houston, TX',
-        id: 'j'
-      }
-    ];
+  getRows() {
+    let newRows = rows.slice(0);
 
-    if (size === 'huge') {
-      let oldRows = rows.slice(0);
-      rows = [];
-      for (var i = 0; i < 100000; i++) {
-        let item = oldRows[Math.floor(Math.random() * oldRows.length)];
-        rows.push({
-          name: item.name,
-          age: item.age,
-          gender: item.gender,
-          location: item.location,
-          id: i
-        });
-      }
-    }
-
-    if (this.state.rowAdded && size === 'large') {
-      rows.push({
+    if (this.state.rowAdded) {
+      newRows.push({
         name: 'Cheryl',
         age: 28,
         gender: 'Female',
@@ -217,7 +204,24 @@ class TableExample extends React.Component {
       });
     }
 
-    return rows;
+    return newRows;
+  }
+
+  getManyRows() {
+    let oldRows = rows.slice(0);
+    let newRows = [];
+    for (var i = 0; i < 100000; i++) {
+      let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+      newRows.push({
+        name: item.name,
+        age: item.age,
+        gender: item.gender,
+        location: item.location,
+        id: i
+      });
+    }
+
+    return newRows;
   }
 
   render() {
@@ -238,8 +242,7 @@ class TableExample extends React.Component {
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
             <h3>Properties API</h3>
             <div className="example-block">
-              <div className="example-block-footer example-block-footer-codeblock">
-                <pre className="prettyprint linenums flush-bottom">
+              <pre className="prettyprint linenums flush-bottom">
 {`Table.propTypes = {
   // Optional attributes to be passed to the row elements.
   buildRowOptions: PropTypes.func,
@@ -309,16 +312,13 @@ class TableExample extends React.Component {
   transition: PropTypes.bool
 };
 `}
-                </pre>
-              </div>
+              </pre>
             </div>
             <h3>A Closer Look At Table Columns</h3>
             <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
             <div className="example-block">
-              <div className="example-block-footer example-block-footer-codeblock">
-                <pre className="prettyprint linenums flush-bottom">
-{`
-getColumns() {
+              <pre className="prettyprint linenums flush-bottom">
+{`getColumns() {
   // We want to pass an array of objects.
   // Each object should contain information about the settings for that column.
   return [
@@ -363,8 +363,7 @@ getColumns() {
   columns={this.getColumns()} />
 
 `}
-                </pre>
-              </div>
+              </pre>
             </div>
             <h3>Table Examples</h3>
             <div className="example-block flush-bottom">
@@ -396,7 +395,110 @@ getColumns() {
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
+function compareValues(a, b) {
+  if (b == null || a > b) {
+    return 1;
+  } else if (a == null || a < b) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function getSortFunction(tieBreaker) {
+  return function (prop) {
+    return function (a, b) {
+      if (a[prop] === b[prop]) {
+        return compareValues(a[tieBreaker], b[tieBreaker]);
+      }
+
+      return compareValues(a[prop], b[prop]);
+    };
+  };
+}
+
+let rows = [
+  {
+    name: 'Zach',
+    age: 11,
+    gender: 'Male',
+    location: 'San Francisco, CA',
+    id: 'a'
+  },
+  {
+    name: 'Francis',
+    age: 34,
+    gender: 'Female',
+    location: 'Boston, MA',
+    id: 'b'
+  },
+  {
+    name: 'Sandy',
+    age: 68,
+    gender: 'Female',
+    location: 'Kalamazoo, MI',
+    id: 'c'
+  },
+  {
+    name: 'Jeffrey',
+    age: 21,
+    gender: 'Male',
+    id: 'd'
+  },
+  {
+    name: 'Louise',
+    age: 94,
+    gender: 'Female',
+    location: 'Boulder, CO',
+    id: 'e'
+  },
+  {
+    name: 'Nancy',
+    age: 28,
+    gender: 'Female',
+    location: 'Salt Lake, UT',
+    id: 'f'
+  },
+  {
+    name: 'Anna',
+    age: 63,
+    gender: 'Female',
+    location: 'Las Vegas, NV',
+    id: 'g'
+  },
+  {
+    name: 'Jay',
+    age: 35,
+    gender: 'Male',
+    location: 'Washington, DC',
+    id: 'h'
+  },
+  {
+    name: 'Bob',
+    age: 47,
+    gender: 'Male',
+    location: 'New Oleans, LA',
+    id: 'i'
+  },
+  {
+    name: 'Nick',
+    age: 51,
+    gender: 'Male',
+    location: 'Houston, TX',
+    id: 'j'
+  }
+];
+
 class TableExample extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      rowAdded: false
+    };
+    ['handleToggleExtraRow', 'handleToggleScroll'].forEach((method) => {
+      this[method] = this[method].bind(this);
+    }, this);
+  }
 
   getColGroup() {
     return (
@@ -445,81 +547,11 @@ class TableExample extends React.Component {
     ];
   }
 
-  getRows(size) {
-    let rows = [
-      {
-        name: 'Zach',
-        age: 11,
-        gender: 'Male',
-        location: 'San Francisco, CA',
-        id: 'a'
-      },
-      {
-        name: 'Francis',
-        age: 34,
-        gender: 'Female',
-        location: 'Boston, MA',
-        id: 'b'
-      },
-      {
-        name: 'Sandy',
-        age: 68,
-        gender: 'Female',
-        location: 'Kalamazoo, MI',
-        id: 'c'
-      },
-      {
-        name: 'Jeffrey',
-        age: 21,
-        gender: 'Male',
-        id: 'd'
-      },
-      {
-        name: 'Louise',
-        age: 94,
-        gender: 'Female',
-        location: 'Boulder, CO',
-        id: 'e'
-      },
-      {
-        name: 'Nancy',
-        age: 28,
-        gender: 'Female',
-        location: 'Salt Lake, UT',
-        id: 'f'
-      },
-      {
-        name: 'Anna',
-        age: 63,
-        gender: 'Female',
-        location: 'Las Vegas, NV',
-        id: 'g'
-      },
-      {
-        name: 'Jay',
-        age: 35,
-        gender: 'Male',
-        location: 'Washington, DC',
-        id: 'h'
-      },
-      {
-        name: 'Bob',
-        age: 47,
-        gender: 'Male',
-        location: 'New Oleans, LA',
-        id: 'i'
-      },
-      {
-        name: 'Nick',
-        age: 51,
-        gender: 'Male',
-        location: 'Houston, TX',
-        id: 'j'
-      }
-    ];
+  getRows() {
+    let newRows = rows.slice(0);
 
-    if (this.state.rowAdded && size === 'large') {
-      rows.push({
+    if (this.state.rowAdded) {
+      newRows.push({
         name: 'Cheryl',
         age: 28,
         gender: 'Female',
@@ -528,7 +560,7 @@ class TableExample extends React.Component {
       });
     }
 
-    return rows;
+    return newRows;
   }
 
   render() {
@@ -537,7 +569,7 @@ class TableExample extends React.Component {
         className="table"
         colGroup={this.getColGroup()}
         columns={this.getColumns()}
-        data={this.getRows('large')}
+        data={this.getRows()}
         idAttribute="id"
         transition={true} />
     );
@@ -573,7 +605,106 @@ class TableExample extends React.Component {
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
+function compareValues(a, b) {
+  if (b == null || a > b) {
+    return 1;
+  } else if (a == null || a < b) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+function getSortFunction(tieBreaker) {
+  return function (prop) {
+    return function (a, b) {
+      if (a[prop] === b[prop]) {
+        return compareValues(a[tieBreaker], b[tieBreaker]);
+      }
+
+      return compareValues(a[prop], b[prop]);
+    };
+  };
+}
+
+let rows = [
+  {
+    name: 'Zach',
+    age: 11,
+    gender: 'Male',
+    location: 'San Francisco, CA',
+    id: 'a'
+  },
+  {
+    name: 'Francis',
+    age: 34,
+    gender: 'Female',
+    location: 'Boston, MA',
+    id: 'b'
+  },
+  {
+    name: 'Sandy',
+    age: 68,
+    gender: 'Female',
+    location: 'Kalamazoo, MI',
+    id: 'c'
+  },
+  {
+    name: 'Jeffrey',
+    age: 21,
+    gender: 'Male',
+    id: 'd'
+  },
+  {
+    name: 'Louise',
+    age: 94,
+    gender: 'Female',
+    location: 'Boulder, CO',
+    id: 'e'
+  },
+  {
+    name: 'Nancy',
+    age: 28,
+    gender: 'Female',
+    location: 'Salt Lake, UT',
+    id: 'f'
+  },
+  {
+    name: 'Anna',
+    age: 63,
+    gender: 'Female',
+    location: 'Las Vegas, NV',
+    id: 'g'
+  },
+  {
+    name: 'Jay',
+    age: 35,
+    gender: 'Male',
+    location: 'Washington, DC',
+    id: 'h'
+  },
+  {
+    name: 'Bob',
+    age: 47,
+    gender: 'Male',
+    location: 'New Oleans, LA',
+    id: 'i'
+  },
+  {
+    name: 'Nick',
+    age: 51,
+    gender: 'Male',
+    location: 'Houston, TX',
+    id: 'j'
+  }
+];
+
 class InfiniteScrollExample extends React.Component {
+  constructor() {
+    super();
+    // Cache huge rows so we don't recreate the data every update.
+    this.hugeRows = this.getManyRows();
+  }
 
   getColGroup() {
     return (
@@ -622,95 +753,21 @@ class InfiniteScrollExample extends React.Component {
     ];
   }
 
-  getRows(size) {
-    let rows = [
-      {
-        name: 'Zach',
-        age: 11,
-        gender: 'Male',
-        location: 'San Francisco, CA',
-        id: 'a'
-      },
-      {
-        name: 'Francis',
-        age: 34,
-        gender: 'Female',
-        location: 'Boston, MA',
-        id: 'b'
-      },
-      {
-        name: 'Sandy',
-        age: 68,
-        gender: 'Female',
-        location: 'Kalamazoo, MI',
-        id: 'c'
-      },
-      {
-        name: 'Jeffrey',
-        age: 21,
-        gender: 'Male',
-        id: 'd'
-      },
-      {
-        name: 'Louise',
-        age: 94,
-        gender: 'Female',
-        location: 'Boulder, CO',
-        id: 'e'
-      },
-      {
-        name: 'Nancy',
-        age: 28,
-        gender: 'Female',
-        location: 'Salt Lake, UT',
-        id: 'f'
-      },
-      {
-        name: 'Anna',
-        age: 63,
-        gender: 'Female',
-        location: 'Las Vegas, NV',
-        id: 'g'
-      },
-      {
-        name: 'Jay',
-        age: 35,
-        gender: 'Male',
-        location: 'Washington, DC',
-        id: 'h'
-      },
-      {
-        name: 'Bob',
-        age: 47,
-        gender: 'Male',
-        location: 'New Oleans, LA',
-        id: 'i'
-      },
-      {
-        name: 'Nick',
-        age: 51,
-        gender: 'Male',
-        location: 'Houston, TX',
-        id: 'j'
-      }
-    ];
-
-    if (size === 'huge') {
-      let oldRows = rows.slice(0);
-      rows = [];
-      for (var i = 0; i < 100000; i++) {
-        let item = oldRows[Math.floor(Math.random() * oldRows.length)];
-        rows.push({
-          name: item.name,
-          age: item.age,
-          gender: item.gender,
-          location: item.location,
-          id: i
-        });
-      }
+  getManyRows() {
+    let oldRows = rows.slice(0);
+    let newRows = [];
+    for (var i = 0; i < 100000; i++) {
+      let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+      newRows.push({
+        name: item.name,
+        age: item.age,
+        gender: item.gender,
+        location: item.location,
+        id: i
+      });
     }
 
-    return rows;
+    return newRows;
   }
 
   render() {
