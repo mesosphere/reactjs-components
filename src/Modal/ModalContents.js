@@ -276,17 +276,26 @@ ModalContents.defaultProps = {
 
 ModalContents.propTypes = {
   children: PropTypes.node,
+  // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
+  // Optional footer
   footer: PropTypes.object,
+  // Maximum percent of the viewport the modal can be. Defaults to 0.5.
   maxHeightPercentage: PropTypes.number,
+  // Optional callback function exected when modal is closed.
   onClose: PropTypes.func,
+  // True if modal is open, false otherwise.
   open: PropTypes.bool,
+  // Set true to show explicit close button. Defaults to false.
   showCloseButton: PropTypes.bool,
+  // Set true to show footer. Defaults to false.
   showFooter: PropTypes.bool,
+  // Optional subheader.
   subHeader: PropTypes.node,
+  // Optional title.
   titleText: PropTypes.string,
 
-  // Classes.
+  // Classes
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
