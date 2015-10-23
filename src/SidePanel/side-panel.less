@@ -1,3 +1,26 @@
+/* -----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+side-panel.less
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------------- */
+
+
+
+
+
+
+/* -----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+Side Panel
+
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------------- */
+
 .side-panel {
 
   position: fixed;
@@ -5,7 +28,6 @@
   right: 0;
   width: @side-panel-width;
   height: 100%;
-
   margin: 0px;
   z-index: @z-index-side-panel + 1;
   background-color: @side-panel-background-color;
@@ -29,90 +51,6 @@
     outline: 0;
 
   }
-
-
-
-
-
-
-
-
-  /* -----------------------------------------------------------------------------
-  --------------------------------------------------------------------------------
-
-  Container
-
-  --------------------------------------------------------------------------------
-  ----------------------------------------------------------------------------- */
-
-  .container {
-
-    width: auto;
-    margin-left:  @side-panel-grid-container-gutter-width;
-    margin-right: @side-panel-grid-container-gutter-width;
-
-  }
-
-
-
-
-
-
-  /* -----------------------------------------------------------------------------
-  --------------------------------------------------------------------------------
-
-  Row
-
-  --------------------------------------------------------------------------------
-  ----------------------------------------------------------------------------- */
-
-  .row {
-
-    margin-left: -@side-panel-grid-gutter-width;
-    margin-right: -@side-panel-grid-gutter-width;
-
-    [class^="column-"] {
-
-      padding-left: @side-panel-grid-gutter-width;
-      padding-right: @side-panel-grid-gutter-width;
-
-    }
-
-  }
-
-
-
-
-
-
-  /* -----------------------------------------------------------------------------
-  --------------------------------------------------------------------------------
-
-  Column Overflow
-
-  --------------------------------------------------------------------------------
-  ----------------------------------------------------------------------------- */
-
-  .column-overflow {
-
-    margin-top: @side-panel-grid-container-gutter-width;
-
-    &.column-overflow-short {
-
-      margin-top: @side-panel-grid-container-gutter-width;
-
-    }
-
-    &.column-overflow-tall {
-
-      margin-top: @side-panel-grid-container-gutter-width;
-
-    }
-
-  }
-
-
-
 
 
 
@@ -142,10 +80,125 @@
     border-left-color: @side-panel-header-border-left-color;
     .box-shadow(@side-panel-header-shadow);
     .border-radius(@side-panel-border-radius @side-panel-border-radius 0px 0px);
+
+    > .side-panel-header-container {
+
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: row;
+
+    }
+
+    /* -----------------------------------------------------------------------------
+    Side Panel Header Content
+    ----------------------------------------------------------------------------- */
+
+    .side-panel-header-content {
+
+      flex-grow: 2;
+      flex-basis: 0;
+
+      .side-panel-header-content-title {
+
+        color: @side-panel-header-content-title-text-color;
+        font-family: @side-panel-header-content-title-text-font-family;
+        font-size: @side-panel-header-content-title-text-font-size;
+        font-style: @side-panel-header-content-title-text-font-style;
+        font-weight: @side-panel-header-content-title-text-font-weight;
+        line-height: @side-panel-header-content-title-text-line-height;
+        text-transform: @side-panel-header-content-title-text-transform;
+        text-shadow: @side-panel-header-content-title-text-shadow;
+
+      }
+
+      .side-panel-header-content-subtitle {
+
+        color: @side-panel-header-content-subtitle-text-color;
+        font-family: @side-panel-header-content-subtitle-text-font-family;
+        font-size: @side-panel-header-content-subtitle-text-font-size;
+        font-style: @side-panel-header-content-subtitle-text-font-style;
+        font-weight: @side-panel-header-content-subtitle-text-font-weight;
+        line-height: @side-panel-header-content-subtitle-text-line-height;
+        text-transform: @side-panel-header-content-subtitle-text-transform;
+        text-shadow: @side-panel-header-content-subtitle-text-shadow;
+
+      }
+
+    }
+
+    /* -----------------------------------------------------------------------------
+    Side Panel Header Actions
+    ----------------------------------------------------------------------------- */
+
+    .side-panel-header-actions {
+
+      flex-grow: 1;
+      flex-basis: 0;
+
+      &.side-panel-header-actions-primary {
+
+      }
+
+      &.side-panel-header-actions-secondary {
+
+        text-align: right;
+
+      }
+
+    }
+
+    /* -----------------------------------------------------------------------------
+    Side Panel Header Action
+    ----------------------------------------------------------------------------- */
+
+    .side-panel-header-action {
+
+      cursor: pointer;
+      display: inline-block;
+      color: @side-panel-header-action-text-color;
+      font-family: @side-panel-header-action-text-font-family;
+      font-size: @side-panel-header-action-text-font-size;
+      font-style: @side-panel-header-action-text-font-style;
+      font-weight: @side-panel-header-action-text-font-weight;
+      line-height: @side-panel-header-action-text-line-height;
+      text-transform: @side-panel-header-action-text-transform;
+      text-shadow: @side-panel-header-action-text-shadow;
+
+      .icon {
+
+        margin-right: @base-spacing-unit * 0.25;
+        vertical-align: middle;
+        .opacity(0.6);
+
+        &:last-child {
+
+          margin-right: 0px;
+          margin-left: @base-spacing-unit * 0.25;
+
+        }
+
+      }
+
+      span {
+
+        vertical-align: middle;
+
+      }
+
+      &:hover {
+
+        .icon {
+
+          .opacity(1.0);
+
+        }
+
+      }
+
+    }
+
   }
-
-
-
 
 
 
@@ -160,6 +213,9 @@
   .side-panel-content {
 
     .clearfix();
+    border: 0;
+    flex: 3 3 100%;
+    width: 100%;
     display: block;
     position: relative;
     z-index: @z-index-side-panel + 3;
@@ -176,10 +232,6 @@
     border-left-color: @side-panel-content-border-left-color;
     .border-radius(@side-panel-border-radius);
 
-    .side-panel-inner-content {
-      margin: 0 20px;
-    }
-
     + .side-panel-footer {
 
       .box-shadow(@side-panel-footer-shadow);
@@ -187,9 +239,6 @@
     }
 
   }
-
-
-
 
 
 
@@ -225,12 +274,11 @@
 
 
 
-
-
-
 /* -----------------------------------------------------------------------------
 --------------------------------------------------------------------------------
+
 Side Panel Backdrop
+
 --------------------------------------------------------------------------------
 ----------------------------------------------------------------------------- */
 
@@ -243,6 +291,7 @@ Side Panel Backdrop
   left: 0;
   z-index: @z-index-side-panel;
   background-color: @side-panel-backdrop-background-color;
+
 }
 
 
@@ -278,69 +327,58 @@ Side Panel Backdrop
 
 
 
-
-
-
       /* -----------------------------------------------------------------------------
       --------------------------------------------------------------------------------
 
-      Container
+      Side Panel Header
 
       --------------------------------------------------------------------------------
       ----------------------------------------------------------------------------- */
 
-      .container {
+      .side-panel-header {
 
-        margin-left:  @side-panel-grid-container-gutter-width-screen-mini;
-        margin-right: @side-panel-grid-container-gutter-width-screen-mini;
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Content
+        ----------------------------------------------------------------------------- */
 
-      }
+        .side-panel-header-content {
 
+          & when (@side-panel-header-content-title-screen-mini-enabled) {
 
+            .side-panel-header-content-title {
 
+              font-size: @side-panel-header-content-title-text-font-size * @side-panel-header-content-title-text-font-size-scale-screen-mini;
+              line-height: @side-panel-header-content-title-text-line-height * @side-panel-header-content-title-text-line-height-scale-screen-mini;
 
+            }
 
+          }
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+          & when (@side-panel-header-content-subtitle-screen-mini-enabled) {
 
-      Row
+            .side-panel-header-content-subtitle {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              font-size: @side-panel-header-content-subtitle-text-font-size * @side-panel-header-content-subtitle-text-font-size-scale-screen-mini;
+              line-height: @side-panel-header-content-subtitle-text-line-height * @side-panel-header-content-subtitle-text-line-height-scale-screen-mini;
 
-      .row {
+            }
 
-        margin-left: -@side-panel-grid-gutter-width-screen-mini;
-        margin-right: -@side-panel-grid-gutter-width-screen-mini;
-
-        [class^="column-"] {
-
-          padding-left: @side-panel-grid-gutter-width-screen-mini;
-          padding-right: @side-panel-grid-gutter-width-screen-mini;
+          }
 
         }
 
-      }
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Action
+        ----------------------------------------------------------------------------- */
 
+        .side-panel-header-action {
 
+          & when (@side-panel-header-action-scale-screen-mini-enabled) {
 
+            font-size: @side-panel-header-action-text-font-size * @side-panel-header-action-text-font-size-scale-screen-mini;
+            line-height: @side-panel-header-action-text-line-height * @side-panel-header-action-text-line-height-scale-screen-mini;
 
-
-
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
-
-      Column Overflow
-
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
-
-      .column-overflow {
-
-        &[class*="column-mini-"] {
-
-          margin-top: 0px;
+          }
 
         }
 
@@ -384,69 +422,71 @@ Side Panel Backdrop
 
 
 
-
-
-
       /* -----------------------------------------------------------------------------
       --------------------------------------------------------------------------------
 
-      Container
+      Side Panel Header
 
       --------------------------------------------------------------------------------
       ----------------------------------------------------------------------------- */
 
-      .container {
+      .side-panel-header {
 
-        margin-left:  @side-panel-grid-container-gutter-width-screen-small;
-        margin-right: @side-panel-grid-container-gutter-width-screen-small;
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Content
+        ----------------------------------------------------------------------------- */
 
-      }
+        .side-panel-header-content {
 
+          & when (@side-panel-header-content-title-screen-small-enabled) {
 
+            .side-panel-header-content-title {
 
+              font-size: @side-panel-header-content-title-text-font-size * @side-panel-header-content-title-text-font-size-scale-screen-small;
+              line-height: @side-panel-header-content-title-text-line-height * @side-panel-header-content-title-text-line-height-scale-screen-small;
 
+            }
 
+          }
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+          & when (@side-panel-header-content-subtitle-screen-small-enabled) {
 
-      Row
+            .side-panel-header-content-subtitle {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              font-size: @side-panel-header-content-subtitle-text-font-size * @side-panel-header-content-subtitle-text-font-size-scale-screen-small;
+              line-height: @side-panel-header-content-subtitle-text-line-height * @side-panel-header-content-subtitle-text-line-height-scale-screen-small;
 
-      .row {
+            }
 
-        margin-left: -@side-panel-grid-gutter-width-screen-small;
-        margin-right: -@side-panel-grid-gutter-width-screen-small;
-
-        [class^="column-"] {
-
-          padding-left: @side-panel-grid-gutter-width-screen-small;
-          padding-right: @side-panel-grid-gutter-width-screen-small;
+          }
 
         }
 
-      }
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Action
+        ----------------------------------------------------------------------------- */
 
+        .side-panel-header-action {
 
+          & when (@side-panel-header-action-scale-screen-small-enabled) {
 
+            font-size: @side-panel-header-action-text-font-size * @side-panel-header-action-text-font-size-scale-screen-small;
+            line-height: @side-panel-header-action-text-line-height * @side-panel-header-action-text-line-height-scale-screen-small;
 
+          }
 
+          .icon {
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+            margin-right: @base-spacing-unit-screen-small * 0.125;
 
-      Column Overflow
+            &:last-child {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              margin-right: 0px;
+              margin-left: @base-spacing-unit-screen-small * 0.125;
 
-      .column-overflow {
+            }
 
-        &[class*="column-small-"] {
-
-          margin-top: 0px;
+          }
 
         }
 
@@ -490,69 +530,71 @@ Side Panel Backdrop
 
 
 
-
-
-
       /* -----------------------------------------------------------------------------
       --------------------------------------------------------------------------------
 
-      Container
+      Side Panel Header
 
       --------------------------------------------------------------------------------
       ----------------------------------------------------------------------------- */
 
-      .container {
+      .side-panel-header {
 
-        margin-left:  @side-panel-grid-container-gutter-width-screen-medium;
-        margin-right: @side-panel-grid-container-gutter-width-screen-medium;
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Content
+        ----------------------------------------------------------------------------- */
 
-      }
+        .side-panel-header-content {
 
+          & when (@side-panel-header-content-title-screen-medium-enabled) {
 
+            .side-panel-header-content-title {
 
+              font-size: @side-panel-header-content-title-text-font-size * @side-panel-header-content-title-text-font-size-scale-screen-medium;
+              line-height: @side-panel-header-content-title-text-line-height * @side-panel-header-content-title-text-line-height-scale-screen-medium;
 
+            }
 
+          }
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+          & when (@side-panel-header-content-subtitle-screen-medium-enabled) {
 
-      Row
+            .side-panel-header-content-subtitle {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              font-size: @side-panel-header-content-subtitle-text-font-size * @side-panel-header-content-subtitle-text-font-size-scale-screen-medium;
+              line-height: @side-panel-header-content-subtitle-text-line-height * @side-panel-header-content-subtitle-text-line-height-scale-screen-medium;
 
-      .row {
+            }
 
-        margin-left: -@side-panel-grid-gutter-width-screen-medium;
-        margin-right: -@side-panel-grid-gutter-width-screen-medium;
-
-        [class^="column-"] {
-
-          padding-left: @side-panel-grid-gutter-width-screen-medium;
-          padding-right: @side-panel-grid-gutter-width-screen-medium;
+          }
 
         }
 
-      }
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Action
+        ----------------------------------------------------------------------------- */
 
+        .side-panel-header-action {
 
+          & when (@side-panel-header-action-scale-screen-medium-enabled) {
 
+            font-size: @side-panel-header-action-text-font-size * @side-panel-header-action-text-font-size-scale-screen-medium;
+            line-height: @side-panel-header-action-text-line-height * @side-panel-header-action-text-line-height-scale-screen-medium;
 
+          }
 
+          .icon {
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+            margin-right: @base-spacing-unit-screen-medium * 0.125;
 
-      Column Overflow
+            &:last-child {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              margin-right: 0px;
+              margin-left: @base-spacing-unit-screen-medium * 0.125;
 
-      [class^="column-"].column-overflow {
+            }
 
-        &[class^="column-medium-"] {
-
-          margin-top: 0px;
+          }
 
         }
 
@@ -596,69 +638,71 @@ Side Panel Backdrop
 
 
 
-
-
-
       /* -----------------------------------------------------------------------------
       --------------------------------------------------------------------------------
 
-      Container
+      Side Panel Header
 
       --------------------------------------------------------------------------------
       ----------------------------------------------------------------------------- */
 
-      .container {
+      .side-panel-header {
 
-        margin-left:  @side-panel-grid-container-gutter-width-screen-large;
-        margin-right: @side-panel-grid-container-gutter-width-screen-large;
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Content
+        ----------------------------------------------------------------------------- */
 
-      }
+        .side-panel-header-content {
 
+          & when (@side-panel-header-content-title-screen-large-enabled) {
 
+            .side-panel-header-content-title {
 
+              font-size: @side-panel-header-content-title-text-font-size * @side-panel-header-content-title-text-font-size-scale-screen-large;
+              line-height: @side-panel-header-content-title-text-line-height * @side-panel-header-content-title-text-line-height-scale-screen-large;
 
+            }
 
+          }
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+          & when (@side-panel-header-content-subtitle-screen-large-enabled) {
 
-      Row
+            .side-panel-header-content-subtitle {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              font-size: @side-panel-header-content-subtitle-text-font-size * @side-panel-header-content-subtitle-text-font-size-scale-screen-large;
+              line-height: @side-panel-header-content-subtitle-text-line-height * @side-panel-header-content-subtitle-text-line-height-scale-screen-large;
 
-      .row {
+            }
 
-        margin-left: -@side-panel-grid-gutter-width-screen-large;
-        margin-right: -@side-panel-grid-gutter-width-screen-large;
-
-        [class^="column-"] {
-
-          padding-left: @side-panel-grid-gutter-width-screen-large;
-          padding-right: @side-panel-grid-gutter-width-screen-large;
+          }
 
         }
 
-      }
+        /* -----------------------------------------------------------------------------
+        Side Panel Header Action
+        ----------------------------------------------------------------------------- */
 
+        .side-panel-header-action {
 
+          & when (@side-panel-header-action-scale-screen-large-enabled) {
 
+            font-size: @side-panel-header-action-text-font-size * @side-panel-header-action-text-font-size-scale-screen-large;
+            line-height: @side-panel-header-action-text-line-height * @side-panel-header-action-text-line-height-scale-screen-large;
 
+          }
 
+          .icon {
 
-      /* -----------------------------------------------------------------------------
-      --------------------------------------------------------------------------------
+            margin-right: @base-spacing-unit-screen-large * 0.125;
 
-      Column Overflow
+            &:last-child {
 
-      --------------------------------------------------------------------------------
-      ----------------------------------------------------------------------------- */
+              margin-right: 0px;
+              margin-left: @base-spacing-unit-screen-large * 0.125;
 
-      [class^="column-"].column-overflow {
+            }
 
-        &[class^="column-large-"] {
-
-          margin-top: 0px;
+          }
 
         }
 
@@ -670,40 +714,67 @@ Side Panel Backdrop
 
 }
 
+
+
+
+
+
+/* -----------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+Side Panel Animations
+
+--------------------------------------------------------------------------------
+----------------------------------------------------------------------------- */
+
 .side-panel-slide-left-enter {
+
   transform: translate(100%, 0);
   transition: transform .5s ease-in;
 
   &.side-panel-slide-left-enter-active {
+
     transform: translate(0, 0);
+
   }
+
 }
 
-
 .side-panel-slide-left-leave {
+
   transform: translate(0, 0);
 
   &.side-panel-slide-left-leave-active {
+
     transform: translate(100%, 0);
     transition: transform .5s ease-in;
+
   }
+
 }
 
 .side-panel-fade-in-enter {
+
   .opacity(0);
   transition: opacity .5s ease-in;
 
   &.side-panel-fade-in-enter-active {
+
     .opacity(1);
+
   }
+
 }
 
-
 .side-panel-fade-in-leave {
+
   .opacity(1);
 
   &.side-panel-fade-in-leave-active {
+
     .opacity(0);
     transition: opacity .5s ease-in;
+
   }
+
 }
