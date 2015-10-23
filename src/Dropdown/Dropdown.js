@@ -155,14 +155,6 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.propTypes = {
-  // Classname for the element that ther user interacts with to open menu.
-  buttonClassName: React.PropTypes.string,
-  // Classname for the dropdown menu wrapper.
-  dropdownMenuClassName: React.PropTypes.string,
-  // Classname for the dropdown list wrapper.
-  dropdownMenuListClassName: React.PropTypes.string,
-  // Classname for the dropdown list item.
-  dropdownMenuListItemClassName: React.PropTypes.string,
   // The items to display in the dropdown.
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
@@ -188,7 +180,7 @@ Dropdown.propTypes = {
       ])
     })
   ).isRequired,
-  // An optional callback when an item is slected. Will receive an arugment
+  // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
   // The ID of the item that should be selected by default.
@@ -201,6 +193,16 @@ Dropdown.propTypes = {
   transition: React.PropTypes.bool,
   // The prefix of the transition classnames.
   transitionName: React.PropTypes.string,
+
+  // Classes:
+  // Classname for the element that ther user interacts with to open menu.
+  buttonClassName: React.PropTypes.string,
+  // Classname for the dropdown menu wrapper.
+  dropdownMenuClassName: React.PropTypes.string,
+  // Classname for the dropdown list wrapper.
+  dropdownMenuListClassName: React.PropTypes.string,
+  // Classname for the dropdown list item.
+  dropdownMenuListItemClassName: React.PropTypes.string,
   // Classname for the element that wraps the entire component.
   wrapperClassName: React.PropTypes.string
 };
