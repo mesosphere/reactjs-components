@@ -89,7 +89,7 @@ class DropdownExample extends React.Component {
     return (
       <div>
         <section className="row canvas-pod">
-          <div className="container container-pod">
+          <div>
             <div className="row">
               <div className="column-12">
                 <h2>Dropdowns</h2>
