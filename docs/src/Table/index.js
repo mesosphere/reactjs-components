@@ -365,7 +365,7 @@ class TableExample extends React.Component {
 `}
               </pre>
             </div>
-            <h3>Table Examples</h3>
+            <h3>Examples</h3>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
                 <div className="container container-pod container-pod-short
