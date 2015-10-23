@@ -210,7 +210,7 @@ class TableExample extends React.Component {
   getManyRows() {
     let oldRows = rows.slice(0);
     let newRows = [];
-    for (var i = 0; i < 100000; i++) {
+    for (var i = 0; i < 10000; i++) {
       let item = oldRows[Math.floor(Math.random() * oldRows.length)];
       newRows.push({
         name: item.name,
@@ -535,7 +535,7 @@ class TableExample extends React.Component {
                   flush-top row row-flex">
                   <div className="column-12">
                     <p>
-                      Here is a scroll table with 100k items. It will not grow beyond window height. The data is not sorted by default.
+                      Here is a scroll table with 10k items. It will not grow beyond window height. The data is not sorted by default.
                     </p>
                   </div>
                 </div>
@@ -648,7 +648,7 @@ class InfiniteScrollExample extends React.Component {
   getManyRows() {
     let oldRows = rows.slice(0);
     let newRows = [];
-    for (var i = 0; i < 100000; i++) {
+    for (var i = 0; i < 10000; i++) {
       let item = oldRows[Math.floor(Math.random() * oldRows.length)];
       newRows.push({
         name: item.name,
