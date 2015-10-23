@@ -295,7 +295,7 @@ ModalContents.propTypes = {
   // Optional title.
   titleText: PropTypes.string,
 
-  // HTML classes
+  // Classes
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,

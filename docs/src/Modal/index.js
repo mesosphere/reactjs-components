@@ -27,7 +27,7 @@ class ModalExample extends React.Component {
   getModalFooter() {
     return (
       <div>
-        <h5 className="text-align-center">This is not a Footer</h5>
+        <h5 className="text-align-center">hello footer</h5>
       </div>
     );
   }
@@ -67,7 +67,7 @@ class ModalExample extends React.Component {
   // Optional title.
   titleText: PropTypes.string,
 
-  // HTML classes
+  // Classes
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
@@ -153,7 +153,7 @@ class ModalExample extends React.Component {
   getModalFooter() {
     return (
       <div>
-        <h5 className="text-align-center">This is not a Footer</h5>
+        <h5 className="text-align-center">hello footer</h5>
       </div>
     );
   }
