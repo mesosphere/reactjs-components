@@ -51,9 +51,16 @@ class SidePanelExample extends React.Component {
           {`Panel #${id}`}
         </h3>
         <p
-          className="side-panel-header-content-subtitle text-align-centerflush">
+          className="side-panel-header-content-subtitle text-align-center flush">
           {description}
         </p>
+      </div>,
+      <div
+        key="header-actions-secondary"
+        className="
+          side-panel-header-actions
+          side-panel-header-actions-secondary"
+        >
       </div>
     ];
   }
