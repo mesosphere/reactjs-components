@@ -35,7 +35,7 @@ class ModalExample extends React.Component {
   render() {
     return (
       <div className="row canvas-pod">
-        <div className="container container-pod">
+        <div>
           <section className="row canvas-pod">
             <div className="column-12">
               <h2>Modals</h2>

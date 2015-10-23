@@ -92,7 +92,7 @@ class ListExample extends React.Component {
     return (
       <div>
         <section className="row canvas-pod">
-          <div className="container container-pod">
+          <div>
             <div className="row row-flex row-flex-align-vertical-center">
               <div className="column-12">
                 <h2>

@@ -57,7 +57,7 @@ class SidePanelExample extends React.Component {
   render() {
     return (
       <div className="row canvas-pod">
-        <div className="container container-pod">
+        <div>
           <h2 className="short-bottom">Side panels</h2>
           <p>
             A side panel component that is hidden until opened by interaction. Can be used for showing things that are useful only at certain times, such as a settings sidebar or specific item information.
@@ -160,8 +160,8 @@ class SidePanelExample extends React.Component {
           header={this.getHeader()}
           open={this.state.panelIsOpen}
           onClose={this.handlePanelClose}>
-          <div>
-            <p className="container-pod container-pod-short flush-bottom">
+          <div className="container-pod container-pod-short flush-bottom">
+            <p>
               This side panel will scroll vertically, but not horizontally.
             </p>
             <p className="container-pod container-pod-short flush-bottom">
