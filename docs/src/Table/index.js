@@ -236,7 +236,7 @@ class TableExample extends React.Component {
     return (
       <div>
         <section className="row canvas-pod">
-          <div className="container container-pod flush-bottom">
+          <div className="flush-bottom">
             <h2>Tables</h2>
             <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll).</p>
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
@@ -368,7 +368,7 @@ class TableExample extends React.Component {
             <h3>Examples</h3>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
-                <div className="container container-pod container-pod-short
+                <div className="container-pod-short
                   flush-top row row-flex">
                   <div className="column-9">
                     <p>A simple example table with transition enabled.</p>
@@ -527,12 +527,11 @@ class TableExample extends React.Component {
           </div>
         </section>
         <section className="row canvas-pod">
-          <div className="container container-pod">
+          <div>
             <h4>Infinite Scroll Example</h4>
             <div className="example-block flush-bottom">
               <div className="example-block-content">
-                <div className="container container-pod container-pod-short
-                  flush-top row row-flex">
+                <div className="row row-flex">
                   <div className="column-12">
                     <p>
                       Here is a scroll table with 10k items. It will not grow beyond window height. The data is not sorted by default.
