@@ -1,8 +1,8 @@
 {
   "name": "reactjs-components",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "npm-shrinkwrap-version": "5.4.0",
-  "node-version": "v0.10.40",
+  "node-version": "v0.10.39",
   "dependencies": {
     "body-parser": {
       "version": "1.13.3",
