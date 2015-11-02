@@ -3,6 +3,8 @@ var TestUtils = React.addons.TestUtils;
 
 jest.dontMock('../ModalContents');
 jest.dontMock('../../Util/DOMUtil');
+jest.dontMock('../../Util/Util');
+jest.dontMock('../../Mixin/BindMixin');
 
 var ModalContents = require('../ModalContents');
 

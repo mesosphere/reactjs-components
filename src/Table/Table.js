@@ -3,7 +3,9 @@ import DOMUtil from '../Util/DOMUtil';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import Util from '../Util/Util';
+console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', Util.mixin(BindMixin));
 import VirtualList from '../VirtualList/VirtualList';
+
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 

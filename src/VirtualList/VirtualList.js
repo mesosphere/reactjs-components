@@ -4,6 +4,7 @@
  */
 
 /* eslint react/no-did-mount-set-state: 0 */
+console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%', Util.mixin(BindMixin));
 import BindMixin from '../Mixin/BindMixin';
 import React from 'react';
 import Util from '../Util/Util';
@@ -17,8 +18,10 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return ['onScroll'];
   }
+
   constructor() {
     super(arguments);
+
     this.state = {
       bufferEnd: 0,
       bufferStart: 0,
@@ -68,8 +71,8 @@ export default class VirtualList extends Util.mixin(BindMixin) {
 
     // Early return if nothing to render
     if (typeof props.container === 'undefined' ||
-        props.items.length === 0 ||
-        props.itemHeight <= 0) {
+      props.items.length === 0 ||
+      props.itemHeight <= 0) {
       return state;
     }
 
@@ -145,11 +148,11 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     }
 
     return (
-    <props.tagName {...props}>
-      {props.renderBufferItem(topStyles)}
-      {state.items.map(props.renderItem)}
-      {props.renderBufferItem(bottomStyles)}
-    </props.tagName>
+      <props.tagName {...props}>
+        {props.renderBufferItem(topStyles)}
+        {state.items.map(props.renderItem)}
+        {props.renderBufferItem(bottomStyles)}
+      </props.tagName>
     );
   }
 
