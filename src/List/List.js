@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, {PropTypes} from 'react/addons';
 
 import ListItem from './ListItem';
@@ -36,8 +35,6 @@ export default class List extends React.Component {
   }
 
   render() {
-    let defaultClass = List.defaultProps.className;
-    let classes = classNames(this.props.className, defaultClass);
     let Tag = this.props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
@@ -56,7 +53,7 @@ export default class List extends React.Component {
     }
 
     return (
-      <Tag {...attributes} className={classes}>
+      <Tag {...attributes} className={this.props.className}>
         {this.getListItems(this.props.content)}
       </Tag>
     );
