@@ -52,7 +52,8 @@
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
     "dist": "npm run clean && NODE_ENV='production' ./node_modules/.bin/gulp docs:dist",
-    "dist-src": "rm -rf ./lib && cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
+    "predist-src": "rm -rf ./lib",
+    "dist-src": "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
     "test": "jest",
