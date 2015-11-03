@@ -329,7 +329,7 @@ export default class Table extends React.Component {
 
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
-    if (data.lenght && (itemHeight === 0 || itemListHeight > containerHeight)) {
+    if (data.length && (itemHeight === 0 || itemListHeight > containerHeight)) {
       tableContent =
         this.getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute);
     } else {
