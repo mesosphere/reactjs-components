@@ -1,4 +1,4 @@
-@keyframes slide-down {
+@keyframes dropdown-slide-down {
   0% {
     transform: translateY(-30px);
   }
@@ -7,7 +7,7 @@
   }
 }
 
-@keyframes slide-up {
+@keyframes dropdown-slide-up {
   0% {
     transform: translateY(0);
   }
@@ -16,7 +16,7 @@
   }
 }
 
-@keyframes fade-in {
+@keyframes dropdown-fade-in {
   0% {
     opacity: 0;
   }
@@ -25,7 +25,7 @@
   }
 }
 
-@keyframes fade-out {
+@keyframes dropdown-fade-out {
   0% {
     opacity: 1;
   }
@@ -81,11 +81,11 @@
 }
 
 .dropdown-menu-enter {
-  animation: fade-in 0.25s, slide-down 0.25s;
+  animation: dropdown-fade-in 0.25s, dropdown-slide-down 0.25s;
 }
 
 .dropdown-menu-leave {
-  animation: fade-out 0.25s, slide-up 0.25s;
+  animation: dropdown-fade-out 0.25s, dropdown-slide-up 0.25s;
   z-index: 3;
 }
 
