@@ -57,10 +57,10 @@
   z-index: 2;
 
   &:after {
-    transition: transform 0.25s;
 
     .open & {
-      transform: rotate(180deg);
+      // translate hack activates gpu to prevent jerky animation bug
+      transform: rotate(180deg) translate3d(0, 0, 0);
     }
   }
 }
