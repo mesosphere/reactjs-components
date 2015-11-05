@@ -112,14 +112,18 @@ export default class Table extends React.Component {
       let scrollContainerHeight =
         DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
         headerHeight;
-      // Calculate the element we grow with flex
-      let growContainer = scrollContainerHeight -
-        DOMUtil.getComputedDimensions(newState.scrollContainer).height;
 
-      // Check if the table can grow to take up the rest of its parent.
-      // If it can select the smallest viewport; parent or window.
-      if (growContainer > 0) {
-        newState.viewportHeight = scrollContainerHeight;
+      // Gemini may not always be present
+      if (newState.scrollContainer) {
+        // Calculate the element we grow with flex
+        let growContainer = scrollContainerHeight -
+          DOMUtil.getComputedDimensions(newState.scrollContainer).height;
+
+        // Check if the table can grow to take up the rest of its parent.
+        // If it can select the smallest viewport; parent or window.
+        if (growContainer > 0) {
+          newState.viewportHeight = scrollContainerHeight;
+        }
       }
     }
 
