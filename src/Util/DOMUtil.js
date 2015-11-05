@@ -46,17 +46,21 @@ const DOMUtil = {
     }
 
     var width = [
-      'paddingLeft',
-      'paddingRight',
       'borderLeftWidth',
-      'borderRightWidth'
+      'borderRightWidth',
+      'marginLeft',
+      'marginRight',
+      'paddingLeft',
+      'paddingRight'
     ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetWidth);
 
     var height = [
-      'paddingTop',
-      'paddingBottom',
       'borderTopWidth',
-      'borderBottomWidth'
+      'borderBottomWidth',
+      'marginTop',
+      'marginBottom',
+      'paddingTop',
+      'paddingBottom'
     ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetHeight);
 
     return {
