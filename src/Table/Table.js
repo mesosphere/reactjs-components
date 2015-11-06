@@ -100,7 +100,21 @@ export default class Table extends React.Component {
       ).height;
     }
 
-    if (state.viewportHeight == null) {
+    if (props.useFlex) {
+      let headerHeight = DOMUtil.getComputedDimensions(
+        React.findDOMNode(refs.headers)
+      ).height;
+
+      // Default to not grow beyond the specified ratio of viewport height
+      newState.viewportHeight =
+        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
+      // Calculated scroll container height
+
+      let scrollContainerHeight =
+        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
+        headerHeight - 30; // 30px for padding
+      newState.viewportHeight = scrollContainerHeight;
+    } else if (state.viewportHeight == null) {
       let headerHeight = DOMUtil.getComputedDimensions(
         React.findDOMNode(refs.headers)
       ).height;
@@ -363,19 +377,27 @@ export default class Table extends React.Component {
 
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
-    if (data.length && (itemHeight === 0 || itemListHeight > containerHeight)) {
+    if (data.length &&
+      (props.useFlex || itemHeight === 0 || itemListHeight > containerHeight)
+      ) {
       tableContent =
-        this.getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute);
+        this.getScrollTable(
+          columns, data, sortBy, itemHeight, containerHeight, idAttribute
+        );
     } else {
       tableContent = this.getTable(columns, data, sortBy, idAttribute);
     }
+
     let styles = {};
-    if (state.viewportHeight == null) {
+    let className = "";
+
+    if (props.useFlex) {
+      className = "no-overflow";
       styles.flexGrow = 1;
     }
 
     return (
-      <div ref="container" style={styles}>
+      <div ref="container" className={className} style={styles}>
         <table ref="headers" className={classes}>
           {props.colGroup}
           <thead>
@@ -393,6 +415,7 @@ export default class Table extends React.Component {
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
   sortBy: {},
+  useFlex: false,
   windowRatio: 0.8
 };
 
@@ -450,6 +473,8 @@ Table.propTypes = {
   // Optional property to add transitions or turn them off. Default is off.
   // Only available for tables that does not scroll
   transition: PropTypes.bool,
+
+  useFlex: PropTypes.bool,
 
   // Optional property to set a ratio of the window you want the table
   // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
