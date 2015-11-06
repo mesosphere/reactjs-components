@@ -22,7 +22,7 @@ let sortData = (columns, data, sortBy) => {
 
   if (sortFunction) {
     // Use custom sort method if specified.
-    data = Util.sortBy(data, sortFunction(sortBy.prop));
+    data = Util.sortBy(data, sortFunction(sortBy.prop, sortBy.order));
   } else {
     // Otherwise, use default sorting.
     data = Util.sortBy(data, sortBy.prop);
