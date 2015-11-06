@@ -389,10 +389,10 @@ export default class Table extends React.Component {
     }
 
     let styles = {};
-    let className = "";
+    let className = '';
 
     if (props.useFlex) {
-      className = "no-overflow";
+      className = 'no-overflow';
       styles.flexGrow = 1;
     }
 
