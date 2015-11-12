@@ -1,4 +1,4 @@
-# ReactJS-components
+# ReactJS-components [![Build Status](https://travis-ci.org/mesosphere/reactjs-components.svg?branch=master)](https://travis-ci.org/mesosphere/reactjs-components)
 A library of reusable React components. For examples, take a look at our
 [kitchen sink](http://mesosphere.github.io/reactjs-components/).
 
