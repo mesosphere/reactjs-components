@@ -45,7 +45,7 @@ export default class SidePanelContents extends Util.mixin(BindMixin) {
 
   handleBackdropClick() {
     if (this.props.closeByBackdropClick) {
-      this.closeSidePanel();
+      this.closeSidePanel(true);
     }
   }
 
