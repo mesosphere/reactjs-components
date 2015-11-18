@@ -129,11 +129,14 @@ describe('ModalContents', function () {
       }.bind(this);
     });
 
-    it('should default to auto if a bad value is passed in', function () {
+    it('should default to auto height on invalid input', function () {
       var calculatedHeight = this.instance.calculateModalHeight();
-      this.mockHeight = null;
       expect(calculatedHeight.height).toEqual('auto');
-      expect(calculatedHeight.innerHeight).toEqual('auto');
+    });
+
+    it('should default to auto contentHeight on invalid input', function () {
+      var calculatedHeight = this.instance.calculateModalHeight();
+      expect(calculatedHeight.contentHeight).toEqual('auto');
     });
 
     it('should not give a height that is bigger than maxHeight', function () {
@@ -152,7 +155,7 @@ describe('ModalContents', function () {
       expect(calculatedHeight.height)
         .toEqual(this.mockHeight.maxHeight - headerAndFooterHeight);
 
-      expect(calculatedHeight.innerHeight)
+      expect(calculatedHeight.contentHeight)
         .toEqual(calculatedHeight.height - this.mockHeight.outerHeight);
     });
 
@@ -168,7 +171,7 @@ describe('ModalContents', function () {
       var calculatedHeight = this.instance.calculateModalHeight();
 
       expect(calculatedHeight.height).toEqual(this.mockHeight.originalHeight);
-      expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.innerHeight);
+      expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.contentHeight);
     });
   });
 });
