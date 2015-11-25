@@ -37,14 +37,15 @@ export default class FormControl extends React.Component {
   }
 
   render() {
-    let content = this.renderDefinition(this.props.definition);
+    let props = this.props;
+    let content = this.renderDefinition(props.definition);
 
     if (Util.isArray(content)) {
       content = _.flatten(content);
     }
 
     return (
-      <div className="form-row">
+      <div className={props.formControlClass}>
         {content}
       </div>
     );

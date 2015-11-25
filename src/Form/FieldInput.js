@@ -41,9 +41,9 @@ export default class FieldInput extends React.Component {
     let validationError = this.props.validationError;
     if (validationError && validationError[this.props.fieldName]) {
       errorMsg = (
-        <label className="form-validation-error-label">
+        <p className={this.props.helpBlockClass}>
           {this.props.errorText}
-        </label>
+        </p>
       );
     }
 
@@ -54,7 +54,7 @@ export default class FieldInput extends React.Component {
     let label = null;
     if (this.props.showLabel) {
       label = (
-        <label className="form-label">{this.props.fieldName}</label>
+        <label>{this.props.fieldName}</label>
       );
     }
 
@@ -70,6 +70,7 @@ export default class FieldInput extends React.Component {
       return (
         <input
           ref="inputElement"
+          className={this.props.inputClass}
           {...attributes}
           onChange={this.handleValueChange.bind(this)}
           onKeyDownCapture={this.onKeyDown.bind(this)}
@@ -81,6 +82,7 @@ export default class FieldInput extends React.Component {
       <span
         ref="inputElement"
         {...attributes}
+        className={this.props.readClass}
         onClick={attributes.onFocus}>
         {this.props.value || attributes.startValue}
       </span>

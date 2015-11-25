@@ -136,6 +136,14 @@ export default class Form extends React.Component {
   }
 
   getFormControls(definition) {
+    let props = _.pick(
+      this.props,
+      "readClass",
+      "inputClass",
+      "formControlClass",
+      "helpBlockClass"
+    );
+
     return definition.map((formControlOption, i) => {
       let isArray = Util.isArray(formControlOption);
 
@@ -175,14 +183,15 @@ export default class Form extends React.Component {
           onChange={this.handleValueChange}
           editing={this.state.editingField}
           validationError={showError}
-          currentValue={currentValue} />
+          currentValue={currentValue}
+          {...props} />
       );
     });
   }
 
   render() {
     return (
-      <form>
+      <form className={this.props.className}>
         {this.getFormControls(this.props.definition)}
       </form>
     );
