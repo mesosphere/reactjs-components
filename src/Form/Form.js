@@ -13,7 +13,8 @@ const METHODS_TO_BIND = [
 ];
 
 function findFieldOption(options, field) {
-  return _.find(options, function (fieldOption) {
+  var flattenedOptions = _.flatten(options);
+  return _.find(flattenedOptions, function (fieldOption) {
     return fieldOption.fieldName === field;
   });
 }
@@ -35,21 +36,23 @@ export default class Form extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.onSubmit) {
-      this.props.onSubmit(this.handleSubmit.bind(this));
+    if (this.props.triggerSubmit) {
+      this.props.triggerSubmit(this.handleSubmit.bind(this));
     }
 
     this.setState({
       model: this.buildModel(this.props.definition),
-      prevSaveModel: this.buildModel(this.props.definition)
+      prevSaveModel: this.buildModel(this.props.definition),
+      erroredFields: this.buildErroredFields(this.props.definition)
     });
   }
 
   handleSubmit() {
     let validated = this.validateSubmit();
 
-    if (validated) {
-      // else, make a request or something with the model.
+    if (validated && this.props.onSubmit) {
+      this.props.onSubmit(this.state.model);
+      this.setState({prevSaveModel: _.clone(this.state.model)});
       return;
     }
   }
@@ -86,7 +89,7 @@ export default class Form extends React.Component {
       return validation(value);
     }
 
-    return value.match(validation);
+    return validation.test(value);
   }
 
   validateSubmit() {
@@ -121,7 +124,7 @@ export default class Form extends React.Component {
 
     definition.forEach((formControlOption) => {
       if (Util.isArray(formControlOption)) {
-        _.merge(model, this.buildModel(formControlOption));
+        _.extend(model, this.buildModel(formControlOption));
         return;
       }
 
@@ -131,13 +134,27 @@ export default class Form extends React.Component {
     return model;
   }
 
+  buildErroredFields(definition) {
+    let flattenedOptions = _.flatten(definition);
+    let erroredFields = {};
+
+    flattenedOptions.forEach((formControlOption) => {
+      if (formControlOption.showError) {
+        erroredFields[formControlOption.fieldName] = true;
+      }
+    });
+
+    return erroredFields;
+  }
+
   getFormControls(definition) {
-    return definition.map((formControlOption, i) => {
+    let flattenedOptions = _.flatten(definition);
+
+    return flattenedOptions.map((formControlOption, i) => {
       let fieldName = formControlOption.fieldName;
       let currentlyEditing = fieldName === this.state.editingField;
 
-      let showError = this.state.erroredFields[fieldName]
-        || formControlOption.showError;
+      let showError = this.state.erroredFields[fieldName];
 
       return (
         <FormControl
@@ -145,7 +162,7 @@ export default class Form extends React.Component {
           definition={formControlOption}
           onBlur={this.handleBlur}
           onFocus={this.handleOnFocus}
-          onSubmit={this.handleSubmit}
+          triggerSubmit={this.handleSubmit}
           onChange={this.handleValueChange}
           editing={currentlyEditing}
           validationError={showError} />
@@ -166,45 +183,16 @@ export default class Form extends React.Component {
 
 Form.propTypes = {
   definition: PropTypes.array,
+  triggerSubmit: PropTypes.func,
   onSubmit: PropTypes.func
 
 };
 
 Form.defaultProps = {
+  triggerSubmit: function () {},
   onSubmit: function () {},
   definition: {}
 };
-
-/*
-  [
-    {
-      fieldName: "username",
-      value: "string",
-      validation: fn/regex,
-      placeholder: "",
-      fieldType: "",
-      required: true
-    },
-    [
-      {
-        fieldName: "password",
-        value: "string",
-        validation: fn/regex,
-        placeholder: "",
-        fieldType: "",
-        required: true
-      },
-      {
-        fieldName: "addy",
-        value: "string",
-        validation: fn/regex,
-        placeholder: "",
-        fieldType: "",
-        required: true
-      }
-    ]
-  ]
-*/
 
 /*
   TODO:
@@ -212,10 +200,11 @@ Form.defaultProps = {
   -x- Different field types
   -x- Required fields
   -x- Placeholders
-  ??? Handle form submit
+  -x- Only validate on submit
+  -x- Submission within form
+  -x- Validation error shows help text
+  -x- Handle form submit (it takes a callback and passes in the model)
+  -x- Have the current values be the value of the input
   Switch modes between edit, read, input (also, elements)
-  Only validate on submit
-  Figure out what a schema looks like and how to better merge it
-  Submission within form
-  Validation error shows help text
+  (another PR) Figure out what a schema looks like and how to better merge it
 */

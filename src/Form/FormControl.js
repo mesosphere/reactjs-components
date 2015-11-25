@@ -21,12 +21,10 @@ export default class FormControl extends React.Component {
     return (
       <FieldTypeComponent
         {...attributes}
-        errorMsg={definition.errorText}
-        fieldName={definition.fieldName}
-        placeholder={definition.placeholder}
-        showLabel={definition.showLabel}
-        type={definition.fieldType}
-        writeType={definition.writeType} />
+        {..._.omit(definition, "value", "fieldType")}
+        key={definition.fieldName}
+        startValue={definition.value}
+        type={definition.fieldType} />
     );
   }
 

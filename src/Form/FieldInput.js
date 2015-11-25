@@ -3,6 +3,10 @@ import classNames from "classnames";
 import React from "react";
 
 export default class FieldInput extends React.Component {
+  componentDidMount() {
+    React.findDOMNode(this.refs.inputElement).value = this.props.startValue;
+  }
+
   handleValueChange(event) {
     this.props.onChange(this.props.fieldName, event.target.value);
   }
@@ -19,7 +23,7 @@ export default class FieldInput extends React.Component {
     if (this.props.validationError) {
       errorMsg = (
         <label className="form-validation-error-label">
-          {this.props.errorMsg}
+          {this.props.errorText}
         </label>
       );
     }
@@ -41,7 +45,7 @@ export default class FieldInput extends React.Component {
   render() {
     let props = this.props;
     let attributes = _.omit(
-      props, "onChange", "onSubmit"
+      props, "onChange", "onSubmit", "value"
     );
     let formRowElementClassSet = classNames({
       "form-row-element": true,
