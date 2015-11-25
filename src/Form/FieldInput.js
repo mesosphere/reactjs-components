@@ -61,6 +61,10 @@ export default class FieldInput extends React.Component {
 
   getInputElement(attributes) {
     if (this.isEditing() || this.props.writeType === "input") {
+      // Bind field name as the first argument.
+      attributes.onBlur = attributes.onBlur.bind(this, this.props.fieldName);
+      attributes.onFocus = attributes.onFocus.bind(this, this.props.fieldName);
+
       return (
         <input
           ref="inputElement"
@@ -82,15 +86,10 @@ export default class FieldInput extends React.Component {
   }
 
   render() {
-    let props = this.props;
     let attributes = _.omit(
-      props, "onChange", "onSubmit", "value"
+      this.props, "onChange", "onSubmit", "value"
     );
-    let formRowElementClassSet = this.getRowClass(props);
-
-    // Bind field name as the first argument.
-    attributes.onBlur = attributes.onBlur.bind(this, props.fieldName);
-    attributes.onFocus = attributes.onFocus.bind(this, props.fieldName);
+    let formRowElementClassSet = this.getRowClass(this.props);
 
     return (
       <div className={formRowElementClassSet}>
