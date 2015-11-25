@@ -137,10 +137,33 @@ export default class Form extends React.Component {
 
   getFormControls(definition) {
     return definition.map((formControlOption, i) => {
-      let fieldName = formControlOption.fieldName;
-      let currentlyEditing = fieldName === this.state.editingField;
+      let isArray = Util.isArray(formControlOption);
 
-      let showError = this.state.erroredFields[fieldName];
+      let fieldName = formControlOption.fieldName;
+      if (isArray) {
+        fieldName = formControlOption.map(function (option) {
+          return option.fieldName;
+        });
+      }
+
+      let showError = {};
+      if (isArray) {
+        formControlOption.map((option) => {
+          showError[option.fieldName] =
+            this.state.erroredFields[option.fieldName];
+        });
+      } else {
+        showError[fieldName] = this.state.erroredFields[fieldName];
+      }
+
+      let currentValue = {};
+      if (isArray) {
+        formControlOption.forEach((option) => {
+          currentValue[option.fieldName] = this.state.model[option.fieldName];
+        });
+      } else {
+        currentValue[fieldName] = this.state.model[fieldName];
+      }
 
       return (
         <FormControl
@@ -150,9 +173,9 @@ export default class Form extends React.Component {
           onFocus={this.handleOnFocus}
           triggerSubmit={this.handleSubmit}
           onChange={this.handleValueChange}
-          editing={currentlyEditing}
+          editing={this.state.editingField}
           validationError={showError}
-          currentValue={this.state.model[fieldName]} />
+          currentValue={currentValue} />
       );
     });
   }

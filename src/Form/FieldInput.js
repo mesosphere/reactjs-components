@@ -23,21 +23,23 @@ export default class FieldInput extends React.Component {
   }
 
   isEditing() {
-    return this.props.editing && this.props.writeType === "edit";
+    return this.props.editing === this.props.fieldName
+      && this.props.writeType === "edit";
   }
 
   getRowClass(props) {
     return classNames({
       "form-row-element": true,
-      "form-row-edit": props.editing,
+      "form-row-edit": this.isEditing(),
       "form-row-input": props.writeType === "input",
-      "form-row-read": !props.editing && props.writeType === "edit"
+      "form-row-read": !this.isEditing() && props.writeType === "edit"
     });
   }
 
   getErrorMsg() {
     let errorMsg = null;
-    if (this.props.validationError) {
+    let validationError = this.props.validationError;
+    if (validationError && validationError[this.props.fieldName]) {
       errorMsg = (
         <label className="form-validation-error-label">
           {this.props.errorText}
@@ -60,11 +62,11 @@ export default class FieldInput extends React.Component {
   }
 
   getInputElement(attributes) {
-    if (this.isEditing() || this.props.writeType === "input") {
-      // Bind field name as the first argument.
-      attributes.onBlur = attributes.onBlur.bind(this, this.props.fieldName);
-      attributes.onFocus = attributes.onFocus.bind(this, this.props.fieldName);
+    // Bind field name as the first argument.
+    attributes.onBlur = attributes.onBlur.bind(this, this.props.fieldName);
+    attributes.onFocus = attributes.onFocus.bind(this, this.props.fieldName);
 
+    if (this.isEditing() || this.props.writeType === "input") {
       return (
         <input
           ref="inputElement"
