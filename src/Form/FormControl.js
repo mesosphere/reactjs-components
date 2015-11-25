@@ -23,7 +23,7 @@ export default class FormControl extends React.Component {
         {...attributes}
         {..._.omit(definition, "value", "fieldType")}
         key={definition.fieldName}
-        startValue={definition.value}
+        startValue={props.currentValue}
         type={definition.fieldType} />
     );
   }

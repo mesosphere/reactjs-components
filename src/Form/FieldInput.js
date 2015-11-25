@@ -3,8 +3,12 @@ import classNames from "classnames";
 import React from "react";
 
 export default class FieldInput extends React.Component {
-  componentDidMount() {
-    React.findDOMNode(this.refs.inputElement).value = this.props.startValue;
+  componentDidUpdate() {
+    let inputElement = React.findDOMNode(this.refs.inputElement);
+
+    if (this.isEditing() && inputElement !== document.activeElement) {
+      inputElement.focus();
+    }
   }
 
   handleValueChange(event) {
@@ -16,6 +20,10 @@ export default class FieldInput extends React.Component {
     if (event.key === "Enter") {
       React.findDOMNode(this.refs.inputElement).blur();
     }
+  }
+
+  isEditing() {
+    return this.props.editing && this.props.writeType === "edit";
   }
 
   getErrorMsg() {
@@ -42,6 +50,28 @@ export default class FieldInput extends React.Component {
     return label;
   }
 
+  getInputElement(attributes) {
+    if (this.isEditing() || this.props.writeType === "input") {
+      return (
+        <input
+          ref="inputElement"
+          {...attributes}
+          onChange={this.handleValueChange.bind(this)}
+          onKeyDownCapture={this.onKeyDown.bind(this)}
+          value={attributes.startValue} />
+      );
+    }
+
+    return (
+      <span
+        ref="inputElement"
+        {...attributes}
+        onClick={attributes.onFocus}>
+        {this.props.value || attributes.startValue}
+      </span>
+    );
+  }
+
   render() {
     let props = this.props;
     let attributes = _.omit(
@@ -53,21 +83,18 @@ export default class FieldInput extends React.Component {
       "form-row-input": props.writeType === "input",
       "form-row-read": !props.editing && props.writeType === "edit"
     });
-    let label = this.getLabel();
-    let errorMsg = this.getErrorMsg();
-
     // Bind field name as the first argument.
     attributes.onBlur = attributes.onBlur.bind(this, props.fieldName);
     attributes.onFocus = attributes.onFocus.bind(this, props.fieldName);
 
+    let label = this.getLabel();
+    let errorMsg = this.getErrorMsg();
+    let content = this.getInputElement(attributes);
+
     return (
       <div className={formRowElementClassSet}>
         {label}
-        <input
-          ref="inputElement"
-          {...attributes}
-          onChange={this.handleValueChange.bind(this)}
-          onKeyDownCapture={this.onKeyDown.bind(this)} />
+        {content}
         {errorMsg}
       </div>
     );

@@ -77,6 +77,7 @@ export default class Form extends React.Component {
 
   handleOnFocus(fieldName) {
     let fieldOption = findFieldOption(this.props.definition, fieldName);
+
     if (fieldOption.writeType === "edit") {
       this.setState({editingField: fieldName});
     }
@@ -165,7 +166,8 @@ export default class Form extends React.Component {
           triggerSubmit={this.handleSubmit}
           onChange={this.handleValueChange}
           editing={currentlyEditing}
-          validationError={showError} />
+          validationError={showError}
+          currentValue={this.state.model[fieldName]} />
       );
     });
   }
