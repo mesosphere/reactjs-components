@@ -14,37 +14,47 @@ export default class FieldInput extends React.Component {
     }
   }
 
+  getErrorMsg() {
+    let errorMsg = null;
+    if (this.props.validationError) {
+      errorMsg = (
+        <label className="form-validation-error-label">
+          {this.props.errorMsg}
+        </label>
+      );
+    }
+
+    return errorMsg;
+  }
+
+  getLabel() {
+    let label = null;
+    if (this.props.showLabel) {
+      label = (
+        <label className="form-label">{this.props.fieldName}</label>
+      );
+    }
+
+    return label;
+  }
+
   render() {
     let props = this.props;
     let attributes = _.omit(
       props, "onChange", "onSubmit"
     );
-    let errorMsg = null;
     let formRowElementClassSet = classNames({
       "form-row-element": true,
       "form-row-edit": props.editing,
       "form-row-input": props.writeType === "input",
       "form-row-read": !props.editing && props.writeType === "edit"
     });
-    let label = null;
+    let label = this.getLabel();
+    let errorMsg = this.getErrorMsg();
 
     // Bind field name as the first argument.
     attributes.onBlur = attributes.onBlur.bind(this, props.fieldName);
     attributes.onFocus = attributes.onFocus.bind(this, props.fieldName);
-
-    if (props.validationError) {
-      errorMsg = (
-        <label className="form-validation-error-label">
-          {props.errorMsg}
-        </label>
-      );
-    }
-
-    if (props.showLabel) {
-      label = (
-        <label className="form-label">{props.fieldName}</label>
-      );
-    }
 
     return (
       <div className={formRowElementClassSet}>
