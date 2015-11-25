@@ -26,6 +26,15 @@ export default class FieldInput extends React.Component {
     return this.props.editing && this.props.writeType === "edit";
   }
 
+  getRowClass(props) {
+    return classNames({
+      "form-row-element": true,
+      "form-row-edit": props.editing,
+      "form-row-input": props.writeType === "input",
+      "form-row-read": !props.editing && props.writeType === "edit"
+    });
+  }
+
   getErrorMsg() {
     let errorMsg = null;
     if (this.props.validationError) {
@@ -77,25 +86,17 @@ export default class FieldInput extends React.Component {
     let attributes = _.omit(
       props, "onChange", "onSubmit", "value"
     );
-    let formRowElementClassSet = classNames({
-      "form-row-element": true,
-      "form-row-edit": props.editing,
-      "form-row-input": props.writeType === "input",
-      "form-row-read": !props.editing && props.writeType === "edit"
-    });
+    let formRowElementClassSet = this.getRowClass(props);
+
     // Bind field name as the first argument.
     attributes.onBlur = attributes.onBlur.bind(this, props.fieldName);
     attributes.onFocus = attributes.onFocus.bind(this, props.fieldName);
 
-    let label = this.getLabel();
-    let errorMsg = this.getErrorMsg();
-    let content = this.getInputElement(attributes);
-
     return (
       <div className={formRowElementClassSet}>
-        {label}
-        {content}
-        {errorMsg}
+        {this.getLabel()}
+        {this.getInputElement(attributes)}
+        {this.getErrorMsg()}
       </div>
     );
   }
