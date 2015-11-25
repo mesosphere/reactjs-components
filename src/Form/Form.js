@@ -102,11 +102,11 @@ export default class Form extends React.Component {
       return false;
     });
 
+    // Set the errored fields into state so we can render correctly.
     let erroredFields = {};
     failedFields.forEach(function (field) {
       erroredFields[field] = true;
     });
-
     this.setState({erroredFields});
 
     return failedFields.length === 0;
@@ -114,13 +114,8 @@ export default class Form extends React.Component {
 
   buildModel(definition) {
     let model = {};
-
-    definition.forEach((formControlOption) => {
-      if (Util.isArray(formControlOption)) {
-        _.extend(model, this.buildModel(formControlOption));
-        return;
-      }
-
+    let flattenedOptions = _.flatten(definition);
+    flattenedOptions.forEach((formControlOption) => {
       model[formControlOption.fieldName] = formControlOption.value || null;
     });
 
@@ -141,9 +136,7 @@ export default class Form extends React.Component {
   }
 
   getFormControls(definition) {
-    let flattenedOptions = _.flatten(definition);
-
-    return flattenedOptions.map((formControlOption, i) => {
+    return definition.map((formControlOption, i) => {
       let fieldName = formControlOption.fieldName;
       let currentlyEditing = fieldName === this.state.editingField;
 
@@ -165,11 +158,9 @@ export default class Form extends React.Component {
   }
 
   render() {
-    let formControls = this.getFormControls(this.props.definition);
-
     return (
       <form>
-        {formControls}
+        {this.getFormControls(this.props.definition)}
       </form>
     );
   }
@@ -177,13 +168,12 @@ export default class Form extends React.Component {
 
 Form.propTypes = {
   definition: PropTypes.array,
-  triggerSubmit: PropTypes.func,
-  onSubmit: PropTypes.func
-
+  onSubmit: PropTypes.func,
+  triggerSubmit: PropTypes.func
 };
 
 Form.defaultProps = {
-  triggerSubmit: function () {},
+  definition: {},
   onSubmit: function () {},
-  definition: {}
+  triggerSubmit: function () {}
 };
