@@ -24,7 +24,6 @@ export default class Form extends React.Component {
     super();
 
     this.state = {
-      prevSaveModel: {},
       model: {},
       editingField: "",
       erroredFields: {}
@@ -42,7 +41,6 @@ export default class Form extends React.Component {
 
     this.setState({
       model: this.buildModel(this.props.definition),
-      prevSaveModel: this.buildModel(this.props.definition),
       erroredFields: this.buildErroredFields(this.props.definition)
     });
   }
@@ -52,7 +50,6 @@ export default class Form extends React.Component {
 
     if (validated && this.props.onSubmit) {
       this.props.onSubmit(this.state.model);
-      this.setState({prevSaveModel: _.clone(this.state.model)});
       return;
     }
   }
@@ -64,13 +61,8 @@ export default class Form extends React.Component {
     this.setState({model});
   }
 
-  handleBlur(fieldName) {
-    let prevValue = this.state.prevSaveModel[fieldName];
-    let currentValue = this.state.model[fieldName];
-
-    if (prevValue !== currentValue) {
-      this.handleSubmit();
-    }
+  handleBlur() {
+    this.handleSubmit();
 
     this.setState({editingField: null});
   }
@@ -195,18 +187,3 @@ Form.defaultProps = {
   onSubmit: function () {},
   definition: {}
 };
-
-/*
-  TODO:
-  -x- Util to combine schema/options
-  -x- Different field types
-  -x- Required fields
-  -x- Placeholders
-  -x- Only validate on submit
-  -x- Submission within form
-  -x- Validation error shows help text
-  -x- Handle form submit (it takes a callback and passes in the model)
-  -x- Have the current values be the value of the input
-  Switch modes between edit, read, input (also, elements)
-  (another PR) Figure out what a schema looks like and how to better merge it
-*/
