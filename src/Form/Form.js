@@ -13,7 +13,7 @@ const METHODS_TO_BIND = [
 ];
 
 function findFieldOption(options, field) {
-  var flattenedOptions = _.flatten(options);
+  let flattenedOptions = _.flatten(options);
   return _.find(flattenedOptions, function (fieldOption) {
     return fieldOption.fieldName === field;
   });
@@ -46,7 +46,7 @@ export default class Form extends React.Component {
   }
 
   handleSubmit() {
-    let validated = this.validateSubmit();
+    let validated = this.validateSubmit(this.state.model, this.props.definition);
 
     if (validated && this.props.onSubmit) {
       this.props.onSubmit(this.state.model);
@@ -75,8 +75,8 @@ export default class Form extends React.Component {
     }
   }
 
-  validateValue(field, value) {
-    let validation = findFieldOption(this.props.definition, field).validation;
+  validateValue(field, value, definition) {
+    let validation = findFieldOption(definition, field).validation;
 
     if (typeof validation === "function") {
       return validation(value);
@@ -85,16 +85,16 @@ export default class Form extends React.Component {
     return validation.test(value);
   }
 
-  validateSubmit() {
-    var failedFields = _.filter(Object.keys(this.state.model), (fieldName) => {
-      let model = this.state.model;
-      let validated = this.validateValue(fieldName, model[fieldName]);
-
+  validateSubmit(model, definition) {
+    let failedFields = _.filter(Object.keys(model), (fieldName) => {
+      let validated = this.validateValue(
+        fieldName, model[fieldName], definition
+      );
       if (!validated) {
         return true;
       }
 
-      let options = findFieldOption(this.props.definition, fieldName);
+      let options = findFieldOption(definition, fieldName);
       if (options.required) {
         return model[fieldName] == null;
       }
