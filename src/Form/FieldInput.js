@@ -2,6 +2,8 @@ import _ from "underscore";
 import classNames from "classnames";
 import React from "react";
 
+import KeyboardUtil from "../utils/KeyboardUtil";
+
 export default class FieldInput extends React.Component {
   componentDidUpdate() {
     let inputElement = React.findDOMNode(this.refs.inputElement);
@@ -12,18 +14,18 @@ export default class FieldInput extends React.Component {
   }
 
   handleValueChange(event) {
-    this.props.onChange(this.props.fieldName, event.target.value);
+    this.props.onChange(this.props.name, event.target.value);
   }
 
   onKeyDown(event) {
     // Force a blur on enter, which will trigger onBlur.
-    if (event.key === "Enter") {
+    if (event.key === KeyboardUtil.keys.enter) {
       React.findDOMNode(this.refs.inputElement).blur();
     }
   }
 
   isEditing() {
-    return this.props.editing === this.props.fieldName
+    return this.props.editing === this.props.name
       && this.props.writeType === "edit";
   }
 
@@ -39,7 +41,7 @@ export default class FieldInput extends React.Component {
   getErrorMsg() {
     let errorMsg = null;
     let validationError = this.props.validationError;
-    if (validationError && validationError[this.props.fieldName]) {
+    if (validationError && validationError[this.props.name]) {
       errorMsg = (
         <p className={this.props.helpBlockClass}>
           {this.props.errorText}
@@ -54,7 +56,7 @@ export default class FieldInput extends React.Component {
     let label = null;
     if (this.props.showLabel) {
       label = (
-        <label>{this.props.fieldName}</label>
+        <label>{this.props.name}</label>
       );
     }
 
@@ -63,8 +65,8 @@ export default class FieldInput extends React.Component {
 
   getInputElement(attributes) {
     // Bind field name as the first argument.
-    attributes.onBlur = attributes.onBlur.bind(this, this.props.fieldName);
-    attributes.onFocus = attributes.onFocus.bind(this, this.props.fieldName);
+    attributes.onBlur = attributes.onBlur.bind(this, this.props.name);
+    attributes.onFocus = attributes.onFocus.bind(this, this.props.name);
 
     if (this.isEditing() || this.props.writeType === "input") {
       return (

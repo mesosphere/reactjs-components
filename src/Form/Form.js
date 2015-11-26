@@ -12,10 +12,11 @@ const METHODS_TO_BIND = [
   "handleOnFocus"
 ];
 
+// Find a the options for a particular field in the form.
 function findFieldOption(options, field) {
   let flattenedOptions = _.flatten(options);
   return _.find(flattenedOptions, function (fieldOption) {
-    return fieldOption.fieldName === field;
+    return fieldOption.name === field;
   });
 }
 
@@ -36,7 +37,7 @@ export default class Form extends React.Component {
 
   componentWillMount() {
     if (this.props.triggerSubmit) {
-      this.props.triggerSubmit(this.handleSubmit.bind(this));
+      this.props.triggerSubmit(this.handleSubmit);
     }
 
     this.setState({
@@ -46,7 +47,9 @@ export default class Form extends React.Component {
   }
 
   handleSubmit() {
-    let validated = this.validateSubmit(this.state.model, this.props.definition);
+    let validated = this.validateSubmit(
+      this.state.model, this.props.definition
+    );
 
     if (validated && this.props.onSubmit) {
       this.props.onSubmit(this.state.model);
@@ -67,11 +70,11 @@ export default class Form extends React.Component {
     this.setState({editingField: null});
   }
 
-  handleOnFocus(fieldName) {
-    let fieldOption = findFieldOption(this.props.definition, fieldName);
+  handleOnFocus(name) {
+    let fieldOption = findFieldOption(this.props.definition, name);
 
     if (fieldOption.writeType === "edit") {
-      this.setState({editingField: fieldName});
+      this.setState({editingField: name});
     }
   }
 
@@ -86,17 +89,17 @@ export default class Form extends React.Component {
   }
 
   validateSubmit(model, definition) {
-    let failedFields = _.filter(Object.keys(model), (fieldName) => {
+    let failedFields = _.filter(Object.keys(model), (name) => {
       let validated = this.validateValue(
-        fieldName, model[fieldName], definition
+        name, model[name], definition
       );
       if (!validated) {
         return true;
       }
 
-      let options = findFieldOption(definition, fieldName);
+      let options = findFieldOption(definition, name);
       if (options.required) {
-        return model[fieldName] == null;
+        return model[name] == null;
       }
 
       return false;
@@ -116,7 +119,7 @@ export default class Form extends React.Component {
     let model = {};
     let flattenedOptions = _.flatten(definition);
     flattenedOptions.forEach((formControlOption) => {
-      model[formControlOption.fieldName] = formControlOption.value || null;
+      model[formControlOption.name] = formControlOption.value || null;
     });
 
     return model;
@@ -128,7 +131,7 @@ export default class Form extends React.Component {
 
     flattenedOptions.forEach((formControlOption) => {
       if (formControlOption.showError) {
-        erroredFields[formControlOption.fieldName] = true;
+        erroredFields[formControlOption.name] = true;
       }
     });
 
@@ -146,31 +149,27 @@ export default class Form extends React.Component {
 
     return definition.map((formControlOption, i) => {
       let isArray = Util.isArray(formControlOption);
+      let name = formControlOption.name;
 
-      let fieldName = formControlOption.fieldName;
-      if (isArray) {
-        fieldName = formControlOption.map(function (option) {
-          return option.fieldName;
-        });
-      }
-
+      // Map each field to showError boolean
       let showError = {};
       if (isArray) {
         formControlOption.map((option) => {
-          showError[option.fieldName] =
-            this.state.erroredFields[option.fieldName];
+          showError[option.name] =
+            this.state.erroredFields[option.name];
         });
       } else {
-        showError[fieldName] = this.state.erroredFields[fieldName];
+        showError[name] = this.state.erroredFields[name];
       }
 
+      // Map each field to it's current value.
       let currentValue = {};
       if (isArray) {
         formControlOption.forEach((option) => {
-          currentValue[option.fieldName] = this.state.model[option.fieldName];
+          currentValue[option.name] = this.state.model[option.name];
         });
       } else {
-        currentValue[fieldName] = this.state.model[fieldName];
+        currentValue[name] = this.state.model[name];
       }
 
       return (
@@ -191,7 +190,7 @@ export default class Form extends React.Component {
 
   render() {
     return (
-      <form className={this.props.className}>
+      <form onSubmit={this.handleSubmit} className={this.props.className}>
         {this.getFormControls(this.props.definition)}
       </form>
     );

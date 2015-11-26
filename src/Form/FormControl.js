@@ -22,8 +22,8 @@ export default class FormControl extends React.Component {
       <FieldTypeComponent
         {...attributes}
         {..._.omit(definition, "value", "fieldType")}
-        key={definition.fieldName}
-        startValue={props.currentValue[definition.fieldName]}
+        key={definition.name}
+        startValue={props.currentValue[definition.name]}
         type={definition.fieldType} />
     );
   }
