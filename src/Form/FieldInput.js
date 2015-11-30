@@ -17,7 +17,7 @@ export default class FieldInput extends React.Component {
     this.props.onChange(this.props.name, event.target.value);
   }
 
-  onKeyDown(event) {
+  handleKeyDown(event) {
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
       React.findDOMNode(this.refs.inputElement).blur();
@@ -44,7 +44,7 @@ export default class FieldInput extends React.Component {
     if (validationError && validationError[this.props.name]) {
       errorMsg = (
         <p className={this.props.helpBlockClass}>
-          {this.props.errorText}
+          {validationError[this.props.name]}
         </p>
       );
     }
@@ -75,7 +75,7 @@ export default class FieldInput extends React.Component {
           className={this.props.inputClass}
           {...attributes}
           onChange={this.handleValueChange.bind(this)}
-          onKeyDownCapture={this.onKeyDown.bind(this)}
+          onKeyDown={this.handleKeyDown.bind(this)}
           value={attributes.startValue} />
       );
     }
@@ -93,7 +93,7 @@ export default class FieldInput extends React.Component {
 
   render() {
     let attributes = _.omit(
-      this.props, "onChange", "onSubmit", "value"
+      this.props, "onChange", "value"
     );
     let formRowElementClassSet = this.getRowClass(this.props);
 

@@ -89,30 +89,34 @@ export default class Form extends React.Component {
   }
 
   validateSubmit(model, definition) {
-    let failedFields = _.filter(Object.keys(model), (name) => {
+    let erroredFields = {};
+    let submitValidated = true;
+
+    Object.keys(model).forEach((name) => {
+      let options = findFieldOption(definition, name);
       let validated = this.validateValue(
         name, model[name], definition
       );
+
       if (!validated) {
-        return true;
+        erroredFields[name] = options.validationErrorText;
+        submitValidated = false;
+        return;
       }
 
-      let options = findFieldOption(definition, name);
       if (options.required) {
-        return model[name] == null;
+        let isEmpty = model[name] == null || model[name] === "";
+        if (isEmpty) {
+          erroredFields[name] = "Field cannot be empty.";
+          submitValidated = false;
+        }
       }
-
-      return false;
     });
 
     // Set the errored fields into state so we can render correctly.
-    let erroredFields = {};
-    failedFields.forEach(function (field) {
-      erroredFields[field] = true;
-    });
     this.setState({erroredFields});
 
-    return failedFields.length === 0;
+    return submitValidated;
   }
 
   buildModel(definition) {
@@ -131,7 +135,7 @@ export default class Form extends React.Component {
 
     flattenedOptions.forEach((formControlOption) => {
       if (formControlOption.showError) {
-        erroredFields[formControlOption.name] = true;
+        erroredFields[formControlOption.name] = formControlOption.showError;
       }
     });
 
@@ -139,7 +143,7 @@ export default class Form extends React.Component {
   }
 
   getFormControls(definition) {
-    let props = _.pick(
+    let classes = _.pick(
       this.props,
       "readClass",
       "inputClass",
@@ -154,7 +158,7 @@ export default class Form extends React.Component {
       // Map each field to showError boolean
       let showError = {};
       if (isArray) {
-        formControlOption.map((option) => {
+        formControlOption.forEach((option) => {
           showError[option.name] =
             this.state.erroredFields[option.name];
         });
@@ -178,12 +182,11 @@ export default class Form extends React.Component {
           definition={formControlOption}
           onBlur={this.handleBlur}
           onFocus={this.handleOnFocus}
-          triggerSubmit={this.handleSubmit}
           onChange={this.handleValueChange}
           editing={this.state.editingField}
           validationError={showError}
           currentValue={currentValue}
-          {...props} />
+          {...classes} />
       );
     });
   }
