@@ -221,12 +221,26 @@ export default class Form extends React.Component {
 }
 
 Form.propTypes = {
+  // Classes.
+  className: PropTypes.string,
+  formControlClass: PropTypes.string,
+  helpBlockClass: PropTypes.string,
+  inputClass: PropTypes.string,
+  readClass: PropTypes.string,
+
   definition: PropTypes.array,
   onSubmit: PropTypes.func,
   triggerSubmit: PropTypes.func
 };
 
 Form.defaultProps = {
+  // Classes.
+  className: "form flush-bottom",
+  formControlClass: "form-group",
+  helpBlockClass: "form-help-block",
+  inputClass: "form-control",
+  readClass: "read-only",
+
   definition: {},
   onSubmit: function () {},
   triggerSubmit: function () {}
