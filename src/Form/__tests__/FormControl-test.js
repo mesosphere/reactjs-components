@@ -24,19 +24,14 @@ function getDefinition() {
   };
 }
 
-function noop() {}
-
 function getInstance() {
   return TestUtils.renderIntoDocument(
     <FormControl
       definition={getDefinition()}
-      onBlur={noop}
-      onFocus={noop}
-      triggerSubmit={noop}
-      onChange={noop}
-      editing={false}
+      editing={null}
       validationError={false}
-      currentValue={"default"} />
+      currentValue="default"
+      handleEvent={function () {}} />
   );
 }
 

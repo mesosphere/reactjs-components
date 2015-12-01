@@ -1,4 +1,5 @@
 jest.dontMock("../FieldInput");
+jest.dontMock("../../utils/KeyboardUtil");
 
 var React = require("react/addons");
 var TestUtils = React.addons.TestUtils;
@@ -8,15 +9,14 @@ var FieldInput = require("../FieldInput");
 describe("FieldInput", function () {
 
   describe("#isEditing", function () {
-    it("should return true when editing is true", function () {
+    it("should return true when editing is equal to name", function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="edit"
-          editing={true}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          editing="username"
+          handleEvent={function () {}} />
       );
 
       expect(instance.isEditing()).toEqual(true);
@@ -25,12 +25,11 @@ describe("FieldInput", function () {
     it("should return false when editing is false", function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="edit"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          handleEvent={function () {}} />
       );
 
       expect(instance.isEditing()).toEqual(false);
@@ -39,12 +38,11 @@ describe("FieldInput", function () {
     it("should return false when writeType is not edit", function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
           editing={true}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          handleEvent={function () {}} />
       );
 
       expect(instance.isEditing()).toEqual(false);
@@ -55,12 +53,11 @@ describe("FieldInput", function () {
     it("should return a span if not editing", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="edit"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          handleEvent={function () {}} />
       );
 
       expect(instance.getInputElement({}).type).toEqual("span");
@@ -69,12 +66,11 @@ describe("FieldInput", function () {
     it("should return an input if editing", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="edit"
-          editing={true}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          editing="username"
+          handleEvent={function () {}} />
       );
 
       expect(instance.getInputElement({}).type).toEqual("input");
@@ -83,12 +79,11 @@ describe("FieldInput", function () {
     it("should return an input if writeType is input", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}} />
+          handleEvent={function () {}} />
       );
 
       expect(instance.getInputElement({}).type).toEqual("input");
@@ -99,12 +94,11 @@ describe("FieldInput", function () {
     it("should return a label if showLabel is true", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}}
+          handleEvent={function () {}}
           showLabel={true} />
       );
 
@@ -114,12 +108,11 @@ describe("FieldInput", function () {
     it("should return null if showLabel is false", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}}
+          handleEvent={function () {}}
           showLabel={false} />
       );
 
@@ -131,27 +124,25 @@ describe("FieldInput", function () {
     it("should return a label if validationError is true", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
-          editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}}
-          validationError={true} />
+          editing="username"
+          handleEvent={function () {}}
+          validationError={{username: "errored"}} />
       );
 
-      expect(instance.getErrorMsg().type).toEqual("label");
+      expect(instance.getErrorMsg().type).toEqual("p");
     });
 
     it("should return null if validationError is false", function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
-          fieldName="username"
+          name="username"
           fieldType="text"
           writeType="input"
           editing={false}
-          onBlur={function () {}}
-          onFocus={function () {}}
+          handleEvent={function () {}}
           validationError={false} />
       );
 
