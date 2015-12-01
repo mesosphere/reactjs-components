@@ -236,7 +236,7 @@ Form.propTypes = {
 Form.defaultProps = {
   // Classes.
   className: "form flush-bottom",
-  formControlClass: "form-group",
+  formControlClass: "row form-group",
   helpBlockClass: "form-help-block",
   inputClass: "form-control",
   readClass: "read-only",

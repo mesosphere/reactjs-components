@@ -40,12 +40,15 @@ export default class FieldInput extends React.Component {
   }
 
   getRowClass(props) {
-    return classNames({
+    let classObj = {
       "form-row-element": true,
       "form-row-edit": this.isEditing(),
       "form-row-input": props.writeType === "input",
       "form-row-read": !this.isEditing() && props.writeType === "edit"
-    });
+    };
+    classObj[`column-${props.columnWidth}`] = true;
+
+    return classNames(classObj);
   }
 
   getErrorMsg() {
