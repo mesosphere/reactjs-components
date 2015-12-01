@@ -54,6 +54,24 @@ If you want to add a new npm package to `node_modules`:
 
 4. After PR is merged, the merger will create tags and publish the module
 
+### Creating a tag and publishing
+
+1. Make sure you are on `master` branch and have pulled the latest changes.
+
+2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)). You can use this shorthand which will create a tag from current package.json version:
+
+        VERSION=$(npm -v reactjs-components) && git tag -a v$VERSION -m 'Version $VERSION'
+
+3. Push the new tag to github:
+
+        git push —tags
+
+4. Now do the release (there is an npm command for this):
+
+        npm release
+
+After this you can pull down the latest module version from npm.
+
 ## Making a PR
 
 Before you submit your pull request consider the following guidelines:
