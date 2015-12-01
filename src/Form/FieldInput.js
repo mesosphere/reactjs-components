@@ -4,6 +4,8 @@ import React from "react";
 
 import KeyboardUtil from "../utils/KeyboardUtil";
 
+const EVENTS = ["onBlur", "onChange", "onFocus"];
+
 export default class FieldInput extends React.Component {
   componentDidUpdate() {
     let inputElement = React.findDOMNode(this.refs.inputElement);
@@ -11,6 +13,14 @@ export default class FieldInput extends React.Component {
     if (this.isEditing() && inputElement !== document.activeElement) {
       inputElement.focus();
     }
+  }
+
+  bindEvents(attributes, handleEvent) {
+    EVENTS.forEach((event) => {
+      attributes[event] = handleEvent.bind(this, event, this.props.name);
+    });
+
+    return attributes;
   }
 
   handleValueChange(event) {
@@ -64,18 +74,15 @@ export default class FieldInput extends React.Component {
   }
 
   getInputElement(attributes) {
-    // Bind field name as the first argument.
-    attributes.onBlur = attributes.onBlur.bind(this, this.props.name);
-    attributes.onFocus = attributes.onFocus.bind(this, this.props.name);
+    attributes = this.bindEvents(attributes, this.props.handleEvent);
 
     if (this.isEditing() || this.props.writeType === "input") {
       return (
         <input
           ref="inputElement"
           className={this.props.inputClass}
-          {...attributes}
-          onChange={this.handleValueChange.bind(this)}
           onKeyDown={this.handleKeyDown.bind(this)}
+          {...attributes}
           value={attributes.startValue} />
       );
     }

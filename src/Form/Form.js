@@ -9,7 +9,8 @@ const METHODS_TO_BIND = [
   "handleSubmit",
   "handleBlur",
   "handleValueChange",
-  "handleOnFocus"
+  "handleOnFocus",
+  "handleEvent"
 ];
 
 // Find a the options for a particular field in the form.
@@ -46,6 +47,22 @@ export default class Form extends React.Component {
     });
   }
 
+  handleEvent(eventType, fieldName, eventObj) {
+    switch (eventType) {
+      case "onBlur":
+        this.handleBlur(fieldName);
+        break;
+      case "onChange":
+        this.handleValueChange(fieldName, eventObj.target.value);
+        break;
+      case "onFocus":
+        this.handleOnFocus(fieldName);
+        break;
+      case "onKeyDown":
+        this.handleValueChange(fieldName, eventObj.target.value);
+    }
+  }
+
   handleSubmit() {
     let validated = this.validateSubmit(
       this.state.model, this.props.definition
@@ -64,9 +81,14 @@ export default class Form extends React.Component {
     this.setState({model});
   }
 
-  handleBlur() {
-    this.handleSubmit();
+  handleBlur(field) {
+    let options = findFieldOption(this.props.definition, field);
 
+    if (options.writeType === "input") {
+      return;
+    }
+
+    this.handleSubmit();
     this.setState({editingField: null});
   }
 
@@ -180,12 +202,10 @@ export default class Form extends React.Component {
         <FormControl
           key={i}
           definition={formControlOption}
-          onBlur={this.handleBlur}
-          onFocus={this.handleOnFocus}
-          onChange={this.handleValueChange}
           editing={this.state.editingField}
           validationError={showError}
           currentValue={currentValue}
+          handleEvent={this.handleEvent}
           {...classes} />
       );
     });

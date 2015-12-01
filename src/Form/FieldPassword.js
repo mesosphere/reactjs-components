@@ -1,25 +1,25 @@
+/*eslint-disable no-unused-vars */
 import React from "react";
+/*eslint-enable no-unused-vars */
 
 import FieldInput from "./FieldInput";
 
 const DEFAULT_PASSWORD_TEXT = "default";
 
 export default class FieldPassword extends FieldInput {
-
   getOnFocus() {
-    return () => {
+    return (event) => {
       if (!this.focused) {
         this.focused = true;
         this.forceUpdate();
       }
 
-      this.props.onFocus(this.props.name);
+      this.props.handleEvent("onFocus", this.props.name, event);
     };
   }
 
   getInputElement(attributes) {
-    // Bind field name as the first argument.
-    attributes.onBlur = attributes.onBlur.bind(this, this.props.name);
+    attributes = this.bindEvents(attributes, this.props.handleEvent);
     attributes.onFocus = this.getOnFocus();
 
     let startValue = DEFAULT_PASSWORD_TEXT;
@@ -32,8 +32,6 @@ export default class FieldPassword extends FieldInput {
         ref="inputElement"
         className={this.props.inputClass}
         {...attributes}
-        onChange={this.handleValueChange.bind(this)}
-        onKeyDown={this.handleKeyDown.bind(this)}
         value={startValue} />
     );
   }
