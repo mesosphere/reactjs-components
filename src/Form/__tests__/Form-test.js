@@ -9,6 +9,7 @@ var React = require("react/addons");
 var TestUtils = React.addons.TestUtils;
 
 var Form = require("../Form");
+var FormControl = require("../FormControl");
 
 function getInstance(definition, triggerSubmit, onSubmit) {
   return TestUtils.renderIntoDocument(
@@ -119,4 +120,29 @@ describe("Form", function () {
     });
   });
 
+  describe("#getFormControls", function () {
+    beforeEach(function () {
+      this.instance = getInstance(getDefinition(), noop, noop);
+    });
+
+    it("should return a FormControl for each item in definition", function () {
+      var definition = [{}, {}, {}];
+      var result = this.instance.getFormControls(definition);
+
+      expect(result.length).toEqual(definition.length);
+      result.forEach(function (formControl) {
+        expect(formControl.type).toEqual(FormControl);
+      });
+    });
+
+    it("can handle arrays as an item", function () {
+      var definition = [{}, [{}, {}], {}];
+      var result = this.instance.getFormControls(definition);
+
+      expect(result.length).toEqual(definition.length);
+      result.forEach(function (formControl) {
+        expect(formControl.type).toEqual(FormControl);
+      });
+    });
+  });
 });
