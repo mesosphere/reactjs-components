@@ -131,32 +131,6 @@ describe('VirtualList', function () {
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(1000);
     });
-
-    it('performs well', function () {
-      var count = 1000000;
-      var start = Date.now();
-
-      for (var i = 0; i < count; i++) {
-        var view = {
-          top: random(0, 1000),
-          bottom: random(1000, 2000)
-        };
-
-        var list = {
-          top: random(0, 1000),
-          bottom: random(0, 200 * 500)
-        };
-
-        VirtualList.getBox(view, list);
-      }
-
-      var end = Date.now();
-      var duration = end - start;
-
-      // console.log('VirtualRenderer.getBox ran %d iterations in %d ms', count, end - start);
-
-      expect(duration).toBeLessThan(1000);
-    });
   });
 
   describe('renderer that calculates the items to render (and to not render)', function () {

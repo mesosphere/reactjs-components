@@ -315,7 +315,7 @@ export default class Table extends React.Component {
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
-    if (itemHeight === 0) {
+    if (itemHeight === 0 && data.length) {
       childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, data[0]);
     }
 
