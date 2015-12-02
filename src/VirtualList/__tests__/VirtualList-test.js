@@ -259,21 +259,5 @@ describe('VirtualList', function () {
 
       expect(result.itemsInView).toBe(15);
     });
-
-    it('performs well', function () {
-      var count = 1000000;
-      var start = Date.now();
-
-      for (var i = 0; i < count; i++) {
-        VirtualList.getItems(random(0, 1000), random(0, 1000), random(0, 1000), random(0, 500), random(500, 1000), random(0, 100));
-      }
-
-      var end = Date.now();
-      var duration = end - start;
-
-      // console.log('new VirtualRenderer().getItems ran %d iterations in %d ms', count, end - start);
-
-      expect(duration).toBeLessThan(1000);
-    });
   });
 });
