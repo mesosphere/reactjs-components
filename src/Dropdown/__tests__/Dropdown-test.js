@@ -19,7 +19,7 @@ describe('Dropdown', function () {
         items={MockDropdownList}
         onItemSelection={this.callback}
         selectedID="bar"
-        transition={true}
+        transition={false}
         wrapperClassName="dropdown" />
     );
   });
