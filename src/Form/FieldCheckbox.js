@@ -29,7 +29,6 @@ export default class FieldCheckbox extends React.Component {
       value = "unchecked";
     }
 
-    console.log("change", this.props.name, value);
     this.props.handleEvent("change", this.props.name, value);
   }
 
