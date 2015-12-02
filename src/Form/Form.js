@@ -6,11 +6,11 @@ import FormControl from "./FormControl";
 import Util from "../utils/Util";
 
 const METHODS_TO_BIND = [
-  "handleSubmit",
   "handleBlur",
-  "handleValueChange",
+  "handleEvent",
   "handleOnFocus",
-  "handleEvent"
+  "handleSubmit",
+  "handleValueChange"
 ];
 
 // Find a the options for a particular field in the form.
@@ -42,34 +42,34 @@ export default class Form extends React.Component {
     }
 
     this.setState({
-      model: this.buildModel(this.props.definition),
-      erroredFields: this.buildErroredFields(this.props.definition)
+      model: this.buildStateObj(this.props.definition, "value"),
+      erroredFields: this.buildStateObj(this.props.definition, "showError")
     });
   }
 
-  handleEvent(eventType, fieldName, eventObj) {
+  handleEvent(eventType, fieldName, value) {
     switch (eventType) {
-      case "onBlur":
+      case "blur":
         this.handleBlur(fieldName);
         break;
-      case "onChange":
-        this.handleValueChange(fieldName, eventObj.target.value);
+      case "change":
+        this.handleValueChange(fieldName, value);
         break;
-      case "onFocus":
+      case "focus":
         this.handleOnFocus(fieldName);
         break;
-      case "onKeyDown":
-        this.handleValueChange(fieldName, eventObj.target.value);
     }
   }
 
   handleSubmit() {
+    let model = this.state.model;
+    let props = this.props;
     let validated = this.validateSubmit(
-      this.state.model, this.props.definition
+      model, props.definition
     );
 
-    if (validated && this.props.onSubmit) {
-      this.props.onSubmit(this.state.model);
+    if (validated && props.onSubmit) {
+      props.onSubmit(model);
       return;
     }
   }
@@ -103,6 +103,10 @@ export default class Form extends React.Component {
   validateValue(field, value, definition) {
     let validation = findFieldOption(definition, field).validation;
 
+    if (validation == null) {
+      return true;
+    }
+
     if (typeof validation === "function") {
       return validation(value);
     }
@@ -115,9 +119,10 @@ export default class Form extends React.Component {
     let submitValidated = true;
 
     Object.keys(model).forEach((name) => {
+      let fieldValue = model[name];
       let options = findFieldOption(definition, name);
       let validated = this.validateValue(
-        name, model[name], definition
+        name, fieldValue, definition
       );
 
       if (!validated) {
@@ -126,12 +131,9 @@ export default class Form extends React.Component {
         return;
       }
 
-      if (options.required) {
-        let isEmpty = model[name] == null || model[name] === "";
-        if (isEmpty) {
-          erroredFields[name] = "Field cannot be empty.";
-          submitValidated = false;
-        }
+      if (options.required && (fieldValue == null || fieldValue === "")) {
+        erroredFields[name] = "Field cannot be empty.";
+        submitValidated = false;
       }
     });
 
@@ -141,30 +143,35 @@ export default class Form extends React.Component {
     return submitValidated;
   }
 
-  buildModel(definition) {
-    let model = {};
-    let flattenedOptions = _.flatten(definition);
-    flattenedOptions.forEach((formControlOption) => {
-      model[formControlOption.name] = formControlOption.value || null;
+  buildStateObj(definition, fieldProp) {
+    let stateObj = {};
+
+    _.flatten(definition).forEach((formControlOption) => {
+      stateObj[formControlOption.name] = formControlOption[fieldProp] || null;
     });
 
-    return model;
+    return stateObj;
   }
 
-  buildErroredFields(definition) {
-    let flattenedOptions = _.flatten(definition);
-    let erroredFields = {};
+  buildFormPropObj(formControlOption, stateObj) {
+    let name = formControlOption.name;
+    let isArray = Util.isArray(formControlOption);
+    let propObj = {};
 
-    flattenedOptions.forEach((formControlOption) => {
-      if (formControlOption.showError) {
-        erroredFields[formControlOption.name] = formControlOption.showError;
-      }
-    });
+    if (isArray) {
+      formControlOption.forEach((option) => {
+        propObj[option.name] =
+          stateObj[option.name];
+      });
+    } else {
+      propObj[name] = stateObj[name];
+    }
 
-    return erroredFields;
+    return propObj;
   }
 
   getFormControls(definition) {
+    let state = this.state;
     let classes = _.pick(
       this.props,
       "readClass",
@@ -174,38 +181,23 @@ export default class Form extends React.Component {
     );
 
     return definition.map((formControlOption, i) => {
-      let isArray = Util.isArray(formControlOption);
-      let name = formControlOption.name;
-
       // Map each field to showError boolean
-      let showError = {};
-      if (isArray) {
-        formControlOption.forEach((option) => {
-          showError[option.name] =
-            this.state.erroredFields[option.name];
-        });
-      } else {
-        showError[name] = this.state.erroredFields[name];
-      }
+      let showError =
+        this.buildFormPropObj(formControlOption, state.erroredFields);
 
       // Map each field to it's current value.
-      let currentValue = {};
-      if (isArray) {
-        formControlOption.forEach((option) => {
-          currentValue[option.name] = this.state.model[option.name];
-        });
-      } else {
-        currentValue[name] = this.state.model[name];
-      }
+      let currentValue =
+        this.buildFormPropObj(formControlOption, state.model);
 
       return (
         <FormControl
           key={i}
           definition={formControlOption}
-          editing={this.state.editingField}
+          editing={state.editingField}
           validationError={showError}
           currentValue={currentValue}
           handleEvent={this.handleEvent}
+          maxColumnWidth={this.props.maxColumnWidth}
           {...classes} />
       );
     });
@@ -229,6 +221,7 @@ Form.propTypes = {
   readClass: PropTypes.string,
 
   definition: PropTypes.array,
+  maxColumnWidth: PropTypes.number,
   onSubmit: PropTypes.func,
   triggerSubmit: PropTypes.func
 };
@@ -243,5 +236,6 @@ Form.defaultProps = {
 
   definition: {},
   onSubmit: function () {},
+  maxColumnWidth: 12,
   triggerSubmit: function () {}
 };

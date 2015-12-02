@@ -6,21 +6,29 @@ import FieldInput from "./FieldInput";
 
 const DEFAULT_PASSWORD_TEXT = "default";
 
-export default class FieldPassword extends FieldInput {
-  getOnFocus() {
-    return (event) => {
-      if (!this.focused) {
-        this.focused = true;
-        this.forceUpdate();
-      }
+const METHODS_TO_BIND = ["handleOnFocus"];
 
-      this.props.handleEvent("onFocus", this.props.name, event);
-    };
+export default class FieldPassword extends FieldInput {
+  constructor() {
+    super();
+
+    METHODS_TO_BIND.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
+  }
+
+  handleOnFocus(event) {
+    if (!this.focused) {
+      this.focused = true;
+      this.forceUpdate();
+    }
+
+    this.props.handleEvent("focus", this.props.name, event);
   }
 
   getInputElement(attributes) {
     attributes = this.bindEvents(attributes, this.props.handleEvent);
-    attributes.onFocus = this.getOnFocus();
+    attributes.onFocus = this.handleOnFocus;
 
     let startValue = DEFAULT_PASSWORD_TEXT;
     if (this.focused) {

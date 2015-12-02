@@ -7,35 +7,42 @@ import Util from "../utils/Util";
 export default class FormControl extends React.Component {
 
   renderGroup(definition) {
-    return definition.map((inputOptions) => {
-      return this.renderDefinition(inputOptions, definition.length);
+    return definition.map((inputOptions, i) => {
+      return this.renderDefinition(
+        inputOptions, definition.length, i === definition.length - 1
+      );
     });
   }
 
-  renderType(definition, columnLength) {
+  renderType(definition, columnLength, isLast) {
     let fieldTypeName = definition.fieldType;
     let FieldTypeComponent = FieldTypes[fieldTypeName];
     let props = this.props;
-    let attributes = _.omit(props, "definition");
+    let maxColumnWidth = props.maxColumnWidth;
     columnLength = columnLength || 1;
+
+    if (isLast) {
+      columnLength = Math.floor(maxColumnWidth / columnLength)
+        + (maxColumnWidth % columnLength);
+    }
 
     return (
       <FieldTypeComponent
-        {...attributes}
+        {..._.omit(props, "definition")}
         {..._.omit(definition, "value", "fieldType")}
         key={definition.name}
         startValue={props.currentValue[definition.name]}
         type={definition.fieldType}
-        columnWidth={Math.floor(12 / columnLength)} />
+        columnWidth={Math.floor(this.props.maxColumnWidth / columnLength)} />
     );
   }
 
-  renderDefinition(definition, columnLength) {
+  renderDefinition(definition, columnLength, isLast) {
     if (Util.isArray(definition)) {
       return this.renderGroup(definition);
     }
 
-    return this.renderType(definition, columnLength);
+    return this.renderType(definition, columnLength, isLast);
   }
 
   render() {
