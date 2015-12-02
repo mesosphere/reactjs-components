@@ -384,7 +384,7 @@ export default class Table extends React.Component {
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
     if ((props.useFlex || itemHeight === 0 || itemListHeight > containerHeight)
-      && props.useScrollTable !== false) {
+      && props.useScrollTable === true) {
       tableContent =
         this.getScrollTable(
           columns, data, sortBy, itemHeight, containerHeight, idAttribute
@@ -421,6 +421,7 @@ Table.defaultProps = {
   buildRowOptions: () => { return {}; },
   sortBy: {},
   useFlex: false,
+  useScrollTable: true,
   windowRatio: 0.8
 };
 
@@ -480,6 +481,9 @@ Table.propTypes = {
   transition: PropTypes.bool,
 
   useFlex: PropTypes.bool,
+
+  // Optionally use the scroll table.
+  useScrollTable: PropTypes.bool,
 
   // Optional property to set a ratio of the window you want the table
   // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
