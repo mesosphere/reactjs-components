@@ -61,7 +61,9 @@ export default class Form extends React.Component {
     }
   }
 
-  handleSubmit() {
+  handleSubmit(event) {
+    event.preventDefault();
+
     let model = this.state.model;
     let props = this.props;
     let validated = this.validateSubmit(
