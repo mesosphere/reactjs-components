@@ -37,8 +37,12 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       let dropdownMenuConcealer = React.findDOMNode(
         this.refs.dropdownMenuConcealer
       );
-      // Get the height of the concealed menu.
-      menuHeight = dropdownMenuConcealer.children[0].clientHeight;
+
+      if (dropdownMenuConcealer != null) {
+        // Get the height of the concealed menu.
+        menuHeight = dropdownMenuConcealer.children[0].clientHeight;
+      }
+
       menuDirection = this.getMenuDirection(menuHeight);
 
       // Only set state if the properties actually changed.
