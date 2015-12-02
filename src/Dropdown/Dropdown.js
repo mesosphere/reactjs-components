@@ -19,7 +19,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   constructor() {
     super();
     this.state = {
-      menuDirection: "down",
+      menuDirection: 'down',
       menuHeight: null,
       isOpen: false,
       selectedID: null,
@@ -71,15 +71,15 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   getMenuDirection(menuHeight) {
     // If we don't know the menu height, then render the menu down to start.
     if (menuHeight == null) {
-      return "down";
+      return 'down';
     }
     // Calculate the space above and below the dropdown button.
     let spaceAroundDropdown = this.getSpaceAroundDropdown();
 
     if (menuHeight > spaceAroundDropdown.bottom) {
-      return "up";
+      return 'up';
     } else {
-      return "down";
+      return 'down';
     }
   }
 
@@ -206,8 +206,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // will change the sate and trigger another render.
     if (this.state.isOpen && this.state.knowMenuPosition === false) {
       dropdownMenu = (
-        <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer"
-          style={{"visibility": "hidden", "opacity": 0}}>
+        <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
           {dropdownMenu}
         </div>
       );
