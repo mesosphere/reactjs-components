@@ -2,11 +2,35 @@ import classNames from "classnames";
 
 import React from "react";
 
+const METHODS_TO_BIND = ["handleChange"];
+
 export default class FieldCheckbox extends React.Component {
+  constructor() {
+    super();
+
+    METHODS_TO_BIND.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
+  }
+
   componentDidMount() {
     if (this.props.startValue === "indeterminate") {
       React.findDOMNode(this.refs.checkbox).indeterminate = true;
     }
+  }
+
+  handleChange() {
+    let value = null;
+    let checkbox = React.findDOMNode(this.refs.checkbox);
+
+    if (checkbox.checked) {
+      value = "checked";
+    } else {
+      value = "unchecked";
+    }
+
+    console.log("change", this.props.name, value);
+    this.props.handleEvent("change", this.props.name, value);
   }
 
   getLabel() {
@@ -39,11 +63,7 @@ export default class FieldCheckbox extends React.Component {
     return (
       <label className={labelClass}>
         <input ref="checkbox" type="checkbox"
-          onChange={this.props.handleEvent.bind(
-            this,
-            "onChange",
-            this.props.name
-          )}
+          onChange={this.handleChange}
           {...attributes} />
         <span className="form-element-checkbox-decoy">
           <svg viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg">
