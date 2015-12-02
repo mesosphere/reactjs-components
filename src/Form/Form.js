@@ -47,13 +47,13 @@ export default class Form extends React.Component {
     });
   }
 
-  handleEvent(eventType, fieldName, value) {
+  handleEvent(eventType, fieldName, fieldValue) {
     switch (eventType) {
       case "blur":
         this.handleBlur(fieldName);
         break;
       case "change":
-        this.handleValueChange(fieldName, value);
+        this.handleValueChange(fieldName, fieldValue);
         break;
       case "focus":
         this.handleOnFocus(fieldName);
