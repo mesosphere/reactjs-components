@@ -39,7 +39,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
       // Get the height of the concealed menu.
       menuHeight = dropdownMenuConcealer.children[0].clientHeight;
-      // Get the
       menuDirection = this.getMenuDirection(menuHeight);
 
       // Only set state if the properties actually changed.
