@@ -19,9 +19,47 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   constructor() {
     super();
     this.state = {
+      menuDirection: "down",
+      menuHeight: null,
       isOpen: false,
-      selectedID: null
+      selectedID: null,
+      knowMenuPosition: false
     };
+  }
+
+  componentDidUpdate() {
+    let menuDirection = this.state.menuDirection;
+    let menuHeight = this.state.menuHeight;
+
+    // We need to calculate the position & height of the menu when the user
+    // opens it.
+    if (this.state.isOpen) {
+      let dropdownMenuConcealer = React.findDOMNode(
+        this.refs.dropdownMenuConcealer
+      );
+      // Get the height of the concealed menu.
+      menuHeight = dropdownMenuConcealer.children[0].clientHeight;
+      // Get the
+      menuDirection = this.getMenuDirection(menuHeight);
+
+      // Only set state if the properties actually changed.
+      if (menuDirection !== this.state.menuDirection ||
+        menuHeight !== this.state.menuHeight ||
+        this.state.knowMenuPosition === false) {
+        this.setState({
+          menuDirection,
+          menuHeight,
+          knowMenuPosition: true
+        });
+      }
+    } else {
+      // When the menu is closed, we assume we don't know its position anymore.
+      if (this.state.knowMenuPosition === true) {
+        this.setState({
+          knowMenuPosition: false
+        });
+      }
+    }
   }
 
   componentWillMount() {
@@ -30,12 +68,19 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     });
   }
 
-  getSelectedHtml(id, items) {
-    let obj = Util.find(items, function (item) {
-      return item.id === id;
-    });
+  getMenuDirection(menuHeight) {
+    // If we don't know the menu height, then render the menu down to start.
+    if (menuHeight == null) {
+      return "down";
+    }
+    // Calculate the space above and below the dropdown button.
+    let spaceAroundDropdown = this.getSpaceAroundDropdown();
 
-    return obj.selectedHtml || obj.html;
+    if (menuHeight > spaceAroundDropdown.bottom) {
+      return "up";
+    } else {
+      return "down";
+    }
   }
 
   getMenuItems(items) {
@@ -61,6 +106,28 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         </li>
       );
     }, this);
+  }
+
+  getSelectedHtml(id, items) {
+    let obj = Util.find(items, function (item) {
+      return item.id === id;
+    });
+
+    return obj.selectedHtml || obj.html;
+  }
+
+  getSpaceAroundDropdown() {
+    let dropdownWrapper = React.findDOMNode(this.refs.dropdownWrapper);
+    let position = dropdownWrapper.getBoundingClientRect();
+    let viewportHeight = global.window.innerHeight;
+
+    // Calculate the distance from the top of the viewport to the top of the
+    // dropdown button as well as the distance from the bottom of the viewport
+    // to the bottom of the dropdown button.
+    return {
+      top: position.top,
+      bottom: viewportHeight - position.bottom
+    };
   }
 
   handleExternalClick() {
@@ -103,30 +170,52 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   render() {
+    // Set a key based on the menu direction so that React knows to keep the
+    // the menu around while we are measuring it.
+    let dropdownKey = this.state.menuDirection;
+    let dropdownMenu = null;
+    let dropdownMenuClassSet = classNames(
+      this.state.menuDirection,
+      this.props.dropdownMenuClassName
+    );
     let dropdownStateClassSet = {
       'open': this.state.isOpen
     };
-    let dropdownMenu = null;
     let items = this.props.items;
+    let transitionName =
+      `${this.props.transitionName}-${this.state.menuDirection}`;
     let wrapperClassSet = classNames(
+      this.state.menuDirection,
       dropdownStateClassSet,
       this.props.wrapperClassName
     );
 
     if (this.state.isOpen) {
       dropdownMenu = (
-        <span className={this.props.dropdownMenuClassName}
-          role="menu">
+        <span className={dropdownMenuClassSet}
+          role="menu" ref="dropdownMenu" key={dropdownKey}>
           <ul className={this.props.dropdownMenuListClassName}>
-            {this.getMenuItems(items)}
+            {this.getMenuItems(this.props.items)}
           </ul>
         </span>
       );
     }
 
+    // If we don't know the position of the menu, we render it invisibly
+    // and then immediately measure its height in #componentDidUpdate, which
+    // will change the sate and trigger another render.
+    if (this.state.isOpen && this.state.knowMenuPosition === false) {
+      dropdownMenu = (
+        <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer"
+          style={{"visibility": "hidden", "opacity": 0}}>
+          {dropdownMenu}
+        </div>
+      );
+    }
+
     if (this.props.transition) {
       dropdownMenu = (
-        <CSSTransitionGroup transitionName={this.props.transitionName}>
+        <CSSTransitionGroup transitionName={transitionName}>
           {dropdownMenu}
         </CSSTransitionGroup>
       );
@@ -135,7 +224,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     return (
       <span className={wrapperClassSet}
         tabIndex="1"
-        onBlur={this.handleWrapperBlur}>
+        onBlur={this.handleWrapperBlur}
+        ref="dropdownWrapper">
         <button className={this.props.buttonClassName}
           onClick={this.handleMenuToggle}
           ref="button"
