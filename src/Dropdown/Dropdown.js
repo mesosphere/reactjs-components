@@ -31,6 +31,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
     if (this.state.menuHeight == null) {
+      console.log('calculate menu height');
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
       let menuDirection = this.state.menuDirection;
       let menuHeight = this.state.menuHeight;
@@ -47,6 +48,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         menuDirection,
         menuHeight
       });
+    } else {
+      console.log('do not calculate menu height');
     }
   }
 
