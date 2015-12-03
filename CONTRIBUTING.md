@@ -68,7 +68,7 @@ If you want to add a new npm package to `node_modules`:
 
 4. Now do the release (there is an npm command for this):
 
-        npm release
+        npm run release
 
 After this you can pull down the latest module version from npm.
 
