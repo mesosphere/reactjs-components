@@ -8,8 +8,8 @@ var Confirm = require('../Confirm.js');
 describe('Confirm', function () {
 
   beforeEach(function () {
-    this.closeCallback = jasmine.createSpy("closeCallback");
-    this.confirmCallback = jasmine.createSpy("confirmCallback");
+    this.closeCallback = jasmine.createSpy('closeCallback');
+    this.confirmCallback = jasmine.createSpy('confirmCallback');
     this.instance = TestUtils.renderIntoDocument(
       <Confirm
         open={true}
