@@ -22,8 +22,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       menuDirection: 'down',
       menuHeight: null,
       isOpen: false,
-      selectedID: null,
-      knowMenuHeight: false
+      selectedID: null
     };
   }
 
@@ -31,7 +30,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
-    if (!this.state.knowMenuHeight) {
+    if (this.state.menuHeight == null) {
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
       let menuDirection = this.state.menuDirection;
       let menuHeight = this.state.menuHeight;
@@ -42,10 +41,9 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         menuDirection = this.getMenuDirection(menuHeight);
       }
 
-      // Setting state with knownHeight: true will re-render the dropdown in
-      // the correct direction and not concealed.
+      // Setting state with menu height and direction will re-render the
+      // dropdown in the correct direction and not concealed.
       this.setState({
-        knowMenuHeight: true,
         menuDirection,
         menuHeight
       });
@@ -169,7 +167,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // the DOM element around while we are measuring it.
     let props = this.props;
     let state = this.state;
-    let dropdownKey = state.knowMenuHeight || 'initial-render';
+    let dropdownKey = state.menuHeight || 'initial-render';
     let dropdownMenu = null;
     let dropdownMenuClassSet = classNames(
       state.menuDirection,
@@ -201,7 +199,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // If we don't know the menu's height, we render it invisibly and then
     // immediately measure its height in #componentDidUpdate, which will change
     // the state and trigger another render.
-    if (state.isOpen && state.knowMenuHeight === false) {
+    if (state.isOpen && state.menuHeight == null) {
       dropdownMenu = (
         <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
           {dropdownMenu}
