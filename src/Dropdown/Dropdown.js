@@ -169,30 +169,32 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
-    let dropdownKey = this.state.knowMenuHeight || 'initial-render';
+    let props = this.props;
+    let state = this.state;
+    let dropdownKey = state.knowMenuHeight || 'initial-render';
     let dropdownMenu = null;
     let dropdownMenuClassSet = classNames(
-      this.state.menuDirection,
-      this.props.dropdownMenuClassName
+      state.menuDirection,
+      props.dropdownMenuClassName
     );
     let dropdownStateClassSet = {
-      'open': this.state.isOpen
+      'open': state.isOpen
     };
-    let items = this.props.items;
+    let items = props.items;
     let transitionName =
-      `${this.props.transitionName}-${this.state.menuDirection}`;
+      `${props.transitionName}-${state.menuDirection}`;
     let wrapperClassSet = classNames(
-      this.state.menuDirection,
+      state.menuDirection,
       dropdownStateClassSet,
-      this.props.wrapperClassName
+      props.wrapperClassName
     );
 
-    if (this.state.isOpen) {
+    if (state.isOpen) {
       dropdownMenu = (
         <span className={dropdownMenuClassSet}
           role="menu" ref="dropdownMenu" key={dropdownKey}>
-          <ul className={this.props.dropdownMenuListClassName}>
-            {this.getMenuItems(this.props.items)}
+          <ul className={props.dropdownMenuListClassName}>
+            {this.getMenuItems(props.items)}
           </ul>
         </span>
       );
@@ -200,8 +202,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
     // If we don't know the menu's height, we render it invisibly and then
     // immediately measure its height in #componentDidUpdate, which will change
-    // the sate and trigger another render.
-    if (this.state.isOpen && this.state.knowMenuHeight === false) {
+    // the state and trigger another render.
+    if (state.isOpen && state.knowMenuHeight === false) {
       dropdownMenu = (
         <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
           {dropdownMenu}
@@ -209,7 +211,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
-    if (this.props.transition) {
+    if (props.transition) {
       dropdownMenu = (
         <CSSTransitionGroup transitionName={transitionName}>
           {dropdownMenu}
@@ -222,11 +224,11 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
         ref="dropdownWrapper">
-        <button className={this.props.buttonClassName}
+        <button className={props.buttonClassName}
           onClick={this.handleMenuToggle}
           ref="button"
           type="button">
-          {this.getSelectedHtml(this.state.selectedID, items)}
+          {this.getSelectedHtml(state.selectedID, items)}
         </button>
         {dropdownMenu}
       </span>
