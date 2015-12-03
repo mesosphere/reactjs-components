@@ -31,14 +31,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
     if (this.state.menuHeight == null) {
-      console.log('calculate menu height');
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
       let menuDirection = this.state.menuDirection;
       let menuHeight = this.state.menuHeight;
 
       if (dropdownMenuConcealer != null) {
         // Get the height and direction of the concealed menu.
-        menuHeight = dropdownMenuConcealer.firstChild.clientHeight;
+        menuHeight = dropdownMenuConcealer.firstChild.clientHeight || 0;
         menuDirection = this.getMenuDirection(menuHeight);
       }
 
@@ -48,8 +47,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         menuDirection,
         menuHeight
       });
-    } else {
-      console.log('do not calculate menu height');
     }
   }
 
@@ -170,7 +167,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // the DOM element around while we are measuring it.
     let props = this.props;
     let state = this.state;
-    let dropdownKey = state.menuHeight || 'initial-render';
+    let dropdownKey = 'initial-render';
     let dropdownMenu = null;
     let dropdownMenuClassSet = classNames(
       state.menuDirection,
@@ -187,6 +184,10 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       dropdownStateClassSet,
       props.wrapperClassName
     );
+
+    if (state.menuHeight != null) {
+      dropdownKey = state.menuHeight;
+    }
 
     if (state.isOpen) {
       dropdownMenu = (
