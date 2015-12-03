@@ -1,4 +1,4 @@
-@keyframes dropdown-slide-down {
+@keyframes dropdown-down-enter {
   0% {
     transform: translateY(-30px);
   }
@@ -7,12 +7,30 @@
   }
 }
 
-@keyframes dropdown-slide-up {
+@keyframes dropdown-down-leave {
   0% {
     transform: translateY(0);
   }
   100% {
     transform: translateY(-30px);
+  }
+}
+
+@keyframes dropdown-up-enter {
+  0% {
+    transform: translateY(30px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-up-leave {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(30px);
   }
 }
 
@@ -68,8 +86,21 @@
 .dropdown-menu {
   // This can be removed when Canvas is updated to toggle visibility: visible
   display: block !important;
-  transform-origin: top center;
   z-index: 1;
+
+  &.up {
+    bottom: 100%;
+    margin-bottom: 5px;
+    top: auto;
+    transform-origin: bottom center;
+  }
+
+  &.down {
+    bottom: auto;
+    margin-top: 5px;
+    top: 100%;
+    transform-origin: top center;
+  }
 
   em {
     font-style: italic;
@@ -80,12 +111,26 @@
   }
 }
 
-.dropdown-menu-enter {
-  animation: dropdown-fade-in 0.25s, dropdown-slide-down 0.25s;
+.dropdown-menu-concealer {
+  opacity: 0;
+  visibility: hidden;
 }
 
-.dropdown-menu-leave {
-  animation: dropdown-fade-out 0.25s, dropdown-slide-up 0.25s;
+.dropdown-menu-down-enter {
+  animation: dropdown-fade-in 0.25s, dropdown-down-enter 0.25s;
+}
+
+.dropdown-menu-down-leave {
+  animation: dropdown-fade-out 0.25s, dropdown-down-leave 0.25s;
+  z-index: 3;
+}
+
+.dropdown-menu-up-enter {
+  animation: dropdown-fade-in 0.25s, dropdown-up-enter 0.25s;
+}
+
+.dropdown-menu-up-leave {
+  animation: dropdown-fade-out 0.25s, dropdown-up-leave 0.25s;
   z-index: 3;
 }
 

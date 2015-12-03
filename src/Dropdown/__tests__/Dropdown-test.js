@@ -1,9 +1,11 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
-
+jest.dontMock('../../Mixin/BindMixin');
 jest.dontMock('../../Util/Util');
+jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('../Dropdown');
 jest.dontMock('./fixtures/MockDropdownList');
+
+var React = require('react/addons');
+var TestUtils = React.addons.TestUtils;
 
 var MockDropdownList = require('./fixtures/MockDropdownList');
 var Dropdown = require('../Dropdown.js');
@@ -19,7 +21,7 @@ describe('Dropdown', function () {
         items={MockDropdownList}
         onItemSelection={this.callback}
         selectedID="bar"
-        transition={true}
+        transition={false}
         wrapperClassName="dropdown" />
     );
   });
