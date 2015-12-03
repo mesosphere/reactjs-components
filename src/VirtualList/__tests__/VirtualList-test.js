@@ -3,13 +3,6 @@ var VirtualList = require('../VirtualList');
 jest.dontMock('../VirtualList');
 jest.dontMock('../../Util/Util');
 
-var mathFloor = Math.floor;
-var mathRandom = Math.random;
-
-function random(min, max) {
-  return mathFloor((mathRandom() * max) + min);
-}
-
 describe('VirtualList', function () {
 
   describe('#getBox box that defines the visible part of the list', function () {

@@ -156,6 +156,25 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     );
   }
 
+  getHeader() {
+    let props = this.props;
+
+    if (props.showHeader === false) {
+      return null;
+    }
+
+    return (
+      <div className={props.headerClass}>
+        <div className={props.headerContainerClass}>
+          <h2 className={props.titleClass}>
+            {props.titleText}
+          </h2>
+          {props.subHeader}
+        </div>
+      </div>
+    );
+  }
+
   getFooter() {
     let props = this.props;
     if (props.showFooter === false) {
@@ -212,14 +231,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
         style={containerStyle}>
         <div ref="modal" className={props.modalClass}>
           {this.getCloseButton()}
-          <div className={props.headerClass}>
-            <div className={props.headerContainerClass}>
-              <h2 className={props.titleClass}>
-                {props.titleText}
-              </h2>
-              {props.subHeader}
-            </div>
-          </div>
+          {this.getHeader()}
           <div className={props.bodyClass} style={modalStyle}>
             <div ref="innerContainer" className={props.innerBodyClass}>
               {this.getModalContent(useScrollbar, contentHeight)}
@@ -253,6 +265,7 @@ ModalContents.defaultProps = {
   onClose: () => {},
   open: false,
   showCloseButton: false,
+  showHeader: false,
   showFooter: false,
   subHeader: null,
   titleText: '',
@@ -269,7 +282,7 @@ ModalContents.defaultProps = {
   headerClass: 'modal-header',
   headerContainerClass: 'container',
   innerBodyClass: 'modal-content-inner container container-pod ' +
-    'container-pod-short flex-container-col',
+    'container-pod-short flex-container-col flush-bottom',
   modalClass: 'modal modal-large',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };
@@ -288,6 +301,8 @@ ModalContents.propTypes = {
   open: PropTypes.bool,
   // Set true to show explicit close button. Defaults to false.
   showCloseButton: PropTypes.bool,
+  // Set true to show header. Defaults to false.
+  showHeader: PropTypes.bool,
   // Set true to show footer. Defaults to false.
   showFooter: PropTypes.bool,
   // Optional subheader.
