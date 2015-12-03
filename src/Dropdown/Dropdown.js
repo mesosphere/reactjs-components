@@ -32,15 +32,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
     if (!this.state.knowMenuHeight) {
-      let dropdownMenuConcealer = React.findDOMNode(
-        this.refs.dropdownMenuConcealer
-      );
+      let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
       let menuDirection = this.state.menuDirection;
       let menuHeight = this.state.menuHeight;
 
       if (dropdownMenuConcealer != null) {
         // Get the height and direction of the concealed menu.
-        menuHeight = dropdownMenuConcealer.children[0].clientHeight;
+        menuHeight = dropdownMenuConcealer.firstChild.clientHeight;
         menuDirection = this.getMenuDirection(menuHeight);
       }
 
