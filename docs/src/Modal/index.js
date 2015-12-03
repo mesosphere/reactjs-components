@@ -60,6 +60,8 @@ class ModalExample extends React.Component {
   open: PropTypes.bool,
   // Set true to show explicit close button. Defaults to false.
   showCloseButton: PropTypes.bool,
+  // Set true to show header. Defaults to false.
+  showHeader: PropTypes.bool,
   // Set true to show footer. Defaults to false.
   showFooter: PropTypes.bool,
   // Optional subheader.
@@ -97,7 +99,7 @@ class ModalExample extends React.Component {
                       </button>
                       <Modal open={this.state.open}
                         footer={this.getModalFooter()}
-                        showFooter={true}
+                        showHeader={true}
                         onClose={this.handleModalClose}
                         size="large"
                         titleText="Modal">
@@ -168,6 +170,7 @@ class ModalExample extends React.Component {
         <Modal
           open={this.state.open}
           footer={this.getModalFooter()}
+          showHeader={true}
           showFooter={true}
           onClose={this.handleModalClose}
           size="large"
