@@ -66,9 +66,9 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       return 'down';
     }
     // Calculate the space above and below the dropdown button.
-    let spaceAroundDropdown = this.getSpaceAroundDropdown();
+    let spaceBelowDropdown = this.getSpaceBelowDropdown();
 
-    if (menuHeight > spaceAroundDropdown.bottom) {
+    if (menuHeight > spaceBelowDropdown) {
       return 'up';
     } else {
       return 'down';
@@ -108,18 +108,14 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     return obj.selectedHtml || obj.html;
   }
 
-  getSpaceAroundDropdown() {
+  getSpaceBelowDropdown() {
     let dropdownWrapper = React.findDOMNode(this.refs.dropdownWrapper);
     let position = dropdownWrapper.getBoundingClientRect();
     let viewportHeight = global.window.innerHeight;
 
-    // Calculate the distance from the top of the viewport to the top of the
-    // dropdown button as well as the distance from the bottom of the viewport
-    // to the bottom of the dropdown button.
-    return {
-      top: position.top,
-      bottom: viewportHeight - position.bottom
-    };
+    // Calculate the distance from the bottom of the viewport to the bottom of
+    // the dropdown button.
+    return viewportHeight - position.bottom;
   }
 
   handleExternalClick() {
