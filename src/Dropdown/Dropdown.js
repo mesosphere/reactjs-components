@@ -23,45 +23,34 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       menuHeight: null,
       isOpen: false,
       selectedID: null,
-      knowMenuPosition: false
+      knowMenuHeight: false
     };
   }
 
   componentDidUpdate() {
-    let menuDirection = this.state.menuDirection;
-    let menuHeight = this.state.menuHeight;
-
-    // We need to calculate the position & height of the menu when the user
-    // opens it.
-    if (this.state.isOpen) {
+    // If we don't know the menu height already, we need to calculate it after
+    // it's rendered. It's rendered inside a concealed container, so it's okay
+    // if it renders in the wrong direction.
+    if (!this.state.knowMenuHeight) {
       let dropdownMenuConcealer = React.findDOMNode(
         this.refs.dropdownMenuConcealer
       );
+      let menuDirection = this.state.menuDirection;
+      let menuHeight = this.state.menuHeight;
 
       if (dropdownMenuConcealer != null) {
-        // Get the height of the concealed menu.
+        // Get the height and direction of the concealed menu.
         menuHeight = dropdownMenuConcealer.children[0].clientHeight;
+        menuDirection = this.getMenuDirection(menuHeight);
       }
 
-      menuDirection = this.getMenuDirection(menuHeight);
-
-      // Only set state if the properties actually changed.
-      if (menuDirection !== this.state.menuDirection ||
-        menuHeight !== this.state.menuHeight ||
-        this.state.knowMenuPosition === false) {
-        this.setState({
-          menuDirection,
-          menuHeight,
-          knowMenuPosition: true
-        });
-      }
-    } else {
-      // When the menu is closed, we assume we don't know its position anymore.
-      if (this.state.knowMenuPosition === true) {
-        this.setState({
-          knowMenuPosition: false
-        });
-      }
+      // Setting state with knownHeight: true will re-render the dropdown in
+      // the correct direction and not concealed.
+      this.setState({
+        knowMenuHeight: true,
+        menuDirection,
+        menuHeight
+      });
     }
   }
 
@@ -72,7 +61,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getMenuDirection(menuHeight) {
-    // If we don't know the menu height, then render the menu down to start.
+    // If we don't know the menu height, render it down.
     if (menuHeight == null) {
       return 'down';
     }
@@ -167,7 +156,16 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
   handleMenuToggle(e) {
     e.stopPropagation();
+    let menuDirection = this.state.menuDirection;
+
+    // If the menu isn't open, then we're about to open it and we need to
+    // calculate the direction every time.
+    if (!this.state.isOpen) {
+      menuDirection = this.getMenuDirection(this.state.menuHeight);
+    }
+
     this.setState({
+      menuDirection,
       isOpen: !this.state.isOpen
     });
   }
@@ -175,7 +173,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   render() {
     // Set a key based on the menu direction so that React knows to keep the
     // the menu around while we are measuring it.
-    let dropdownKey = this.state.menuDirection;
+    let dropdownKey = this.state.knowMenuHeight || "initial-render";
     let dropdownMenu = null;
     let dropdownMenuClassSet = classNames(
       this.state.menuDirection,
@@ -204,10 +202,10 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
-    // If we don't know the position of the menu, we render it invisibly
-    // and then immediately measure its height in #componentDidUpdate, which
-    // will change the sate and trigger another render.
-    if (this.state.isOpen && this.state.knowMenuPosition === false) {
+    // If we don't know the menu's height, we render it invisibly and then
+    // immediately measure its height in #componentDidUpdate, which will change
+    // the sate and trigger another render.
+    if (this.state.isOpen && this.state.knowMenuHeight === false) {
       dropdownMenu = (
         <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
           {dropdownMenu}
