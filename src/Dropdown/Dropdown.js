@@ -171,9 +171,9 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   render() {
-    // Set a key based on the menu direction so that React knows to keep the
-    // the menu around while we are measuring it.
-    let dropdownKey = this.state.knowMenuHeight || "initial-render";
+    // Set a key based on the menu height so that React knows to keep the
+    // the DOM element around while we are measuring it.
+    let dropdownKey = this.state.knowMenuHeight || 'initial-render';
     let dropdownMenu = null;
     let dropdownMenuClassSet = classNames(
       this.state.menuDirection,
