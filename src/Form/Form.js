@@ -59,6 +59,8 @@ export default class Form extends React.Component {
         this.handleOnFocus(fieldName);
         break;
     }
+
+    this.props.onChange(this.state.model);
   }
 
   handleSubmit(event) {
@@ -226,6 +228,7 @@ Form.propTypes = {
 
   definition: PropTypes.array,
   maxColumnWidth: PropTypes.number,
+  onChange: PropTypes.func,
   onSubmit: PropTypes.func,
   triggerSubmit: PropTypes.func
 };
@@ -239,6 +242,7 @@ Form.defaultProps = {
   readClass: "read-only",
 
   definition: {},
+  onChange: function () {},
   onSubmit: function () {},
   maxColumnWidth: 12,
   triggerSubmit: function () {}
