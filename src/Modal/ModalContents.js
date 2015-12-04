@@ -282,7 +282,7 @@ ModalContents.defaultProps = {
   headerClass: 'modal-header',
   headerContainerClass: 'container',
   innerBodyClass: 'modal-content-inner container container-pod ' +
-    'container-pod-short flex-container-col flush-bottom',
+    'container-pod-short flex-container-col',
   modalClass: 'modal modal-large',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };
