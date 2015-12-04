@@ -1,19 +1,36 @@
+import classNames from 'classnames';
 import React, {PropTypes} from 'react/addons';
 
 import Modal from '../Modal/Modal';
 
 export default class Confirm extends React.Component {
   getButtons() {
+    let disabledConfig = {disabled: this.props.disabled};
+
+    let leftButtonClassName = classNames(
+      this.props.leftButtonClassName, disabledConfig
+    );
+    let rightButtonClassName = classNames(
+      this.props.rightButtonClassName, disabledConfig
+    );
+
+    let extraAttributes = {};
+    if (this.props.disabled) {
+      extraAttributes = disabledConfig;
+    }
+
     return (
       <div className="button-collection text-align-center flush-bottom">
         <button
-          className={this.props.leftButtonClassName}
-          onClick={this.props.leftButtonCallback}>
+          className={leftButtonClassName}
+          onClick={this.props.leftButtonCallback}
+          {...extraAttributes}>
           {this.props.leftButtonText}
         </button>
         <button
-          className={this.props.rightButtonClassName}
-          onClick={this.props.rightButtonCallback}>
+          className={rightButtonClassName}
+          onClick={this.props.rightButtonCallback}
+          {...extraAttributes}>
           {this.props.rightButtonText}
         </button>
       </div>
@@ -32,6 +49,8 @@ export default class Confirm extends React.Component {
         footer={this.getButtons()}
         titleClass="modal-header-title text-align-center flush-top
           flush-bottom"
+        innerBodyClass="modal-content-inner container container-pod
+          container-pod-short flex-container-col flush-bottom"
         >
         {this.props.children}
       </Modal>
