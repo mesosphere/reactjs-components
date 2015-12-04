@@ -46,10 +46,6 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     window.removeEventListener('resize', this.handleWindowResize);
   }
 
-  shouldComponentUpdate(nextProps) {
-    return nextProps.open !== this.props.open;
-  }
-
   handleBackdropClick() {
     if (this.props.closeByBackdropClick) {
       this.closeModal();
