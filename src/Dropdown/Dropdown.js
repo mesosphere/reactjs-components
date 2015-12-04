@@ -30,7 +30,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
-    if (this.state.menuHeight == null) {
+    if (this.state.menuHeight == null &&
+      this.refs.dropdownMenuConcealer != null) {
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
       let menuDirection = this.state.menuDirection;
       let menuHeight = this.state.menuHeight;
