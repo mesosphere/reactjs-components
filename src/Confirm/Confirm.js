@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, {PropTypes} from 'react/addons';
 
 import Modal from '../Modal/Modal';
+import Util from '../Util/Util';
 
 export default class Confirm extends React.Component {
   getButtons() {
@@ -38,12 +39,15 @@ export default class Confirm extends React.Component {
   }
 
   render() {
+    let props = Util.exclude(this.props, 'children', 'disabled',
+      'leftButtonText', 'leftButtonClassName', 'leftButtonCallback',
+      'rightButtonText', 'rightButtonClassName', 'rightButtonCallback'
+      );
+
     return (
       <Modal
         closeByBackdropClick={!this.props.disabled}
         modalClass="modal confirm-modal"
-        onClose={this.props.onClose}
-        open={this.props.open}
         showCloseButton={false}
         showFooter={true}
         footer={this.getButtons()}
@@ -51,6 +55,7 @@ export default class Confirm extends React.Component {
           flush-bottom"
         innerBodyClass="modal-content-inner container container-pod
           container-pod-short flex-container-col flush-bottom"
+        {...props}
         >
         {this.props.children}
       </Modal>
