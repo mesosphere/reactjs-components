@@ -39,7 +39,7 @@
     "space-before-function-paren": [2, {
       "anonymous": "always", "named": "never"
     }],
-    "spaced-line-comment": [2, "always"],
+    "spaced-comment": [2, "always"],
     // "max-len": [2, 80, 4], TODO: DCOS-914
     "valid-jsdoc": [2, {
       "requireReturn": false,
