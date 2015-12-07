@@ -42,7 +42,7 @@ export default class Confirm extends React.Component {
     let props = Util.exclude(this.props, 'children', 'disabled',
       'leftButtonText', 'leftButtonClassName', 'leftButtonCallback',
       'rightButtonText', 'rightButtonClassName', 'rightButtonCallback'
-      );
+    );
 
     return (
       <Modal
