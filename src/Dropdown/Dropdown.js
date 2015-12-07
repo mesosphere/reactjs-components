@@ -75,16 +75,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     // Calculate the space above and below the dropdown button.
     let spaceAroundDropdown = this.getSpaceAroundDropdown();
 
-    // If the menu height is larger than the space available on the bottom, then
-    // decide which has more space (top or bottom) and place the menu there.
-    if (menuHeight > spaceAroundDropdown.bottom) {
-      if (spaceAroundDropdown.bottom >= spaceAroundDropdown.top) {
-        direction = 'down';
-        height = spaceAroundDropdown.bottom;
-      } else {
-        direction = 'up';
-        height = spaceAroundDropdown.top;
-      }
+    // If the menu height is larger than the space available on the bottom and
+    // less than the space available on top, then render it up. Otherwise always
+    // render down.
+    if (menuHeight > spaceAroundDropdown.bottom
+      && menuHeight < spaceAroundDropdown.top) {
+      direction = 'up';
+      height = spaceAroundDropdown.top;
     } else {
       direction = 'down';
       height = spaceAroundDropdown.bottom;
