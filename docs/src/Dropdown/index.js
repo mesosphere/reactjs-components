@@ -35,6 +35,201 @@ class DropdownExample extends React.Component {
       }
     ];
 
+    let manyDropdownItems = [
+      {
+        html: 'Foo',
+        id: 'foo'
+      },
+      {
+        html: 'Bar',
+        id: 'bar'
+      },
+      {
+        html: 'Baz',
+        id: 'baz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'tiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'afoo'
+      },
+      {
+        html: 'Bar',
+        id: 'abar'
+      },
+      {
+        html: 'Baz',
+        id: 'abaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'atiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'bfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'bbar'
+      },
+      {
+        html: 'Baz',
+        id: 'bbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'btiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'cfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'cbar'
+      },
+      {
+        html: 'Baz',
+        id: 'cbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'ctiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'dfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'dbar'
+      },
+      {
+        html: 'Baz',
+        id: 'dbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'dtiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'efoo'
+      },
+      {
+        html: 'Bar',
+        id: 'ebar'
+      },
+      {
+        html: 'Baz',
+        id: 'ebaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'etiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'ffoo'
+      },
+      {
+        html: 'Bar',
+        id: 'fbar'
+      },
+      {
+        html: 'Baz',
+        id: 'fbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'ftiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'foo'
+      },
+      {
+        html: 'Bar',
+        id: 'gbar'
+      },
+      {
+        html: 'Baz',
+        id: 'gbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'gtiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'gfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'hbar'
+      },
+      {
+        html: 'Baz',
+        id: 'hbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'htiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'hfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'ibar'
+      },
+      {
+        html: 'Baz',
+        id: 'ibaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'itiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'ifoo'
+      },
+      {
+        html: 'Bar',
+        id: 'jbar'
+      },
+      {
+        html: 'Baz',
+        id: 'jbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'jtiny-whale'
+      },
+      {
+        html: 'Foo',
+        id: 'kfoo'
+      },
+      {
+        html: 'Bar',
+        id: 'kbar'
+      },
+      {
+        html: 'Baz',
+        id: 'kbaz'
+      },
+      {
+        html: 'A tiny whale',
+        id: 'ktiny-whale'
+      }
+    ];
+
     let styledItemsList = [
       {
         html:
@@ -157,14 +352,28 @@ class DropdownExample extends React.Component {
                 </div>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
-                    <p>Here is a simple dropdown.</p>
-                    <Dropdown buttonClassName="button dropdown-toggle"
-                      dropdownMenuClassName="dropdown-menu"
-                      dropdownMenuListClassName="dropdown-menu-list"
-                      items={dropdownItems}
-                      selectedID="foo"
-                      transition={true}
-                      wrapperClassName="dropdown" />
+                    <div className="row">
+                      <div className="column-6">
+                        <p>Here is a simple dropdown...</p>
+                        <Dropdown buttonClassName="button dropdown-toggle"
+                          dropdownMenuClassName="dropdown-menu"
+                          dropdownMenuListClassName="dropdown-menu-list"
+                          items={dropdownItems}
+                          selectedID="foo"
+                          transition={true}
+                          wrapperClassName="dropdown" />
+                      </div>
+                      <div className="column-6">
+                        <p>...and a very large dropdown.</p>
+                        <Dropdown buttonClassName="button dropdown-toggle"
+                          dropdownMenuClassName="dropdown-menu"
+                          dropdownMenuListClassName="dropdown-menu-list"
+                          items={manyDropdownItems}
+                          selectedID="foo"
+                          transition={true}
+                          wrapperClassName="dropdown" />
+                      </div>
+                    </div>
                   </div>
                   <div className="example-block-footer example-block-footer-codeblock">
                     <pre className="prettyprint linenums flush-bottom">
