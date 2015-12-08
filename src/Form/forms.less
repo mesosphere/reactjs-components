@@ -90,6 +90,26 @@ base/forms.less
 
   }
 
+  .form-row-element {
+
+    .icon-edit {
+      display: inline-block;
+      fill: #cbced1;
+      margin-left: @base-spacing-unit * 1/2;
+      opacity: 0;
+      transition: opacity 0.25s;
+      vertical-align: middle;
+    }
+
+    &.form-row-edit,
+    .read-only:hover {
+
+      .icon-edit {
+        opacity: 1;
+      }
+    }
+  }
+
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 

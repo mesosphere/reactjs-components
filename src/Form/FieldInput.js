@@ -2,6 +2,7 @@ import _ from "underscore";
 import classNames from "classnames";
 import React from "react";
 
+import IconEdit from "./icons/IconEdit";
 import KeyboardUtil from "../utils/KeyboardUtil";
 import StringUtil from "../utils/StringUtil";
 
@@ -105,6 +106,7 @@ export default class FieldInput extends React.Component {
         className={this.props.readClass}
         onClick={attributes.onFocus}>
         {this.props.value || attributes.startValue}
+        <IconEdit />
       </span>
     );
   }
