@@ -35,9 +35,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     if (this.state.menuHeight == null &&
       this.refs.dropdownMenuConcealer != null) {
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
-      let menuDirection = this.state.menuDirection;
-      let menuHeight = this.state.menuHeight;
-      let maxDropdownHeight = this.state.maxDropdownHeight;
+      let {maxDropdownHeight, menuDirection, menuHeight} = this.state;
 
       if (dropdownMenuConcealer != null) {
         // Get the height and direction of the concealed menu.
