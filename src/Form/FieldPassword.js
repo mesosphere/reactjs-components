@@ -4,7 +4,7 @@ import React from "react";
 
 import FieldInput from "./FieldInput";
 
-const DEFAULT_PASSWORD_TEXT = "default";
+const DEFAULT_PASSWORD_TEXT = "••••••";
 
 const METHODS_TO_BIND = ["handleOnFocus"];
 
@@ -35,12 +35,25 @@ export default class FieldPassword extends FieldInput {
       startValue = attributes.startValue;
     }
 
+    if (this.isEditing() || this.props.writeType === "input") {
+      return (
+        <input
+          ref="inputElement"
+          className={this.props.inputClass}
+          {...attributes}
+          value={startValue} />
+      );
+    }
+
     return (
-      <input
+      <span
         ref="inputElement"
-        className={this.props.inputClass}
         {...attributes}
-        value={startValue} />
+        className={this.props.readClass}
+        onClick={attributes.onFocus}>
+        {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
+      </span>
     );
   }
+
 }
