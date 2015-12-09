@@ -9,11 +9,13 @@ class DropdownExample extends React.Component {
 
     this.state = {
       selectedIDOne: 'foo',
-      selectedIDTwo: 'foo'
+      selectedIDTwo: 'foo',
+      selectedIDThree: 'foo'
     };
 
     this.onItemSelectionOne = this.onItemSelectionOne.bind(this);
     this.onItemSelectionTwo = this.onItemSelectionTwo.bind(this);
+    this.onItemSelectionThree = this.onItemSelectionThree.bind(this);
   }
 
   onItemSelectionOne(item) {
@@ -21,6 +23,10 @@ class DropdownExample extends React.Component {
   }
 
   onItemSelectionTwo(item) {
+    this.setState({selectedIDTwo: item.id});
+  }
+
+  onItemSelectionThree(item) {
     this.setState({selectedIDTwo: item.id});
   }
 
@@ -156,10 +162,6 @@ class DropdownExample extends React.Component {
       {
         html: 'A tiny whale',
         id: 'ftiny-whale'
-      },
-      {
-        html: 'Foo',
-        id: 'foo'
       },
       {
         html: 'Bar',
@@ -361,15 +363,30 @@ class DropdownExample extends React.Component {
                 </div>
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
-                    <p>Here is a simple dropdown.</p>
-                    <Dropdown buttonClassName="button dropdown-toggle"
-                      dropdownMenuClassName="dropdown-menu"
-                      dropdownMenuListClassName="dropdown-menu-list"
-                      items={dropdownItems}
-                      onItemSelection={this.onItemSelectionOne}
-                      selectedID={this.state.selectedIDOne}
-                      transition={true}
-                      wrapperClassName="dropdown" />
+                    <div className="row">
+                      <div className="column-6">
+                        <p>Here is a simple dropdown...</p>
+                        <Dropdown buttonClassName="button dropdown-toggle"
+                          dropdownMenuClassName="dropdown-menu"
+                          dropdownMenuListClassName="dropdown-menu-list"
+                          items={dropdownItems}
+                          onItemSelection={this.onItemSelectionOne}
+                          selectedID={this.state.selectedIDOne}
+                          transition={true}
+                          wrapperClassName="dropdown" />
+                      </div>
+                      <div className="column-6">
+                        <p>...and a very large dropdown.</p>
+                        <Dropdown buttonClassName="button dropdown-toggle"
+                          dropdownMenuClassName="dropdown-menu"
+                          dropdownMenuListClassName="dropdown-menu-list"
+                          items={manyDropdownItems}
+                          onItemSelection={this.onItemSelectionTwo}
+                          selectedID={this.state.selectedIDTwo}
+                          transition={true}
+                          wrapperClassName="dropdown" />
+                      </div>
+                    </div>
                   </div>
                   <div className="example-block-footer example-block-footer-codeblock">
                     <pre className="prettyprint linenums flush-bottom">
@@ -437,8 +454,8 @@ class CallbackDropdownExample extends React.Component {
                       dropdownMenuClassName="dropdown-menu"
                       dropdownMenuListClassName="dropdown-menu-list"
                       items={styledItemsList}
-                      onItemSelection={this.onItemSelectionTwo}
-                      selectedID={this.state.selectedIDTwo}
+                      onItemSelection={this.onItemSelectionThree}
+                      selectedID={this.state.selectedIDThree}
                       transition={true}
                       wrapperClassName="dropdown" />
                   </div>
