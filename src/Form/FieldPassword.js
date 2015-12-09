@@ -1,3 +1,4 @@
+import classNames from "classnames";
 /*eslint-disable no-unused-vars */
 import React from "react";
 /*eslint-enable no-unused-vars */
@@ -28,6 +29,7 @@ export default class FieldPassword extends FieldInput {
   }
 
   getInputElement(attributes) {
+    let classes = classNames(this.props.inputClass, this.props.sharedClass);
     attributes = this.bindEvents(attributes, this.props.handleEvent);
     attributes.onFocus = this.handleOnFocus;
 
@@ -40,7 +42,7 @@ export default class FieldPassword extends FieldInput {
       return (
         <input
           ref="inputElement"
-          className={`${this.props.inputClass} ${this.props.sharedClass}`}
+          className={classes}
           {...attributes}
           value={startValue} />
       );
@@ -50,7 +52,7 @@ export default class FieldPassword extends FieldInput {
       <span
         ref="inputElement"
         {...attributes}
-        className={`${this.props.readClass} ${this.props.sharedClass}`}
+        className={classes}
         onClick={attributes.onFocus}>
         {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
         <IconEdit />
