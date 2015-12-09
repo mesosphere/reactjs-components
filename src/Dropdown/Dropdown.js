@@ -23,8 +23,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       maxDropdownHeight: null,
       menuDirection: 'down',
       menuHeight: null,
-      isOpen: false,
-      selectedID: null
+      isOpen: false
     };
   }
 
@@ -54,12 +53,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         menuHeight
       });
     }
-  }
-
-  componentWillMount() {
-    this.setState({
-      selectedID: this.props.selectedID
-    });
   }
 
   getOptimalMenuStyle(menuHeight) {
@@ -94,11 +87,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getMenuItems(items) {
+    let selectedID = this.props.selectedID;
+
     return items.map((item) => {
       let classSet = classNames(
         {
           'is-selectable': item.selectable !== false,
-          'is-selected': item.id === this.state.selectedID
+          'is-selected': item.id === selectedID
         },
         item.className,
         this.props.dropdownMenuListItemClassName
@@ -141,19 +136,14 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
   handleExternalClick() {
     if (this.state.isOpen) {
-      this.setState({
-        isOpen: false
-      });
+      this.setState({isOpen: false});
     }
   }
 
   handleItemClick(item) {
     this.props.onItemSelection(item);
 
-    this.setState({
-      isOpen: false,
-      selectedID: item.id
-    });
+    this.setState({isOpen: false});
   }
 
   handleWrapperBlur(e) {
@@ -281,7 +271,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           onClick={this.handleMenuToggle}
           ref="button"
           type="button">
-          {this.getSelectedHtml(state.selectedID, items)}
+          {this.getSelectedHtml(props.selectedID, items)}
         </button>
         {dropdownMenu}
       </span>
@@ -324,7 +314,7 @@ Dropdown.propTypes = {
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
-  // The ID of the item that should be selected by default.
+  // The ID of the item.
   selectedID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number

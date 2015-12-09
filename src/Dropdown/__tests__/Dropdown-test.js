@@ -68,15 +68,19 @@ describe('Dropdown', function () {
     expect(this.callback).toHaveBeenCalled();
   });
 
-  it('correctly displays the selected item', function () {
-    // Click on the dropdown button to open the menu
-    TestUtils.Simulate.click(this.instance.refs.button);
-    // Find the selectable menu items
-    var selectableElements = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'is-selectable'
+  it('correctly updates to display the new selected item', function () {
+
+    this.instance = TestUtils.renderIntoDocument(
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        onItemSelection={this.callback}
+        selectedID="baz"
+        transition={false}
+        wrapperClassName="dropdown" />
     );
-    // Click on the second menu item returned, which we know to be "Baz"
-    TestUtils.Simulate.click(selectableElements[1]);
+
     var buttonText = React.findDOMNode(this.instance.refs.button).textContent;
     expect(buttonText).toEqual('Baz');
   });
