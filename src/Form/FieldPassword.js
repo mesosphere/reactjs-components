@@ -3,6 +3,7 @@ import React from "react";
 /*eslint-enable no-unused-vars */
 
 import FieldInput from "./FieldInput";
+import IconEdit from "./icons/IconEdit";
 
 const DEFAULT_PASSWORD_TEXT = "••••••";
 
@@ -52,6 +53,7 @@ export default class FieldPassword extends FieldInput {
         className={this.props.readClass}
         onClick={attributes.onFocus}>
         {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
+        <IconEdit />
       </span>
     );
   }
