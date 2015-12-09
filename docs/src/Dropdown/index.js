@@ -468,13 +468,13 @@ class CallbackDropdownExample extends React.Component {
 
   constructor() {
     super();
-    this.state = {selectedIDTwo: 'foo'};
+    this.state = {selectedIDThree: 'foo'};
 
-    this.onItemSelectionTwo = this.onItemSelectionTwo.bind(this);
+    this.onItemSelectionThree = this.onItemSelectionThree.bind(this);
   }
 
-  onItemSelectionTwo(item) {
-    this.setState({selectedIDTwo: item.id});
+  onItemSelectionThree(item) {
+    this.setState({selectedIDThree: item.id});
   }
 
   render() {
@@ -534,8 +534,8 @@ class CallbackDropdownExample extends React.Component {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={dropdownItems}
-        onItemSelection={this.onItemSelectionTwo}
-        selectedID={this.state.selectedIDTwo}
+        onItemSelection={this.onItemSelectionThree}
+        selectedID={this.state.selectedIDThree}
         transition={true}
         wrapperClassName="dropdown" />
     );
