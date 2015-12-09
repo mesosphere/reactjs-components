@@ -1,4 +1,5 @@
 jest.dontMock("../FieldInput");
+jest.dontMock("../icons/IconEdit");
 jest.dontMock("../../utils/KeyboardUtil");
 
 var React = require("react/addons");
