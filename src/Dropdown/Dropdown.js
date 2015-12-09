@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react/addons';
 
 import BindMixin from '../Mixin/BindMixin';
@@ -19,6 +20,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   constructor() {
     super();
     this.state = {
+      maxDropdownHeight: null,
       menuDirection: 'down',
       menuHeight: null,
       isOpen: false,
@@ -33,18 +35,21 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     if (this.state.menuHeight == null &&
       this.refs.dropdownMenuConcealer != null) {
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
-      let menuDirection = this.state.menuDirection;
-      let menuHeight = this.state.menuHeight;
+      let {maxDropdownHeight, menuDirection, menuHeight} = this.state;
 
       if (dropdownMenuConcealer != null) {
         // Get the height and direction of the concealed menu.
         menuHeight = dropdownMenuConcealer.firstChild.clientHeight || 0;
-        menuDirection = this.getMenuDirection(menuHeight);
+        let menuStyle = this.getOptimalMenuStyle(menuHeight);
+
+        menuDirection = menuStyle.direction;
+        maxDropdownHeight = menuStyle.height;
       }
 
       // Setting state with menu height and direction will re-render the
       // dropdown in the correct direction and not concealed.
       this.setState({
+        maxDropdownHeight,
         menuDirection,
         menuHeight
       });
@@ -57,19 +62,35 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     });
   }
 
-  getMenuDirection(menuHeight) {
+  getOptimalMenuStyle(menuHeight) {
+    let direction = 'down';
+    let height = null;
+
     // If we don't know the menu height, render it down.
     if (menuHeight == null) {
-      return 'down';
+      return {direction: 'down', height: null};
     }
     // Calculate the space above and below the dropdown button.
-    let spaceBelowDropdown = this.getSpaceBelowDropdown();
+    let spaceAroundDropdown = this.getSpaceAroundDropdown();
 
-    if (menuHeight > spaceBelowDropdown) {
-      return 'up';
+    // If the menu height is larger than the space available on the bottom and
+    // less than the space available on top, then render it up. Otherwise always
+    // render down.
+    if (menuHeight > spaceAroundDropdown.bottom
+      && menuHeight < spaceAroundDropdown.top) {
+      direction = 'up';
+      height = spaceAroundDropdown.top;
     } else {
-      return 'down';
+      direction = 'down';
+      height = spaceAroundDropdown.bottom;
     }
+
+    // We assume that 125 pixels is the smallest height we should render.
+    if (height < 125) {
+      height = 125;
+    }
+
+    return {direction, height};
   }
 
   getMenuItems(items) {
@@ -105,14 +126,17 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     return obj.selectedHtml || obj.html;
   }
 
-  getSpaceBelowDropdown() {
+  getSpaceAroundDropdown() {
     let dropdownWrapper = React.findDOMNode(this.refs.dropdownWrapper);
     let position = dropdownWrapper.getBoundingClientRect();
     let viewportHeight = global.window.innerHeight;
 
-    // Calculate the distance from the bottom of the viewport to the bottom of
-    // the dropdown button.
-    return viewportHeight - position.bottom;
+    // Calculate the distance from the top/bottom of the viewport to the
+    // top/bottom of the dropdown button.
+    return {
+      bottom: viewportHeight - position.bottom,
+      top: position.top
+    };
   }
 
   handleExternalClick() {
@@ -150,14 +174,18 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   handleMenuToggle(e) {
     e.stopPropagation();
     let menuDirection = this.state.menuDirection;
+    let maxDropdownHeight = this.state.maxDropdownHeight;
 
     // If the menu isn't open, then we're about to open it and we need to
     // calculate the direction every time.
     if (!this.state.isOpen) {
-      menuDirection = this.getMenuDirection(this.state.menuHeight);
+      let menuStyle = this.getOptimalMenuStyle(this.state.menuHeight);
+      menuDirection = menuStyle.direction;
+      maxDropdownHeight = menuStyle.height;
     }
 
     this.setState({
+      maxDropdownHeight,
       menuDirection,
       isOpen: !this.state.isOpen
     });
@@ -174,6 +202,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       state.menuDirection,
       props.dropdownMenuClassName
     );
+    let dropdownMenuStyle;
     let dropdownStateClassSet = {
       'open': state.isOpen
     };
@@ -191,25 +220,48 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     }
 
     if (state.isOpen) {
+      let dropdownMenuItems = (
+        <ul>
+          {this.getMenuItems(props.items)}
+        </ul>
+      );
+
+      // Render with Gemini scrollbar if the dropdown's height is constrainted.
+      if (state.menuHeight >= state.maxDropdownHeight) {
+        // Remove 30 pixels from the dropdown height to account for offset
+        // positioning from the dropdown button.
+        dropdownMenuStyle = {
+          height: `${state.maxDropdownHeight - 30}px`
+        };
+        dropdownMenuItems = (
+          <GeminiScrollbar
+            autoshow={true}
+            className="container-scrollable"
+            style={dropdownMenuStyle}>
+            {dropdownMenuItems}
+          </GeminiScrollbar>
+        );
+      }
+
       dropdownMenu = (
         <span className={dropdownMenuClassSet}
           role="menu" ref="dropdownMenu" key={dropdownKey}>
-          <ul className={props.dropdownMenuListClassName}>
-            {this.getMenuItems(props.items)}
-          </ul>
+          <div className={props.dropdownMenuListClassName}>
+            {dropdownMenuItems}
+          </div>
         </span>
       );
-    }
 
-    // If we don't know the menu's height, we render it invisibly and then
-    // immediately measure its height in #componentDidUpdate, which will change
-    // the state and trigger another render.
-    if (state.isOpen && state.menuHeight == null) {
-      dropdownMenu = (
-        <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
-          {dropdownMenu}
-        </div>
-      );
+      // If we don't know the menu's height, we render it invisibly and then
+      // immediately measure its height in #componentDidUpdate, which will change
+      // the state and trigger another render.
+      if (state.menuHeight == null) {
+        dropdownMenu = (
+          <div className="dropdown-menu-concealer" ref="dropdownMenuConcealer">
+            {dropdownMenu}
+          </div>
+        );
+      }
     }
 
     if (props.transition) {
