@@ -92,7 +92,7 @@ export default class FieldInput extends React.Component {
       return (
         <input
           ref="inputElement"
-          className={this.props.inputClass}
+          className={`${this.props.inputClass} ${this.props.sharedClass}`}
           onKeyDown={this.handleKeyDown.bind(this)}
           {...attributes}
           value={attributes.startValue} />
@@ -103,7 +103,7 @@ export default class FieldInput extends React.Component {
       <span
         ref="inputElement"
         {...attributes}
-        className={this.props.readClass}
+        className={`${this.props.readClass} ${this.props.sharedClass}`}
         onClick={attributes.onFocus}>
         {this.props.value || attributes.startValue}
         <IconEdit />

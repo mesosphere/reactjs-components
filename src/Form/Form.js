@@ -225,6 +225,7 @@ Form.propTypes = {
   helpBlockClass: PropTypes.string,
   inputClass: PropTypes.string,
   readClass: PropTypes.string,
+  sharedClass: PropTypes.string,
 
   definition: PropTypes.array,
   maxColumnWidth: PropTypes.number,
