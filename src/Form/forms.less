@@ -90,26 +90,6 @@ base/forms.less
 
   }
 
-  .form-row-element {
-
-    .icon-edit {
-      display: inline-block;
-      fill: #cbced1;
-      margin-left: @base-spacing-unit * 1/2;
-      opacity: 0;
-      transition: opacity 0.25s;
-      vertical-align: middle;
-    }
-
-    &.form-row-edit,
-    .read-only:hover {
-
-      .icon-edit {
-        opacity: 1;
-      }
-    }
-  }
-
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 
@@ -125,6 +105,24 @@ base/forms.less
     display: inline-block;
     height: auto;
     padding: @base-spacing-unit * 1/4 0;
+
+    .icon-edit {
+      display: inline-block;
+      fill: #cbced1;
+      margin-left: @base-spacing-unit * 1/2;
+      opacity: 0;
+      transition: opacity 0.25s;
+      vertical-align: middle;
+    }
+
+    &:hover {
+      border: none;
+      border-bottom: 1px solid transparent;
+
+      .icon-edit {
+        opacity: 1;
+      }
+    }
 
     &:focus {
       background: transparent;
