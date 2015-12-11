@@ -60,7 +60,7 @@ If you want to add a new npm package to `node_modules`:
 
 2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)). You can use this shorthand which will create a tag from current package.json version:
 
-        VERSION=$(npm -v reactjs-components) && git tag -a v$VERSION -m 'Version $VERSION'
+        VERSION=$(npm info reactjs-components version) && git tag -a v$VERSION -m 'Version $VERSION'
 
 3. Push the new tag to github:
 
