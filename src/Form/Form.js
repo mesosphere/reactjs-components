@@ -199,13 +199,13 @@ export default class Form extends React.Component {
     let state = this.state;
     let classes = _.pick(
       this.props,
-      "readClass",
-      "inputClass",
       "formControlClass",
       "helpBlockClass",
-      "sharedClass",
       "inlineIconClass",
-      "inlineTextClass"
+      "inlineTextClass",
+      "inputClass",
+      "readClass",
+      "sharedClass"
     );
 
     return definition.map((formControlOption, i) => {
