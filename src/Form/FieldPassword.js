@@ -54,8 +54,12 @@ export default class FieldPassword extends FieldInput {
         {...attributes}
         className={classes}
         onClick={attributes.onFocus}>
-        {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
-        <IconEdit />
+        <span className={this.props.inlineTextClass}>
+          {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
+        </span>
+        <span className={this.props.inlineIconClass}>
+          <IconEdit />
+        </span>
       </span>
     );
   }

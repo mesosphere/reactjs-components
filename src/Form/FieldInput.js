@@ -106,8 +106,12 @@ export default class FieldInput extends React.Component {
         {...attributes}
         className={classes}
         onClick={attributes.onFocus}>
-        {this.props.value || attributes.startValue}
-        <IconEdit />
+        <span className={this.props.inlineTextClass}>
+          {this.props.value || attributes.startValue}
+        </span>
+        <span className={this.props.inlineIconClass}>
+          <IconEdit />
+        </span>
       </span>
     );
   }
