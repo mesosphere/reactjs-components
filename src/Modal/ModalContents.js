@@ -246,7 +246,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     return (
       <CSSTransitionGroup
         transitionAppear={true}
-        transitionName="modal"
+        transitionName={this.props.transitionName}
         component="div">
         {this.getModal()}
       </CSSTransitionGroup>
@@ -265,6 +265,7 @@ ModalContents.defaultProps = {
   showFooter: false,
   subHeader: null,
   titleText: '',
+  transitionName: 'modal',
 
   // Default classes.
   backdropClass: 'fade in modal-backdrop',
@@ -305,6 +306,8 @@ ModalContents.propTypes = {
   subHeader: PropTypes.node,
   // Optional title.
   titleText: PropTypes.string,
+  // Optional enter and leave transition name
+  transitionName: PropTypes.string,
 
   // Classes
   backdropClass: PropTypes.string,
