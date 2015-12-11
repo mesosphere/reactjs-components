@@ -47,6 +47,25 @@ export default class Form extends React.Component {
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    let nextState = {};
+    let currentModel = this.buildStateObj(this.props.definition, "value");
+    let nextModel = this.buildStateObj(nextProps.definition, "value");
+    if (!_.isEqual(currentModel, nextModel)) {
+      nextState.model = _.extend({}, this.state.model, nextModel);
+    }
+
+    let currentErrors = this.buildStateObj(this.props.definition, "showError");
+    let nextErrors = this.buildStateObj(nextProps.definition, "showError");
+    if (!_.isEqual(currentErrors, nextErrors)) {
+      nextState.erroredFields = _.extend(
+        {}, this.state.erroredFields, nextErrors
+      );
+    }
+
+    this.setState(nextState);
+  }
+
   handleEvent(eventType, fieldName, fieldValue) {
     switch (eventType) {
       case "blur":
