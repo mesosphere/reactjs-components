@@ -102,11 +102,20 @@ base/forms.less
     appearance: none;
     border: none;
     border-bottom: 1px solid transparent;
-    display: inline-block;
+    display: flex;
     height: auto;
     padding: @base-spacing-unit * 1/4 0;
 
-    .icon-edit {
+    .form-element-inline-text {
+      flex: 0 1 auto;
+      overflow: hidden;
+      min-width: 20px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .form-element-inline-icon {
+      flex: 1 0 16px;
       display: inline-block;
       fill: #cbced1;
       margin-left: @base-spacing-unit * 1/2;
@@ -119,7 +128,7 @@ base/forms.less
       border: none;
       border-bottom: 1px solid transparent;
 
-      .icon-edit {
+      .form-element-inline-icon {
         opacity: 1;
       }
     }
