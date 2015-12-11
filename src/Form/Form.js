@@ -267,7 +267,6 @@ Form.defaultProps = {
   inlineTextClass: "form-element-inline-text",
   inputClass: "form-control",
   readClass: "read-only",
-  sharedClass: "form-element-inline",
 
   definition: {},
   onChange: function () {},
