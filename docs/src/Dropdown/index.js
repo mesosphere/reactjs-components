@@ -11,7 +11,7 @@ class DropdownExample extends React.Component {
   }
 
   onItemSelection(item) {
-    this.dropdownSelected = item.html.toLowerCase();
+    this.dropdownSelected = item.id;
     this.forceUpdate();
   }
 
@@ -147,10 +147,6 @@ class DropdownExample extends React.Component {
       {
         html: 'A tiny whale',
         id: 'ftiny-whale'
-      },
-      {
-        html: 'Foo',
-        id: 'foo'
       },
       {
         html: 'Bar',
