@@ -6,13 +6,28 @@ class DropdownExample extends React.Component {
 
   constructor() {
     super();
-    this.dropdownSelected = 'foo';
-    this.onItemSelection = this.onItemSelection.bind(this);
+
+    this.state = {
+      selectedIDOne: 'foo',
+      selectedIDTwo: 'foo',
+      selectedIDThree: 'foo'
+    };
+
+    this.onItemSelectionOne = this.onItemSelectionOne.bind(this);
+    this.onItemSelectionTwo = this.onItemSelectionTwo.bind(this);
+    this.onItemSelectionThree = this.onItemSelectionThree.bind(this);
   }
 
-  onItemSelection(item) {
-    this.dropdownSelected = item.html.toLowerCase();
-    this.forceUpdate();
+  onItemSelectionOne(item) {
+    this.setState({selectedIDOne: item.id});
+  }
+
+  onItemSelectionTwo(item) {
+    this.setState({selectedIDTwo: item.id});
+  }
+
+  onItemSelectionThree(item) {
+    this.setState({selectedIDTwo: item.id});
   }
 
   render() {
@@ -147,10 +162,6 @@ class DropdownExample extends React.Component {
       {
         html: 'A tiny whale',
         id: 'ftiny-whale'
-      },
-      {
-        html: 'Foo',
-        id: 'foo'
       },
       {
         html: 'Bar',
@@ -324,7 +335,7 @@ class DropdownExample extends React.Component {
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
-  // The ID of the item that should be selected by default.
+  // The ID of the item.
   selectedID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number
@@ -359,7 +370,8 @@ class DropdownExample extends React.Component {
                           dropdownMenuClassName="dropdown-menu"
                           dropdownMenuListClassName="dropdown-menu-list"
                           items={dropdownItems}
-                          selectedID="foo"
+                          onItemSelection={this.onItemSelectionOne}
+                          selectedID={this.state.selectedIDOne}
                           transition={true}
                           wrapperClassName="dropdown" />
                       </div>
@@ -369,7 +381,8 @@ class DropdownExample extends React.Component {
                           dropdownMenuClassName="dropdown-menu"
                           dropdownMenuListClassName="dropdown-menu-list"
                           items={manyDropdownItems}
-                          selectedID="foo"
+                          onItemSelection={this.onItemSelectionTwo}
+                          selectedID={this.state.selectedIDTwo}
                           transition={true}
                           wrapperClassName="dropdown" />
                       </div>
@@ -380,77 +393,17 @@ class DropdownExample extends React.Component {
 {`import {Dropdown} from 'reactjs-components';
 import React from 'react';
 
-class SimpleDropdownExample extends React.Component {
-
-  render() {
-    let dropdownItems = [
-      {
-        html: 'Foo',
-        id: 'foo'
-      },
-      {
-        html: 'Bar',
-        id: 'bar'
-      },
-      {
-        html: 'Baz',
-        id: 'baz'
-      },
-      {
-        html: 'A tiny whale',
-        id: 'whale'
-      }
-    ];
-
-    return (
-      <Dropdown buttonClassName="button dropdown-toggle"
-        dropdownMenuClassName="dropdown-menu"
-        dropdownMenuListClassName="dropdown-menu-list"
-        items={dropdownItems}
-        selectedID="foo"
-        transition={true}
-        wrapperClassName="dropdown" />
-    );
-  }
-}
-`}
-                    </pre>
-                  </div>
-                </div>
-
-                <h3>Callbacks</h3>
-                <p>
-                  Use the <code>onItemSelection</code> attribute to add
-                  callbacks to item selection.
-                </p>
-                <div className="example-block flush-bottom">
-                  <div className="example-block-content">
-                    <p>You have selected {this.dropdownSelected}.</p>
-                    <Dropdown buttonClassName="button dropdown-toggle"
-                      dropdownMenuClassName="dropdown-menu"
-                      dropdownMenuListClassName="dropdown-menu-list"
-                      items={dropdownItems}
-                      onItemSelection={this.onItemSelection}
-                      selectedID="foo"
-                      transition={true}
-                      wrapperClassName="dropdown" />
-                  </div>
-                  <div className="example-block-footer example-block-footer-codeblock">
-                    <pre className="prettyprint linenums flush-bottom">
-{`import {Dropdown} from 'reactjs-components';
-import React from 'react';
-
 class CallbackDropdownExample extends React.Component {
 
   constructor() {
     super();
-    this.dropdownSelected = 'foo';
-    this.onItemSelection = this.onItemSelection.bind(this);
+    this.state = {selectedIDOne: 'foo'};
+
+    this.onItemSelectionOne = this.onItemSelectionOne.bind(this);
   }
 
-  onItemSelection(item) {
-    this.dropdownSelected = item.html.toLowerCase();
-    this.forceUpdate();
+  onItemSelectionOne(item) {
+    this.setState({selectedIDOne: item.id});
   }
 
   render() {
@@ -475,13 +428,13 @@ class CallbackDropdownExample extends React.Component {
 
     return (
       <div>
-        <p>You have selected {this.dropdownSelected}.</p>
+        <p>You have selected {this.state.selectedID}.</p>
         <Dropdown buttonClassName="button dropdown-toggle"
           dropdownMenuClassName="dropdown-menu"
           dropdownMenuListClassName="dropdown-menu-list"
           items={dropdownItems}
           onItemSelection={this.onItemSelection}
-          selectedID="foo"
+          selectedID={this.state.selectedID}
           transition={true}
           wrapperClassName="dropdown" />
       </div>
@@ -501,7 +454,8 @@ class CallbackDropdownExample extends React.Component {
                       dropdownMenuClassName="dropdown-menu"
                       dropdownMenuListClassName="dropdown-menu-list"
                       items={styledItemsList}
-                      selectedID="foo"
+                      onItemSelection={this.onItemSelectionThree}
+                      selectedID={this.state.selectedIDThree}
                       transition={true}
                       wrapperClassName="dropdown" />
                   </div>
@@ -510,7 +464,18 @@ class CallbackDropdownExample extends React.Component {
 {`import {Dropdown} from 'reactjs-components';
 import React from 'react';
 
-class CustomHTMLDropdownExample extends React.Component {
+class CallbackDropdownExample extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {selectedIDThree: 'foo'};
+
+    this.onItemSelectionThree = this.onItemSelectionThree.bind(this);
+  }
+
+  onItemSelectionThree(item) {
+    this.setState({selectedIDThree: item.id});
+  }
 
   render() {
     let styledItemsList = [
@@ -569,7 +534,8 @@ class CustomHTMLDropdownExample extends React.Component {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={dropdownItems}
-        selectedID="foo"
+        onItemSelection={this.onItemSelectionThree}
+        selectedID={this.state.selectedIDThree}
         transition={true}
         wrapperClassName="dropdown" />
     );
