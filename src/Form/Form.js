@@ -48,18 +48,20 @@ export default class Form extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    let props = this.props;
+    let state = this.state;
     let nextState = {};
-    let currentModel = this.buildStateObj(this.props.definition, "value");
+    let currentModel = this.buildStateObj(props.definition, "value");
     let nextModel = this.buildStateObj(nextProps.definition, "value");
     if (!_.isEqual(currentModel, nextModel)) {
-      nextState.model = _.extend({}, this.state.model, nextModel);
+      nextState.model = _.extend({}, state.model, nextModel);
     }
 
-    let currentErrors = this.buildStateObj(this.props.definition, "showError");
+    let currentErrors = this.buildStateObj(props.definition, "showError");
     let nextErrors = this.buildStateObj(nextProps.definition, "showError");
     if (!_.isEqual(currentErrors, nextErrors)) {
       nextState.erroredFields = _.extend(
-        {}, this.state.erroredFields, nextErrors
+        {}, state.erroredFields, nextErrors
       );
     }
 
