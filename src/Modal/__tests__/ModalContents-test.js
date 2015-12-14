@@ -25,6 +25,22 @@ describe('ModalContents', function () {
       var modal = instance.getModal();
       expect(TestUtils.isElement(modal)).toEqual(true);
     });
+
+    it('should return a div without container class when closed', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <ModalContents open={false} />
+      );
+
+      expect(React.findDOMNode(instance).className).toEqual('');
+    });
+
+    it('should return a div with container class when open', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <ModalContents open={true} />
+      );
+
+      expect(React.findDOMNode(instance).className).toEqual('modal-container');
+    });
   });
 
   describe('#onClose', function () {
@@ -82,6 +98,25 @@ describe('ModalContents', function () {
 
       var footer = instance.getFooter();
       expect(TestUtils.isElement(footer)).toEqual(true);
+    });
+  });
+
+  describe('#getBackdrop', function () {
+    it('should not return a backdrop when closed', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <ModalContents open={false} />
+      );
+
+      expect(instance.getBackdrop()).toEqual(null);
+    });
+
+    it('should return a backdrop when open', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <ModalContents open={true} />
+      );
+
+      var backdrop = instance.getBackdrop();
+      expect(TestUtils.isElement(backdrop)).toEqual(true);
     });
   });
 
