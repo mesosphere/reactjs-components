@@ -19,8 +19,8 @@ describe('Dropdown', function () {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={MockDropdownList}
+        initialID="bar"
         onItemSelection={this.callback}
-        selectedID="bar"
         transition={false}
         wrapperClassName="dropdown" />
     );
@@ -79,5 +79,36 @@ describe('Dropdown', function () {
     TestUtils.Simulate.click(selectableElements[1]);
     var buttonText = React.findDOMNode(this.instance.refs.button).textContent;
     expect(buttonText).toEqual('Baz');
+  });
+
+  it('correctly displays the selected item with forceSelectedID', function () {
+    var instance = TestUtils.renderIntoDocument(
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        forceSelectedID="quz"
+        transition={false}
+        wrapperClassName="dropdown" />
+    );
+
+    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    expect(buttonText).toEqual('Quz');
+  });
+
+  it('displays forceSelectedID when initialID and forceSelectedID is set', function () {
+    var instance = TestUtils.renderIntoDocument(
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        forceSelectedID="quz"
+        initialID="foo"
+        transition={false}
+        wrapperClassName="dropdown" />
+    );
+
+    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    expect(buttonText).toEqual('Quz');
   });
 });
