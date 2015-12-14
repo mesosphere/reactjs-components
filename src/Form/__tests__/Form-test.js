@@ -44,6 +44,36 @@ function noop() {}
 
 describe("Form", function () {
 
+  describe("#componentWillReceiveProps", function () {
+    beforeEach(function () {
+      this.instance = getInstance(getDefinition(), noop, noop);
+    });
+    it("should update model if definition value is different", function () {
+      this.instance.componentWillReceiveProps(
+        {
+          definition: [
+            {name: "username", value: "kenny", showError: "This is an error."}
+          ]
+        }
+      );
+
+      expect(this.instance.state.model.username).toEqual("kenny");
+    });
+
+    it("should update model if definition error is different", function () {
+      this.instance.componentWillReceiveProps(
+        {
+          definition: [
+            {name: "username", value: "kennyt", showError: "different error"}
+          ]
+        }
+      );
+
+      expect(this.instance.state.erroredFields.username)
+        .toEqual("different error");
+    });
+  });
+
   describe("#triggerSubmit", function () {
     it("should call the triggerSubmit function on mount", function () {
       var triggerSubmit = jasmine.createSpy();
