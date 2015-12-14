@@ -9,7 +9,6 @@
   position: fixed;
   top: 0px;
   width: 100%;
-  z-index: 2010;
 }
 
 .modal {
@@ -62,14 +61,6 @@
   }
 }
 
-.modal-backdrop {
-  // Since the backdrop will be inside of the modal-container now,
-  // and the container transitions by moving 25% above bottom,
-  // this will ensure that the backdrop doesn't get cut off.
-  bottom: -25%;
-  cursor: default;
-}
-
 .modal-enter {
   opacity: 0.01;
   transform: translate(0, -25%);
@@ -81,7 +72,6 @@
   }
 }
 
-
 .modal-leave {
   opacity: 1;
   transform: translate(0, 0);
@@ -90,6 +80,24 @@
     opacity: 0.01;
     transform: translate(0, -25%);
     transition: transform .5s ease-in, opacity .5s ease-in;
+  }
+}
+
+.modal-backdrop-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+
+  &.modal-backdrop-enter-active {
+    opacity: 1;
+  }
+}
+
+.modal-backdrop-leave {
+  opacity: 1;
+
+  &.modal-backdrop-leave-active {
+    opacity: 0.01;
+    transition: opacity .5s ease-in;
   }
 }
 

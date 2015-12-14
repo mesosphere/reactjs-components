@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 
@@ -212,7 +213,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     let calculatedHeight = this.heightInfo;
-    let containerStyle = {height: window.innerHeight};
+
     let contentHeight = calculatedHeight.contentHeight;
     let modalStyle = {height: calculatedHeight.height};
 
@@ -222,34 +223,52 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div
-        className={props.containerClass}
-        style={containerStyle}>
-        <div ref="modal" className={props.modalClass}>
-          {this.getCloseButton()}
-          {this.getHeader()}
-          <div className={props.bodyClass} style={modalStyle}>
-            <div ref="innerContainer" className={props.innerBodyClass}>
-              {this.getModalContent(useScrollbar, contentHeight)}
-            </div>
+      <div ref="modal" className={props.modalClass}>
+        {this.getCloseButton()}
+        {this.getHeader()}
+        <div className={props.bodyClass} style={modalStyle}>
+          <div ref="innerContainer" className={props.innerBodyClass}>
+            {this.getModalContent(useScrollbar, contentHeight)}
           </div>
-          {this.getFooter()}
         </div>
-        <div className={props.backdropClass}
-          onClick={this.handleBackdropClick}>
-        </div>
+        {this.getFooter()}
       </div>
     );
   }
 
-  render() {
+  getBackdrop() {
+    let props = this.props;
+    if (!props.open) {
+      return null;
+    }
+
     return (
-      <CSSTransitionGroup
-        transitionAppear={true}
-        transitionName={this.props.transitionName}
-        component="div">
-        {this.getModal()}
-      </CSSTransitionGroup>
+      <div className={props.backdropClass} onClick={this.handleBackdropClick} />
+    );
+  }
+
+  render() {
+    let props = this.props;
+    let containerClass = {};
+    if (props.open) {
+      containerClass[props.containerClass] = true;
+    }
+
+    return (
+      <div className={classNames(containerClass)}>
+        <CSSTransitionGroup
+          transitionAppear={true}
+          transitionName={props.transitionNameBackdrop}
+          component="div">
+          {this.getBackdrop()}
+        </CSSTransitionGroup>
+        <CSSTransitionGroup
+          transitionAppear={true}
+          transitionName={props.transitionNameModal}
+          component="div">
+          {this.getModal()}
+        </CSSTransitionGroup>
+      </div>
     );
   }
 }
@@ -265,10 +284,11 @@ ModalContents.defaultProps = {
   showFooter: false,
   subHeader: null,
   titleText: '',
-  transitionName: 'modal',
+  transitionNameBackdrop: 'modal-backdrop',
+  transitionNameModal: 'modal',
 
   // Default classes.
-  backdropClass: 'fade in modal-backdrop',
+  backdropClass: 'modal-backdrop',
   bodyClass: 'modal-content',
   closeButtonClass: 'modal-close',
   closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
@@ -306,8 +326,10 @@ ModalContents.propTypes = {
   subHeader: PropTypes.node,
   // Optional title.
   titleText: PropTypes.string,
-  // Optional enter and leave transition name
-  transitionName: PropTypes.string,
+  // Optional enter and leave transition name for backdrop
+  transitionNameBackdrop: PropTypes.string,
+  // Optional enter and leave transition name for modal
+  transitionNameModal: PropTypes.string,
 
   // Classes
   backdropClass: PropTypes.string,

@@ -68,8 +68,10 @@ class ModalExample extends React.Component {
   subHeader: PropTypes.node,
   // Optional title.
   titleText: PropTypes.string,
-  // Optional enter and leave transition name
-  transitionName: PropTypes.string,
+  // Optional enter and leave transition name for backdrop
+  transitionNameBackdrop: PropTypes.string,
+  // Optional enter and leave transition name for modal
+  transitionNameModal: PropTypes.string,
 
   // Classes
   backdropClass: PropTypes.string,
