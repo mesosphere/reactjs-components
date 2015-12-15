@@ -223,15 +223,17 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div ref="modal" className={props.modalClass}>
-        {this.getCloseButton()}
-        {this.getHeader()}
-        <div className={props.bodyClass} style={modalStyle}>
-          <div ref="innerContainer" className={props.innerBodyClass}>
-            {this.getModalContent(useScrollbar, contentHeight)}
+      <div className={props.containerClass}>
+        <div ref="modal" className={props.modalClass}>
+          {this.getCloseButton()}
+          {this.getHeader()}
+          <div className={props.bodyClass} style={modalStyle}>
+            <div ref="innerContainer" className={props.innerBodyClass}>
+              {this.getModalContent(useScrollbar, contentHeight)}
+            </div>
           </div>
+          {this.getFooter()}
         </div>
-        {this.getFooter()}
       </div>
     );
   }
@@ -249,13 +251,9 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   render() {
     let props = this.props;
-    let containerClass = {};
-    if (props.open) {
-      containerClass[props.containerClass] = true;
-    }
 
     return (
-      <div className={classNames(containerClass)}>
+      <div className={props.modalWrapperClass}>
         <CSSTransitionGroup
           transitionAppear={true}
           transitionName={props.transitionNameBackdrop}
@@ -344,5 +342,6 @@ ModalContents.propTypes = {
   headerContainerClass: PropTypes.string,
   innerBodyClass: PropTypes.string,
   modalClass: PropTypes.string,
+  modalWrapperClass: PropTypes.string,
   titleClass: PropTypes.string
 };

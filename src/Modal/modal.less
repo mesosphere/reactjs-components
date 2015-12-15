@@ -9,6 +9,9 @@
   position: fixed;
   top: 0px;
   width: 100%;
+  z-index: @z-index-modal;
+  // Turn off pointer events, since we are on top of backdrop
+  pointer-events: none;
 }
 
 .modal {
@@ -18,6 +21,8 @@
   position: relative;
   background: inherit;
   max-height: none;
+  // Turn on pointer events, since this is a child of .modal-container
+  pointer-events: auto;
 
   .modal-close {
     position: absolute;

@@ -86,6 +86,7 @@ class ModalExample extends React.Component {
   headerContainerClass: PropTypes.string,
   innerBodyClass: PropTypes.string,
   modalClass: PropTypes.string,
+  modalWrapperClass: PropTypes.string,
   titleClass: PropTypes.string
 };`}
                 </pre>

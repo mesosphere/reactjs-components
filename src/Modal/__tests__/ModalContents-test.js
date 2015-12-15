@@ -25,22 +25,6 @@ describe('ModalContents', function () {
       var modal = instance.getModal();
       expect(TestUtils.isElement(modal)).toEqual(true);
     });
-
-    it('should return a div without container class when closed', function () {
-      var instance = TestUtils.renderIntoDocument(
-        <ModalContents open={false} />
-      );
-
-      expect(React.findDOMNode(instance).className).toEqual('');
-    });
-
-    it('should return a div with container class when open', function () {
-      var instance = TestUtils.renderIntoDocument(
-        <ModalContents open={true} />
-      );
-
-      expect(React.findDOMNode(instance).className).toEqual('modal-container');
-    });
   });
 
   describe('#onClose', function () {
