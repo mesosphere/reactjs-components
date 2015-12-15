@@ -11,7 +11,7 @@ class DropdownExample extends React.Component {
   }
 
   onItemSelection(item) {
-    this.dropdownSelected = item.html.toLowerCase();
+    this.dropdownSelected = item.id;
     this.forceUpdate();
   }
 
@@ -147,10 +147,6 @@ class DropdownExample extends React.Component {
       {
         html: 'A tiny whale',
         id: 'ftiny-whale'
-      },
-      {
-        html: 'Foo',
-        id: 'foo'
       },
       {
         html: 'Bar',
@@ -296,6 +292,12 @@ class DropdownExample extends React.Component {
                 <div className="example-block">
                   <pre className="prettyprint linenums flush-bottom">
 {`Dropdown.propTypes = {
+  // When set it will always set this property as the selected ID.
+  // Notice: This property will override the initialID
+  forceSelectedID: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   // The items to display in the dropdown.
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
@@ -321,14 +323,14 @@ class DropdownExample extends React.Component {
       ])
     })
   ).isRequired,
+  // The ID of the item that should be selected initially.
+  initialID: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
-  // The ID of the item that should be selected by default.
-  selectedID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]).isRequired,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
   transition: React.PropTypes.bool,
@@ -359,7 +361,7 @@ class DropdownExample extends React.Component {
                           dropdownMenuClassName="dropdown-menu"
                           dropdownMenuListClassName="dropdown-menu-list"
                           items={dropdownItems}
-                          selectedID="foo"
+                          initialID="bar"
                           transition={true}
                           wrapperClassName="dropdown" />
                       </div>
@@ -369,7 +371,7 @@ class DropdownExample extends React.Component {
                           dropdownMenuClassName="dropdown-menu"
                           dropdownMenuListClassName="dropdown-menu-list"
                           items={manyDropdownItems}
-                          selectedID="foo"
+                          initialID="foo"
                           transition={true}
                           wrapperClassName="dropdown" />
                       </div>
@@ -407,7 +409,7 @@ class SimpleDropdownExample extends React.Component {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={dropdownItems}
-        selectedID="foo"
+        initialID="foo"
         transition={true}
         wrapperClassName="dropdown" />
     );
@@ -431,7 +433,7 @@ class SimpleDropdownExample extends React.Component {
                       dropdownMenuListClassName="dropdown-menu-list"
                       items={dropdownItems}
                       onItemSelection={this.onItemSelection}
-                      selectedID="foo"
+                      initialID="foo"
                       transition={true}
                       wrapperClassName="dropdown" />
                   </div>
@@ -481,7 +483,7 @@ class CallbackDropdownExample extends React.Component {
           dropdownMenuListClassName="dropdown-menu-list"
           items={dropdownItems}
           onItemSelection={this.onItemSelection}
-          selectedID="foo"
+          initialID="foo"
           transition={true}
           wrapperClassName="dropdown" />
       </div>
@@ -501,7 +503,7 @@ class CallbackDropdownExample extends React.Component {
                       dropdownMenuClassName="dropdown-menu"
                       dropdownMenuListClassName="dropdown-menu-list"
                       items={styledItemsList}
-                      selectedID="foo"
+                      initialID="foo"
                       transition={true}
                       wrapperClassName="dropdown" />
                   </div>
@@ -569,7 +571,7 @@ class CustomHTMLDropdownExample extends React.Component {
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={dropdownItems}
-        selectedID="foo"
+        initialID="foo"
         transition={true}
         wrapperClassName="dropdown" />
     );

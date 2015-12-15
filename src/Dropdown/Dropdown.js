@@ -28,6 +28,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    // Set the selectedID to the forceSelectedID if set
+    if (this.props.forceSelectedID) {
+      this.setState({selectedID: nextProps.forceSelectedID});
+    }
+  }
+
   componentDidUpdate() {
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
@@ -57,9 +64,16 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   componentWillMount() {
-    this.setState({
-      selectedID: this.props.selectedID
-    });
+    let props = this.props;
+    if (props.forceSelectedID) {
+      this.setState({
+        selectedID: props.forceSelectedID
+      });
+    } else {
+      this.setState({
+        selectedID: props.initialID
+      });
+    }
   }
 
   getOptimalMenuStyle(menuHeight) {
@@ -148,12 +162,16 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   handleItemClick(item) {
-    this.props.onItemSelection(item);
+    let props = this.props;
+    props.onItemSelection(item);
 
-    this.setState({
-      isOpen: false,
-      selectedID: item.id
-    });
+    let newState = {isOpen: false};
+    // Only set the selectedID if forceSelectedID is not set
+    if (!props.forceSelectedID) {
+      newState.selectedID = item.id;
+    }
+
+    this.setState(newState);
   }
 
   handleWrapperBlur(e) {
@@ -296,6 +314,12 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.propTypes = {
+  // When set it will always set this property as the selected ID.
+  // Notice: This property will override the initialID
+  forceSelectedID: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   // The items to display in the dropdown.
   items: React.PropTypes.arrayOf(
     React.PropTypes.shape({
@@ -321,14 +345,14 @@ Dropdown.propTypes = {
       ])
     })
   ).isRequired,
+  // The ID of the item that should be selected initially.
+  initialID: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.number
+  ]),
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
-  // The ID of the item that should be selected by default.
-  selectedID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]).isRequired,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
   transition: React.PropTypes.bool,

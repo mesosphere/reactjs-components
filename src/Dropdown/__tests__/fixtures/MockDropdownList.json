@@ -17,9 +17,9 @@
     "selectedHtml": "Baz"
   },
   {
-    "html": "Qux",
+    "html": "Quz",
     "id": "quz",
-    "selectedHtml": "Qux"
+    "selectedHtml": "Quz"
   },
   {
     "className": "dropdown-menu-divider",
