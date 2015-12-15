@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 
