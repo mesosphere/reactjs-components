@@ -253,7 +253,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     let props = this.props;
 
     return (
-      <div>
+      <div className={props.modalWrapperClass}>
         <CSSTransitionGroup
           transitionAppear={true}
           transitionName={props.transitionNameBackdrop}
@@ -342,5 +342,6 @@ ModalContents.propTypes = {
   headerContainerClass: PropTypes.string,
   innerBodyClass: PropTypes.string,
   modalClass: PropTypes.string,
+  modalWrapperClass: PropTypes.string,
   titleClass: PropTypes.string
 };
