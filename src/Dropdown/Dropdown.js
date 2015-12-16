@@ -28,13 +28,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Set the selectedID to the forceSelectedID if set
-    if (this.props.forceSelectedID) {
-      this.setState({selectedID: nextProps.forceSelectedID});
-    }
-  }
-
   componentDidUpdate() {
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
@@ -65,14 +58,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
   componentWillMount() {
     let props = this.props;
-    if (props.forceSelectedID) {
-      this.setState({
-        selectedID: props.forceSelectedID
-      });
-    } else {
-      this.setState({
-        selectedID: props.initialID
-      });
+    if (!props.forceSelectedID) {
+      this.setState({selectedID: props.initialID});
     }
   }
 
@@ -108,14 +95,17 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getMenuItems(items) {
+    let props = this.props;
+    let selectedID = props.forceSelectedID || this.state.selectedID;
+
     return items.map((item) => {
       let classSet = classNames(
         {
           'is-selectable': item.selectable !== false,
-          'is-selected': item.id === this.state.selectedID
+          'is-selected': item.id === selectedID
         },
         item.className,
-        this.props.dropdownMenuListItemClassName
+        props.dropdownMenuListItemClassName
       );
 
       let handleUserClick = null;
@@ -129,7 +119,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           {item.html}
         </li>
       );
-    }, this);
+    });
   }
 
   getSelectedHtml(id, items) {
@@ -294,6 +284,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
+    let selectedID = props.forceSelectedID || state.selectedID;
+
     return (
       <span className={wrapperClassSet}
         tabIndex="1"
@@ -303,7 +295,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           onClick={this.handleMenuToggle}
           ref="button"
           type="button">
-          {this.getSelectedHtml(state.selectedID, items)}
+          {this.getSelectedHtml(selectedID, items)}
         </button>
         {dropdownMenu}
       </span>
