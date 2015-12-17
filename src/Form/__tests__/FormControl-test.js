@@ -1,5 +1,4 @@
 jest.dontMock("../FormControl");
-jest.dontMock("../FormControl");
 jest.dontMock("../FieldInput");
 jest.dontMock("../icons/IconEdit");
 jest.dontMock("../../constants/FieldTypes");
