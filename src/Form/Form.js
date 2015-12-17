@@ -201,7 +201,8 @@ export default class Form extends React.Component {
     let state = this.state;
     let classes = _.pick(
       this.props,
-      "formControlClass",
+      "formGroupClass",
+      "formRowClass",
       "helpBlockClass",
       "inlineIconClass",
       "inlineTextClass",
@@ -246,7 +247,8 @@ export default class Form extends React.Component {
 Form.propTypes = {
   // Classes.
   className: PropTypes.string,
-  formControlClass: PropTypes.string,
+  formGroupClass: PropTypes.string,
+  formRowClass: PropTypes.string,
   helpBlockClass: PropTypes.string,
   inlineIconClass: PropTypes.string,
   inlineTextClass: PropTypes.string,
@@ -264,7 +266,8 @@ Form.propTypes = {
 Form.defaultProps = {
   // Classes.
   className: "form flush-bottom",
-  formControlClass: "row form-group",
+  formGroupClass: "form-group",
+  formRowClass: "row",
   helpBlockClass: "form-help-block",
   inlineIconClass: "form-element-inline-icon",
   inlineTextClass: "form-element-inline-text",

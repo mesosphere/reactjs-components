@@ -55,15 +55,14 @@ export default class FieldInput extends React.Component {
   }
 
   getRowClass(props) {
-    let classObj = {
-      "form-row-element": true,
-      "form-row-edit": this.isEditing(),
-      "form-row-input": props.writeType === "input",
-      "form-row-read": !this.isEditing() && props.writeType === "edit"
-    };
-    classObj[`column-${props.columnWidth}`] = true;
-
-    return classNames(classObj);
+    return classNames(
+      `column-${props.columnWidth}`,
+      "form-row-element",
+      {
+        "form-row-edit": this.isEditing(),
+        "form-row-input": props.writeType === "input",
+        "form-row-read": !this.isEditing() && props.writeType === "edit"
+      });
   }
 
   getErrorMsg() {
@@ -92,10 +91,11 @@ export default class FieldInput extends React.Component {
   }
 
   getInputElement(attributes) {
-    let classes = classNames(this.props.inputClass, this.props.sharedClass);
+    let props = this.props;
+    let classes = classNames(props.inputClass, props.sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || this.props.writeType === "input") {
+    if (this.isEditing() || props.writeType === "input") {
       return (
         <input
           ref="inputElement"
@@ -112,10 +112,10 @@ export default class FieldInput extends React.Component {
         {...attributes}
         className={classes}
         onClick={attributes.onFocus}>
-        <span className={this.props.inlineTextClass}>
-          {this.props.value || attributes.startValue}
+        <span className={props.inlineTextClass}>
+          {props.value || attributes.startValue}
         </span>
-        <span className={this.props.inlineIconClass}>
+        <span className={props.inlineIconClass}>
           <IconEdit />
         </span>
       </span>
@@ -123,16 +123,18 @@ export default class FieldInput extends React.Component {
   }
 
   render() {
-    let attributes = _.omit(
-      this.props, "onChange", "value"
-    );
-    let formRowElementClassSet = this.getRowClass(this.props);
+    let props = this.props;
+
+    let attributes = _.omit(props, "onChange", "value");
+    let formRowElementClassSet = this.getRowClass(props);
 
     return (
       <div className={formRowElementClassSet}>
-        {this.getLabel()}
-        {this.getInputElement(attributes)}
-        {this.getErrorMsg()}
+        <div className={props.formGroupClass}>
+          {this.getLabel()}
+          {this.getInputElement(attributes)}
+          {this.getErrorMsg()}
+        </div>
       </div>
     );
   }
