@@ -111,4 +111,34 @@ describe('Dropdown', function () {
     var buttonText = React.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('Quz');
   });
+
+  it('displays nothing when an non-existing item is selected', function () {
+    var instance = TestUtils.renderIntoDocument(
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        initialID="i-do-not-exist"
+        transition={false}
+        wrapperClassName="dropdown" />
+    );
+
+    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    expect(buttonText).toEqual('');
+  });
+
+  it('displays nothing when an non-existing item is force selected', function () {
+    var instance = TestUtils.renderIntoDocument(
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        forceSelectedID="i-do-not-exist"
+        transition={false}
+        wrapperClassName="dropdown" />
+    );
+
+    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    expect(buttonText).toEqual('');
+  });
 });

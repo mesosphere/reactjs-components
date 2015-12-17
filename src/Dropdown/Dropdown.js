@@ -137,7 +137,11 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       return item.id === id;
     });
 
-    return obj.selectedHtml || obj.html;
+    if (obj != null) {
+      return obj.selectedHtml || obj.html;
+    }
+
+    return null;
   }
 
   getSpaceAroundDropdown() {
