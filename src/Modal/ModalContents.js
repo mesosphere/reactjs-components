@@ -27,6 +27,12 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     ];
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.open !== newProps.open) {
+      document.body.classList.toggle('no-overflow');
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.open) {
       this.checkHeight();
