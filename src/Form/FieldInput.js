@@ -39,7 +39,13 @@ export default class FieldInput extends React.Component {
   handleKeyDown(event) {
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
-      React.findDOMNode(this.refs.inputElement).blur();
+      if (this.props.writeType === "edit") {
+        React.findDOMNode(this.refs.inputElement).blur();
+      }
+
+      if (this.props.writeType === "input") {
+        this.props.handleSubmit();
+      }
     }
   }
 

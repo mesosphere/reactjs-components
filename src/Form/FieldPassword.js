@@ -41,9 +41,10 @@ export default class FieldPassword extends FieldInput {
     if (this.isEditing() || this.props.writeType === "input") {
       return (
         <input
+          {...attributes}
           ref="inputElement"
           className={classes}
-          {...attributes}
+          onKeyDown={this.handleKeyDown.bind(this)}
           value={startValue} />
       );
     }

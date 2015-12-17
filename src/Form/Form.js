@@ -227,6 +227,7 @@ export default class Form extends React.Component {
           validationError={showError}
           currentValue={currentValue}
           handleEvent={this.handleEvent}
+          handleSubmit={this.handleSubmit}
           maxColumnWidth={this.props.maxColumnWidth}
           {...classes} />
       );
