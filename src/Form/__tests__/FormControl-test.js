@@ -1,4 +1,5 @@
 jest.dontMock("../FormControl");
+jest.dontMock("../FormControl");
 jest.dontMock("../FieldInput");
 jest.dontMock("../icons/IconEdit");
 jest.dontMock("../../constants/FieldTypes");
@@ -28,11 +29,12 @@ function getDefinition() {
 function getInstance() {
   return TestUtils.renderIntoDocument(
     <FormControl
+      currentValue="default"
       definition={getDefinition()}
       editing={null}
-      validationError={false}
-      currentValue="default"
-      handleEvent={function () {}} />
+      handleEvent={function () {}}
+      maxColumnWidth={13}
+      validationError={false} />
   );
 }
 
@@ -90,6 +92,30 @@ describe("FormControl", function () {
         // Expect first argument of each call to be the item.
         expect(call[0]).toEqual(items[i]);
       });
+    });
+  });
+
+  describe("#renderType", function () {
+    beforeEach(function () {
+      this.instance = getInstance();
+    });
+
+    it("calculates correct column width for last element", function () {
+      var definition = {
+        fieldType: "text"
+      };
+      var result = this.instance.renderType(definition, 7, true);
+
+      expect(result.props.columnWidth).toEqual(7);
+    });
+
+    it("calculates correct column width for all other", function () {
+      var definition = {
+        fieldType: "text"
+      };
+      var result = this.instance.renderType(definition, 7, false);
+
+      expect(result.props.columnWidth).toEqual(1);
     });
   });
 

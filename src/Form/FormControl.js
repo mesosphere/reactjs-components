@@ -14,16 +14,15 @@ export default class FormControl extends React.Component {
     });
   }
 
-  renderType(definition, columnLength, isLast) {
+  renderType(definition, columnLength = 1, isLast) {
     let fieldTypeName = definition.fieldType;
     let FieldTypeComponent = FieldTypes[fieldTypeName];
     let props = this.props;
     let maxColumnWidth = props.maxColumnWidth;
-    columnLength = columnLength || 1;
 
+    let columnWidth = Math.floor(maxColumnWidth / columnLength);
     if (isLast) {
-      columnLength = Math.floor(maxColumnWidth / columnLength)
-        + (maxColumnWidth % columnLength);
+      columnWidth += maxColumnWidth % columnLength;
     }
 
     return (
@@ -33,7 +32,7 @@ export default class FormControl extends React.Component {
         key={definition.name}
         startValue={props.currentValue[definition.name]}
         type={definition.fieldType}
-        columnWidth={Math.floor(this.props.maxColumnWidth / columnLength)} />
+        columnWidth={columnWidth} />
     );
   }
 
