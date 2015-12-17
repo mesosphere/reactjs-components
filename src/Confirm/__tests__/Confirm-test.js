@@ -7,6 +7,14 @@ var Confirm = require('../Confirm.js');
 
 describe('Confirm', function () {
 
+  beforeEach(function () {
+    document.body.classList = {
+      add: function () {},
+      remove: function () {},
+      toggle: function () {}
+    };
+  });
+
   describe('enabled', function () {
 
     beforeEach(function () {

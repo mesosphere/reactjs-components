@@ -8,6 +8,14 @@ var ModalContents = require('../ModalContents');
 
 describe('ModalContents', function () {
 
+  beforeEach(function () {
+    document.body.classList = {
+      add: function () {},
+      remove: function () {},
+      toggle: function () {}
+    };
+  });
+
   describe('#getModal', function () {
     it('should return null if modal is not open', function () {
       var instance = TestUtils.renderIntoDocument(
@@ -191,6 +199,55 @@ describe('ModalContents', function () {
 
       expect(calculatedHeight.height).toEqual(this.mockHeight.originalHeight);
       expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.contentHeight);
+    });
+  });
+
+  describe('overflow hidden on body', function () {
+    beforeEach(function () {
+      document.body.classList = {
+        add: jasmine.createSpy(),
+        remove: jasmine.createSpy(),
+        toggle: jasmine.createSpy()
+      };
+
+      this.node = document.createElement('div');
+    });
+
+    it('should toggle no-overflow on body when updated to open', function () {
+      React.render(<ModalContents open={false} />, this.node);
+      React.render(<ModalContents open={true} />, this.node);
+
+      expect(document.body.classList.toggle)
+        .toHaveBeenCalledWith('no-overflow');
+    });
+
+    it('should toggle no-overflow on body when updated to close', function () {
+      React.render(<ModalContents open={true} />, this.node);
+      React.render(<ModalContents open={false} />, this.node);
+
+      expect(document.body.classList.toggle)
+        .toHaveBeenCalledWith('no-overflow');
+    });
+
+    it('should add no-overflow on body when mounted open', function () {
+      React.render(<ModalContents open={true} />, this.node);
+
+      expect(document.body.classList.add).toHaveBeenCalledWith('no-overflow');
+    });
+
+    it('should not change class on body when mounted close', function () {
+      React.render(<ModalContents open={false} />, this.node);
+
+      expect(document.body.classList.toggle).not.toHaveBeenCalledWith();
+      expect(document.body.classList.add).not.toHaveBeenCalledWith();
+      expect(document.body.classList.remove).not.toHaveBeenCalledWith();
+    });
+
+    it('should remove no-overflow on body when unmounted', function () {
+      React.render(<ModalContents open={true} />, this.node);
+      React.render(<div />, this.node);
+
+      expect(document.body.classList.remove).toHaveBeenCalledWith('no-overflow');
     });
   });
 });

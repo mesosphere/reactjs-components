@@ -27,6 +27,12 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     ];
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.open !== newProps.open) {
+      document.body.classList.toggle('no-overflow');
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.open) {
       this.checkHeight();
@@ -38,11 +44,15 @@ export default class ModalContents extends Util.mixin(BindMixin) {
 
   componentWillMount() {
     this.resetHeight();
+    if (this.props.open) {
+      document.body.classList.add('no-overflow');
+    }
     window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentWillUnmount() {
     this.resetHeight();
+    document.body.classList.remove('no-overflow');
     window.removeEventListener('resize', this.handleWindowResize);
   }
 
