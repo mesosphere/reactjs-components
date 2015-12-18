@@ -80,8 +80,8 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     if (prevContentHeight != null) {
       let difference = innerContentHeight - prevContentHeight;
       if (difference !== 0 && height + difference < maxHeight) {
-        this.heightInfo.height += difference;
-        this.heightInfo.contentHeight += difference;
+        heightInfo.height += difference;
+        heightInfo.contentHeight += difference;
         this.forceUpdate();
       }
     }
