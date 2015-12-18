@@ -94,6 +94,7 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     this.heightInfo = this.calculateModalHeight();
     this.checkContentHeightChange(prevHeightInfo, this.heightInfo);
 
+    // This only occurs on first render
     if (!this.rerendered) {
       this.rerendered = true;
       this.forceUpdate();
