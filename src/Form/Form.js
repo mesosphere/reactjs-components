@@ -95,6 +95,10 @@ export default class Form extends React.Component {
       model, props.definition
     );
 
+    if (!validated) {
+      this.props.onError();
+    }
+
     if (validated && props.onSubmit) {
       props.onSubmit(model);
       return;
