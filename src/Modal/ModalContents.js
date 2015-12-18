@@ -73,12 +73,9 @@ export default class ModalContents extends Util.mixin(BindMixin) {
     this.heightInfo = Util.clone(DEFAULT_HEIGHT);
   }
 
-  checkHeight() {
-    let prevContentHeight = this.heightInfo.innerContentHeight;
-
-    // Calculate height and call a render on first render cycle
-    this.heightInfo = this.calculateModalHeight();
-    let {height, maxHeight, innerContentHeight} = this.heightInfo;
+  checkContentHeightChange(prevHeightInfo, heightInfo) {
+    let {height, maxHeight, innerContentHeight} = heightInfo;
+    let prevContentHeight = prevHeightInfo.innerContentHeight;
 
     if (prevContentHeight != null) {
       let difference = innerContentHeight - prevContentHeight;
@@ -86,9 +83,16 @@ export default class ModalContents extends Util.mixin(BindMixin) {
         this.heightInfo.height += difference;
         this.heightInfo.contentHeight += difference;
         this.forceUpdate();
-        return;
       }
     }
+  }
+
+  checkHeight() {
+    let prevHeightInfo = this.heightInfo;
+
+    // Calculate height and call a render on first render cycle
+    this.heightInfo = this.calculateModalHeight();
+    this.checkContentHeightChange(prevHeightInfo, this.heightInfo);
 
     if (!this.rerendered) {
       this.rerendered = true;
