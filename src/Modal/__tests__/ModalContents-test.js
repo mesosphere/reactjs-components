@@ -202,6 +202,33 @@ describe('ModalContents', function () {
     });
   });
 
+  describe('#checkContentHeightChange', function () {
+    beforeEach(function () {
+      this.instance = TestUtils.renderIntoDocument(
+        <ModalContents open={true} />
+      );
+    });
+
+    it('should update the heightInfo with the difference between content',
+      function () {
+        var prevHeightInfo = {innerContentHeight: 200};
+        var heightInfo = {
+          innerContentHeight: 300,
+          contentHeight: 400,
+          height: 500,
+          maxHeight: 1000
+        };
+
+        this.instance.checkContentHeightChange(prevHeightInfo, heightInfo);
+
+        // Adds the difference between the innerContentHeights to contentHeight
+        // and height.
+        expect(heightInfo.contentHeight).toEqual(500);
+        expect(heightInfo.height).toEqual(600);
+      }
+    );
+  });
+
   describe('overflow hidden on body', function () {
     beforeEach(function () {
       document.body.classList = {
