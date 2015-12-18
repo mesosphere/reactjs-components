@@ -294,7 +294,7 @@ class DropdownExample extends React.Component {
 {`Dropdown.propTypes = {
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
-  forceSelectedID: React.PropTypes.oneOfType([
+  persistentID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number
   ]),

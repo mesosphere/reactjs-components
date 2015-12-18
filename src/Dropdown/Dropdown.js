@@ -28,13 +28,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    // Set the selectedID to the forceSelectedID if set
-    if (this.props.forceSelectedID) {
-      this.setState({selectedID: nextProps.forceSelectedID});
-    }
-  }
-
   componentDidUpdate() {
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
@@ -65,14 +58,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
   componentWillMount() {
     let props = this.props;
-    if (props.forceSelectedID) {
-      this.setState({
-        selectedID: props.forceSelectedID
-      });
-    } else {
-      this.setState({
-        selectedID: props.initialID
-      });
+    if (!props.persistentID) {
+      this.setState({selectedID: props.initialID});
     }
   }
 
@@ -108,11 +95,13 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getMenuItems(items) {
+    let selectedID = this.getSelectedID();
+
     return items.map((item) => {
       let classSet = classNames(
         {
           'is-selectable': item.selectable !== false,
-          'is-selected': item.id === this.state.selectedID
+          'is-selected': item.id === selectedID
         },
         item.className,
         this.props.dropdownMenuListItemClassName
@@ -129,7 +118,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           {item.html}
         </li>
       );
-    }, this);
+    });
   }
 
   getSelectedHtml(id, items) {
@@ -142,6 +131,10 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     }
 
     return null;
+  }
+
+  getSelectedID() {
+    return this.props.persistentID || this.state.selectedID;
   }
 
   getSpaceAroundDropdown() {
@@ -170,8 +163,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     props.onItemSelection(item);
 
     let newState = {isOpen: false};
-    // Only set the selectedID if forceSelectedID is not set
-    if (!props.forceSelectedID) {
+    // Only set the selectedID if persistentID is not set
+    if (!props.persistentID) {
       newState.selectedID = item.id;
     }
 
@@ -294,6 +287,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
+    let selectedID = this.getSelectedID();
+
     return (
       <span className={wrapperClassSet}
         tabIndex="1"
@@ -303,7 +298,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           onClick={this.handleMenuToggle}
           ref="button"
           type="button">
-          {this.getSelectedHtml(state.selectedID, items)}
+          {this.getSelectedHtml(selectedID, items)}
         </button>
         {dropdownMenu}
       </span>
@@ -320,7 +315,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
-  forceSelectedID: React.PropTypes.oneOfType([
+  persistentID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number
   ]),
