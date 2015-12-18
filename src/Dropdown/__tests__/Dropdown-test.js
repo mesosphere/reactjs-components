@@ -81,13 +81,13 @@ describe('Dropdown', function () {
     expect(buttonText).toEqual('Baz');
   });
 
-  it('correctly displays the selected item with forceSelectedID', function () {
+  it('correctly displays the selected item with persistentID', function () {
     var instance = TestUtils.renderIntoDocument(
       <Dropdown buttonClassName="button dropdown-toggle"
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={MockDropdownList}
-        forceSelectedID="quz"
+        persistentID="quz"
         transition={false}
         wrapperClassName="dropdown" />
     );
@@ -96,13 +96,13 @@ describe('Dropdown', function () {
     expect(buttonText).toEqual('Quz');
   });
 
-  it('displays forceSelectedID when initialID and forceSelectedID is set', function () {
+  it('displays persistentID when initialID is also set', function () {
     var instance = TestUtils.renderIntoDocument(
       <Dropdown buttonClassName="button dropdown-toggle"
         dropdownMenuClassName="dropdown-menu"
         dropdownMenuListClassName="dropdown-menu-list"
         items={MockDropdownList}
-        forceSelectedID="quz"
+        persistentID="quz"
         initialID="foo"
         transition={false}
         wrapperClassName="dropdown" />
@@ -140,5 +140,54 @@ describe('Dropdown', function () {
 
     var buttonText = React.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('');
+  });
+
+  describe('#getSelectedID', function () {
+
+    it('should return initialID', function () {
+      expect(this.instance.getSelectedID()).toEqual('bar');
+    });
+
+    it('should return persistentID over initialID', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <Dropdown buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          persistentID="quz"
+          initialID="foo"
+          transition={false}
+          wrapperClassName="dropdown" />
+      );
+
+      expect(instance.getSelectedID()).toEqual('quz');
+    });
+
+    it('should return persistentID over initialID after update', function () {
+      var instance = React.render(
+        <Dropdown buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          persistentID="quz"
+          initialID="foo"
+          transition={false}
+          wrapperClassName="dropdown" />,
+          document.body
+      );
+      instance = React.render(
+        <Dropdown buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          persistentID="foo"
+          initialID="foo"
+          transition={false}
+          wrapperClassName="dropdown" />,
+          document.body
+      );
+
+      expect(instance.getSelectedID()).toEqual('foo');
+    });
   });
 });

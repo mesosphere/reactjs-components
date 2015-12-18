@@ -58,7 +58,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
 
   componentWillMount() {
     let props = this.props;
-    if (!props.forceSelectedID) {
+    if (!props.persistentID) {
       this.setState({selectedID: props.initialID});
     }
   }
@@ -95,8 +95,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getMenuItems(items) {
-    let props = this.props;
-    let selectedID = props.forceSelectedID || this.state.selectedID;
+    let selectedID = this.getSelectedID();
 
     return items.map((item) => {
       let classSet = classNames(
@@ -105,7 +104,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
           'is-selected': item.id === selectedID
         },
         item.className,
-        props.dropdownMenuListItemClassName
+        this.props.dropdownMenuListItemClassName
       );
 
       let handleUserClick = null;
@@ -134,6 +133,10 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     return null;
   }
 
+  getSelectedID() {
+    return this.props.persistentID || this.state.selectedID;
+  }
+
   getSpaceAroundDropdown() {
     let dropdownWrapper = React.findDOMNode(this.refs.dropdownWrapper);
     let position = dropdownWrapper.getBoundingClientRect();
@@ -160,8 +163,8 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     props.onItemSelection(item);
 
     let newState = {isOpen: false};
-    // Only set the selectedID if forceSelectedID is not set
-    if (!props.forceSelectedID) {
+    // Only set the selectedID if persistentID is not set
+    if (!props.persistentID) {
       newState.selectedID = item.id;
     }
 
@@ -284,7 +287,7 @@ export default class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
-    let selectedID = props.forceSelectedID || state.selectedID;
+    let selectedID = this.getSelectedID();
 
     return (
       <span className={wrapperClassSet}
@@ -312,7 +315,7 @@ Dropdown.defaultProps = {
 Dropdown.propTypes = {
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
-  forceSelectedID: React.PropTypes.oneOfType([
+  persistentID: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.number
   ]),
