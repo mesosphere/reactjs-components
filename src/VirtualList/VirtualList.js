@@ -7,6 +7,7 @@
 import BindMixin from '../Mixin/BindMixin';
 import React from 'react';
 import Util from '../Util/Util';
+import DOMUtil from '../Util/DOMUtil';
 
 let mathMax = Math.max;
 let mathMin = Math.min;
@@ -18,7 +19,8 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     return ['onScroll'];
   }
   constructor() {
-    super(arguments);
+    super(...arguments);
+
     this.state = {
       bufferEnd: 0,
       bufferStart: 0,
@@ -43,7 +45,6 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     let props = this.props;
     let state = this.getVirtualState(props);
     this.setState(state);
-
     props.container.addEventListener('scroll', this.onScrollDebounced);
   }
 
@@ -67,24 +68,14 @@ export default class VirtualList extends Util.mixin(BindMixin) {
 
     // Early return if nothing to render
     if (typeof props.container === 'undefined' ||
-        props.items.length === 0 ||
-        props.itemHeight <= 0) {
+      props.items.length === 0 ||
+      props.itemHeight <= 0) {
       return state;
     }
 
     let items = props.items;
     let container = props.container;
-    let viewHeight;
-    if (typeof container.innerHeight !== 'undefined') {
-      viewHeight = container.innerHeight;
-    } else {
-      viewHeight = container.clientHeight;
-    }
-
-    // No space to render
-    if (viewHeight <= 0) {
-      return state;
-    }
+    let viewHeight = DOMUtil.getViewportHeight();
 
     let viewTop;
     if (typeof container.scrollY !== 'undefined') {
@@ -93,24 +84,25 @@ export default class VirtualList extends Util.mixin(BindMixin) {
       viewTop = container.scrollTop;
     }
 
-    let renderStats = VirtualList.getItems(
-      viewTop,
-      viewHeight,
-      0,
-      props.itemHeight,
-      items.length,
-      props.itemBuffer
-    );
+    if (this.refs.list) {
+      let listBounding = React.findDOMNode(
+        this.refs.list
+      ).getBoundingClientRect();
 
-    // No items to render
-    if (renderStats.itemsInView.length === 0) {
-      return state;
+      let elementTop = listBounding.top +
+        (window.pageYOffset || document.documentElement.scrollTop || 0);
+
+      viewTop -= elementTop;
     }
 
-    state.items = items.slice(
-      renderStats.firstItemIndex,
-      renderStats.lastItemIndex + 1
+    let renderStats = VirtualList.getItems(
+      viewTop, viewHeight, 0, props.itemHeight, items.length, props.itemBuffer
     );
+
+    state.items = items.slice(
+      renderStats.firstItemIndex, renderStats.lastItemIndex + 1
+    );
+
     state.bufferStart = renderStats.firstItemIndex * props.itemHeight;
     state.bufferEnd = (props.items.length - renderStats.lastItemIndex - 1) *
       props.itemHeight;
@@ -144,11 +136,11 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     }
 
     return (
-    <props.tagName {...props}>
-      {props.renderBufferItem(topStyles)}
-      {state.items.map(props.renderItem)}
-      {props.renderBufferItem(bottomStyles)}
-    </props.tagName>
+      <props.tagName ref="list" {...props}>
+        {props.renderBufferItem(topStyles)}
+        {state.items.map(props.renderItem)}
+        {props.renderBufferItem(bottomStyles)}
+      </props.tagName>
     );
   }
 
@@ -167,7 +159,8 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   itemCount, itemBuffer) {
   if (itemCount === 0 || itemHeight === 0) {
     return {
-      itemsInView: 0
+      firstItemIndex: 0,
+      lastItemIndex: 0
     };
   }
 
@@ -191,14 +184,16 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   // List is below viewport
   if (viewBox.bottom < listBox.top) {
     return {
-      itemsInView: 0
+      firstItemIndex: 0,
+      lastItemIndex: 0
     };
   }
 
   // List is above viewport
   if (viewBox.top > listBox.bottom) {
     return {
-      itemsInView: 0
+      firstItemIndex: 0,
+      lastItemIndex: 0
     };
   }
 
@@ -207,12 +202,9 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   let firstItemIndex = mathMax(0, mathFloor(listViewBox.top / itemHeight));
   let lastItemIndex = mathCeil(listViewBox.bottom / itemHeight) - 1;
 
-  let itemsInView = lastItemIndex - firstItemIndex + 1;
-
   let result = {
     firstItemIndex: firstItemIndex,
-    lastItemIndex: lastItemIndex,
-    itemsInView: itemsInView
+    lastItemIndex: lastItemIndex
   };
 
   return result;
