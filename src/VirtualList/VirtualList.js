@@ -34,10 +34,9 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillMount() {
-    this.onScrollDebounced = Util.debounce(
+    this.onScrollDebounced = Util.throttle(
       this.onScroll,
-      this.props.scrollDelay,
-      false
+      this.props.scrollDelay
     );
   }
 

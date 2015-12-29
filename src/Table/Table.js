@@ -50,7 +50,7 @@ export default class Table extends React.Component {
     this.state = {
       sortBy: {}
     };
-    this.cachedRows = {};
+    this.cachedCells = {};
     this.cachedIDs = [];
   }
 
@@ -78,46 +78,31 @@ export default class Table extends React.Component {
     }
 
     let lastID = this.cachedIDs.shift();
-    delete this.cachedRows[lastID];
+    delete this.cachedCells[lastID];
   }
 
   addToCache(id, element) {
-    this.cachedRows[id] = element;
+    this.cachedCells[id] = element;
     this.cachedIDs.push(id);
     this.checkFullCache();
   }
 
   updateHeight() {
-    let newState = {};
     let {state, refs} = this;
 
-    newState.viewportHeight = DOMUtil.getViewportHeight();
-
-    if (this.props.itemHeight == null &&
-      state.itemHeight == null &&
+    // Calculate content height only once and when node is ready
+    if (this.props.itemHeight == null && state.itemHeight == null &&
       refs.itemHeightContainer != null) {
-      // Calculate content height only once and when node is ready
-      newState.itemHeight = DOMUtil.getComputedDimensions(
+      let itemHeight = DOMUtil.getComputedDimensions(
         React.findDOMNode(refs.itemHeightContainer).querySelector('tr')
       ).height;
-    }
 
-    // Only update if we have a change
-    if (state.scrollContainer !== newState.scrollContainer ||
-      state.itemHeight !== newState.itemHeight ||
-      state.viewportHeight !== newState.viewportHeight) {
-      this.setState(newState);
+      this.setState({itemHeight});
     }
   }
 
-  buildUniqueID(row, idAttribute, columns, sortBy) {
-    let id = row[idAttribute];
-
-    columns.forEach(function (column) {
-      id += row[column.prop];
-    });
-
-    return id + sortBy.prop;
+  buildUniqueID(cellClassName, cellValue, column) {
+    return column.prop + cellClassName + cellValue;
   }
 
   buildSortAttributes(header) {
@@ -176,18 +161,20 @@ export default class Table extends React.Component {
     );
   }
 
-  getRowCell(columns, sortBy, buildRowOptions, idAttribute, row) {
-    let id = this.buildUniqueID(row, idAttribute, columns, sortBy);
+  getRow(columns, sortBy, buildRowOptions, idAttribute, row) {
+    let id = row[idAttribute];
 
-    // Skip build row if we have it memoized
-    if (this.cachedRows[id] == null) {
-      let rowCells = columns.map(function (column, index) {
-        // For each column in the data, output a cell in each row with the value
-        // specified by the data prop.
-        let cellClassName = getClassName(column, sortBy, row, columns.length);
+    let rowCells = columns.map((column, index) => {
+      let cellClassName = getClassName(column, sortBy, row, columns.length);
+      let cellValue = row[column.prop];
+      let cellID;
 
-        let cellValue = row[column.prop];
+      if (!column.dontCache) {
+        cellID = this.buildUniqueID(cellClassName, cellValue, column);
+      }
 
+      // Skip build cell if we have it memoized
+      if (cellID === undefined || this.cachedCells[cellID] == null) {
         if (column.render) {
           cellValue = column.render(column.prop, row);
         }
@@ -197,29 +184,27 @@ export default class Table extends React.Component {
           cellClassName += ' empty-cell';
         }
 
-        return (
+        let cellElement = (
           <td {...column.attributes} className={cellClassName} key={index}>
             {cellValue}
           </td>
         );
-      });
 
-      // Create the custom row attributes object, always with a key.
-      let rowAttributes = Util.extend(
-        {key: id},
-        buildRowOptions(row, this)
-      );
+        if (column.dontCache) {
+          return cellElement;
+        }
 
-      this.addToCache(id,
-        (
-          <tr {...rowAttributes}>
-            {rowCells}
-          </tr>
-        )
-      );
-    }
+        this.addToCache(cellID, cellElement);
+      }
 
-    return this.cachedRows[id];
+      return this.cachedCells[cellID];
+    });
+
+    return (
+      <tr key={id} {...buildRowOptions(row, this)}>
+        {rowCells}
+      </tr>
+    );
   }
 
   getRows(data, columns, sortBy, buildRowOptions, idAttribute) {
@@ -228,7 +213,7 @@ export default class Table extends React.Component {
     }
 
     return data.map((row) =>
-      this.getRowCell(columns, sortBy, buildRowOptions, idAttribute, row)
+      this.getRow(columns, sortBy, buildRowOptions, idAttribute, row)
     );
   }
 
@@ -264,18 +249,13 @@ export default class Table extends React.Component {
     let sortBy = state.sortBy;
 
     let itemHeight = state.itemHeight || props.itemHeight || 0;
-    let itemListHeight = itemHeight * data.length;
-
-    // Calculate the minimum of either the content or viewport height
-    let containerHeight = Math.min(itemListHeight, DOMUtil.getViewportHeight());
-    let visibleItems = Math.ceil(containerHeight / itemHeight);
 
     // Render first item only to measure the height later on.
     if (itemHeight === 0 && data.length) {
       return (
         <tbody ref="itemHeightContainer">
           {
-            this.getRowCell(
+            this.getRow(
               columns, sortBy, buildRowOptions, idAttribute, data[0]
             )
           }
@@ -288,16 +268,16 @@ export default class Table extends React.Component {
     return (
       <VirtualList
         container={window}
-        itemBuffer={Math.min(200, 10 * visibleItems)}
+        itemBuffer={200}
         itemHeight={itemHeight}
         items={sortData(columns, data, sortBy)}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
         renderItem={
-          this.getRowCell.bind(
+          this.getRow.bind(
             this, columns, sortBy, buildRowOptions, idAttribute
           )
         }
-        scrollDelay={Math.min(5, visibleItems / 4)}
+        scrollDelay={100}
         tagName="tbody" />
     );
   }
