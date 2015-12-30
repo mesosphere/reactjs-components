@@ -44,7 +44,7 @@ let getClassName = (column, sortBy, data, columns) => {
   return column.className || '';
 };
 
-export default class Table extends React.Component {
+class Table extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -363,3 +363,5 @@ Table.propTypes = {
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })
 };
+
+module.exports = Table;

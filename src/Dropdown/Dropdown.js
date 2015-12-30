@@ -8,7 +8,7 @@ import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class Dropdown extends Util.mixin(BindMixin) {
+class Dropdown extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
       'handleMenuToggle',
@@ -28,7 +28,18 @@ export default class Dropdown extends Util.mixin(BindMixin) {
     };
   }
 
+  componentWillMount() {
+    super.componentWillMount(...arguments);
+
+    let props = this.props;
+    if (!props.persistentID) {
+      this.setState({selectedID: props.initialID});
+    }
+  }
+
   componentDidUpdate() {
+    super.componentDidUpdate(...arguments);
+
     // If we don't know the menu height already, we need to calculate it after
     // it's rendered. It's rendered inside a concealed container, so it's okay
     // if it renders in the wrong direction.
@@ -53,13 +64,6 @@ export default class Dropdown extends Util.mixin(BindMixin) {
         menuDirection,
         menuHeight
       });
-    }
-  }
-
-  componentWillMount() {
-    let props = this.props;
-    if (!props.persistentID) {
-      this.setState({selectedID: props.initialID});
     }
   }
 
@@ -370,3 +374,5 @@ Dropdown.propTypes = {
   // Classname for the element that wraps the entire component.
   wrapperClassName: React.PropTypes.string
 };
+
+module.exports = Dropdown;

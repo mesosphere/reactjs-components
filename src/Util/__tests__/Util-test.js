@@ -68,7 +68,7 @@ describe('Util', function () {
     });
 
     it('doesn\'t exclude any properties', function () {
-      let expectedResult = {
+      var expectedResult = {
         foo: 'foo',
         bar: 'bar',
         baz: 'baz'
@@ -77,7 +77,7 @@ describe('Util', function () {
     });
 
     it('excludes one property', function () {
-      let expectedResult = {
+      var expectedResult = {
         foo: 'foo',
         baz: 'baz'
       };
@@ -85,7 +85,7 @@ describe('Util', function () {
     });
 
     it('excludes multiple properties', function () {
-      let expectedResult = {
+      var expectedResult = {
         baz: 'baz'
       };
       expect(Util.exclude(this.object, ['foo', 'bar', 'qux']))
@@ -93,7 +93,7 @@ describe('Util', function () {
     });
 
     it('doesn\'t modify the original object', function () {
-      let expectedResult = {
+      var expectedResult = {
         foo: 'foo',
         bar: 'bar',
         baz: 'baz'

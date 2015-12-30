@@ -7,7 +7,7 @@ import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class SidePanelContents extends Util.mixin(BindMixin) {
+class SidePanelContents extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
       'handleBackdropClick',
@@ -15,15 +15,13 @@ export default class SidePanelContents extends Util.mixin(BindMixin) {
     ];
   }
 
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
+    super.componentDidMount(...arguments);
     this.checkRerendered();
   }
 
   componentDidUpdate() {
+    super.componentDidUpdate(...arguments);
     this.checkRerendered();
   }
 
@@ -173,3 +171,5 @@ SidePanelContents.propTypes = {
   headerContainerClass: PropTypes.string,
   sidePanelClass: PropTypes.string
 };
+
+module.exports = SidePanelContents;

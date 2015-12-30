@@ -1,6 +1,5 @@
 const BindMixin = {
-  constructor() {
-    super.constructor();
+  componentWillMount() {
     if (this.methodsToBind) {
       this.methodsToBind.forEach((method) => {
         this[method] = this[method].bind(this);
@@ -9,4 +8,4 @@ const BindMixin = {
   }
 };
 
-export default BindMixin;
+module.exports = BindMixin;

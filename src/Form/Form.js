@@ -35,6 +35,8 @@ export default class Form extends Util.mixin(BindMixin) {
   }
 
   componentWillMount() {
+    super.componentWillMount();
+
     if (this.props.triggerSubmit) {
       this.props.triggerSubmit(this.handleSubmit);
     }
@@ -46,6 +48,8 @@ export default class Form extends Util.mixin(BindMixin) {
   }
 
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps();
+
     let props = this.props;
     let state = this.state;
     let nextState = {};
