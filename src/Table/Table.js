@@ -279,7 +279,7 @@ export default class Table extends React.Component {
     return (
       <VirtualList
         container={this.container}
-        itemBuffer={50}
+        itemBuffer={70}
         itemHeight={itemHeight}
         items={sortData(columns, data, sortBy)}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
