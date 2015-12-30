@@ -75,7 +75,6 @@ const DOMUtil = {
       window.innerHeight || 0
     );
   }
-
 };
 
 export default DOMUtil;

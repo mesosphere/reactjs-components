@@ -180,6 +180,26 @@ const Util = {
     };
   },
 
+  throttle(func, wait) {
+    let canCall = true;
+
+    let resetCall = function () {
+      canCall = true;
+    };
+
+    let timedFunc = function () {
+      func.apply(this, arguments);
+      setTimeout(resetCall, wait);
+    };
+
+    return function () {
+      if (canCall) {
+        canCall = false;
+        timedFunc.apply(this, arguments);
+      }
+    };
+  },
+
   extend(object, ...sources) {
 
     sources.forEach(function (source) {
