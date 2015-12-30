@@ -4,8 +4,6 @@ import React, {PropTypes} from 'react/addons';
 import Util from '../Util/Util';
 import VirtualList from '../VirtualList/VirtualList';
 
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 let sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
     return data;
@@ -98,29 +96,8 @@ export default class Table extends React.Component {
       ).height;
     }
 
-    if (props.useFlex) {
-      let headerHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(refs.headers)
-      ).height;
-
-      // Default to not grow beyond the specified ratio of viewport height
-      newState.viewportHeight =
-        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
-      // Calculated scroll container height
-
-      let scrollContainerHeight =
-        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
-        headerHeight - 30; // 30px for padding
-      newState.viewportHeight = scrollContainerHeight;
-    } else if (state.viewportHeight == null) {
-      let headerHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(refs.headers)
-      ).height;
-
-      // Default to not grow beyond the specified ratio of viewport height
-      newState.viewportHeight =
-        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
-      // Calculated scroll container height
+    if (state.viewportHeight == null) {
+      newState.viewportHeight = DOMUtil.getViewportHeight();
     }
 
     // Only update if we have a change
@@ -229,16 +206,6 @@ export default class Table extends React.Component {
     return this.cachedRows[id];
   }
 
-  getRows(data, columns, sortBy, buildRowOptions, idAttribute) {
-    if (data.length === 0) {
-      return this.getEmptyRowCell(columns);
-    }
-
-    return data.map((row) =>
-      this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, row)
-    );
-  }
-
   handleSort(prop, options) {
     let sortBy = this.state.sortBy;
     let onSortCallback = this.props.onSortCallback;
@@ -265,33 +232,7 @@ export default class Table extends React.Component {
     }
   }
 
-  getTable(columns, data, sortBy, idAttribute) {
-    let buildRowOptions = this.props.buildRowOptions;
-    let sortedData = sortData(columns, data, sortBy);
-
-    let rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, idAttribute);
-
-    // Can only use transitions in tables that does not scroll
-    if (this.props.transition === true) {
-      rows = (
-        <CSSTransitionGroup component="tbody" transitionName="table-row">
-          {rows}
-        </CSSTransitionGroup>
-      );
-    }
-
-    return (
-      <table className={this.props.className}>
-        {this.props.colGroup}
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-    );
-  }
-
   getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
-    let classes = classNames(this.props.className, 'flush-bottom');
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
@@ -305,8 +246,6 @@ export default class Table extends React.Component {
       </tbody>
     );
 
-    let style = {};
-
     if (data.length === 0) {
       innerContent = (
         <tbody>
@@ -314,7 +253,6 @@ export default class Table extends React.Component {
         </tbody>
       );
     } else if (itemHeight !== 0) {
-      style.height = containerHeight;
       let visibleItems = Math.ceil(containerHeight / itemHeight);
 
       // itemBuffer and scrollDelay is based on number of visible items
@@ -332,12 +270,7 @@ export default class Table extends React.Component {
       );
     }
 
-    return (
-      <table style={style} className={classes}>
-        {this.props.colGroup}
-        {innerContent}
-      </table>
-    );
+    return innerContent;
   }
 
   render() {
@@ -348,7 +281,6 @@ export default class Table extends React.Component {
     let data = props.data;
     let idAttribute = props.idAttribute;
     let sortBy = state.sortBy;
-    let tableContent = null;
 
     let itemHeight = state.itemHeight || props.itemHeight || 0;
     let itemListHeight = itemHeight * data.length;
@@ -358,26 +290,13 @@ export default class Table extends React.Component {
 
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
-    if ((props.useFlex || itemHeight === 0 || itemListHeight > containerHeight)
-      && props.useScrollTable) {
-      tableContent =
-        this.getScrollTable(
-          columns, data, sortBy, itemHeight, containerHeight, idAttribute
-        );
-    } else {
-      tableContent = this.getTable(columns, data, sortBy, idAttribute);
-    }
-
-    let styles = {};
-    let className = '';
-
-    if (props.useFlex) {
-      className = 'no-overflow';
-      styles.flexGrow = 1;
-    }
+    let tableContent =
+      this.getScrollTable(
+        columns, data, sortBy, itemHeight, containerHeight, idAttribute
+      );
 
     return (
-      <div ref="container" className={className} style={styles}>
+      <div ref="container">
         <table ref="headers" className={classes}>
           {props.colGroup}
           <thead>
@@ -385,8 +304,8 @@ export default class Table extends React.Component {
               {this.getHeaders(columns, sortBy)}
             </tr>
           </thead>
+          {tableContent}
         </table>
-        {tableContent}
       </div>
     );
   }
@@ -394,10 +313,7 @@ export default class Table extends React.Component {
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {},
-  useFlex: false,
-  useScrollTable: true,
-  windowRatio: 0.8
+  sortBy: {}
 };
 
 Table.propTypes = {
@@ -452,18 +368,5 @@ Table.propTypes = {
   sortBy: PropTypes.shape({
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  }),
-
-  // Optional property to add transitions or turn them off. Default is off.
-  // Only available for tables that does not scroll
-  transition: PropTypes.bool,
-
-  useFlex: PropTypes.bool,
-
-  // Optionally use the scroll table.
-  useScrollTable: PropTypes.bool,
-
-  // Optional property to set a ratio of the window you want the table
-  // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
-  windowRatio: PropTypes.number
+  })
 };

@@ -44,17 +44,6 @@ describe('Table', function () {
       .toEqual(4);
   });
 
-  it('should render the proper number of rows', function () {
-    var rows = this.instance.getRows(
-      MockTable.rows,
-      MockTable.columns,
-      this.sortBy,
-      Util.noop,
-      this.idAttribute
-    );
-    expect(rows.length).toEqual(5);
-  });
-
   it('should call the callback when the data is sorted', function () {
     this.instance.handleSort();
     expect(this.callback).toHaveBeenCalled();
