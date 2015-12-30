@@ -1,11 +1,8 @@
 import classNames from 'classnames';
 import DOMUtil from '../Util/DOMUtil';
-import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import Util from '../Util/Util';
 import VirtualList from '../VirtualList/VirtualList';
-
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 let sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
@@ -52,6 +49,7 @@ export default class Table extends React.Component {
       sortBy: {}
     };
     this.cachedRows = {};
+    this.container = window;
   }
 
   componentWillMount() {
@@ -83,11 +81,9 @@ export default class Table extends React.Component {
     let state = this.state;
     let refs = this.refs;
 
-    if (state.scrollContainer == null && refs.gemini != null) {
-      // Get the Gemini scroll view as the container view.
-      // We need this since both Gemini and VirtualList need the same element
-      newState.scrollContainer = React.findDOMNode(
-        refs.gemini.refs['scroll-view']
+    if (this.props.containerSelector && this.container === window) {
+      this.container = DOMUtil.closest(
+        React.findDOMNode(this), this.props.containerSelector
       );
     }
 
@@ -100,50 +96,12 @@ export default class Table extends React.Component {
       ).height;
     }
 
-    if (props.useFlex) {
-      let headerHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(refs.headers)
-      ).height;
-
-      // Default to not grow beyond the specified ratio of viewport height
-      newState.viewportHeight =
-        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
-      // Calculated scroll container height
-
-      let scrollContainerHeight =
-        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
-        headerHeight - 30; // 30px for padding
-      newState.viewportHeight = scrollContainerHeight;
-    } else if (state.viewportHeight == null) {
-      let headerHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(refs.headers)
-      ).height;
-
-      // Default to not grow beyond the specified ratio of viewport height
-      newState.viewportHeight =
-        props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
-      // Calculated scroll container height
-      let scrollContainerHeight =
-        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
-        headerHeight;
-
-      // Gemini may not always be present
-      if (newState.scrollContainer) {
-        // Calculate the element we grow with flex
-        let growContainer = scrollContainerHeight -
-          DOMUtil.getComputedDimensions(newState.scrollContainer).height;
-
-        // Check if the table can grow to take up the rest of its parent.
-        // If it can select the smallest viewport; parent or window.
-        if (growContainer > 0) {
-          newState.viewportHeight = scrollContainerHeight;
-        }
-      }
+    if (state.viewportHeight == null) {
+      newState.viewportHeight = DOMUtil.getViewportHeight();
     }
 
     // Only update if we have a change
-    if (state.scrollContainer !== newState.scrollContainer ||
-      state.itemHeight !== newState.itemHeight ||
+    if (state.itemHeight !== newState.itemHeight ||
       state.viewportHeight !== newState.viewportHeight) {
       this.setState(newState);
     }
@@ -248,16 +206,6 @@ export default class Table extends React.Component {
     return this.cachedRows[id];
   }
 
-  getRows(data, columns, sortBy, buildRowOptions, idAttribute) {
-    if (data.length === 0) {
-      return this.getEmptyRowCell(columns);
-    }
-
-    return data.map((row) =>
-      this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, row)
-    );
-  }
-
   handleSort(prop, options) {
     let sortBy = this.state.sortBy;
     let onSortCallback = this.props.onSortCallback;
@@ -284,34 +232,7 @@ export default class Table extends React.Component {
     }
   }
 
-  getTable(columns, data, sortBy, idAttribute) {
-    let buildRowOptions = this.props.buildRowOptions;
-    let sortedData = sortData(columns, data, sortBy);
-
-    let rows = this.getRows(sortedData, columns, sortBy, buildRowOptions, idAttribute);
-
-    // Can only use transitions in tables that does not scroll
-    if (this.props.transition === true) {
-      rows = (
-        <CSSTransitionGroup component="tbody" transitionName="table-row">
-          {rows}
-        </CSSTransitionGroup>
-      );
-    }
-
-    return (
-      <table className={this.props.className}>
-        {this.props.colGroup}
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-    );
-  }
-
   getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
-    let classes = classNames(this.props.className, 'flush-bottom');
-    let scrollContainer = this.state.scrollContainer;
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
@@ -325,23 +246,20 @@ export default class Table extends React.Component {
       </tbody>
     );
 
-    let style = {};
-
     if (data.length === 0) {
       innerContent = (
         <tbody>
           {this.getEmptyRowCell(columns)}
         </tbody>
       );
-    } else if (scrollContainer != null) {
-      style.height = containerHeight;
+    } else if (itemHeight !== 0) {
       let visibleItems = Math.ceil(containerHeight / itemHeight);
 
       // itemBuffer and scrollDelay is based on number of visible items
       // with a max value cutoff.
       innerContent = (
         <VirtualList
-          container={scrollContainer}
+          container={this.container}
           itemBuffer={Math.min(200, 10 * visibleItems)}
           itemHeight={itemHeight}
           items={sortData(columns, data, sortBy)}
@@ -352,17 +270,7 @@ export default class Table extends React.Component {
       );
     }
 
-    return (
-      <GeminiScrollbar
-        autoshow={true}
-        ref="gemini"
-        style={style}>
-        <table className={classes}>
-          {this.props.colGroup}
-          {innerContent}
-        </table>
-      </GeminiScrollbar>
-    );
+    return innerContent;
   }
 
   render() {
@@ -373,7 +281,6 @@ export default class Table extends React.Component {
     let data = props.data;
     let idAttribute = props.idAttribute;
     let sortBy = state.sortBy;
-    let tableContent = null;
 
     let itemHeight = state.itemHeight || props.itemHeight || 0;
     let itemListHeight = itemHeight * data.length;
@@ -383,26 +290,13 @@ export default class Table extends React.Component {
 
     // Use scroll table on first render to check if we need to scroll
     // and if content is bigger than its container
-    if ((props.useFlex || itemHeight === 0 || itemListHeight > containerHeight)
-      && props.useScrollTable) {
-      tableContent =
-        this.getScrollTable(
-          columns, data, sortBy, itemHeight, containerHeight, idAttribute
-        );
-    } else {
-      tableContent = this.getTable(columns, data, sortBy, idAttribute);
-    }
-
-    let styles = {};
-    let className = '';
-
-    if (props.useFlex) {
-      className = 'no-overflow';
-      styles.flexGrow = 1;
-    }
+    let tableContent =
+      this.getScrollTable(
+        columns, data, sortBy, itemHeight, containerHeight, idAttribute
+      );
 
     return (
-      <div ref="container" className={className} style={styles}>
+      <div ref="container">
         <table ref="headers" className={classes}>
           {props.colGroup}
           <thead>
@@ -410,8 +304,8 @@ export default class Table extends React.Component {
               {this.getHeaders(columns, sortBy)}
             </tr>
           </thead>
+          {tableContent}
         </table>
-        {tableContent}
       </div>
     );
   }
@@ -419,10 +313,7 @@ export default class Table extends React.Component {
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {},
-  useFlex: false,
-  useScrollTable: true,
-  windowRatio: 0.8
+  sortBy: {}
 };
 
 Table.propTypes = {
@@ -455,6 +346,9 @@ Table.propTypes = {
     })
   ).isRequired,
 
+  // Optional selector to use as container.
+  containerSelector: PropTypes.string,
+
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
@@ -474,18 +368,5 @@ Table.propTypes = {
   sortBy: PropTypes.shape({
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  }),
-
-  // Optional property to add transitions or turn them off. Default is off.
-  // Only available for tables that does not scroll
-  transition: PropTypes.bool,
-
-  useFlex: PropTypes.bool,
-
-  // Optionally use the scroll table.
-  useScrollTable: PropTypes.bool,
-
-  // Optional property to set a ratio of the window you want the table
-  // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
-  windowRatio: PropTypes.number
+  })
 };

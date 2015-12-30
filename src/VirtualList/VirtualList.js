@@ -93,6 +93,17 @@ export default class VirtualList extends Util.mixin(BindMixin) {
       viewTop = container.scrollTop;
     }
 
+    if (this.refs.list) {
+      let listBounding = React.findDOMNode(
+        this.refs.list
+      ).getBoundingClientRect();
+
+      let elementTop = listBounding.top +
+        (container.pageYOffset || container.scrollTop || 0);
+
+      viewTop -= elementTop;
+    }
+
     let renderStats = VirtualList.getItems(
       viewTop,
       viewHeight,
@@ -144,7 +155,7 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     }
 
     return (
-    <props.tagName {...props}>
+    <props.tagName ref="list" {...props}>
       {props.renderBufferItem(topStyles)}
       {state.items.map(props.renderItem)}
       {props.renderBufferItem(bottomStyles)}
