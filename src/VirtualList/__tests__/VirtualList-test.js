@@ -139,7 +139,6 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
-      // expect(result.itemsInView).toBe(5);
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(4);
     });
