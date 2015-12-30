@@ -29,6 +29,10 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.container !== nextProps.container) {
+      this.props.container.removeEventListener('scroll', this.onScrollDebounced);
+      nextProps.container.addEventListener('scroll', this.onScrollDebounced);
+    }
     let state = this.getVirtualState(nextProps);
     this.setState(state);
   }

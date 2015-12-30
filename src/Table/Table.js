@@ -52,6 +52,7 @@ export default class Table extends React.Component {
     };
     this.cachedCells = {};
     this.cachedIDs = [];
+    this.container = window;
   }
 
   componentWillMount() {
@@ -89,6 +90,12 @@ export default class Table extends React.Component {
 
   updateHeight() {
     let {state, refs} = this;
+
+    if (this.props.scrollContainerID && this.container === window) {
+      this.container = DOMUtil.closest(
+        React.findDOMNode(this), this.props.scrollContainerID
+      );
+    }
 
     // Calculate content height only once and when node is ready
     if (this.props.itemHeight == null && state.itemHeight == null &&
@@ -241,14 +248,10 @@ export default class Table extends React.Component {
     );
   }
 
-  getMeasuringTable(columns, sortBy, buildRowOptions, idAttribute, data) {
+  getMeasuringTable() {
     return (
       <tbody ref="itemHeightContainer">
-        {
-          this.getRow(
-            columns, sortBy, buildRowOptions, idAttribute, data
-          )
-        }
+        {this.getRow(...arguments)}
       </tbody>
     );
   }
@@ -275,8 +278,8 @@ export default class Table extends React.Component {
     // with a max value cutoff.
     return (
       <VirtualList
-        container={window}
-        itemBuffer={200}
+        container={this.container}
+        itemBuffer={50}
         itemHeight={itemHeight}
         items={sortData(columns, data, sortBy)}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
@@ -285,7 +288,7 @@ export default class Table extends React.Component {
             this, columns, sortBy, buildRowOptions, idAttribute
           )
         }
-        scrollDelay={100}
+        scrollDelay={200}
         tagName="tbody" />
     );
   }
@@ -368,6 +371,8 @@ Table.propTypes = {
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }),
+
+  scrollContainerID: PropTypes.string,
 
   // Optional property to add transitions or turn them off. Default is off.
   // Only available for tables that does not scroll
