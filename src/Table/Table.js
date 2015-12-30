@@ -207,16 +207,6 @@ export default class Table extends React.Component {
     );
   }
 
-  getRows(data, columns, sortBy, buildRowOptions, idAttribute) {
-    if (data.length === 0) {
-      return this.getEmptyRowCell(columns);
-    }
-
-    return data.map((row) =>
-      this.getRow(columns, sortBy, buildRowOptions, idAttribute, row)
-    );
-  }
-
   handleSort(prop, options) {
     let sortBy = this.state.sortBy;
     let onSortCallback = this.props.onSortCallback;
@@ -243,6 +233,26 @@ export default class Table extends React.Component {
     }
   }
 
+  getEmptyTable(columns) {
+    return (
+      <tbody>
+        {this.getEmptyRowCell(columns)}
+      </tbody>
+    );
+  }
+
+  getMeasuringTable(columns, sortBy, buildRowOptions, idAttribute, data) {
+    return (
+      <tbody ref="itemHeightContainer">
+        {
+          this.getRow(
+            columns, sortBy, buildRowOptions, idAttribute, data
+          )
+        }
+      </tbody>
+    );
+  }
+
   getTBody() {
     let {state, props} = this;
     let {columns, data, idAttribute, buildRowOptions} = props;
@@ -252,15 +262,13 @@ export default class Table extends React.Component {
 
     // Render first item only to measure the height later on.
     if (itemHeight === 0 && data.length) {
-      return (
-        <tbody ref="itemHeightContainer">
-          {
-            this.getRow(
-              columns, sortBy, buildRowOptions, idAttribute, data[0]
-            )
-          }
-        </tbody>
+      return this.getMeasuringTable(
+        columns, sortBy, buildRowOptions, idAttribute, data[0]
       );
+    }
+
+    if (data.length === 0) {
+      return this.getEmptyTable(columns);
     }
 
     // itemBuffer and scrollDelay is based on number of visible items
