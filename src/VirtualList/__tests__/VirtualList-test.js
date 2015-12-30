@@ -2,6 +2,8 @@ var VirtualList = require('../VirtualList');
 
 jest.dontMock('../VirtualList');
 jest.dontMock('../../Util/Util');
+jest.dontMock('../../Util/DOMUtil');
+jest.dontMock('../../Mixin/BindMixin');
 
 describe('VirtualList', function () {
 
