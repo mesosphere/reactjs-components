@@ -159,7 +159,7 @@ export default class Table extends React.Component {
     return (
       <tr>
         <td colSpan={columns.length}>
-          No data
+          {this.props.emptyMessage}
         </td>
       </tr>
     );
@@ -315,7 +315,8 @@ export default class Table extends React.Component {
 
 Table.defaultProps = {
   buildRowOptions: () => { return {}; },
-  sortBy: {}
+  sortBy: {},
+  emptyMessage: 'No data'
 };
 
 Table.propTypes = {
@@ -354,6 +355,9 @@ Table.propTypes = {
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
+
+  // Text to show if there is no data.
+  emptyMessage: PropTypes.string,
 
   // Optional item height for the scroll table. If not provided, it will render
   // once to measure the height of the first child.
