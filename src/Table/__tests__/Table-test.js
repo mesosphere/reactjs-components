@@ -49,4 +49,32 @@ describe('Table', function () {
     expect(this.callback).toHaveBeenCalled();
   });
 
+  describe('emptyMessage prop', function () {
+    beforeEach(function () {
+      this.emptyMessage = 'This is a custom message';
+      this.instance = TestUtils.renderIntoDocument(
+        <Table
+          className="table"
+          columns={MockTable.columns}
+          data={[]}
+          emptyMessage={this.emptyMessage}
+          idAttribute={this.idAttribute}
+          sortBy={this.sortBy}
+          onSortCallback={this.callback} />
+      );
+    });
+
+    it('should display the custom empty message', function () {
+      var result = TestUtils.renderIntoDocument(
+        this.instance.getEmptyRowCell([1])
+      );
+
+      result = TestUtils.findRenderedDOMComponentWithTag(
+        result, 'tr'
+      );
+
+      expect(React.findDOMNode(result).textContent).toBe(this.emptyMessage);
+    });
+  });
+
 });
