@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import DOMUtil from '../Util/DOMUtil';
-import GeminiScrollbar from 'react-gemini-scrollbar';
 import React, {PropTypes} from 'react/addons';
 import Util from '../Util/Util';
 import VirtualList from '../VirtualList/VirtualList';
@@ -83,14 +82,6 @@ export default class Table extends React.Component {
     let state = this.state;
     let refs = this.refs;
 
-    if (state.scrollContainer == null && refs.gemini != null) {
-      // Get the Gemini scroll view as the container view.
-      // We need this since both Gemini and VirtualList need the same element
-      newState.scrollContainer = React.findDOMNode(
-        refs.gemini.refs['scroll-view']
-      );
-    }
-
     if (props.itemHeight == null &&
       state.itemHeight == null &&
       refs.itemHeightContainer != null) {
@@ -123,27 +114,10 @@ export default class Table extends React.Component {
       newState.viewportHeight =
         props.windowRatio * DOMUtil.getViewportHeight() - headerHeight;
       // Calculated scroll container height
-      let scrollContainerHeight =
-        DOMUtil.getComputedDimensions(React.findDOMNode(refs.container)).height -
-        headerHeight;
-
-      // Gemini may not always be present
-      if (newState.scrollContainer) {
-        // Calculate the element we grow with flex
-        let growContainer = scrollContainerHeight -
-          DOMUtil.getComputedDimensions(newState.scrollContainer).height;
-
-        // Check if the table can grow to take up the rest of its parent.
-        // If it can select the smallest viewport; parent or window.
-        if (growContainer > 0) {
-          newState.viewportHeight = scrollContainerHeight;
-        }
-      }
     }
 
     // Only update if we have a change
-    if (state.scrollContainer !== newState.scrollContainer ||
-      state.itemHeight !== newState.itemHeight ||
+    if (state.itemHeight !== newState.itemHeight ||
       state.viewportHeight !== newState.viewportHeight) {
       this.setState(newState);
     }
@@ -311,7 +285,6 @@ export default class Table extends React.Component {
 
   getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
     let classes = classNames(this.props.className, 'flush-bottom');
-    let scrollContainer = this.state.scrollContainer;
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
@@ -333,7 +306,7 @@ export default class Table extends React.Component {
           {this.getEmptyRowCell(columns)}
         </tbody>
       );
-    } else if (scrollContainer != null) {
+    } else {
       style.height = containerHeight;
       let visibleItems = Math.ceil(containerHeight / itemHeight);
 
@@ -341,7 +314,7 @@ export default class Table extends React.Component {
       // with a max value cutoff.
       innerContent = (
         <VirtualList
-          container={scrollContainer}
+          container={window}
           itemBuffer={Math.min(200, 10 * visibleItems)}
           itemHeight={itemHeight}
           items={sortData(columns, data, sortBy)}
@@ -353,15 +326,10 @@ export default class Table extends React.Component {
     }
 
     return (
-      <GeminiScrollbar
-        autoshow={true}
-        ref="gemini"
-        style={style}>
-        <table className={classes}>
-          {this.props.colGroup}
-          {innerContent}
-        </table>
-      </GeminiScrollbar>
+      <table style={style} className={classes}>
+        {this.props.colGroup}
+        {innerContent}
+      </table>
     );
   }
 
