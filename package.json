@@ -21,9 +21,7 @@
   "dependencies": {
     "canvas-ui": "^0.2.1",
     "classnames": "^2.2.1",
-    "less-color-lighten": "0.0.1",
-    "react": "^0.13.3",
-    "react-gemini-scrollbar": "^1.1.1"
+    "less-color-lighten": "0.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.21",
@@ -49,8 +47,14 @@
     "jest-cli": "^0.4.15",
     "node-libs-browser": "^0.5.2",
     "npm-shrinkwrap": "^5.4.0",
+    "react": "^0.13.3",
+    "react-gemini-scrollbar": "^1.1.1",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.10.1"
+  },
+  "peerDependencies": {
+    "react": "0.13.x",
+    "react-gemini-scrollbar": "^1.1.x"
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
