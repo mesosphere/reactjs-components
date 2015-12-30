@@ -35,10 +35,10 @@ let sortData = (columns, data, sortBy) => {
   return data;
 };
 
-let getClassName = (column, sortBy, data) => {
+let getClassName = (column, sortBy, data, columns) => {
   if (Util.isFunction(column.className)) {
     return column.className(
-      column.prop, sortBy, data
+      column.prop, sortBy, data, columns
     );
   }
 
@@ -180,7 +180,9 @@ export default class Table extends React.Component {
         heading = header.heading;
       }
 
-      attributes.className = getClassName(header, this.state.sortBy, null);
+      attributes.className = getClassName(
+        header, this.state.sortBy, null, this.props.columns
+      );
       attributes.key = index;
 
       return (
@@ -212,7 +214,7 @@ export default class Table extends React.Component {
       let rowCells = columns.map(function (column, index) {
         // For each column in the data, output a cell in each row with the value
         // specified by the data prop.
-        let cellClassName = getClassName(column, sortBy, row);
+        let cellClassName = getClassName(column, sortBy, row, columns);
 
         let cellValue = row[column.prop];
 
