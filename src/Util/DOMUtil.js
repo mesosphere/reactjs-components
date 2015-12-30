@@ -74,27 +74,6 @@ const DOMUtil = {
       document.documentElement.clientHeight || 0,
       window.innerHeight || 0
     );
-  },
-
-  // Closest polyfill from: https://github.com/jonathantneal/closest
-  closest(element, selector) {
-    if (element.closest) {
-      return element.closest(selector);
-    }
-
-    element.matches = element.matches || element.mozMatchesSelector ||
-      element.msMatchesSelector || element.oMatchesSelector ||
-      element.webkitMatchesSelector;
-
-    while (element) {
-      if (element.matches(selector)) {
-        break;
-      }
-
-      element = element.parentElement;
-    }
-
-    return element;
   }
 };
 
