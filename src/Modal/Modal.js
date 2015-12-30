@@ -8,8 +8,7 @@ import Portal from '../Portal/Portal.js';
  * The Modal needs its own lifecycle and therefore this wrapper is necessary
  */
 
-export default class Modal extends React.Component {
-
+class Modal extends React.Component {
   render() {
     return (
       <Portal>
@@ -18,3 +17,5 @@ export default class Modal extends React.Component {
     );
   }
 }
+
+module.exports = Modal;

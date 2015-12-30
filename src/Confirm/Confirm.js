@@ -4,7 +4,7 @@ import React, {PropTypes} from 'react/addons';
 import Modal from '../Modal/Modal';
 import Util from '../Util/Util';
 
-export default class Confirm extends React.Component {
+class Confirm extends React.Component {
   getButtons() {
     let disabledConfig = {disabled: this.props.disabled};
 
@@ -95,3 +95,5 @@ Confirm.propTypes = {
   rightButtonClassName: PropTypes.string,
   rightButtonCallback: PropTypes.func.isRequired
 };
+
+module.exports = Confirm;
