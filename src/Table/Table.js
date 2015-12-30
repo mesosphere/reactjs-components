@@ -51,6 +51,7 @@ export default class Table extends React.Component {
       sortBy: {}
     };
     this.cachedRows = {};
+    this.container = window;
   }
 
   componentWillMount() {
@@ -81,6 +82,12 @@ export default class Table extends React.Component {
     let props = this.props;
     let state = this.state;
     let refs = this.refs;
+
+    if (this.props.containerSelector && this.container === window) {
+      this.container = DOMUtil.closest(
+        React.findDOMNode(this), this.props.containerSelector
+      );
+    }
 
     if (props.itemHeight == null &&
       state.itemHeight == null &&
@@ -314,7 +321,7 @@ export default class Table extends React.Component {
       // with a max value cutoff.
       innerContent = (
         <VirtualList
-          container={window}
+          container={this.container}
           itemBuffer={Math.min(200, 10 * visibleItems)}
           itemHeight={itemHeight}
           items={sortData(columns, data, sortBy)}
@@ -422,6 +429,9 @@ Table.propTypes = {
       sortFunction: PropTypes.func
     })
   ).isRequired,
+
+  // Optional selector to use as container.
+  containerSelector: PropTypes.string,
 
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
