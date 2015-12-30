@@ -21,7 +21,7 @@
   "dependencies": {
     "body-parser": "^1.13.2",
     "canvas-ui": "^0.2.1",
-    "classnames": "^2.1.3",
+    "classnames": "^2.2.1",
     "less-color-lighten": "0.0.1",
     "react": "^0.13.3",
     "react-gemini-scrollbar": "^1.1.1"
