@@ -1,7 +1,7 @@
 var eslint = require('gulp-eslint');
 var gulp = require('gulp');
 
-var config = require('./configuration');
+var config = require('./.build.config.js');
 
 var docsTasks = require('./docs/gulpTasks');
 
