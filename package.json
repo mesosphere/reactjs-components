@@ -19,12 +19,9 @@
   ],
   "main": "main.js",
   "dependencies": {
-    "body-parser": "^1.13.2",
-    "canvas-ui": "0.2.0",
-    "classnames": "^2.1.3",
-    "less-color-lighten": "0.0.1",
-    "react": "^0.13.3",
-    "react-gemini-scrollbar": "^1.1.1"
+    "canvas-ui": "^0.2.1",
+    "classnames": "^2.2.1",
+    "less-color-lighten": "0.0.1"
   },
   "devDependencies": {
     "babel": "^5.8.21",
@@ -35,7 +32,7 @@
     "browser-sync": "^2.7.13",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^2.6.4",
-    "glob": "^5.0.14",
+    "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
     "gulp-concat": "^2.6.0",
@@ -50,8 +47,14 @@
     "jest-cli": "^0.4.15",
     "node-libs-browser": "^0.5.2",
     "npm-shrinkwrap": "^5.4.0",
+    "react": "0.13.x",
+    "react-gemini-scrollbar": "^1.1.x",
     "source-map-loader": "^0.1.5",
     "webpack": "^1.10.1"
+  },
+  "peerDependencies": {
+    "react": "0.13.x",
+    "react-gemini-scrollbar": "^1.1.x"
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
@@ -61,7 +64,7 @@
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
     "test": "jest",
-    "shrinkwrap": "npm-shrinkwrap --dev",
+    "shrinkwrap": "npm-shrinkwrap",
     "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./"
   },
   "jest": {
