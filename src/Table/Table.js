@@ -306,7 +306,7 @@ export default class Table extends React.Component {
           {this.getEmptyRowCell(columns)}
         </tbody>
       );
-    } else {
+    } else if (itemHeight !== 0) {
       style.height = containerHeight;
       let visibleItems = Math.ceil(containerHeight / itemHeight);
 
