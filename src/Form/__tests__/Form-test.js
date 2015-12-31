@@ -3,8 +3,8 @@ jest.dontMock('../FormControl');
 jest.dontMock('../FieldInput');
 jest.dontMock('../FieldPassword');
 jest.dontMock('../icons/IconEdit');
-jest.dontMock('../../constants/FieldTypes');
-jest.dontMock('../../utils/Util');
+jest.dontMock('../FieldTypes');
+jest.dontMock('../../Util/Util');
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
