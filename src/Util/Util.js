@@ -442,6 +442,23 @@ const Util = {
     return a.length !== b.length;
   },
 
+  throttle(func, wait) {
+    let canCall = true;
+
+    let resetCall = function () {
+      console.log('%%$#%$');
+      canCall = true;
+    };
+
+    return function () {
+      if (canCall) {
+        setTimeout(resetCall, wait);
+        canCall = false;
+        func.apply(this, arguments);
+      }
+    };
+  },
+
   // Add external lodash functions
   noop: noop,
   trueNoop: trueNoop,
@@ -457,7 +474,6 @@ const Util = {
   pick: pick,
   sortBy: sortBy,
   values: values
-
 };
 
 export default Util;

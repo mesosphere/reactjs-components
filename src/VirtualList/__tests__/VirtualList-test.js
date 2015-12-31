@@ -1,7 +1,9 @@
-var VirtualList = require('../VirtualList');
-
 jest.dontMock('../VirtualList');
 jest.dontMock('../../Util/Util');
+jest.dontMock('../../Util/DOMUtil');
+jest.dontMock('../../Mixin/BindMixin');
+
+var VirtualList = require('../VirtualList');
 
 describe('VirtualList', function () {
 
@@ -131,40 +133,12 @@ describe('VirtualList', function () {
     var itemHeight = 200;
     var itemCount = 20;
 
-    it('shows items that are in the viewport', function () {
-      var windowScrollY = 0;
-      var offsetTop = 0;
-
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
-
-      expect(result.itemsInView).toBeGreaterThan(0);
-    });
-
-    it('does not show items after the viewport', function () {
-      var windowScrollY = 0;
-      var offsetTop = 1000;
-
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
-
-      expect(result.itemsInView).toBe(0);
-    });
-
-    it('does not show items before the viewport', function () {
-      var windowScrollY = 4000;
-      var offsetTop = 0;
-
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
-
-      expect(result.itemsInView).toBe(0);
-    });
-
     it('shows the first 5 items at the top of the viewport', function () {
       var windowScrollY = 0;
       var offsetTop = 0;
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
-      expect(result.itemsInView).toBe(5);
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(4);
     });
@@ -175,7 +149,6 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
-      expect(result.itemsInView).toBe(5);
       expect(result.firstItemIndex).toBe(15);
       expect(result.lastItemIndex).toBe(19);
     });
@@ -186,7 +159,8 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
-      expect(result.itemsInView).toBe(6);
+      expect(result.firstItemIndex).toBe(0);
+      expect(result.lastItemIndex).toBe(5);
     });
 
     it('shows the first 3 (2.5 items) if the list starts halfway down the page', function () {
@@ -196,7 +170,7 @@ describe('VirtualList', function () {
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(0);
-      expect(result.itemsInView).toBe(3);
+      expect(result.lastItemIndex).toBe(2);
     });
 
     it('shows the last 3 (2.5 items) if the viewport is scrolled 500px past the bottom of the list', function () {
@@ -206,7 +180,7 @@ describe('VirtualList', function () {
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(17);
-      expect(result.itemsInView).toBe(3);
+      expect(result.lastItemIndex).toBe(19);
     });
 
     it('shows all items if the list is smaller than the viewbox', function () {
@@ -216,7 +190,6 @@ describe('VirtualList', function () {
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, 4, 0);
 
       expect(result.firstItemIndex).toBe(0);
-      expect(result.itemsInView).toBe(4);
       expect(result.lastItemIndex).toBe(3);
     });
 
@@ -226,7 +199,8 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
-      expect(result.itemsInView).toBeGreaterThan(5);
+      expect(result.firstItemIndex).toBe(0);
+      expect(result.lastItemIndex).toBe(9);
     });
 
     it('does not show items after the viewport, beyond the buffer', function () {
@@ -235,7 +209,8 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
-      expect(result.itemsInView).toBe(5);
+      expect(result.firstItemIndex).toBe(0);
+      expect(result.lastItemIndex).toBe(4);
     });
 
     it('does not show items before the viewport, beyond the buffer', function () {
@@ -244,13 +219,15 @@ describe('VirtualList', function () {
 
       var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
-      expect(result.itemsInView).toBe(5);
+      expect(result.firstItemIndex).toBe(15);
+      expect(result.lastItemIndex).toBe(19);
     });
 
     it('shows items before and after the viewport, in the buffer', function () {
       var result = VirtualList.getItems(1000, viewport, 0, itemHeight, itemCount, 5);
 
-      expect(result.itemsInView).toBe(15);
+      expect(result.firstItemIndex).toBe(0);
+      expect(result.lastItemIndex).toBe(14);
     });
   });
 });
