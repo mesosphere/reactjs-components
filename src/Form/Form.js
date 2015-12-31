@@ -1,16 +1,16 @@
-import _ from "underscore";
-import React from "react";
+import _ from 'underscore';
+import React from 'react';
 const PropTypes = React.PropTypes;
 
-import FormControl from "./FormControl";
-import Util from "../utils/Util";
+import FormControl from './FormControl';
+import Util from '../utils/Util';
 
 const METHODS_TO_BIND = [
-  "handleBlur",
-  "handleEvent",
-  "handleOnFocus",
-  "handleSubmit",
-  "handleValueChange"
+  'handleBlur',
+  'handleEvent',
+  'handleOnFocus',
+  'handleSubmit',
+  'handleValueChange'
 ];
 
 // Find a the options for a particular field in the form.
@@ -27,7 +27,7 @@ export default class Form extends React.Component {
 
     this.state = {
       model: {},
-      editingField: "",
+      editingField: '',
       erroredFields: {}
     };
 
@@ -42,8 +42,8 @@ export default class Form extends React.Component {
     }
 
     this.setState({
-      model: this.buildStateObj(this.props.definition, "value"),
-      erroredFields: this.buildStateObj(this.props.definition, "showError")
+      model: this.buildStateObj(this.props.definition, 'value'),
+      erroredFields: this.buildStateObj(this.props.definition, 'showError')
     });
   }
 
@@ -51,14 +51,14 @@ export default class Form extends React.Component {
     let props = this.props;
     let state = this.state;
     let nextState = {};
-    let currentModel = this.buildStateObj(props.definition, "value");
-    let nextModel = this.buildStateObj(nextProps.definition, "value");
+    let currentModel = this.buildStateObj(props.definition, 'value');
+    let nextModel = this.buildStateObj(nextProps.definition, 'value');
     if (!_.isEqual(currentModel, nextModel)) {
       nextState.model = _.extend({}, state.model, nextModel);
     }
 
-    let currentErrors = this.buildStateObj(props.definition, "showError");
-    let nextErrors = this.buildStateObj(nextProps.definition, "showError");
+    let currentErrors = this.buildStateObj(props.definition, 'showError');
+    let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
     if (!_.isEqual(currentErrors, nextErrors)) {
       nextState.erroredFields = _.extend(
         {}, state.erroredFields, nextErrors
@@ -70,13 +70,13 @@ export default class Form extends React.Component {
 
   handleEvent(eventType, fieldName, fieldValue) {
     switch (eventType) {
-      case "blur":
+      case 'blur':
         this.handleBlur(fieldName);
         break;
-      case "change":
+      case 'change':
         this.handleValueChange(fieldName, fieldValue);
         break;
-      case "focus":
+      case 'focus':
         this.handleOnFocus(fieldName);
         break;
     }
@@ -115,7 +115,7 @@ export default class Form extends React.Component {
   handleBlur(field) {
     let options = findFieldOption(this.props.definition, field);
 
-    if (options.writeType === "input") {
+    if (options.writeType === 'input') {
       return;
     }
 
@@ -126,7 +126,7 @@ export default class Form extends React.Component {
   handleOnFocus(name) {
     let fieldOption = findFieldOption(this.props.definition, name);
 
-    if (fieldOption.writeType === "edit") {
+    if (fieldOption.writeType === 'edit') {
       this.setState({editingField: name});
     }
   }
@@ -138,7 +138,7 @@ export default class Form extends React.Component {
       return true;
     }
 
-    if (typeof validation === "function") {
+    if (typeof validation === 'function') {
       return validation(value);
     }
 
@@ -162,8 +162,8 @@ export default class Form extends React.Component {
         return;
       }
 
-      if (options.required && (fieldValue == null || fieldValue === "")) {
-        erroredFields[name] = "Field cannot be empty.";
+      if (options.required && (fieldValue == null || fieldValue === '')) {
+        erroredFields[name] = 'Field cannot be empty.';
         submitValidated = false;
       }
     });
@@ -205,14 +205,14 @@ export default class Form extends React.Component {
     let state = this.state;
     let classes = _.pick(
       this.props,
-      "formGroupClass",
-      "formRowClass",
-      "helpBlockClass",
-      "inlineIconClass",
-      "inlineTextClass",
-      "inputClass",
-      "readClass",
-      "sharedClass"
+      'formGroupClass',
+      'formRowClass',
+      'helpBlockClass',
+      'inlineIconClass',
+      'inlineTextClass',
+      'inputClass',
+      'readClass',
+      'sharedClass'
     );
 
     return definition.map((formControlOption, i) => {
@@ -260,23 +260,39 @@ Form.propTypes = {
   readClass: PropTypes.string,
   sharedClass: PropTypes.string,
 
-  definition: PropTypes.array,
+  // Form definition to build the form from. Contains either:
+  // 1. Array of field definitions will be created on same row
+  // 2. Field definition (object) will create a single field in that row
+  definition: PropTypes.arrayOf(
+    React.PropTypes.oneOfType([
+      React.PropTypes.object,
+      React.PropTypes.array
+    ])
+  ),
+
+  // Optional number of columns in the grid
   maxColumnWidth: PropTypes.number,
+  // Optional function to call on error
+  onError: PropTypes.func,
+  // Optional function to call on change
   onChange: PropTypes.func,
+  // Optional function to call on submit
   onSubmit: PropTypes.func,
+  // Optional function. Will receive a trigger function.
+  // Call the trigger function, when a submit needs to be triggered externally
   triggerSubmit: PropTypes.func
 };
 
 Form.defaultProps = {
   // Classes.
-  className: "form flush-bottom",
-  formGroupClass: "form-group",
-  formRowClass: "row",
-  helpBlockClass: "form-help-block",
-  inlineIconClass: "form-element-inline-icon",
-  inlineTextClass: "form-element-inline-text",
-  inputClass: "form-control",
-  readClass: "read-only",
+  className: 'form flush-bottom',
+  formGroupClass: 'form-group',
+  formRowClass: 'row',
+  helpBlockClass: 'form-help-block',
+  inlineIconClass: 'form-element-inline-icon',
+  inlineTextClass: 'form-element-inline-text',
+  inputClass: 'form-control',
+  readClass: 'read-only',
 
   definition: {},
   onChange: function () {},

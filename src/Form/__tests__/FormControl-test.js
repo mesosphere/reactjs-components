@@ -1,27 +1,27 @@
-jest.dontMock("../FormControl");
-jest.dontMock("../FieldInput");
-jest.dontMock("../icons/IconEdit");
-jest.dontMock("../../constants/FieldTypes");
-jest.dontMock("../../utils/Util");
+jest.dontMock('../FormControl');
+jest.dontMock('../FieldInput');
+jest.dontMock('../icons/IconEdit');
+jest.dontMock('../../constants/FieldTypes');
+jest.dontMock('../../utils/Util');
 
-var React = require("react/addons");
+var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
-var FormControl = require("../FormControl");
+var FormControl = require('../FormControl');
 
 function getDefinition() {
   return {
-    fieldName: "username",
-    value: "string",
+    fieldName: 'username',
+    value: 'string',
     validation: function (arg) {
       return arg.length < 15;
     },
-    placeholder: "What's up?",
-    fieldType: "text",
-    errorText: "Must be less than 8 characters",
+    placeholder: 'What\'s up?',
+    fieldType: 'text',
+    errorText: 'Must be less than 8 characters',
     required: true,
     showLabel: true,
-    writeType: "edit"
+    writeType: 'edit'
   };
 }
 
@@ -37,9 +37,9 @@ function getInstance() {
   );
 }
 
-describe("FormControl", function () {
+describe('FormControl', function () {
 
-  describe("#renderDefinition", function () {
+  describe('#renderDefinition', function () {
     beforeEach(function () {
       this.instance = getInstance();
 
@@ -55,20 +55,20 @@ describe("FormControl", function () {
       this.instance.renderType = this.prevRenderType;
     });
 
-    it("calls #renderGroup if definition is an array", function () {
+    it('calls #renderGroup if definition is an array', function () {
       this.instance.renderDefinition([]);
 
       expect(this.instance.renderGroup).toHaveBeenCalled();
     });
 
-    it("calls #renderType if definition is an object", function () {
+    it('calls #renderType if definition is an object', function () {
       this.instance.renderDefinition({});
 
       expect(this.instance.renderType).toHaveBeenCalled();
     });
   });
 
-  describe("#renderGroup", function () {
+  describe('#renderGroup', function () {
     beforeEach(function () {
       this.instance = getInstance();
 
@@ -80,7 +80,7 @@ describe("FormControl", function () {
       this.instance.renderDefinition = this.prevRenderDefinition;
     });
 
-    it("calls #renderDefinition for every item in the array", function () {
+    it('calls #renderDefinition for every item in the array', function () {
       var items = [1, 2, 3, 4, 5];
       this.instance.renderGroup(items);
 
@@ -94,23 +94,23 @@ describe("FormControl", function () {
     });
   });
 
-  describe("#renderType", function () {
+  describe('#renderType', function () {
     beforeEach(function () {
       this.instance = getInstance();
     });
 
-    it("calculates correct column width for last element", function () {
+    it('calculates correct column width for last element', function () {
       var definition = {
-        fieldType: "text"
+        fieldType: 'text'
       };
       var result = this.instance.renderType(definition, 7, true);
 
       expect(result.props.columnWidth).toEqual(7);
     });
 
-    it("calculates correct column width for all other", function () {
+    it('calculates correct column width for all other', function () {
       var definition = {
-        fieldType: "text"
+        fieldType: 'text'
       };
       var result = this.instance.renderType(definition, 7, false);
 

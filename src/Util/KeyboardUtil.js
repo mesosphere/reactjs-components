@@ -1,6 +1,6 @@
 let KeyboardUtil = {
   keys: {
-    enter: "Enter"
+    enter: 'Enter'
   }
 };
 

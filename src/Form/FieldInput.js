@@ -1,12 +1,12 @@
-import _ from "underscore";
-import classNames from "classnames";
-import React from "react";
+import _ from 'underscore';
+import classNames from 'classnames';
+import React from 'react';
 
-import IconEdit from "./icons/IconEdit";
-import KeyboardUtil from "../utils/KeyboardUtil";
-import StringUtil from "../utils/StringUtil";
+import IconEdit from './icons/IconEdit';
+import KeyboardUtil from '../utils/KeyboardUtil';
+import StringUtil from '../utils/StringUtil';
 
-const EVENTS = ["blur", "change", "focus"];
+const EVENTS = ['blur', 'change', 'focus'];
 
 export default class FieldInput extends React.Component {
   componentDidUpdate() {
@@ -32,18 +32,14 @@ export default class FieldInput extends React.Component {
     );
   }
 
-  handleValueChange(event) {
-    this.props.onChange(this.props.name, event.target.value);
-  }
-
   handleKeyDown(event) {
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
-      if (this.props.writeType === "edit") {
+      if (this.props.writeType === 'edit') {
         React.findDOMNode(this.refs.inputElement).blur();
       }
 
-      if (this.props.writeType === "input") {
+      if (this.props.writeType === 'input') {
         this.props.handleSubmit();
       }
     }
@@ -51,17 +47,17 @@ export default class FieldInput extends React.Component {
 
   isEditing() {
     return this.props.editing === this.props.name
-      && this.props.writeType === "edit";
+      && this.props.writeType === 'edit';
   }
 
   getRowClass(props) {
     return classNames(
       `column-${props.columnWidth}`,
-      "form-row-element",
+      'form-row-element',
       {
-        "form-row-edit": this.isEditing(),
-        "form-row-input": props.writeType === "input",
-        "form-row-read": !this.isEditing() && props.writeType === "edit"
+        'form-row-edit': this.isEditing(),
+        'form-row-input': props.writeType === 'input',
+        'form-row-read': !this.isEditing() && props.writeType === 'edit'
       });
   }
 
@@ -95,7 +91,7 @@ export default class FieldInput extends React.Component {
     let classes = classNames(props.inputClass, props.sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || props.writeType === "input") {
+    if (this.isEditing() || props.writeType === 'input') {
       return (
         <input
           ref="inputElement"
@@ -125,7 +121,7 @@ export default class FieldInput extends React.Component {
   render() {
     let props = this.props;
 
-    let attributes = _.omit(props, "onChange", "value");
+    let attributes = _.omit(props, 'onChange', 'value');
     let formRowElementClassSet = this.getRowClass(props);
 
     return (
@@ -139,3 +135,33 @@ export default class FieldInput extends React.Component {
     );
   }
 }
+
+FieldInput.defaultProps = {
+  handleEvent: function () {}
+};
+
+FieldInput.propTypes = {
+  // Function to handle when form is submitted
+  // (usually passed down from form definition)
+  handleSubmit: React.PropTypes.func,
+  // Function to handle events like 'change', 'blur', 'focus', etc on the field
+  // (usually passed down from form definition)
+  handleEvent: React.PropTypes.func,
+  // Optional label to add
+  label: React.PropTypes.string,
+  // Optional name of the field property
+  // (usually passed down from form definition)
+  name: React.PropTypes.string,
+  // initial value of checkbox, should be either 'checked' or 'unchecked'
+  startValue: React.PropTypes.string.isRequired,
+  // Optional field to set input to 'edit' or 'input' mode
+  writeType: React.PropTypes.string,
+  // Optional. Which field property is currently being edited
+  // (usually passed down from form definition)
+  editing: React.PropTypes.string,
+  // Optional object of error messages, with key equal to field property name
+  validationError: React.PropTypes.objectOf(React.PropTypes.string),
+
+  // Classes
+  labelClass: React.PropTypes.string
+};

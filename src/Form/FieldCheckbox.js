@@ -1,8 +1,8 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 
-import React from "react";
+import React from 'react';
 
-const METHODS_TO_BIND = ["handleChange"];
+const METHODS_TO_BIND = ['handleChange'];
 
 export default class FieldCheckbox extends React.Component {
   constructor() {
@@ -14,7 +14,7 @@ export default class FieldCheckbox extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.startValue === "indeterminate") {
+    if (this.props.startValue === 'indeterminate') {
       React.findDOMNode(this.refs.checkbox).indeterminate = true;
     }
   }
@@ -24,12 +24,12 @@ export default class FieldCheckbox extends React.Component {
     let checkbox = React.findDOMNode(this.refs.checkbox);
 
     if (checkbox.checked) {
-      value = "checked";
+      value = 'checked';
     } else {
-      value = "unchecked";
+      value = 'unchecked';
     }
 
-    this.props.handleEvent("change", this.props.name, value);
+    this.props.handleEvent('change', this.props.name, value);
   }
 
   getLabel() {
@@ -49,13 +49,13 @@ export default class FieldCheckbox extends React.Component {
     let startValue = this.props.startValue;
 
     let labelClass = classNames({
-      "form-row-element form-element-checkbox": true,
+      'form-row-element form-element-checkbox': true,
       [this.props.labelClass]: true
     });
 
-    if (startValue === "checked" || startValue === "unchecked") {
+    if (startValue === 'checked' || startValue === 'unchecked') {
       attributes = {
-        checked: startValue === "checked"
+        checked: startValue === 'checked'
       };
     }
 
@@ -81,3 +81,23 @@ export default class FieldCheckbox extends React.Component {
     );
   }
 }
+
+FieldCheckbox.defaultProps = {
+  handleEvent: function () {}
+};
+
+FieldCheckbox.propTypes = {
+  // Function to handle change event
+  // (usually passed down from form definition)
+  handleEvent: React.PropTypes.func,
+  // Optional label for field
+  label: React.PropTypes.string,
+  // Optional name of the field property
+  // (usually passed down from form definition)
+  name: React.PropTypes.string,
+  // initial value of checkbox, should be either 'checked' or 'unchecked'
+  startValue: React.PropTypes.string.isRequired,
+
+  // Classes
+  labelClass: React.PropTypes.string
+};

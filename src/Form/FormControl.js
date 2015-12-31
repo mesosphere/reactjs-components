@@ -1,8 +1,8 @@
-import _ from "underscore";
-import React from "react";
+import _ from 'underscore';
+import React from 'react';
 
-import FieldTypes from "../constants/FieldTypes";
-import Util from "../utils/Util";
+import FieldTypes from '../constants/FieldTypes';
+import Util from '../utils/Util';
 
 export default class FormControl extends React.Component {
 
@@ -27,8 +27,8 @@ export default class FormControl extends React.Component {
 
     return (
       <FieldTypeComponent
-        {..._.omit(props, "definition")}
-        {..._.omit(definition, "value", "fieldType")}
+        {..._.omit(props, 'definition')}
+        {..._.omit(definition, 'value', 'fieldType')}
         key={definition.name}
         startValue={props.currentValue[definition.name]}
         type={definition.fieldType}
@@ -59,3 +59,22 @@ export default class FormControl extends React.Component {
     );
   }
 }
+
+FormControl.propTypes = {
+  // Classes
+  formRowClass: React.PropTypes.string,
+
+  // Optional number of columns in the grid
+  maxColumnWidth: React.PropTypes.string,
+
+  // Object with key as field propterty name, and value as current value
+  currentValue: React.PropTypes.object.isRequired,
+
+  // Form definition to build the form from. Can be either:
+  // 1. Array of field definitions will be created on same row
+  // 2. Field definition (object) will create a single field in that row
+  definition: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.array
+  ])
+};
