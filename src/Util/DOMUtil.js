@@ -9,7 +9,6 @@ let computeInnerBound = (compstyle, acc, key) => {
 };
 
 const DOMUtil = {
-
   closest(el, selector) {
     var currentEl = el;
 
@@ -75,7 +74,6 @@ const DOMUtil = {
       window.innerHeight || 0
     );
   }
-
 };
 
-export default DOMUtil;
+module.exports = DOMUtil;

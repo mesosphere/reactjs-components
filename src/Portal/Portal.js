@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react/addons';
 
-export default class Portal extends React.Component {
+class Portal extends React.Component {
   componentDidMount() {
     this.nodeEl = document.createElement('div');
     document.body.appendChild(this.nodeEl);
@@ -28,3 +28,5 @@ export default class Portal extends React.Component {
 Portal.propTypes = {
   children: PropTypes.node.isRequired
 };
+
+module.exports = Portal;

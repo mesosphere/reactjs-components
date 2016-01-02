@@ -13,10 +13,11 @@ let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
 
-export default class VirtualList extends Util.mixin(BindMixin) {
+class VirtualList extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return ['onScroll'];
   }
+
   constructor() {
     super(arguments);
     this.state = {
@@ -27,11 +28,15 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(...arguments);
+
     let state = this.getVirtualState(nextProps);
     this.setState(state);
   }
 
   componentWillMount() {
+    super.componentWillMount(...arguments);
+
     this.onScrollDebounced = Util.debounce(
       this.onScroll,
       this.props.scrollDelay,
@@ -40,6 +45,8 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
+    super.componentDidMount(...arguments);
+
     let props = this.props;
     let state = this.getVirtualState(props);
     this.setState(state);
@@ -48,6 +55,8 @@ export default class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillUnmount() {
+    super.componentWillUnmount(...arguments);
+
     let props = this.props;
     props.container.removeEventListener('scroll', this.onScrollDebounced);
   }
@@ -250,3 +259,5 @@ VirtualList.propTypes = {
   // Optional number of items to use as buffer, before and after viewport
   itemBuffer: React.PropTypes.number
 };
+
+module.exports = VirtualList;

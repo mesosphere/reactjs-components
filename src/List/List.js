@@ -5,7 +5,7 @@ import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class List extends React.Component {
+class List extends React.Component {
   getListItems(list, childIndex = 0) {
     let items = list.map(function (item, parentIndex) {
       let key = `${parentIndex}.${childIndex}`;
@@ -91,3 +91,5 @@ List.propTypes = {
   transition: PropTypes.bool,
   transitionName: PropTypes.string
 };
+
+module.exports = List;

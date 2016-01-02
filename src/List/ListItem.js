@@ -4,7 +4,7 @@ import Util from '../Util/Util';
 
 const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-export default class ListItem extends React.Component {
+class ListItem extends React.Component {
   render() {
     let Tag = this.props.tag;
 
@@ -40,3 +40,5 @@ ListItem.propTypes = {
   className: PropTypes.string,
   tag: PropTypes.string
 };
+
+module.exports = ListItem;

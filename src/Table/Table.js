@@ -45,7 +45,7 @@ let getClassName = (column, sortBy, data) => {
   return column.className || '';
 };
 
-export default class Table extends React.Component {
+class Table extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -489,3 +489,5 @@ Table.propTypes = {
   // to not grow beyond. Defaults to 0.8 (meaning 80% of the window height).
   windowRatio: PropTypes.number
 };
+
+module.exports = Table;
