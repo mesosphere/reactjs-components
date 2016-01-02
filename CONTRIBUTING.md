@@ -60,11 +60,9 @@ If you want to add a new npm package to `node_modules`:
 
 2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)). You can use this shorthand which will create a tag from current package.json version:
 
-        VERSION=$(npm -v reactjs-components) && git tag -a v$VERSION -m 'Version $VERSION'
-
 3. Push the new tag to github:
 
-        git push —tags
+        git push --tags
 
 4. Now do the release (there is an npm command for this):
 
@@ -84,9 +82,11 @@ Before you submit your pull request consider the following guidelines:
      git checkout -b my-fix-branch master
      ```
 
+* Setup your editor http://editorconfig.org/#download
+
 * Create your patch, including appropriate unit test cases
 
-* Commit your changes using a descriptive commit message
+* Commit your changes using a [descriptive commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)
 
 * Build your changes locally to ensure all the tests pass:
 
@@ -101,7 +101,7 @@ Before you submit your pull request consider the following guidelines:
     git push origin my-fix-branch
     ```
 
-* In GitHub, send a pull request to `marathon-ui:master`.
+* In GitHub, send a pull request to `reactjs-components:master`.
 
 * If we suggest changes then:
   * Make the required updates.
@@ -114,56 +114,3 @@ Before you submit your pull request consider the following guidelines:
     ```
 
 That's it! Thank you for your contribution!
-
-## Development Setup (Sublime Text)
-There is an .editorconfig-file to apply editor settings on various editors.
-
-1. Add the following to your Sublime Text User Settings:
-
-  ```js
-  {
-    ...
-    "rulers": [80], // lines no longer than 80 chars
-    "tab_size": 2, // use two spaces for indentation
-    "translate_tabs_to_spaces": true, // use spaces for indentation
-    "ensure_newline_at_eof_on_save": true, // add newline on save
-    "trim_trailing_white_space_on_save": true, // trim trailing white space on save
-    "default_line_ending": "unix"
-  }
-  ```
-
-2. Add Sublime-linter with jshint & jsxhint:
-
-  1. Installing SublimeLinter is straightforward using Sublime Package Manager,
-  see [instructions](http://sublimelinter.readthedocs.org/en/latest/installation.html#installing-via-pc)
-
-  2. SublimeLinter-eslint needs a global eslint in your system,
-  see [instructions](https://github.com/roadhump/SublimeLinter-eslint#sublimelinter-eslint)
-
-3. Syntax Highlihgting for files containing JSX
-
-  1. Install Babel using Sublime Package Manager,
-  see [instructions](https://github.com/babel/babel-sublime)
-  From here you can decide to use Babel for all .js files. See their
-  docs for that. If you don't want to do that, continue reading.
-
-  2. Installing ApplySyntax using Sublime Package Manager,
-  see [instructions](https://github.com/facelessuser/ApplySyntax)
-
-  3. Open up the user configuration file for ApplySyntax: `Sublime Text` ->
-  `Preferences` -> `Package Settings` -> `ApplySyntax` -> `Settings - User`
-
-  4. Replace the contents with this:
-  ```js
-  {
-      // Put your custom syntax rules here:
-      "syntaxes": [
-          {
-              "name": "Babel/JavaScript (Babel)",
-              "rules": [
-                  {"first_line": "^\\/\\*\\*\\s@jsx\\sReact\\.DOM\\s\\*\\/"}
-              ]
-          }
-      ]
-  }
-  ```

@@ -6,6 +6,7 @@ A library of reusable React components. For examples, take a look at our
 * Dropdown
 * List
 * Modal
+* Confirm
 * Side Panel
 * Table
 
