@@ -28,32 +28,34 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.container !== nextProps.container) {
-      this.props.container.removeEventListener('scroll', this.onScrollDebounced);
-      nextProps.container.addEventListener('scroll', this.onScrollDebounced);
-    }
-    let state = this.getVirtualState(nextProps);
-    this.setState(state);
-  }
-
   componentWillMount() {
-    this.onScrollDebounced = Util.throttle(
-      this.onScroll,
-      this.props.scrollDelay
-    );
+    // Replace onScroll by debouncing
+    if (this.props.scrollDelay > 0) {
+      this.onScroll = Util.throttle(this.onScroll, this.props.scrollDelay);
+    }
   }
 
   componentDidMount() {
     let props = this.props;
     let state = this.getVirtualState(props);
+
     this.setState(state);
-    props.container.addEventListener('scroll', this.onScrollDebounced);
+    props.container.addEventListener('scroll', this.onScroll);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.container !== nextProps.container) {
+      this.props.container.removeEventListener('scroll', this.onScroll);
+      nextProps.container.addEventListener('scroll', this.onScroll);
+    }
+
+    let state = this.getVirtualState(nextProps);
+    this.setState(state);
   }
 
   componentWillUnmount() {
     let props = this.props;
-    props.container.removeEventListener('scroll', this.onScrollDebounced);
+    props.container.removeEventListener('scroll', this.onScroll);
   }
 
   onScroll() {
