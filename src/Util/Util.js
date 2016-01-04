@@ -446,7 +446,6 @@ const Util = {
     let canCall = true;
 
     let resetCall = function () {
-      console.log('%%$#%$');
       canCall = true;
     };
 
