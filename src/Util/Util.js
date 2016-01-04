@@ -126,7 +126,6 @@ function exclude(object, props) {
  * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
  *
  * @static
- * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
  * @return {Boolean} Returns `true` if `value` is array-like, else `false`.
@@ -157,7 +156,6 @@ function isArrayLike(value) {
  * and has a `typeof` result of "object".
  *
  * @static
- * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
@@ -183,7 +181,6 @@ function isObjectLike(value) {
  * Checks if `value` is likely an `arguments` object.
  *
  * @static
- * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
@@ -204,7 +201,6 @@ function isArguments(value) {
  * Checks if `value` is classified as a `Function` object.
  *
  * @static
- * @memberOf _
  * @category Lang
  * @param {*} value The value to check.
  * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
@@ -225,7 +221,6 @@ function isFunction(value) {
  * Creates an object composed of the picked `object` properties.
  *
  * @static
- * @memberOf _
  * @category Object
  * @param {Object} object The source object.
  * @param {...(string|string[])} [props] The property names to pick, specified
@@ -248,7 +243,6 @@ function pick(object, props) {
  * **Note:** Non-object values are coerced to objects.
  *
  * @static
- * @memberOf _
  * @category Object
  * @param {Object} object The object to query.
  * @returns {Array} Returns the array of property values.
