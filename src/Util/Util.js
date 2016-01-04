@@ -1,5 +1,66 @@
 import React from 'react';
 
+function arrayPush(array, values) {
+  let index = -1,
+    length = values.length,
+    offset = array.length;
+
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+
+function baseFlatten(array, isDeep, isStrict, result) {
+  result = result || [];
+
+  let index = -1,
+    length = array.length;
+
+  while (++index < length) {
+    let value = array[index];
+    if (Util.isObjectLike(value) && Util.isArrayLike(value) &&
+        (isStrict || value.isArray || Util.isArguments(value))) {
+      if (isDeep) {
+        // Recursively flatten arrays (susceptible to call stack limits).
+        baseFlatten(value, isDeep, isStrict, result);
+      } else {
+        arrayPush(result, value);
+      }
+    } else if (!isStrict) {
+      result[result.length] = value;
+    }
+  }
+  return result;
+}
+
+function basePick(object, props) {
+  object = Object(object);
+
+  let index = -1,
+    length = props.length,
+    result = {};
+
+  while (++index < length) {
+    let key = props[index];
+    if (key in object) {
+      result[key] = object[key];
+    }
+  }
+  return result;
+}
+
+function baseValues(object, props) {
+  let index = -1,
+    length = props.length,
+    result = Array(length);
+
+  while (++index < length) {
+    result[index] = object[props[index]];
+  }
+  return result;
+}
+
 function es6ify(mixin) {
   if (typeof mixin === 'function') {
     // mixin is already es6 style
@@ -27,6 +88,14 @@ function es6ify(mixin) {
   };
 }
 
+function noop() {
+  return null;
+}
+
+function trueNoop() {
+  return true;
+}
+
 const Util = {
 
   /*
@@ -35,7 +104,7 @@ const Util = {
   mixin(...mixins) {
     // Creates base class
     class Base extends React.Component {}
-    Base.prototype.shouldComponentUpdate = Util.trueNoop;
+    Base.prototype.shouldComponentUpdate = trueNoop;
 
     // No-ops so we need not check before calling super()
     let functions = [
@@ -44,7 +113,7 @@ const Util = {
       'componentWillUnmount', 'render'
     ];
     functions.forEach(function (lifecycleFn) {
-      Base.prototype[lifecycleFn] = Util.noop;
+      Base.prototype[lifecycleFn] = noop;
     });
 
     mixins.reverse();
@@ -63,56 +132,6 @@ const Util = {
     }
 
     return a.length !== b.length;
-  },
-
-  arrayPush(array, values) {
-    let index = -1,
-      length = values.length,
-      offset = array.length;
-
-    while (++index < length) {
-      array[offset + index] = values[index];
-    }
-    return array;
-  },
-
-  baseFlatten(array, isDeep, isStrict, result) {
-    result = result || [];
-
-    let index = -1,
-      length = array.length;
-
-    while (++index < length) {
-      let value = array[index];
-      if (Util.isObjectLike(value) && Util.isArrayLike(value) &&
-          (isStrict || value.isArray || Util.isArguments(value))) {
-        if (isDeep) {
-          // Recursively flatten arrays (susceptible to call stack limits).
-          Util.baseFlatten(value, isDeep, isStrict, result);
-        } else {
-          Util.arrayPush(result, value);
-        }
-      } else if (!isStrict) {
-        result[result.length] = value;
-      }
-    }
-    return result;
-  },
-
-  basePick(object, props) {
-    object = Object(object);
-
-    let index = -1,
-      length = props.length,
-      result = {};
-
-    while (++index < length) {
-      let key = props[index];
-      if (key in object) {
-        result[key] = object[key];
-      }
-    }
-    return result;
   },
 
   /**
@@ -195,17 +214,6 @@ const Util = {
     return object;
   },
 
-  baseValues(object, props) {
-    let index = -1,
-      length = props.length,
-      result = Array(length);
-
-    while (++index < length) {
-      result[index] = object[props[index]];
-    }
-    return result;
-  },
-
   isArrayLike(value) {
     return value != null && value.length &&
       !(
@@ -251,16 +259,8 @@ const Util = {
       Object.prototype.toString.call(value) === '[object Function]';
   },
 
-  noop() {
-    return null;
-  },
-
-  trueNoop() {
-    return true;
-  },
-
   pick(object, props) {
-    return object === null ? {} : Util.basePick(object, Util.baseFlatten(props));
+    return object === null ? {} : basePick(object, baseFlatten(props));
   },
 
   sortBy(collection, sortProp) {
@@ -282,7 +282,7 @@ const Util = {
   },
 
   values(object) {
-    return object ? Util.baseValues(object, Object.keys(object)) : [];
+    return object ? baseValues(object, Object.keys(object)) : [];
   }
 };
 
