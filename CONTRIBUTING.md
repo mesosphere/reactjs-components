@@ -82,7 +82,7 @@ Before you submit your pull request consider the following guidelines:
      git checkout -b my-fix-branch master
      ```
 
-* Setup your editor http://editorconfig.org/#download
+* [Setup your editor](http://editorconfig.org/#download)
 
 * Create your patch, including appropriate unit test cases
 
