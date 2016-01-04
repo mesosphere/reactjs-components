@@ -265,7 +265,7 @@ function values(object) {
   return object ? baseValues(object, Object.keys(object)) : [];
 }
 
-// Other functions
+// Custom functions created for reactjs-components
 
 function clone(object) {
   if (object === null || typeof object != 'object') {
