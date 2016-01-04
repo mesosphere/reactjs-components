@@ -76,14 +76,11 @@ export default class Table extends React.Component {
   }
 
   updateHeight() {
-    let newState = {};
-    let props = this.props;
-    let state = this.state;
-    let refs = this.refs;
+    let {props, state, refs} = this;
 
-    if (this.props.containerSelector && this.container === window) {
+    if (props.containerSelector && this.container === window) {
       this.container = DOMUtil.closest(
-        React.findDOMNode(this), this.props.containerSelector
+        React.findDOMNode(this), props.containerSelector
       );
     }
 
@@ -91,19 +88,10 @@ export default class Table extends React.Component {
       state.itemHeight == null &&
       refs.itemHeightContainer != null) {
       // Calculate content height only once and when node is ready
-      newState.itemHeight = DOMUtil.getComputedDimensions(
+      let itemHeight = DOMUtil.getComputedDimensions(
         React.findDOMNode(refs.itemHeightContainer).querySelector('tr')
       ).height;
-    }
-
-    if (state.viewportHeight == null) {
-      newState.viewportHeight = DOMUtil.getViewportHeight();
-    }
-
-    // Only update if we have a change
-    if (state.itemHeight !== newState.itemHeight ||
-      state.viewportHeight !== newState.viewportHeight) {
-      this.setState(newState);
+      this.setState({itemHeight});
     }
   }
 
@@ -234,68 +222,46 @@ export default class Table extends React.Component {
     }
   }
 
-  getScrollTable(columns, data, sortBy, itemHeight, containerHeight, idAttribute) {
+  getTBody(columns, data, sortBy, itemHeight, idAttribute) {
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
     if (itemHeight === 0 && data.length) {
       childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, data[0]);
+      return (
+        <tbody ref="itemHeightContainer">
+          {childToMeasure}
+        </tbody>
+      );
     }
 
-    let innerContent = (
-      <tbody ref="itemHeightContainer">
-        {childToMeasure}
-      </tbody>
-    );
-
     if (data.length === 0) {
-      innerContent = (
+      return (
         <tbody>
           {this.getEmptyRowCell(columns)}
         </tbody>
       );
-    } else if (itemHeight !== 0) {
-      let visibleItems = Math.ceil(containerHeight / itemHeight);
-
-      // itemBuffer and scrollDelay is based on number of visible items
-      // with a max value cutoff.
-      innerContent = (
-        <VirtualList
-          container={this.container}
-          itemBuffer={Math.min(200, 10 * visibleItems)}
-          itemHeight={itemHeight}
-          items={sortData(columns, data, sortBy)}
-          renderBufferItem={this.getBufferItem.bind(this, columns)}
-          renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, idAttribute)}
-          scrollDelay={Math.min(5, visibleItems / 4)}
-          tagName="tbody" />
-      );
     }
 
-    return innerContent;
+    return (
+      <VirtualList
+        container={this.container}
+        itemBuffer={70}
+        itemHeight={itemHeight}
+        items={sortData(columns, data, sortBy)}
+        renderBufferItem={this.getBufferItem.bind(this, columns)}
+        renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, idAttribute)}
+        scrollDelay={200}
+        tagName="tbody" />
+    );
   }
 
   render() {
-    let props = this.props;
-    let state = this.state;
+    let {props, state} = this;
+    let {columns, data, idAttribute} = props;
     let classes = classNames(props.className, 'flush-bottom');
-    let columns = props.columns;
-    let data = props.data;
-    let idAttribute = props.idAttribute;
     let sortBy = state.sortBy;
-
     let itemHeight = state.itemHeight || props.itemHeight || 0;
-    let itemListHeight = itemHeight * data.length;
-
-    // Calculate the minimum of either the content or viewport height
-    let containerHeight = Math.min(itemListHeight, state.viewportHeight);
-
-    // Use scroll table on first render to check if we need to scroll
-    // and if content is bigger than its container
-    let tableContent =
-      this.getScrollTable(
-        columns, data, sortBy, itemHeight, containerHeight, idAttribute
-      );
 
     return (
       <div ref="container">
@@ -306,7 +272,7 @@ export default class Table extends React.Component {
               {this.getHeaders(columns, sortBy)}
             </tr>
           </thead>
-          {tableContent}
+          {this.getTBody(columns, data, sortBy, itemHeight, idAttribute)}
         </table>
       </div>
     );
