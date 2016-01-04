@@ -99,12 +99,16 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     }
 
     let renderStats = VirtualList.getItems(
-      viewTop, viewHeight, 0, props.itemHeight, items.length, props.itemBuffer
+      viewTop,
+      viewHeight,
+      0,
+      props.itemHeight,
+      items.length,
+      props.itemBuffer
     );
 
-    state.items = items.slice(
-      renderStats.firstItemIndex, renderStats.lastItemIndex + 1
-    );
+    state.items =
+      items.slice(renderStats.firstItemIndex, renderStats.lastItemIndex + 1);
 
     state.bufferStart = renderStats.firstItemIndex * props.itemHeight;
     state.bufferEnd = (props.items.length - renderStats.lastItemIndex - 1) *
@@ -239,7 +243,7 @@ VirtualList.propTypes = {
   // Optional Specify which tag the container should render
   tagName: React.PropTypes.string,
 
-  // Optional scroll delay to use in debounce function
+  // Optional scroll delay to use in throttle function
   scrollDelay: React.PropTypes.number,
 
   // Optional number of items to use as buffer, before and after viewport
