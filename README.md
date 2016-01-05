@@ -14,7 +14,7 @@ A library of reusable React components. For examples, take a look at our
 
 1. From the command line inside of your project
 
-        npm install --save reactjs-components react react-gemini-scrollbar
+        npm install --save reactjs-components react react-gemini-scrollbar canvas-ui
 
 2. Import the component that you want to use
 
@@ -42,11 +42,11 @@ A library of reusable React components. For examples, take a look at our
   }
   ```
 
-4. Import CSS files – reactjs-components uses a custom scrollbar.
+4. Import LESS files which will add all styles for all components.
 
   ```less
-  @import (inline) "node_modules/react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css"
-  @import "node_modules/reactjs-components/src/overrides/gemini-scrollbar.less
+  @import "./node_modules/canvas-ui/canvas.less"
+  @import (inline) "./node_modules/reactjs-components/lib/index.less"
   ```
 
 ## Contributing

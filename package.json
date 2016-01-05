@@ -19,9 +19,7 @@
   ],
   "main": "main.js",
   "dependencies": {
-    "canvas-ui": "^0.2.1",
-    "classnames": "^2.2.1",
-    "less-color-lighten": "0.0.1"
+    "classnames": "^2.2.1"
   },
   "devDependencies": {
     "babel": "^5.8.21",
@@ -30,6 +28,8 @@
     "babel-jest": "^5.3.0",
     "babel-loader": "^5.3.2",
     "browser-sync": "^2.7.13",
+    "canvas-ui": "^0.2.1",
+    "less-color-lighten": "0.0.1",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^2.6.4",
     "glob": "^5.0.14",
@@ -53,6 +53,7 @@
     "webpack": "^1.10.1"
   },
   "peerDependencies": {
+    "canvas-ui": "^0.2.1",
     "react": "0.13.x",
     "react-gemini-scrollbar": "^1.1.x"
   },
