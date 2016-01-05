@@ -202,17 +202,16 @@ export default class Form extends React.Component {
 
   getFormControls(definition) {
     let state = this.state;
-    let classes = Util.pick(
-      this.props,
-      ['formGroupClass',
+    let classes = Util.pick(this.props, [
+      'formGroupClass',
       'formRowClass',
       'helpBlockClass',
       'inlineIconClass',
       'inlineTextClass',
       'inputClass',
       'readClass',
-      'sharedClass']
-    );
+      'sharedClass'
+    ]);
 
     return definition.map((formControlOption, i) => {
       // Map each field to showError boolean
