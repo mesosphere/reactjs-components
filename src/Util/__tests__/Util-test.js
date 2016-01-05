@@ -130,4 +130,21 @@ describe('Util', function () {
       expect(func.mock.calls.length).toBe(2);
     });
   });
+
+  describe('#capitalize', function () {
+
+    it('capitalizes the string correctly', function () {
+      expect(Util.capitalize('kenny')).toEqual('Kenny');
+    });
+
+    it('returns null if input is not a string', function () {
+      expect(Util.capitalize(10)).toEqual(null);
+    });
+
+    it('does nothing if string is already capitalized', function () {
+      var capitalizedString = 'Name';
+      expect(Util.capitalize(capitalizedString))
+        .toEqual(capitalizedString);
+    });
+  });
 });

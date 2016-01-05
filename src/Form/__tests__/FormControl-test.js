@@ -28,12 +28,11 @@ function getDefinition() {
 function getInstance() {
   return TestUtils.renderIntoDocument(
     <FormControl
-      currentValue="default"
+      currentValue={{}}
       definition={getDefinition()}
       editing={null}
       handleEvent={function () {}}
-      maxColumnWidth={13}
-      validationError={false} />
+      maxColumnWidth={13} />
   );
 }
 

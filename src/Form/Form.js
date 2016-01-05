@@ -1,9 +1,8 @@
-import _ from 'underscore';
 import React from 'react';
 const PropTypes = React.PropTypes;
 
 import FormControl from './FormControl';
-import Util from '../utils/Util';
+import Util from '../Util/Util';
 
 const METHODS_TO_BIND = [
   'handleBlur',
@@ -15,8 +14,8 @@ const METHODS_TO_BIND = [
 
 // Find a the options for a particular field in the form.
 function findFieldOption(options, field) {
-  let flattenedOptions = _.flatten(options);
-  return _.find(flattenedOptions, function (fieldOption) {
+  let flattenedOptions = Util.flatten(options);
+  return Util.find(flattenedOptions, function (fieldOption) {
     return fieldOption.name === field;
   });
 }
@@ -53,14 +52,14 @@ export default class Form extends React.Component {
     let nextState = {};
     let currentModel = this.buildStateObj(props.definition, 'value');
     let nextModel = this.buildStateObj(nextProps.definition, 'value');
-    if (!_.isEqual(currentModel, nextModel)) {
-      nextState.model = _.extend({}, state.model, nextModel);
+    if (!Util.isEqual(currentModel, nextModel)) {
+      nextState.model = Util.extend({}, state.model, nextModel);
     }
 
     let currentErrors = this.buildStateObj(props.definition, 'showError');
     let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
-    if (!_.isEqual(currentErrors, nextErrors)) {
-      nextState.erroredFields = _.extend(
+    if (!Util.isEqual(currentErrors, nextErrors)) {
+      nextState.erroredFields = Util.extend(
         {}, state.erroredFields, nextErrors
       );
     }
@@ -106,7 +105,7 @@ export default class Form extends React.Component {
   }
 
   handleValueChange(field, value) {
-    let model = _.clone(this.state.model);
+    let model = Util.clone(this.state.model);
     model[field] = value;
 
     this.setState({model});
@@ -177,7 +176,7 @@ export default class Form extends React.Component {
   buildStateObj(definition, fieldProp) {
     let stateObj = {};
 
-    _.flatten(definition).forEach((formControlOption) => {
+    Util.flatten(definition).forEach((formControlOption) => {
       stateObj[formControlOption.name] = formControlOption[fieldProp] || null;
     });
 
@@ -203,16 +202,16 @@ export default class Form extends React.Component {
 
   getFormControls(definition) {
     let state = this.state;
-    let classes = _.pick(
+    let classes = Util.pick(
       this.props,
-      'formGroupClass',
+      ['formGroupClass',
       'formRowClass',
       'helpBlockClass',
       'inlineIconClass',
       'inlineTextClass',
       'inputClass',
       'readClass',
-      'sharedClass'
+      'sharedClass']
     );
 
     return definition.map((formControlOption, i) => {
@@ -248,6 +247,24 @@ export default class Form extends React.Component {
   }
 }
 
+Form.defaultProps = {
+  // Classes.
+  className: 'form flush-bottom',
+  formGroupClass: 'form-group',
+  formRowClass: 'row',
+  helpBlockClass: 'form-help-block',
+  inlineIconClass: 'form-element-inline-icon',
+  inlineTextClass: 'form-element-inline-text',
+  inputClass: 'form-control',
+  readClass: 'read-only',
+
+  definition: {},
+  onChange: function () {},
+  onSubmit: function () {},
+  maxColumnWidth: 12,
+  triggerSubmit: function () {}
+};
+
 Form.propTypes = {
   // Classes.
   className: PropTypes.string,
@@ -281,22 +298,4 @@ Form.propTypes = {
   // Optional function. Will receive a trigger function.
   // Call the trigger function, when a submit needs to be triggered externally
   triggerSubmit: PropTypes.func
-};
-
-Form.defaultProps = {
-  // Classes.
-  className: 'form flush-bottom',
-  formGroupClass: 'form-group',
-  formRowClass: 'row',
-  helpBlockClass: 'form-help-block',
-  inlineIconClass: 'form-element-inline-icon',
-  inlineTextClass: 'form-element-inline-text',
-  inputClass: 'form-control',
-  readClass: 'read-only',
-
-  definition: {},
-  onChange: function () {},
-  onSubmit: function () {},
-  maxColumnWidth: 12,
-  triggerSubmit: function () {}
 };

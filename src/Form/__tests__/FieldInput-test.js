@@ -29,7 +29,6 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="edit"
-          editing={false}
           handleEvent={function () {}} />
       );
 
@@ -42,7 +41,7 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="input"
-          editing={true}
+          editing="username"
           handleEvent={function () {}} />
       );
 
@@ -57,7 +56,6 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="edit"
-          editing={false}
           handleEvent={function () {}} />
       );
 
@@ -83,7 +81,6 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="input"
-          editing={false}
           handleEvent={function () {}} />
       );
 
@@ -98,7 +95,6 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="input"
-          editing={false}
           handleEvent={function () {}}
           showLabel={true} />
       );
@@ -112,7 +108,6 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="input"
-          editing={false}
           handleEvent={function () {}}
           showLabel={false} />
       );
@@ -142,9 +137,7 @@ describe('FieldInput', function () {
           name="username"
           fieldType="text"
           writeType="input"
-          editing={false}
-          handleEvent={function () {}}
-          validationError={false} />
+          handleEvent={function () {}} />
       );
 
       expect(instance.getErrorMsg()).toEqual(null);

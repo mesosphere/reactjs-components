@@ -1,14 +1,14 @@
-import classNames from "classnames";
+import classNames from 'classnames';
 /*eslint-disable no-unused-vars */
-import React from "react";
+import React from 'react';
 /*eslint-enable no-unused-vars */
 
-import FieldInput from "./FieldInput";
-import IconEdit from "./icons/IconEdit";
+import FieldInput from './FieldInput';
+import IconEdit from './icons/IconEdit';
 
-const DEFAULT_PASSWORD_TEXT = "••••••";
+const DEFAULT_PASSWORD_TEXT = '••••••';
 
-const METHODS_TO_BIND = ["handleOnFocus"];
+const METHODS_TO_BIND = ['handleOnFocus'];
 
 export default class FieldPassword extends FieldInput {
   constructor() {
@@ -25,7 +25,7 @@ export default class FieldPassword extends FieldInput {
       this.forceUpdate();
     }
 
-    this.props.handleEvent("focus", this.props.name, event);
+    this.props.handleEvent('focus', this.props.name, event);
   }
 
   getInputElement(attributes) {
@@ -38,7 +38,7 @@ export default class FieldPassword extends FieldInput {
       startValue = attributes.startValue;
     }
 
-    if (this.isEditing() || this.props.writeType === "input") {
+    if (this.isEditing() || this.props.writeType === 'input') {
       return (
         <input
           {...attributes}

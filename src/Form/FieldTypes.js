@@ -1,6 +1,6 @@
-import FieldCheckbox from '../components/FieldCheckbox';
-import FieldInput from '../components/FieldInput';
-import FieldPassword from '../components/FieldPassword';
+import FieldCheckbox from './FieldCheckbox';
+import FieldInput from './FieldInput';
+import FieldPassword from './FieldPassword';
 
 const FieldTypes = {
   'checkbox': FieldCheckbox,

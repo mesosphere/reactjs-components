@@ -1,10 +1,9 @@
-import _ from 'underscore';
 import classNames from 'classnames';
 import React from 'react';
 
 import IconEdit from './icons/IconEdit';
-import KeyboardUtil from '../utils/KeyboardUtil';
-import StringUtil from '../utils/StringUtil';
+import KeyboardUtil from '../Util/KeyboardUtil';
+import Util from '../Util/Util';
 
 const EVENTS = ['blur', 'change', 'focus'];
 
@@ -19,7 +18,7 @@ export default class FieldInput extends React.Component {
 
   bindEvents(attributes) {
     EVENTS.forEach((event) => {
-      let htmlEvent = `on${StringUtil.capitalize(event)}`;
+      let htmlEvent = `on${Util.capitalize(event)}`;
       attributes[htmlEvent] = this.handleEvent.bind(this, event);
     });
 
@@ -121,7 +120,7 @@ export default class FieldInput extends React.Component {
   render() {
     let props = this.props;
 
-    let attributes = _.omit(props, 'onChange', 'value');
+    let attributes = Util.exclude(props, 'onChange', 'value');
     let formRowElementClassSet = this.getRowClass(props);
 
     return (
@@ -153,15 +152,18 @@ FieldInput.propTypes = {
   // (usually passed down from form definition)
   name: React.PropTypes.string,
   // initial value of checkbox, should be either 'checked' or 'unchecked'
-  startValue: React.PropTypes.string.isRequired,
+  startValue: React.PropTypes.string,
   // Optional field to set input to 'edit' or 'input' mode
   writeType: React.PropTypes.string,
   // Optional. Which field property is currently being edited
   // (usually passed down from form definition)
   editing: React.PropTypes.string,
   // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.objectOf(React.PropTypes.string),
+  validationError: React.PropTypes.object,
+  // Optional boolean, tells whether to show label, or not
+  showLabel: React.PropTypes.bool,
 
   // Classes
+  helpBlockClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };

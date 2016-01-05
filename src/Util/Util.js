@@ -121,6 +121,43 @@ function exclude(object, props) {
 }
 
 /**
+ * Flattens `array` a single level.
+ *
+ * @static
+ * @category Array
+ * @param {Array} array The array to flatten.
+ * @returns {Array} Returns the new flattened array.
+ * @example
+ *
+ * _.flatten([1, [2, 3, [4]]]);
+ * // => [1, 2, 3, [4]]
+ */
+function flatten(array) {
+  var length = array ? array.length : 0;
+  return length ? baseFlatten(array) : [];
+}
+
+/**
+ * Checks if `value` is likely an `arguments` object.
+ *
+ * @static
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isArguments(function() { return arguments; }());
+ * // => true
+ *
+ * _.isArguments([1, 2, 3]);
+ * // => false
+ */
+function isArguments(value) {
+  return isObjectLike(value) && isArrayLike(value) &&
+    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+}
+
+/**
  * Checks if `value` is array-like. A value is considered array-like if it's
  * not a function and has a `value.length` that's an integer greater than or
  * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
@@ -152,6 +189,26 @@ function isArrayLike(value) {
 }
 
 /**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+function isFunction(value) {
+  return (typeof value === 'object' || typeof value === 'function') &&
+    Object.prototype.toString.call(value) === '[object Function]';
+}
+
+/**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
  *
@@ -175,46 +232,6 @@ function isArrayLike(value) {
  */
 function isObjectLike(value) {
   return !!value && typeof value === 'object';
-}
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments(value) {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction(value) {
-  return (typeof value === 'object' || typeof value === 'function') &&
-    Object.prototype.toString.call(value) === '[object Function]';
 }
 
 /**
@@ -263,6 +280,145 @@ function pick(object, props) {
  */
 function values(object) {
   return object ? baseValues(object, Object.keys(object)) : [];
+}
+
+// Functions from Underscore 1.9.0
+
+ // Internal recursive comparison function for `isEqual`.
+function eq(a, b, aStack, bStack) {
+  // Identical objects are equal. `0 === -0`, but they aren't identical.
+  // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
+  if (a === b) {
+    return a !== 0 || 1 / a === 1 / b;
+  }
+  // A strict comparison is necessary because `null == undefined`.
+  if (a == null || b == null) {
+    return a === b;
+  }
+  // `NaN`s are equivalent, but non-reflexive.
+  if (a !== a) {
+    return b !== b;
+  }
+  // Exhaust primitive checks
+  var type = typeof a;
+  if (type !== 'function' && type !== 'object' && typeof b !== 'object') {
+    return false;
+  }
+
+  return deepEq(a, b, aStack, bStack);
+}
+
+// Internal recursive comparison function for `isEqual`.
+function deepEq(a, b, aStack, bStack) {
+  // Compare `[[Class]]` names.
+  var className = Object.prototype.toString.call(a);
+  if (className !== Object.prototype.toString.call(b)) {
+    return false;
+  }
+
+  switch (className) {
+    // Strings, numbers, regular expressions, dates, and booleans are compared by value.
+    case '[object RegExp]':
+    // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
+    case '[object String]':
+      // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
+      // equivalent to `new String("5")`.
+      return '' + a === '' + b;
+    case '[object Number]':
+      // `NaN`s are equivalent, but non-reflexive.
+      // Object(NaN) is equivalent to NaN
+      if (+a !== +a) {
+        return +b !== +b;
+      }
+      // An `egal` comparison is performed for other numeric values.
+      return +a === 0 ? 1 / +a === 1 / b : +a === +b;
+    case '[object Date]':
+    case '[object Boolean]':
+      // Coerce dates and booleans to numeric primitive values. Dates are compared by their
+      // millisecond representations. Note that invalid dates with millisecond representations
+      // of `NaN` are not equivalent.
+      return +a === +b;
+  }
+
+  var areArrays = className === '[object Array]';
+  if (!areArrays) {
+    if (typeof a != 'object' || typeof b != 'object') {
+      return false;
+    }
+
+    // Objects with different constructors are not equivalent, but `Object`s or `Array`s
+    // from different frames are.
+    var aCtor = a.constructor, bCtor = b.constructor;
+    if (aCtor !== bCtor && !(isFunction(aCtor) && aCtor instanceof aCtor &&
+                             isFunction(bCtor) && bCtor instanceof bCtor)
+                        && ('constructor' in a && 'constructor' in b)) {
+      return false;
+    }
+  }
+  // Assume equality for cyclic structures. The algorithm for detecting cyclic
+  // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
+
+  // Initializing stack of traversed objects.
+  // It's done here since we only need them for objects and arrays comparison.
+  aStack = aStack || [];
+  bStack = bStack || [];
+  var length = aStack.length;
+  while (length--) {
+    // Linear search. Performance is inversely proportional to the number of
+    // unique nested structures.
+    if (aStack[length] === a) {
+      return bStack[length] === b;
+    }
+  }
+
+  // Add the first object to the stack of traversed objects.
+  aStack.push(a);
+  bStack.push(b);
+
+  // Recursively compare objects and arrays.
+  if (areArrays) {
+    // Compare array lengths to determine if a deep comparison is necessary.
+    length = a.length;
+    if (length !== b.length) {
+      return false;
+    }
+    // Deep compare the contents, ignoring non-numeric properties.
+    while (length--) {
+      if (!eq(a[length], b[length], aStack, bStack)) {
+        return false;
+      }
+    }
+  } else {
+    // Deep compare objects.
+    var keys = Object.keys(a), key;
+    length = keys.length;
+    // Ensure that both objects contain the same number of properties before comparing deep equality.
+    if (Object.keys(b).length !== length) {
+      return false;
+    }
+    while (length--) {
+      // Deep compare each member
+      key = keys[length];
+      if (!(has(b, key) && eq(a[key], b[key], aStack, bStack))) {
+        return false;
+      }
+    }
+  }
+  // Remove the first object from the stack of traversed objects.
+  aStack.pop();
+  bStack.pop();
+  return true;
+}
+
+// Shortcut function for checking if an object has a given property directly
+// on itself (in other words, not on a prototype).
+function has(obj, key) {
+  return obj != null && hasOwnProperty.call(obj, key);
+}
+
+// Perform a deep comparison to check if two objects are equal.
+function isEqual(a, b) {
+  return eq(a, b);
 }
 
 // Custom functions created for reactjs-components
@@ -465,20 +621,34 @@ const Util = {
     };
   },
 
+  capitalize: function (string) {
+    if (typeof string !== 'string') {
+      return null;
+    }
+
+    return string.charAt(0).toUpperCase() + string.slice(1, string.length);
+  },
+
+  isArray: function (arg) {
+    return Object.prototype.toString.call(arg) === '[object Array]';
+  },
+
   // Add external lodash functions
-  noop: noop,
-  trueNoop: trueNoop,
-  exclude: exclude,
-  debounce: debounce,
-  extend: extend,
-  isArrayLike: isArrayLike,
-  isObjectLike: isObjectLike,
-  isArguments: isArguments,
   clone: clone,
+  exclude: exclude,
+  extend: extend,
   find: find,
+  flatten: flatten,
+  debounce: debounce,
+  isArguments: isArguments,
+  isArrayLike: isArrayLike,
+  isEqual: isEqual,
   isFunction: isFunction,
+  isObjectLike: isObjectLike,
+  noop: noop,
   pick: pick,
   sortBy: sortBy,
+  trueNoop: trueNoop,
   values: values
 };
 
