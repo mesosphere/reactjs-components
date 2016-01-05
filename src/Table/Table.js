@@ -108,8 +108,8 @@ export default class Table extends React.Component {
     }
   }
 
-  buildUniqueID(cellClassName, cellValue, column) {
-    return column.prop + cellClassName + cellValue;
+  buildUniqueID(cellClassName, cellValue, prop) {
+    return prop + cellClassName + cellValue;
   }
 
   getHeaders(headers, sortBy) {
@@ -174,18 +174,19 @@ export default class Table extends React.Component {
     let id = row[idAttribute];
 
     let rowCells = columns.map((column, index) => {
-      let cellClassName = getClassName(column, sortBy, row, columns.length);
-      let cellValue = row[column.prop];
+      let cellClassName = getClassName(column, sortBy, row, columns);
+      let prop = column.prop;
+      let cellValue = row[prop];
       let cellID;
 
       if (!column.dontCache) {
-        cellID = this.buildUniqueID(cellClassName, cellValue, column);
+        cellID = this.buildUniqueID(cellClassName, cellValue, prop);
       }
 
       // Skip build cell if we have it memoized
       if (cellID === undefined || this.cachedCells[cellID] == null) {
         if (column.render) {
-          cellValue = column.render(column.prop, row);
+          cellValue = column.render(prop, row);
         }
 
         if (cellValue === undefined) {
