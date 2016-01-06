@@ -16,7 +16,7 @@ A library of reusable React components. For examples, take a look at our
 
 1. From the command line inside of your project
 
-        npm install --save reactjs-components
+        npm install --save reactjs-components react react-gemini-scrollbar canvas-ui
 
 2. Import the component that you want to use
 
@@ -32,18 +32,24 @@ A library of reusable React components. For examples, take a look at our
 3. Use as if it was any other component
 
   ```js
-    // ...
+  // ...
 
-    render: function () {
-      return (
-        // ...
-        <Modal ...{props}>
-          // Content
-        <Modal />
-      );
-    }
+  render: function () {
+    return (
+      // ...
+      <Modal ...{props}>
+        // Content
+      <Modal />
+    );
+  }
   ```
 
+4. Import LESS files which will add all styles for all components.
+
+  ```less
+  @import "./node_modules/canvas-ui/canvas.less"
+  @import (inline) "./node_modules/reactjs-components/lib/index.less"
+  ```
 
 ## Contributing
 See [here](https://github.com/mesosphere/reactjs-components/blob/master/CONTRIBUTING.md).

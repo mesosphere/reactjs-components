@@ -59,7 +59,7 @@
                         <div class="example-block-content no-tag">
                           <p><span class="emphasize">1.</span> From the command line inside of your project:</p>
                           <pre class="flush-bottom">
-        npm install --save reactjs-components</pre>
+  npm install --save reactjs-components react react-gemini-scrollbar canvas-ui</pre>
                         </div>
                       </div>
                       <div class="example-block">
@@ -72,14 +72,14 @@ import {Modal} from 'reactjs-components';
 
 // es5
 var Modal = require('reactjs-components').Modal;
-            </pre>
-          </div>
-          <div class="example-block flush-bottom">
-            <div class="example-block-content no-tag">
-              <p><span class="emphasize">3.</span> Use as if it was any other component:</p>
-            </div>
-            <div class="example-block-footer example-block-footer-codeblock">
-              <pre class="prettyprint linenums flush-bottom">
+                        </pre>
+                      </div>
+                      <div class="example-block">
+                        <div class="example-block-content no-tag">
+                          <p><span class="emphasize">3.</span> Use as if it was any other component:</p>
+                        </div>
+                        <div class="example-block-footer example-block-footer-codeblock">
+                          <pre class="prettyprint linenums flush-bottom">
 // ...
 
 render: function () {
@@ -92,6 +92,15 @@ render: function () {
 }
                           </pre>
                         </div>
+                      </div>
+                      <div class="example-block flush-bottom">
+                        <div class="example-block-content no-tag">
+                          <p><span class="emphasize">4.</span> Import LESS files which will add all styles for all components.</p>
+                        </div>
+                        <pre class="prettyprint linenums flush-bottom">
+  @import "./node_modules/canvas-ui/canvas.less"
+  @import (inline) "./node_modules/reactjs-components/lib/index.less"
+                        </pre>
                       </div>
                     </div>
                   </section>
