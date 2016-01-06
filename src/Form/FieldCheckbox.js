@@ -2,15 +2,12 @@ import classNames from 'classnames';
 
 import React from 'react';
 
-const METHODS_TO_BIND = ['handleChange'];
+import BindMixin from '../Mixin/BindMixin';
+import Util from '../Util/Util';
 
-export default class FieldCheckbox extends React.Component {
-  constructor() {
-    super();
-
-    METHODS_TO_BIND.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
+export default class FieldCheckbox extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return ['handleChange'];
   }
 
   componentDidMount() {

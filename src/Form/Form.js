@@ -1,16 +1,9 @@
 import React from 'react';
 const PropTypes = React.PropTypes;
 
+import BindMixin from '../Mixin/BindMixin';
 import FormControl from './FormControl';
 import Util from '../Util/Util';
-
-const METHODS_TO_BIND = [
-  'handleBlur',
-  'handleEvent',
-  'handleOnFocus',
-  'handleSubmit',
-  'handleValueChange'
-];
 
 // Find a the options for a particular field in the form.
 function findFieldOption(options, field) {
@@ -20,7 +13,17 @@ function findFieldOption(options, field) {
   });
 }
 
-export default class Form extends React.Component {
+export default class Form extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return [
+      'handleBlur',
+      'handleEvent',
+      'handleOnFocus',
+      'handleSubmit',
+      'handleValueChange'
+    ];
+  }
+
   constructor() {
     super();
 
@@ -29,10 +32,6 @@ export default class Form extends React.Component {
       editingField: '',
       erroredFields: {}
     };
-
-    METHODS_TO_BIND.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
   }
 
   componentWillMount() {
