@@ -324,6 +324,8 @@ Table.propTypes = {
         PropTypes.func
       ]),
       defaultContent: PropTypes.string,
+      // Column cache by default; disable with this setting.
+      dontCache: PropTypes.bool,
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
