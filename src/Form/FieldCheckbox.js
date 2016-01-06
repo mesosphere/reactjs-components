@@ -27,7 +27,7 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
   hasError() {
     let {props} = this;
     let validationError = props.validationError;
-    return validationError && validationError[props.name];
+    return !!(validationError && validationError[props.name]);
   }
 
   getErrorMsg() {
@@ -45,31 +45,28 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return errorMsg;
   }
 
-  getLabel() {
+  getDescription() {
     let {props} = this;
-    if (!props.label) {
+    if (!props.description) {
       return null;
     }
 
     return (
-      <p className={props.labelClass}>
-        {props.label}
+      <p className={props.descriptionClass}>
+        {props.description}
       </p>
     );
   }
 
   getItems() {
-    let {startValue} = this.props;
-    if (!startValue) {
-      return null;
-    }
-
-    return startValue.map((attributes, index) => {
+    let {props, handleChange} = this;
+    return props.startValue.map((attributes, index) => {
       return (
         <ItemCheckbox
-          {...attributes}
-          handleChange={this.handleChange}
-          key={index} />
+          labelClass={props.labelClass}
+          handleChange={handleChange}
+          key={index}
+          {...attributes} />
       );
     });
   }
@@ -93,7 +90,7 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return (
       <div className={this.getRowClass(this.props)}>
         <div className={classes}>
-          {this.getLabel()}
+          {this.getDescription()}
           <div ref="checkboxes">
             {this.getItems()}
           </div>
@@ -115,8 +112,8 @@ FieldCheckbox.propTypes = {
   // Function to handle change event
   // (usually passed down from form definition)
   handleEvent: React.PropTypes.func,
-  // Optional label for field
-  label: React.PropTypes.string,
+  // Optional description for field
+  description: React.PropTypes.string,
   // Array of checkbox states to render
   // (usually passed down from value in form definition)
   startValue: React.PropTypes.array.isRequired,
@@ -127,6 +124,7 @@ FieldCheckbox.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
+  descriptionClass: React.PropTypes.string,
   formGroupClass: React.PropTypes.string,
   formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,

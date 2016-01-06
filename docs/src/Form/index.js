@@ -49,7 +49,7 @@ class FormExample extends React.Component {
             checked: false
           }
         ],
-        label: 'What is your role?',
+        description: 'What is your role?',
         name: 'role',
         validation: function (value) {
           let result = false;
@@ -192,7 +192,7 @@ class FormExample extends React.Component {
             checked: false
           }
         ],
-        label: 'What is your role?',
+        description: 'What is your role?',
         name: 'role',
         validation: function (value) {
           let result = false;
