@@ -117,7 +117,7 @@ base/forms.less
     .form-element-inline-icon {
       flex: 1 0 16px;
       display: inline-block;
-      fill: #cbced1;
+      fill: @form-control-default-border-color;
       margin-left: @base-spacing-unit * 1/2;
       opacity: 0;
       transition: opacity 0.25s;
@@ -141,7 +141,7 @@ base/forms.less
   .form-row-edit {
 
     .form-element-inline {
-      border-bottom: 1px solid #cbced1;
+      border-bottom: 1px solid @form-control-default-border-color;
       border-radius: 0;
     }
   }
@@ -153,55 +153,65 @@ base/forms.less
 
   --------------------------------------------------------------------------------
   ----------------------------------------------------------------------------- */
+  .checkbox {
+    .form-element-checkbox {
+      position: relative;
+      padding-left: 0;
 
-  .form-element-checkbox {
-    position: relative;
-
-    input[type="checkbox"] {
-      left: 0;
-      opacity: 0;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-
-      & + .form-element-checkbox-decoy {
-        border-radius: 3px;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-        display: inline-block;
-        height: 16px;
-        position: relative;
-        width: 16px;
-        vertical-align: middle;
-
-        .icon {
-          opacity: 0;
-        }
-
-        & + .form-element-checkbox-label {
-          margin-left: @base-spacing-unit * 1/2;
-        }
-      }
-
-      &:checked,
-      &:indeterminate {
+      input[type="checkbox"] {
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
 
         & + .form-element-checkbox-decoy {
-          background: @purple;
-          box-shadow: none;
+          border-radius: 3px;
+          box-shadow: inset 0 0 0 1px @form-control-default-border-color;
+          display: inline-block;
+          height: 16px;
+          position: relative;
+          width: 16px;
+          vertical-align: middle;
+
+          .icon {
+            opacity: 0;
+          }
+
+          & + .form-element-checkbox-label {
+            margin-left: @base-spacing-unit * 1/2;
+          }
+        }
+
+        &:checked,
+        &:indeterminate {
+
+          & + .form-element-checkbox-decoy {
+            background: @form-control-default-focus-text-color;
+            box-shadow: none;
+          }
+        }
+
+        &:checked + .form-element-checkbox-decoy {
+
+          .icon-svg-checkbox-checked {
+            opacity: 1;
+          }
+        }
+
+        &:indeterminate + .form-element-checkbox-decoy {
+
+          .icon-svg-checkbox-indeterminate {
+            opacity: 1;
+          }
         }
       }
 
-      &:checked + .form-element-checkbox-decoy {
+      &.inverse {
+        color: @form-label-default-inverse-color;
 
-        .icon-svg-checkbox-checked {
-          opacity: 1;
-        }
-      }
-
-      &:indeterminate + .form-element-checkbox-decoy {
-
-        .icon-svg-checkbox-indeterminate {
-          opacity: 1;
+        input[type="checkbox"]  + .form-element-checkbox-decoy {
+          box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
         }
       }
     }

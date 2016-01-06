@@ -77,6 +77,8 @@ export default class Form extends Util.mixin(BindMixin) {
       case 'focus':
         this.handleOnFocus(fieldName);
         break;
+      case 'multipleChange':
+        this.handleMultipleChange(fieldName, fieldValue);
     }
 
     this.props.onChange(this.state.model);
@@ -94,7 +96,7 @@ export default class Form extends Util.mixin(BindMixin) {
     );
 
     if (!validated) {
-      this.props.onError();
+      props.onError();
     }
 
     if (validated && props.onSubmit) {
@@ -107,6 +109,16 @@ export default class Form extends Util.mixin(BindMixin) {
     let model = Util.clone(this.state.model);
     model[field] = value;
 
+    this.setState({model});
+  }
+
+  handleMultipleChange(field, value) {
+    let model = Util.clone(this.state.model);
+    let modelItem = Util.find(model[field], function (item) {
+      return item.name === value.name;
+    });
+
+    Util.extend(modelItem, value);
     this.setState({model});
   }
 
@@ -174,8 +186,7 @@ export default class Form extends Util.mixin(BindMixin) {
 
   buildStateObj(definition, fieldProp) {
     let stateObj = {};
-
-    Util.flatten(definition).forEach((formControlOption) => {
+    Util.flatten(definition).forEach(function (formControlOption) {
       stateObj[formControlOption.name] = formControlOption[fieldProp] || null;
     });
 
@@ -184,13 +195,11 @@ export default class Form extends Util.mixin(BindMixin) {
 
   buildFormPropObj(formControlOption, stateObj) {
     let name = formControlOption.name;
-    let isArray = Util.isArray(formControlOption);
     let propObj = {};
 
-    if (isArray) {
-      formControlOption.forEach((option) => {
-        propObj[option.name] =
-          stateObj[option.name];
+    if (Util.isArray(formControlOption)) {
+      formControlOption.forEach(function (option) {
+        propObj[option.name] = stateObj[option.name];
       });
     } else {
       propObj[name] = stateObj[name];
@@ -200,9 +209,10 @@ export default class Form extends Util.mixin(BindMixin) {
   }
 
   getFormControls(definition) {
-    let state = this.state;
-    let classes = Util.pick(this.props, [
+    let {props, state} = this;
+    let classes = Util.pick(props, [
       'formGroupClass',
+      'formGroupErrorClass',
       'formRowClass',
       'helpBlockClass',
       'inlineIconClass',
@@ -230,7 +240,7 @@ export default class Form extends Util.mixin(BindMixin) {
           currentValue={currentValue}
           handleEvent={this.handleEvent}
           handleSubmit={this.handleSubmit}
-          maxColumnWidth={this.props.maxColumnWidth}
+          maxColumnWidth={props.maxColumnWidth}
           {...classes} />
       );
     });
@@ -249,6 +259,7 @@ Form.defaultProps = {
   // Classes.
   className: 'form flush-bottom',
   formGroupClass: 'form-group',
+  formGroupErrorClass: 'form-group-error',
   formRowClass: 'row',
   helpBlockClass: 'form-help-block',
   inlineIconClass: 'form-element-inline-icon',
@@ -258,6 +269,7 @@ Form.defaultProps = {
 
   definition: {},
   onChange: function () {},
+  onError: function () {},
   onSubmit: function () {},
   maxColumnWidth: 12,
   triggerSubmit: function () {}
@@ -267,6 +279,7 @@ Form.propTypes = {
   // Classes.
   className: PropTypes.string,
   formGroupClass: PropTypes.string,
+  formGroupErrorClass: PropTypes.string,
   formRowClass: PropTypes.string,
   helpBlockClass: PropTypes.string,
   inlineIconClass: PropTypes.string,

@@ -3,59 +3,6 @@ import React from 'react';
 // Functions from lodash 4.0.0-pre
 
 /**
- * Appends the elements of `items` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} items The items to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush(array, items) {
-  let index = -1,
-    length = items.length,
-    offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = items[index];
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.flatten` with added support for restricting
- * flattening and specifying the start index.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {boolean} [isDeep] Specify a deep flatten.
- * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten(array, isDeep, isStrict, result) {
-  result = result || [];
-
-  let index = -1,
-    length = array.length;
-
-  while (++index < length) {
-    let value = array[index];
-    if (isObjectLike(value) && isArrayLike(value) &&
-        (isStrict || value.isArray || isArguments(value))) {
-      if (isDeep) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten(value, isDeep, isStrict, result);
-      } else {
-        arrayPush(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-/**
  * The base implementation of `_.pick` without support for individual
  * property names.
  *
@@ -99,42 +46,6 @@ function baseValues(object, props) {
     result[index] = object[props[index]];
   }
   return result;
-}
-
-/**
- * Excludes given properties from object
- *
- * @param  {Object} object
- * @param  {Array} props Array of properties to remove
- * @return {Object} New object without given props
- */
-function exclude(object, props) {
-  let newObject = {};
-
-  Object.keys(object).forEach(function (prop) {
-    if (props.indexOf(prop) === -1) {
-      newObject[prop] = object[prop];
-    }
-  });
-
-  return newObject;
-}
-
-/**
- * Flattens `array` a single level.
- *
- * @static
- * @category Array
- * @param {Array} array The array to flatten.
- * @returns {Array} Returns the new flattened array.
- * @example
- *
- * _.flatten([1, [2, 3, [4]]]);
- * // => [1, 2, 3, [4]]
- */
-function flatten(array) {
-  var length = array ? array.length : 0;
-  return length ? baseFlatten(array) : [];
 }
 
 /**
@@ -410,6 +321,45 @@ function deepEq(a, b, aStack, bStack) {
   return true;
 }
 
+function property(key) {
+  return function (obj) {
+    return obj == null ? void 0 : obj[key];
+  };
+}
+
+// Helper for collection methods to determine whether a collection
+// should be iterated as an array or as an object
+var getLength = property('length');
+
+// Internal implementation of a recursive `flatten` function.
+function baseFlatten(input, shallow, strict, output) {
+  output = output || [];
+  var idx = output.length;
+  for (var i = 0, length = getLength(input); i < length; i++) {
+    var value = input[i];
+    if (isArrayLike(value) && (isArray(value) || isArguments(value))) {
+      // flatten current level of array or arguments object
+      if (shallow) {
+        var j = 0, len = value.length;
+        while (j < len) {
+          output[idx++] = value[j++];
+        }
+      } else {
+        baseFlatten(value, shallow, strict, output);
+        idx = output.length;
+      }
+    } else if (!strict) {
+      output[idx++] = value;
+    }
+  }
+  return output;
+}
+
+// Flatten out an array, either recursively (by default), or just one level.
+function flatten(array, shallow) {
+  return baseFlatten(array, shallow, false);
+}
+
 // Shortcut function for checking if an object has a given property directly
 // on itself (in other words, not on a prototype).
 function has(obj, key) {
@@ -463,6 +413,25 @@ function es6ify(mixin) {
   };
 }
 
+/**
+ * Excludes given properties from object
+ *
+ * @param  {Object} object
+ * @param  {Array} props Array of properties to remove
+ * @return {Object} New object without given props
+ */
+function exclude(object, props) {
+  let newObject = {};
+
+  Object.keys(object).forEach(function (prop) {
+    if (props.indexOf(prop) === -1) {
+      newObject[prop] = object[prop];
+    }
+  });
+
+  return newObject;
+}
+
 function extend(object, ...sources) {
 
   sources.forEach(function (source) {
@@ -487,6 +456,10 @@ function find(objects, predicate) {
   });
   return result;
 }
+
+var isArray = function (arg) {
+  return Object.prototype.toString.call(arg) === '[object Array]';
+};
 
 function noop() {
   return null;
@@ -583,19 +556,20 @@ const Util = {
     return string.charAt(0).toUpperCase() + string.slice(1, string.length);
   },
 
-  isArray: function (arg) {
-    return Object.prototype.toString.call(arg) === '[object Array]';
-  },
-
-  // Add external lodash functions
+  // Add external custom function
   clone: clone,
   exclude: exclude,
   extend: extend,
   find: find,
+  isArray: isArray,
+
+  // Add external underscore functions
   flatten: flatten,
+  isEqual: isEqual,
+
+  // Add external lodash functions
   isArguments: isArguments,
   isArrayLike: isArrayLike,
-  isEqual: isEqual,
   isFunction: isFunction,
   isObjectLike: isObjectLike,
   noop: noop,

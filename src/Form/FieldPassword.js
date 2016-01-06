@@ -8,7 +8,7 @@ import IconEdit from './icons/IconEdit';
 
 const DEFAULT_PASSWORD_TEXT = '••••••';
 
-const METHODS_TO_BIND = ['handleChange'];
+const METHODS_TO_BIND = ['handleOnFocus'];
 
 export default class FieldPassword extends FieldInput {
   constructor() {
