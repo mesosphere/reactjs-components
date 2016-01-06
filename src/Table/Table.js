@@ -4,6 +4,8 @@ import React, {PropTypes} from 'react/addons';
 import Util from '../Util/Util';
 import VirtualList from '../VirtualList/VirtualList';
 
+const MAX_CACHE_SIZE = 10000;
+
 let sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
     return data;
@@ -48,7 +50,8 @@ export default class Table extends React.Component {
     this.state = {
       sortBy: {}
     };
-    this.cachedRows = {};
+    this.cachedCells = {};
+    this.cachedIDs = [];
     this.container = window;
   }
 
@@ -70,9 +73,19 @@ export default class Table extends React.Component {
     }
   }
 
-  componentWillUpdate() {
-    // Clear cached rows
-    this.cachedRows = {};
+  checkFullCache() {
+    if (this.cachedIDs.length < MAX_CACHE_SIZE) {
+      return;
+    }
+
+    let lastID = this.cachedIDs.shift();
+    delete this.cachedCells[lastID];
+  }
+
+  addToCache(id, element) {
+    this.cachedCells[id] = element;
+    this.cachedIDs.push(id);
+    this.checkFullCache();
   }
 
   updateHeight() {
@@ -93,6 +106,10 @@ export default class Table extends React.Component {
       ).height;
       this.setState({itemHeight});
     }
+  }
+
+  buildUniqueID(cellClassName, cellValue, prop) {
+    return prop + cellClassName + cellValue;
   }
 
   getHeaders(headers, sortBy) {
@@ -155,17 +172,21 @@ export default class Table extends React.Component {
 
   getRowCells(columns, sortBy, buildRowOptions, idAttribute, row) {
     let id = row[idAttribute];
-    // Skip build row if we have it memoized
-    if (this.cachedRows[id] == null) {
-      let rowCells = columns.map(function (column, index) {
-        // For each column in the data, output a cell in each row with the value
-        // specified by the data prop.
-        let cellClassName = getClassName(column, sortBy, row, columns);
 
-        let cellValue = row[column.prop];
+    let rowCells = columns.map((column, index) => {
+      let cellClassName = getClassName(column, sortBy, row, columns);
+      let prop = column.prop;
+      let cellValue = row[prop];
+      let cellID;
 
+      if (!column.dontCache) {
+        cellID = this.buildUniqueID(cellClassName, cellValue, prop);
+      }
+
+      // Skip build cell if we have it memoized
+      if (cellID === undefined || this.cachedCells[cellID] == null) {
         if (column.render) {
-          cellValue = column.render(column.prop, row);
+          cellValue = column.render(prop, row);
         }
 
         if (cellValue === undefined) {
@@ -173,27 +194,27 @@ export default class Table extends React.Component {
           cellClassName += ' empty-cell';
         }
 
-        return (
+        let cellElement = (
           <td {...column.attributes} className={cellClassName} key={index}>
             {cellValue}
           </td>
         );
-      });
 
-      // Create the custom row attributes object, always with a key.
-      let rowAttributes = Util.extend(
-        {key: id},
-        buildRowOptions(row, this)
-      );
+        if (column.dontCache) {
+          return cellElement;
+        }
 
-      this.cachedRows[id] = (
-        <tr {...rowAttributes}>
-          {rowCells}
-        </tr>
-      );
-    }
+        this.addToCache(cellID, cellElement);
+      }
 
-    return this.cachedRows[id];
+      return this.cachedCells[cellID];
+    });
+
+    return (
+      <tr key={id} {...buildRowOptions(row, this)}>
+        {rowCells}
+      </tr>
+    );
   }
 
   handleSort(prop, options) {
