@@ -45,7 +45,7 @@ export default class FieldInput extends React.Component {
   hasError() {
     let {props} = this;
     let validationError = props.validationError;
-    return validationError && validationError[props.name];
+    return !!(validationError && validationError[props.name]);
   }
 
   isEditing() {
@@ -169,9 +169,9 @@ FieldInput.propTypes = {
   handleEvent: React.PropTypes.func,
   // Optional label to add
   label: React.PropTypes.string,
-  // Optional name of the field property
+  // Name of the field property
   // (usually passed down from form definition)
-  name: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
   // Optional boolean, tells whether to show label, or not
   showLabel: React.PropTypes.bool,
   // initial value of checkbox, should be either 'checked' or 'unchecked'

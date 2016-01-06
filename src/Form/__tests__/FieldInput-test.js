@@ -9,6 +9,49 @@ var FieldInput = require('../FieldInput');
 
 describe('FieldInput', function () {
 
+  describe('#hasError', function () {
+    it('should return true when error contains name', function () {
+      var instance = instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          name="username"
+          fieldType="text"
+          writeType="edit"
+          editing="username"
+          validationError={{username: 'bar'}}
+          handleEvent={function () {}} />
+      );
+
+      expect(instance.hasError()).toEqual(true);
+    });
+
+    it('should return false when error doesn\'t contains name', function () {
+      var instance = instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          name="username"
+          fieldType="text"
+          writeType="edit"
+          editing="username"
+          validationError={{foo: 'bar'}}
+          handleEvent={function () {}} />
+      );
+
+      expect(instance.hasError()).toEqual(false);
+    });
+
+    it('should return false when error is undefined', function () {
+      var instance = instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          name="username"
+          fieldType="text"
+          writeType="edit"
+          editing="username"
+          handleEvent={function () {}} />
+      );
+
+      expect(instance.hasError()).toEqual(false);
+    });
+  });
+
   describe('#isEditing', function () {
     it('should return true when editing is equal to name', function () {
       var instance = instance = TestUtils.renderIntoDocument(
