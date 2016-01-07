@@ -10,7 +10,9 @@ module.exports = {
       exclude: /node_modules/,
       loader: 'babel-loader',
       query: {
-        cacheDirectory: true
+        cacheDirectory: true,
+        plugins: ['transform-runtime'],
+        presets: ['es2015', 'react']
       },
       test: /\.js$/
     }],
@@ -21,5 +23,5 @@ module.exports = {
   resolve: {
     extensions: ['', '.js']
   },
-  watch: process.env.NODE_ENV === "development"
+  watch: true
 };
