@@ -12,9 +12,13 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var webpack = require('webpack');
 
-var config = require('../configuration');
+var config = require('../.build.config');
 var packageInfo = require('../package');
-var webpackConfig = require('../webpack.config.js');
+var webpackConfig = require('../.webpack.config');
+
+function browserSyncReload () {
+  browserSync.reload();
+}
 
 gulp.task('docs:browsersync', function () {
   browserSync.init({
@@ -29,15 +33,18 @@ gulp.task('docs:browsersync', function () {
   });
 });
 
-gulp.task('docs:eslint', ['eslint'], function () {
-  return gulp.src([config.dirs.docs.srcJS + '/**/*.?(js|jsx)'])
+// Create a function so we can use it inside of webpack's watch function.
+function eslintFn() {
+  return gulp.src([config.files.docs.srcJS])
     .pipe(eslint())
     .pipe(eslint.formatEach('stylish', process.stderr));
-});
+};
+gulp.task('docs:eslint', eslintFn);
 
 gulp.task('docs:html', function () {
   return gulp.src(config.files.docs.srcHTML)
-    .pipe(gulp.dest(config.dirs.docs.dist));
+    .pipe(gulp.dest(config.dirs.docs.dist))
+    .on('end', browserSyncReload);
 });
 
 gulp.task('docs:less', function () {
@@ -47,6 +54,10 @@ gulp.task('docs:less', function () {
       paths: [config.dirs.docs.cssSrc], // @import paths
       plugins: [colorLighten]
     }))
+    .on('error', function (err) {
+        gutil.log(err);
+        this.emit('end');
+    })
     .pipe(autoprefixer())
     .pipe(concat(config.files.docs.distCSS))
     .pipe(sourcemaps.write())
@@ -69,11 +80,15 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
     .pipe(gulp.dest(config.dirs.docs.distJS));
 });
 
-gulp.task('docs:replace-js-strings', ['docs:webpack'], function () {
+function replaceJsStringsFn() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace('@@VERSION', packageInfo.version))
-    .pipe(gulp.dest(config.dirs.docs.distJS));
-});
+    .pipe(gulp.dest(config.dirs.docs.distJS))
+    .on('end', browserSyncReload);
+};
+gulp.task(
+  'docs:replace-js-strings', ['docs:webpack'], replaceJsStringsFn
+);
 
 gulp.task('docs:watch', function () {
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
@@ -81,24 +96,12 @@ gulp.task('docs:watch', function () {
     config.dirs.docs.srcCSS + '/**/*.less',
     config.dirs.srcCSS + '/**/*.less'
   ], ['docs:less']);
-  gulp.watch([
-    config.dirs.docs.srcJS + '/**/*.?(js|jsx)',
-    config.dirs.srcJS + '/**/*.?(js|jsx)'
-  ], ['docs:webpack', 'docs:replace-js-strings', 'eslint']);
+  // Why aren't we watching any JS files? Because we use webpack's
+  // internal watch, which is faster due to insane caching.
 });
 
 // Use webpack to compile jsx into js,
-gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
-  // Extend options with source mapping
-  webpackConfig.devtool = 'source-map';
-  webpackConfig.module.preLoaders = [
-    {
-      test: /\.js$/,
-      loader: 'source-map-loader',
-      exclude: /node_modules/
-    }
-  ];
-  // run webpack
+gulp.task('docs:webpack', function (callback) {
   webpack(webpackConfig, function (err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack', err);
@@ -112,14 +115,14 @@ gulp.task('docs:webpack', ['docs:eslint'], function (callback) {
       timing: true
     }));
 
-    browserSync.reload();
-    callback();
+    eslintFn();
+    replaceJsStringsFn();
   });
 });
 
 gulp.task('docs:default', [
-  'docs:eslint',
   'docs:webpack',
+  'docs:eslint',
   'docs:replace-js-strings',
   'docs:less',
   'docs:html'

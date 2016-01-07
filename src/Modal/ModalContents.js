@@ -19,7 +19,7 @@ const DEFAULT_HEIGHT = {
   innerContentHeight: null
 };
 
-export default class ModalContents extends Util.mixin(BindMixin) {
+class ModalContents extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
       'handleWindowResize',
@@ -29,12 +29,16 @@ export default class ModalContents extends Util.mixin(BindMixin) {
   }
 
   componentWillReceiveProps(newProps) {
+    super.componentWillReceiveProps(...arguments);
+
     if (this.props.open !== newProps.open) {
       document.body.classList.toggle('no-overflow');
     }
   }
 
   componentDidUpdate() {
+    super.componentDidUpdate(...arguments);
+
     if (this.props.open) {
       this.checkHeight();
     } else {
@@ -44,6 +48,8 @@ export default class ModalContents extends Util.mixin(BindMixin) {
   }
 
   componentWillMount() {
+    super.componentWillMount(...arguments);
+
     this.resetHeight();
     if (this.props.open) {
       document.body.classList.add('no-overflow');
@@ -52,6 +58,8 @@ export default class ModalContents extends Util.mixin(BindMixin) {
   }
 
   componentWillUnmount() {
+    super.componentWillUnmount(...arguments);
+
     this.resetHeight();
     document.body.classList.remove('no-overflow');
     window.removeEventListener('resize', this.handleWindowResize);
@@ -392,3 +400,5 @@ ModalContents.propTypes = {
   modalWrapperClass: PropTypes.string,
   titleClass: PropTypes.string
 };
+
+module.exports = ModalContents;

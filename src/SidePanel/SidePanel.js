@@ -8,7 +8,7 @@ import SidePanelContents from './SidePanelContents.js';
  * The SidePanel needs its own lifecycle and therefore this wrapper is necessary
  */
 
-export default class SidePanel extends React.Component {
+module.exports = class SidePanel extends React.Component {
   render() {
     return (
       <Portal>
@@ -16,4 +16,4 @@ export default class SidePanel extends React.Component {
       </Portal>
     );
   }
-}
+};

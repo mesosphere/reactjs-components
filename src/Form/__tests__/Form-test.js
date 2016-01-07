@@ -4,6 +4,7 @@ jest.dontMock('../FieldInput');
 jest.dontMock('../FieldPassword');
 jest.dontMock('../icons/IconEdit');
 jest.dontMock('../FieldTypes');
+jest.dontMock('../../Mixin/BindMixin');
 jest.dontMock('../../Util/Util');
 
 var React = require('react/addons');
