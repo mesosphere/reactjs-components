@@ -26,27 +26,32 @@ export default class FieldInput extends React.Component {
   }
 
   handleEvent(event, eventObj) {
-    this.props.handleEvent(
-      event, this.props.name, eventObj.target.value, eventObj
-    );
+    let {props} = this;
+    props.handleEvent(event, props.name, eventObj.target.value, eventObj);
   }
 
   handleKeyDown(event) {
+    let {props, refs} = this;
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
-      if (this.props.writeType === 'edit') {
-        React.findDOMNode(this.refs.inputElement).blur();
+      if (props.writeType === 'input') {
+        props.handleSubmit();
       }
 
-      if (this.props.writeType === 'input') {
-        this.props.handleSubmit();
-      }
+      React.findDOMNode(refs.inputElement).blur();
     }
   }
 
+  hasError() {
+    let {props} = this;
+    let validationError = props.validationError;
+    return !!(validationError && validationError[props.name]);
+  }
+
   isEditing() {
-    return this.props.editing === this.props.name
-      && this.props.writeType === 'edit';
+    let {props} = this;
+    return props.editing === props.name
+      && props.writeType === 'edit';
   }
 
   getRowClass(props) {
@@ -62,11 +67,12 @@ export default class FieldInput extends React.Component {
 
   getErrorMsg() {
     let errorMsg = null;
-    let validationError = this.props.validationError;
-    if (validationError && validationError[this.props.name]) {
+    let {props} = this;
+
+    if (this.hasError()) {
       errorMsg = (
-        <p className={this.props.helpBlockClass}>
-          {validationError[this.props.name]}
+        <p className={props.helpBlockClass}>
+          {props.validationError[props.name]}
         </p>
       );
     }
@@ -75,18 +81,19 @@ export default class FieldInput extends React.Component {
   }
 
   getLabel() {
-    let label = null;
-    if (this.props.showLabel) {
-      label = (
-        <label>{this.props.name}</label>
-      );
+    let {props} = this;
+    if (!props.showLabel) {
+      return null;
     }
 
-    return label;
+    return (
+      <label>{props.name}</label>
+    );
   }
 
   getInputElement(attributes) {
-    let props = this.props;
+    let {props} = this;
+
     let classes = classNames(props.inputClass, props.sharedClass);
     attributes = this.bindEvents(attributes);
 
@@ -118,14 +125,20 @@ export default class FieldInput extends React.Component {
   }
 
   render() {
-    let props = this.props;
+    let {props} = this;
 
     let attributes = Util.exclude(props, 'onChange', 'value');
-    let formRowElementClassSet = this.getRowClass(props);
+
+    let classes = classNames(
+      props.formGroupClass,
+      {
+        [props.formGroupErrorClass]: this.hasError()
+      }
+    );
 
     return (
-      <div className={formRowElementClassSet}>
-        <div className={props.formGroupClass}>
+      <div className={this.getRowClass(props)}>
+        <div className={classes}>
           {this.getLabel()}
           {this.getInputElement(attributes)}
           {this.getErrorMsg()}
@@ -136,10 +149,18 @@ export default class FieldInput extends React.Component {
 }
 
 FieldInput.defaultProps = {
-  handleEvent: function () {}
+  columnWidth: 12,
+  handleEvent: function () {},
+  value: '',
+  writeType: 'input'
 };
 
 FieldInput.propTypes = {
+  // Optional number of columns to take up of the grid
+  columnWidth: React.PropTypes.number.isRequired,
+  // Optional. Which field property is currently being edited
+  // (usually passed down from form definition)
+  editing: React.PropTypes.string,
   // Function to handle when form is submitted
   // (usually passed down from form definition)
   handleSubmit: React.PropTypes.func,
@@ -148,22 +169,23 @@ FieldInput.propTypes = {
   handleEvent: React.PropTypes.func,
   // Optional label to add
   label: React.PropTypes.string,
-  // Optional name of the field property
+  // Name of the field property
   // (usually passed down from form definition)
-  name: React.PropTypes.string,
-  // initial value of checkbox, should be either 'checked' or 'unchecked'
-  startValue: React.PropTypes.string,
-  // Optional field to set input to 'edit' or 'input' mode
-  writeType: React.PropTypes.string,
-  // Optional. Which field property is currently being edited
-  // (usually passed down from form definition)
-  editing: React.PropTypes.string,
-  // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.object,
+  name: React.PropTypes.string.isRequired,
   // Optional boolean, tells whether to show label, or not
   showLabel: React.PropTypes.bool,
+  // initial value of checkbox, should be either 'checked' or 'unchecked'
+  startValue: React.PropTypes.string,
+  // Optional object of error messages, with key equal to field property name
+  validationError: React.PropTypes.object,
+  // Optional value of the field
+  value: React.PropTypes.string,
+  // Optional field to set input to 'edit' or 'input' mode
+  writeType: React.PropTypes.string,
 
   // Classes
+  formGroupClass: React.PropTypes.string,
+  formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };
