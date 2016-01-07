@@ -60,7 +60,7 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
 
   getItems() {
     let {props, handleChange} = this;
-    return props.startValue.map((attributes, index) => {
+    return props.startValue.map(function (attributes, index) {
       return (
         <ItemCheckbox
           labelClass={props.labelClass}
