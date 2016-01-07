@@ -556,7 +556,7 @@ const Util = {
     return string.charAt(0).toUpperCase() + string.slice(1, string.length);
   },
 
-  // Add external custom function
+  // Add external custom functions
   clone: clone,
   exclude: exclude,
   extend: extend,
