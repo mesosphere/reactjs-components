@@ -10,20 +10,14 @@ export default class ItemCheckbox extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
-    let {props, refs} = this;
-    let checkbox = React.findDOMNode(refs.checkbox);
-
-    if (props.checked != null) {
-      checkbox.checked = props.checked;
-    }
-
-    let indeterminate = props.indeterminate;
-    if (indeterminate != null) {
-      checkbox.indeterminate = indeterminate;
-    }
+    this.updateCheckbox();
   }
 
   componentDidUpdate() {
+    this.updateCheckbox();
+  }
+
+  updateCheckbox() {
     let {props, refs} = this;
     let checkbox = React.findDOMNode(refs.checkbox);
 
