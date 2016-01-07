@@ -34,7 +34,7 @@ gulp.task('docs:browsersync', function () {
 });
 
 // Create a function so we can use it inside of webpack's watch function.
-function eslintFn () {
+function eslintFn() {
   return gulp.src([config.files.docs.srcJS])
     .pipe(eslint())
     .pipe(eslint.formatEach('stylish', process.stderr));
@@ -80,7 +80,7 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
     .pipe(gulp.dest(config.dirs.docs.distJS));
 });
 
-function replaceJsStringsFn () {
+function replaceJsStringsFn() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace('@@VERSION', packageInfo.version))
     .pipe(gulp.dest(config.dirs.docs.distJS))
