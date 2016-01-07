@@ -16,8 +16,12 @@ var config = require('../.build.config');
 var packageInfo = require('../package');
 var webpackConfig = require('../.webpack.config');
 
+var development = process.env.NODE_ENV === "development";
+
 function browserSyncReload () {
-  browserSync.reload();
+  if (development) {
+    browserSync.reload();
+  }
 }
 
 gulp.task('docs:browsersync', function () {
@@ -102,6 +106,8 @@ gulp.task('docs:watch', function () {
 
 // Use webpack to compile jsx into js,
 gulp.task('docs:webpack', function (callback) {
+  var isFirstRun = true;
+
   webpack(webpackConfig, function (err, stats) {
     if (err) {
       throw new gutil.PluginError('webpack', err);
@@ -115,8 +121,15 @@ gulp.task('docs:webpack', function (callback) {
       timing: true
     }));
 
-    eslintFn();
-    replaceJsStringsFn();
+    if (isFirstRun) {
+      // This runs on initial gulp webpack load.
+      isFirstRun = false;
+      callback();
+    } else {
+      // This runs after webpack's internal watch rebuild.
+      eslintFn();
+      replaceJsStringsFn();
+    }
   });
 });
 
