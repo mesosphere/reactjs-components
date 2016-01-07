@@ -10,12 +10,12 @@ export default class ItemCheckbox extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
-    super.componentDidMount();
+    super.componentDidMount(...arguments);
     this.updateCheckbox();
   }
 
   componentDidUpdate() {
-    super.componentDidUpdate();
+    super.componentDidUpdate(...arguments);
     this.updateCheckbox();
   }
 
