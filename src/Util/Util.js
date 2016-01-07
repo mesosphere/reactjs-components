@@ -386,6 +386,7 @@ function clone(object) {
   return copy;
 }
 
+
 /**
  * Excludes given properties from object
  *
