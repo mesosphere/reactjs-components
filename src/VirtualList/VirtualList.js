@@ -33,6 +33,9 @@ export default class VirtualList extends Util.mixin(BindMixin) {
     if (this.props.scrollDelay > 0) {
       this.onScroll = Util.throttle(this.onScroll, this.props.scrollDelay);
     }
+
+    let state = this.getVirtualState(this.props);
+    this.setState(state);
   }
 
   componentDidMount() {
