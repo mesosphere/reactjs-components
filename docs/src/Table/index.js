@@ -164,6 +164,7 @@ class TableExample extends React.Component {
     return [
       {
         className: 'name',
+        dontCache: true,
         heading: this.getColumnHeading,
         prop: 'name',
         sortable: true
