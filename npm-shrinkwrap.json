@@ -9555,66 +9555,62 @@
       }
     },
     "gulp-autoprefixer": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/gulp-autoprefixer/-/gulp-autoprefixer-3.1.0.tgz",
+      "version": "2.3.1",
+      "resolved": "https://registry.npmjs.org/gulp-autoprefixer/-/gulp-autoprefixer-2.3.1.tgz",
       "dependencies": {
-        "autoprefixer": {
-          "version": "6.2.3",
-          "resolved": "https://registry.npmjs.org/autoprefixer/-/autoprefixer-6.2.3.tgz",
+        "autoprefixer-core": {
+          "version": "5.2.1",
+          "resolved": "https://registry.npmjs.org/autoprefixer-core/-/autoprefixer-core-5.2.1.tgz",
           "dependencies": {
             "browserslist": {
-              "version": "1.0.1",
-              "resolved": "https://registry.npmjs.org/browserslist/-/browserslist-1.0.1.tgz"
+              "version": "0.4.0",
+              "resolved": "https://registry.npmjs.org/browserslist/-/browserslist-0.4.0.tgz"
             },
             "caniuse-db": {
               "version": "1.0.30000384",
               "resolved": "https://registry.npmjs.org/caniuse-db/-/caniuse-db-1.0.30000384.tgz"
             },
-            "normalize-range": {
-              "version": "0.1.2",
-              "resolved": "https://registry.npmjs.org/normalize-range/-/normalize-range-0.1.2.tgz"
-            },
             "num2fraction": {
               "version": "1.2.2",
               "resolved": "https://registry.npmjs.org/num2fraction/-/num2fraction-1.2.2.tgz"
-            },
-            "postcss-value-parser": {
-              "version": "3.2.3",
-              "resolved": "https://registry.npmjs.org/postcss-value-parser/-/postcss-value-parser-3.2.3.tgz"
             }
           }
         },
+        "object-assign": {
+          "version": "2.1.1",
+          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-2.1.1.tgz"
+        },
         "postcss": {
-          "version": "5.0.14",
-          "resolved": "https://registry.npmjs.org/postcss/-/postcss-5.0.14.tgz",
+          "version": "4.1.16",
+          "resolved": "https://registry.npmjs.org/postcss/-/postcss-4.1.16.tgz",
           "dependencies": {
+            "es6-promise": {
+              "version": "2.3.0",
+              "resolved": "https://registry.npmjs.org/es6-promise/-/es6-promise-2.3.0.tgz"
+            },
             "js-base64": {
               "version": "2.1.9",
               "resolved": "https://registry.npmjs.org/js-base64/-/js-base64-2.1.9.tgz"
             },
             "source-map": {
-              "version": "0.5.3",
-              "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
-            },
-            "supports-color": {
-              "version": "3.1.2",
-              "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-3.1.2.tgz",
+              "version": "0.4.4",
+              "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.4.4.tgz",
               "dependencies": {
-                "has-flag": {
+                "amdefine": {
                   "version": "1.0.0",
-                  "resolved": "https://registry.npmjs.org/has-flag/-/has-flag-1.0.0.tgz"
+                  "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
                 }
               }
             }
           }
         },
         "through2": {
-          "version": "2.0.0",
-          "resolved": "https://registry.npmjs.org/through2/-/through2-2.0.0.tgz",
+          "version": "0.6.5",
+          "resolved": "https://registry.npmjs.org/through2/-/through2-0.6.5.tgz",
           "dependencies": {
             "readable-stream": {
-              "version": "2.0.5",
-              "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.0.5.tgz",
+              "version": "1.0.33",
+              "resolved": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.0.33.tgz",
               "dependencies": {
                 "core-util-is": {
                   "version": "1.0.2",
@@ -9628,17 +9624,9 @@
                   "version": "0.0.1",
                   "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
                 },
-                "process-nextick-args": {
-                  "version": "1.0.6",
-                  "resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-1.0.6.tgz"
-                },
                 "string_decoder": {
                   "version": "0.10.31",
                   "resolved": "http://registry.npmjs.org/string_decoder/-/string_decoder-0.10.31.tgz"
-                },
-                "util-deprecate": {
-                  "version": "1.0.2",
-                  "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
                 }
               }
             },
@@ -9649,12 +9637,18 @@
           }
         },
         "vinyl-sourcemaps-apply": {
-          "version": "0.2.1",
-          "resolved": "https://registry.npmjs.org/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz",
+          "version": "0.1.4",
+          "resolved": "https://registry.npmjs.org/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.1.4.tgz",
           "dependencies": {
             "source-map": {
-              "version": "0.5.3",
-              "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
+              "version": "0.1.43",
+              "resolved": "http://registry.npmjs.org/source-map/-/source-map-0.1.43.tgz",
+              "dependencies": {
+                "amdefine": {
+                  "version": "1.0.0",
+                  "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
+                }
+              }
             }
           }
         }
