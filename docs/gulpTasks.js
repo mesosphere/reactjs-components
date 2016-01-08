@@ -16,7 +16,7 @@ var config = require('../.build.config');
 var packageInfo = require('../package');
 var webpackConfig = require('../.webpack.config');
 
-var development = process.env.NODE_ENV === "development";
+var development = process.env.NODE_ENV === 'development';
 
 function browserSyncReload () {
   if (development) {

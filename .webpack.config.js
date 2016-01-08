@@ -21,5 +21,5 @@ module.exports = {
   resolve: {
     extensions: ['', '.js']
   },
-  watch: process.env.NODE_ENV === "development"
+  watch: process.env.NODE_ENV === 'development'
 };
