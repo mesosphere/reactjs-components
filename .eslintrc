@@ -24,7 +24,8 @@
   "rules": {
     "eqeqeq": [2, "smart"],
     "quotes": [2, "single"],
-    "indent": [2, 2],
+    "jsx-quotes": [2, "prefer-double"],
+    "indent": [2, 2, {"SwitchCase": 1}],
     "camelcase": [2, {"properties": "never"}],
     "camelcase": [2, {"properties": "always"}],
     "strict": [2, "global"],
@@ -39,7 +40,7 @@
     "space-before-function-paren": [2, {
       "anonymous": "always", "named": "never"
     }],
-    "spaced-line-comment": [2, "always"],
+    "spaced-comment": [2, "always"],
     // "max-len": [2, 80, 4], TODO: DCOS-914
     "valid-jsdoc": [2, {
       "requireReturn": false,
@@ -47,7 +48,6 @@
     }],
 
     // React plugin
-    "react/jsx-quotes": [2, "double"],
     "react/jsx-no-undef": 2,
     "react/jsx-uses-vars": [2, {"vars": "all", "args": "after-used"}],
     "react/jsx-sort-props": 0,
