@@ -1,5 +1,6 @@
-import React from 'react';
 import classNames from 'classnames';
+import GeminiScrollbar from 'react-gemini-scrollbar';
+import React from 'react';
 
 import Table from '../../../src/Table/Table.js';
 
@@ -30,7 +31,7 @@ let rows = [
     name: 'Zach',
     age: 11,
     gender: 'Male',
-    location: 'San Francisco, CA',
+    location: 'SF, CA',
     id: 'a'
   },
   {
@@ -111,6 +112,10 @@ class TableExample extends React.Component {
     this.hugeRows = this.getManyRows();
   }
 
+  componentDidMount() {
+    this.forceUpdate();
+  }
+
   handleToggleExtraRow() {
     this.setState({
       rowAdded: !this.state.rowAdded
@@ -159,6 +164,7 @@ class TableExample extends React.Component {
     return [
       {
         className: 'name',
+        dontCache: true,
         heading: this.getColumnHeading,
         prop: 'name',
         sortable: true
@@ -238,7 +244,7 @@ class TableExample extends React.Component {
         <section className="row canvas-pod">
           <div className="flush-bottom">
             <h2>Tables</h2>
-            <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll).</p>
+            <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll). If no item height is passed, table will first render one row to measure</p>
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
             <h3>Properties API</h3>
             <div className="example-block">
@@ -325,6 +331,7 @@ class TableExample extends React.Component {
     // The first column will be a "name" column.
     {
       className: 'name',
+      dontCache: true,
       heading: this.getColumnHeading,
       prop: 'name',
       sortable: true
@@ -538,12 +545,19 @@ class TableExample extends React.Component {
                     </p>
                   </div>
                 </div>
-                <Table
-                  className="table"
-                  colGroup={this.getColGroup()}
-                  columns={this.getColumns()}
-                  data={this.hugeRows}
-                  idAttribute="id" />
+                <div style={{height: 800}}>
+                  <GeminiScrollbar
+                    autoshow={true}
+                    className="container-scrollable">
+                    <Table
+                      className="table"
+                      colGroup={this.getColGroup()}
+                      columns={this.getColumns()}
+                      data={this.hugeRows}
+                      containerSelector=".gm-scroll-view"
+                      idAttribute="id" />
+                  </GeminiScrollbar>
+                </div>
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
