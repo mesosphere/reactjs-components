@@ -243,7 +243,7 @@ class TableExample extends React.Component {
         <section className="row canvas-pod">
           <div className="flush-bottom">
             <h2>Tables</h2>
-            <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll).</p>
+            <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll). If no item height is passed, table will first render one row to measure</p>
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
             <h3>Properties API</h3>
             <div className="example-block">
