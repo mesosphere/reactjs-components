@@ -11,7 +11,7 @@ var FormControl = require('../FormControl');
 
 function getDefinition() {
   return {
-    fieldName: 'username',
+    name: 'username',
     value: 'string',
     validation: function (arg) {
       return arg.length < 15;
@@ -100,6 +100,7 @@ describe('FormControl', function () {
 
     it('calculates correct column width for last element', function () {
       var definition = {
+        name: 'username',
         fieldType: 'text'
       };
       var result = this.instance.renderType(definition, 7, true);
@@ -109,6 +110,7 @@ describe('FormControl', function () {
 
     it('calculates correct column width for all other', function () {
       var definition = {
+        name: 'username',
         fieldType: 'text'
       };
       var result = this.instance.renderType(definition, 7, false);

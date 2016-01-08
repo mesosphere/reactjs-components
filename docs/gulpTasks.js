@@ -18,7 +18,7 @@ var webpackConfig = require('../.webpack.config');
 
 var development = process.env.NODE_ENV === 'development';
 
-function browserSyncReload () {
+function browserSyncReload() {
   if (development) {
     browserSync.reload();
   }
@@ -42,7 +42,8 @@ function eslintFn() {
   return gulp.src([config.files.docs.srcJS])
     .pipe(eslint())
     .pipe(eslint.formatEach('stylish', process.stderr));
-};
+}
+
 gulp.task('docs:eslint', eslintFn);
 
 gulp.task('docs:html', function () {
@@ -59,8 +60,8 @@ gulp.task('docs:less', function () {
       plugins: [colorLighten]
     }))
     .on('error', function (err) {
-        gutil.log(err);
-        this.emit('end');
+      gutil.log(err);
+      this.emit('end');
     })
     .pipe(autoprefixer())
     .pipe(concat(config.files.docs.distCSS))
@@ -89,7 +90,8 @@ function replaceJsStringsFn() {
     .pipe(replace('@@VERSION', packageInfo.version))
     .pipe(gulp.dest(config.dirs.docs.distJS))
     .on('end', browserSyncReload);
-};
+}
+
 gulp.task(
   'docs:replace-js-strings', ['docs:webpack'], replaceJsStringsFn
 );

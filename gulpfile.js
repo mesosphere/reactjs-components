@@ -3,7 +3,8 @@ var gulp = require('gulp');
 
 var config = require('./.build.config.js');
 
-var docsTasks = require('./docs/gulpTasks');
+// Set up docs tasks too
+require('./docs/gulpTasks');
 
 gulp.task('eslint', function () {
   return gulp.src([config.dirs.srcJS + '/**/*.?(js|jsx)'])
