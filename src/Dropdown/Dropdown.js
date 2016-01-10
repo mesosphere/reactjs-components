@@ -59,11 +59,13 @@ class Dropdown extends Util.mixin(BindMixin) {
 
       // Setting state with menu height and direction will re-render the
       // dropdown in the correct direction and not concealed.
+      /* eslint-disable react/no-did-update-set-state */
       this.setState({
         maxDropdownHeight,
         menuDirection,
         menuHeight
       });
+      /* eslint-enable react/no-did-update-set-state */
     }
   }
 
