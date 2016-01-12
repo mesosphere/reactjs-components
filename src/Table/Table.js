@@ -339,7 +339,8 @@ Table.propTypes = {
     })
   ).isRequired,
 
-  // Optional selector to use as container.
+  // Optional selector of the parent element that has a scrollbar in order to
+  // listen to its scroll event.
   containerSelector: PropTypes.string,
 
   // Data to display in the table.
