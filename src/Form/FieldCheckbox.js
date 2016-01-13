@@ -45,15 +45,26 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return errorMsg;
   }
 
-  getDescription() {
+  getLabel() {
     let {props} = this;
-    if (!props.description) {
+    let label = props.name;
+    let showLabel = props.showLabel;
+
+    if (!showLabel) {
       return null;
+    }
+
+    if (typeof showLabel === 'string') {
+      label = showLabel;
+    }
+
+    if (typeof showLabel !== 'string' && showLabel !== true) {
+      return showLabel;
     }
 
     return (
       <p className={props.descriptionClass}>
-        {props.description}
+        {label}
       </p>
     );
   }
@@ -90,7 +101,7 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return (
       <div className={this.getRowClass(this.props)}>
         <div className={classes}>
-          {this.getDescription()}
+          {this.getLabel()}
           <div ref="checkboxes">
             {this.getItems()}
           </div>
@@ -112,8 +123,15 @@ FieldCheckbox.propTypes = {
   // Function to handle change event
   // (usually passed down from form definition)
   handleEvent: React.PropTypes.func,
-  // Optional description for field
-  description: React.PropTypes.string,
+  // Optional boolean, string, or react node.
+  // If boolean: true - shows name as label; false - shows nothing.
+  // If string: shows string as label.
+  // If node: returns the node as the label.
+  showLabel: React.PropTypes.oneOfType([
+    React.PropTypes.node,
+    React.PropTypes.string,
+    React.PropTypes.bool
+  ]),
   // Array of checkbox states to render
   // (usually passed down from value in form definition)
   startValue: React.PropTypes.array.isRequired,

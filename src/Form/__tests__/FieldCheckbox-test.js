@@ -71,20 +71,32 @@ describe('FieldCheckbox', function () {
     });
   });
 
-  describe('#getDescription', function () {
-    it('should return a paragraph if description has a value', function () {
+  describe('#getLabel', function () {
+    it('should return a paragraph if showLabel has a value', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          description="bar"
+          showLabel="bar"
           startValue={[]}
           fieldType="checkbox" />
       );
 
-      expect(instance.getDescription().type).toEqual('p');
+      expect(instance.getLabel().type).toEqual('p');
     });
 
-    it('should return null if description doesn\'t has a value', function () {
+    it('can handle a custom render function', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <FieldCheckbox
+          name="foo"
+          showLabel={<h1>hello</h1>}
+          startValue={[]}
+          fieldType="checkbox" />
+      );
+
+      expect(instance.getLabel().type).toEqual('h1');
+    });
+
+    it('should return null if showLabel doesn\'t has a value', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
@@ -92,7 +104,7 @@ describe('FieldCheckbox', function () {
           fieldType="checkbox" />
       );
 
-      expect(instance.getDescription()).toEqual(null);
+      expect(instance.getLabel()).toEqual(null);
     });
   });
 

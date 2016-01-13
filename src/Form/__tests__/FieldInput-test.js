@@ -145,6 +145,19 @@ describe('FieldInput', function () {
       expect(instance.getLabel().type).toEqual('label');
     });
 
+    it('can handle a custom render function', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          name="username"
+          fieldType="text"
+          writeType="input"
+          handleEvent={function () {}}
+          showLabel={<h1>hello</h1>} />
+      );
+
+      expect(instance.getLabel().type).toEqual('h1');
+    });
+
     it('should return null if showLabel is false', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput

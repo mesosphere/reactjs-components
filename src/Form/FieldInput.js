@@ -82,12 +82,23 @@ export default class FieldInput extends React.Component {
 
   getLabel() {
     let {props} = this;
-    if (!props.showLabel) {
+    let label = props.name;
+    let showLabel = props.showLabel;
+
+    if (!showLabel) {
       return null;
     }
 
+    if (typeof showLabel === 'string') {
+      label = showLabel;
+    }
+
+    if (typeof showLabel !== 'string' && showLabel !== true) {
+      return showLabel;
+    }
+
     return (
-      <label>{props.name}</label>
+      <label>{label}</label>
     );
   }
 
@@ -172,8 +183,15 @@ FieldInput.propTypes = {
   // Name of the field property
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
-  // Optional boolean, tells whether to show label, or not
-  showLabel: React.PropTypes.bool,
+  // Optional boolean, string, or react node.
+  // If boolean: true - shows name as label; false - shows nothing.
+  // If string: shows string as label.
+  // If node: returns the node as the label.
+  showLabel: React.PropTypes.oneOfType([
+    React.PropTypes.node,
+    React.PropTypes.string,
+    React.PropTypes.bool
+  ]),
   // initial value of checkbox, should be either 'checked' or 'unchecked'
   startValue: React.PropTypes.string,
   // Optional object of error messages, with key equal to field property name
