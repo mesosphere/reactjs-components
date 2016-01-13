@@ -206,7 +206,7 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   if (viewBox.bottom < listBox.top) {
     return {
       firstItemIndex: 0,
-      lastItemIndex: 0
+      lastItemIndex: (viewHeight / itemHeight) + itemBuffer
     };
   }
 
@@ -214,7 +214,7 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   if (viewBox.top > listBox.bottom) {
     return {
       firstItemIndex: 0,
-      lastItemIndex: 0
+      lastItemIndex: (viewHeight / itemHeight) + itemBuffer
     };
   }
 
