@@ -13,7 +13,7 @@ function findFieldOption(options, field) {
   });
 }
 
-export default class Form extends Util.mixin(BindMixin) {
+class Form extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
       'handleBlur',
@@ -314,3 +314,5 @@ Form.propTypes = {
   // Call the trigger function, when a submit needs to be triggered externally
   triggerSubmit: PropTypes.func
 };
+
+module.exports = Form;
