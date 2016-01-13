@@ -183,7 +183,10 @@ FieldInput.propTypes = {
   // Name of the field property
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
-  // Optional boolean, tells whether to show label, or not
+  // Optional boolean, string, or react node.
+  // If boolean: true shows name as label; false shows nothing.
+  // If string: shows string as label.
+  // If node: returns the node as the label.
   showLabel: React.PropTypes.bool,
   // initial value of checkbox, should be either 'checked' or 'unchecked'
   startValue: React.PropTypes.string,

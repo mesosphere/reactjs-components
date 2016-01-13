@@ -123,8 +123,11 @@ FieldCheckbox.propTypes = {
   // Function to handle change event
   // (usually passed down from form definition)
   handleEvent: React.PropTypes.func,
-  // Optional description for field
-  description: React.PropTypes.string,
+  // Optional boolean, string, or react node.
+  // If boolean: true shows name as label; false shows nothing.
+  // If string: shows string as label.
+  // If node: returns the node as the label.
+  showLabel: React.PropTypes.string,
   // Array of checkbox states to render
   // (usually passed down from value in form definition)
   startValue: React.PropTypes.array.isRequired,
