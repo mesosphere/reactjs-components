@@ -545,19 +545,17 @@ class TableExample extends React.Component {
                     </p>
                   </div>
                 </div>
-                <div style={{height: 800}}>
-                  <GeminiScrollbar
-                    autoshow={true}
-                    className="container-scrollable">
-                    <Table
-                      className="table"
-                      colGroup={this.getColGroup()}
-                      columns={this.getColumns()}
-                      data={this.hugeRows}
-                      containerSelector=".gm-scroll-view"
-                      idAttribute="id" />
-                  </GeminiScrollbar>
-                </div>
+                <GeminiScrollbar
+                  autoshow={true}
+                  style={{height: 800}}>
+                  <Table
+                    className="table"
+                    colGroup={this.getColGroup()}
+                    columns={this.getColumns()}
+                    data={this.hugeRows}
+                    containerSelector=".gm-scroll-view"
+                    idAttribute="id" />
+                </GeminiScrollbar>
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
