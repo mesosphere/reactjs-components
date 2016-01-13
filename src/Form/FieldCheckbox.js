@@ -127,7 +127,11 @@ FieldCheckbox.propTypes = {
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
-  showLabel: React.PropTypes.string,
+  showLabel: React.PropTypes.oneOfType([
+    React.PropTypes.node,
+    React.PropTypes.string,
+    React.PropTypes.bool
+  ]),
   // Array of checkbox states to render
   // (usually passed down from value in form definition)
   startValue: React.PropTypes.array.isRequired,
