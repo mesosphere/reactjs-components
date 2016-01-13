@@ -227,6 +227,22 @@ describe('ModalContents', function () {
         expect(heightInfo.height).toEqual(600);
       }
     );
+
+    it('should update the heightInfo if maxHeight gets bigger', function () {
+      var prevHeightInfo = {innerContentHeight: 600, maxHeight: 400};
+      var heightInfo = {
+        innerContentHeight: 600,
+        maxHeight: 500,
+        contentHeight: 350,
+        height: 400
+      };
+
+      this.instance.checkContentHeightChange(prevHeightInfo, heightInfo);
+
+      // Adds the difference between the maxHeights to contentHeight and height.
+      expect(heightInfo.contentHeight).toEqual(450);
+      expect(heightInfo.height).toEqual(500);
+    });
   });
 
   describe('overflow hidden on body', function () {
