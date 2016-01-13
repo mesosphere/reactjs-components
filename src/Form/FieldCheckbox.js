@@ -45,15 +45,26 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return errorMsg;
   }
 
-  getDescription() {
+  getLabel() {
     let {props} = this;
-    if (!props.description) {
+    let label = props.name;
+    let showLabel = props.showLabel;
+
+    if (!showLabel) {
       return null;
+    }
+
+    if (typeof showLabel === 'string') {
+      label = showLabel;
+    }
+
+    if (Util.isFunction(showLabel)) {
+      return showLabel();
     }
 
     return (
       <p className={props.descriptionClass}>
-        {props.description}
+        {label}
       </p>
     );
   }
@@ -90,7 +101,7 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
     return (
       <div className={this.getRowClass(this.props)}>
         <div className={classes}>
-          {this.getDescription()}
+          {this.getLabel()}
           <div ref="checkboxes">
             {this.getItems()}
           </div>

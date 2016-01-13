@@ -82,12 +82,23 @@ export default class FieldInput extends React.Component {
 
   getLabel() {
     let {props} = this;
-    if (!props.showLabel) {
+    let label = props.name;
+    let showLabel = props.showLabel;
+
+    if (!showLabel) {
       return null;
     }
 
+    if (typeof showLabel === 'string') {
+      label = showLabel;
+    }
+
+    if (Util.isFunction(showLabel)) {
+      return showLabel();
+    }
+
     return (
-      <label>{props.name}</label>
+      <label>{label}</label>
     );
   }
 
