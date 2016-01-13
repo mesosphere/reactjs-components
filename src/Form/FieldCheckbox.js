@@ -58,8 +58,8 @@ export default class FieldCheckbox extends Util.mixin(BindMixin) {
       label = showLabel;
     }
 
-    if (Util.isFunction(showLabel)) {
-      return showLabel();
+    if (typeof showLabel !== 'string' && showLabel !== true) {
+      return showLabel;
     }
 
     return (

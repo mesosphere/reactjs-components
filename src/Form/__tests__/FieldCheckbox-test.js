@@ -85,13 +85,10 @@ describe('FieldCheckbox', function () {
     });
 
     it('can handle a custom render function', function () {
-      var customRender = function () {
-        return <h1>hello</h1>
-      };
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          showLabel={customRender}
+          showLabel={<h1>hello</h1>}
           startValue={[]}
           fieldType="checkbox" />
       );

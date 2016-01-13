@@ -93,8 +93,8 @@ export default class FieldInput extends React.Component {
       label = showLabel;
     }
 
-    if (Util.isFunction(showLabel)) {
-      return showLabel();
+    if (typeof showLabel !== 'string' && showLabel !== true) {
+      return showLabel;
     }
 
     return (

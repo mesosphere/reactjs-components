@@ -146,16 +146,13 @@ describe('FieldInput', function () {
     });
 
     it('can handle a custom render function', function () {
-      var customRender = function () {
-        return <h1>hello</h1>
-      };
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
           name="username"
           fieldType="text"
           writeType="input"
           handleEvent={function () {}}
-          showLabel={customRender} />
+          showLabel={<h1>hello</h1>} />
       );
 
       expect(instance.getLabel().type).toEqual('h1');
