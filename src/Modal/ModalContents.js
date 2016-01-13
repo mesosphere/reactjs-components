@@ -84,12 +84,25 @@ class ModalContents extends Util.mixin(BindMixin) {
   checkContentHeightChange(prevHeightInfo, heightInfo) {
     let {height, maxHeight, innerContentHeight} = heightInfo;
     let prevContentHeight = prevHeightInfo.innerContentHeight;
+    let prevMaxHeight = prevHeightInfo.maxHeight;
+    let update = false;
 
     if (prevContentHeight != null) {
       let difference = innerContentHeight - prevContentHeight;
       if (difference !== 0 && height + difference < maxHeight) {
         heightInfo.height += difference;
         heightInfo.contentHeight += difference;
+        update = true;
+      }
+
+      let maxHeightDifference = maxHeight - prevMaxHeight;
+      if (maxHeightDifference > 0) {
+        heightInfo.height += maxHeightDifference;
+        heightInfo.contentHeight += maxHeightDifference;
+        update = true;
+      }
+
+      if (update) {
         this.forceUpdate();
       }
     }
@@ -127,7 +140,6 @@ class ModalContents extends Util.mixin(BindMixin) {
 
   getInnerContainerHeightInfo() {
     let innerContainer = this.refs.innerContainer;
-
     let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
     let totalContentHeight = React.findDOMNode(this.refs.modal).offsetHeight;
 
@@ -149,7 +161,9 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     // We minus the maxHeight with the outerHeight because it will
     // not show the content correctly due to 'box-sizing: border-box'.
-    contentHeight = Math.min(contentHeight, maxHeight - outerHeight);
+    if (contentHeight > maxHeight) {
+      contentHeight = maxHeight;
+    }
 
     return {
       contentHeight,
