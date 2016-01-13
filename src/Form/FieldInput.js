@@ -184,7 +184,7 @@ FieldInput.propTypes = {
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
   // Optional boolean, string, or react node.
-  // If boolean: true shows name as label; false shows nothing.
+  // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
   showLabel: React.PropTypes.bool,
