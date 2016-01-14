@@ -30,6 +30,7 @@ export default class FieldPassword extends FieldInput {
 
   getInputElement(attributes) {
     let classes = classNames(this.props.inputClass, this.props.sharedClass);
+    let inputContent = null;
     attributes = this.bindEvents(attributes, this.props.handleEvent);
     attributes.onFocus = this.handleOnFocus;
 
@@ -39,7 +40,7 @@ export default class FieldPassword extends FieldInput {
     }
 
     if (this.isEditing() || this.props.writeType === 'input') {
-      return (
+      inputContent = (
         <input
           {...attributes}
           ref="inputElement"
@@ -47,22 +48,28 @@ export default class FieldPassword extends FieldInput {
           onKeyDown={this.handleKeyDown.bind(this)}
           value={startValue} />
       );
+    } else {
+      inputContent = (
+        <span
+          ref="inputElement"
+          {...attributes}
+          className={classes}
+          onClick={attributes.onFocus}>
+          <span className={this.props.inlineTextClass}>
+            {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
+          </span>
+          <span className={this.props.inlineIconClass}>
+            <IconEdit />
+          </span>
+        </span>
+      );
     }
 
-    return (
-      <span
-        ref="inputElement"
-        {...attributes}
-        className={classes}
-        onClick={attributes.onFocus}>
-        <span className={this.props.inlineTextClass}>
-          {attributes.defaultPasswordValue || DEFAULT_PASSWORD_TEXT}
-        </span>
-        <span className={this.props.inlineIconClass}>
-          <IconEdit />
-        </span>
-      </span>
-    );
+    if (this.props.render) {
+      return this.props.render(inputContent);
+    }
+
+    return inputContent;
   }
 
 }

@@ -176,5 +176,10 @@ describe('Form', function () {
         expect(formControl.type).toEqual(FormControl);
       });
     });
+
+    it('accepts a React element and returns it', function () {
+      this.instance = getInstance([<h1>foo</h1>], noop, noop);
+      expect(TestUtils.findRenderedDOMComponentWithTag(this.instance, 'h1'));
+    });
   });
 });

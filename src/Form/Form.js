@@ -191,6 +191,9 @@ class Form extends Util.mixin(BindMixin) {
   buildStateObj(definition, fieldProp) {
     let stateObj = {};
     Util.flatten(definition).forEach(function (formControlOption) {
+      if (React.isValidElement(formControlOption)) {
+        return;
+      }
       stateObj[formControlOption.name] = formControlOption[fieldProp] || null;
     });
 
@@ -227,6 +230,14 @@ class Form extends Util.mixin(BindMixin) {
     ]);
 
     return definition.map((formControlOption, i) => {
+      if (React.isValidElement(formControlOption)) {
+        return (
+          <span key={i}>
+            {formControlOption}
+          </span>
+        );
+      }
+
       // Map each field to showError boolean
       let showError =
         this.buildFormPropObj(formControlOption, state.erroredFields);
