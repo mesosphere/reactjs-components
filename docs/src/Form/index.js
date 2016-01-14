@@ -62,6 +62,16 @@ class FormExample extends React.Component {
           return result;
         },
         validationErrorText: 'Please select at least one option.'
+      },
+      {
+        fieldType: 'textarea',
+        name: 'message',
+        required: true,
+        showLabel: 'Message',
+        validation: function (value) {
+          return value && value.length < 140;
+        },
+        validationErrorText: 'Message needs to be less than 140 characters'
       }
     ];
   }
@@ -205,6 +215,16 @@ class FormExample extends React.Component {
           return result;
         },
         validationErrorText: 'Please select at least one option.'
+      },
+      {
+        fieldType: 'textarea',
+        name: 'message',
+        required: true,
+        showLabel: 'Message',
+        validation: function (value) {
+          return value && value.length < 140;
+        },
+        validationErrorText: 'Message needs to be less than 140 characters'
       }
     ];
   }

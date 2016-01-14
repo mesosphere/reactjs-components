@@ -1,11 +1,13 @@
 import FieldCheckbox from './FieldCheckbox';
 import FieldInput from './FieldInput';
 import FieldPassword from './FieldPassword';
+import FieldTextarea from './FieldTextarea';
 
 const FieldTypes = {
   'checkbox': FieldCheckbox,
+  'password': FieldPassword,
   'text': FieldInput,
-  'password': FieldPassword
+  'textarea': FieldTextarea
 };
 
 export default FieldTypes;
