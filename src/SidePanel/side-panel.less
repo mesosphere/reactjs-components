@@ -729,14 +729,26 @@ Side Panel Animations
 --------------------------------------------------------------------------------
 ----------------------------------------------------------------------------- */
 
-.side-panel-slide-left-enter {
+.side-panel-slide-left {
 
-  transform: translate(100%, 0);
-  transition: transform .5s ease-in;
+  &-enter, &-appear {
 
-  &.side-panel-slide-left-enter-active {
+    transform: translate(100%, 0);
+    transition: transform .5s ease-in;
 
-    transform: translate(0, 0);
+    &.side-panel-slide-left {
+
+      &-enter, &-appear {
+
+        &-active {
+
+          transform: translate(0, 0);
+
+        }
+
+      }
+
+    }
 
   }
 
@@ -755,14 +767,26 @@ Side Panel Animations
 
 }
 
-.side-panel-fade-in-enter {
+.side-panel-fade-in {
 
-  .opacity(0);
-  transition: opacity .5s ease-in;
+  &-enter, &-appear {
 
-  &.side-panel-fade-in-enter-active {
+    .opacity(0);
+    transition: opacity .5s ease-in;
 
-    .opacity(1);
+    &.side-panel-fade-in {
+
+      &-enter, &-appear {
+
+        &-active {
+
+          .opacity(1);
+
+        }
+
+      }
+
+    }
 
   }
 
