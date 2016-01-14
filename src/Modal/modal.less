@@ -71,14 +71,18 @@
   }
 }
 
-.modal-enter {
-  opacity: 0.01;
-  transform: translate(0, -25%);
-  transition: transform .5s ease-in, opacity .5s ease-in;
+.modal {
+  &-enter, &-appear {
+    opacity: 0.01;
+    transform: translate(0, -25%);
+    transition: transform .5s ease-in, opacity .5s ease-in;
 
-  &.modal-enter-active {
-    opacity: 1;
-    transform: translate(0, 0);
+    &.modal {
+      &-enter-active, &-appear-active {
+        opacity: 1;
+        transform: translate(0, 0);
+      }
+    }
   }
 }
 
@@ -93,12 +97,16 @@
   }
 }
 
-.modal-backdrop-enter {
-  opacity: 0.01;
-  transition: opacity .5s ease-in;
+.modal-backdrop {
+  &-enter, &-appear {
+    opacity: 0.01;
+    transition: opacity .5s ease-in;
 
-  &.modal-backdrop-enter-active {
-    opacity: 1;
+    &.modal-backdrop {
+      &-enter-active, &-appear-active {
+        opacity: 1;
+      }
+    }
   }
 }
 
