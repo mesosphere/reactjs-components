@@ -1,8 +1,8 @@
 {
   "name": "reactjs-components",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "npm-shrinkwrap-version": "5.4.1",
-  "node-version": "v0.10.38",
+  "node-version": "v0.10.40",
   "dependencies": {
     "babel-cli": {
       "version": "6.4.0",
@@ -9686,7 +9686,7 @@
                 },
                 "isarray": {
                   "version": "0.0.1",
-                  "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+                  "resolved": "http://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
                 },
                 "string_decoder": {
                   "version": "0.10.31",
@@ -11102,7 +11102,7 @@
             },
             "isarray": {
               "version": "0.0.1",
-              "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+              "resolved": "http://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
             },
             "process-nextick-args": {
               "version": "1.0.3",
@@ -12598,7 +12598,7 @@
                     },
                     "isarray": {
                       "version": "0.0.1",
-                      "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+                      "resolved": "http://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
                     },
                     "string_decoder": {
                       "version": "0.10.31",
