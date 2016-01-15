@@ -6,8 +6,6 @@ import React from 'react';
 import FieldInput from './FieldInput';
 import IconEdit from './icons/IconEdit';
 
-const DEFAULT_PASSWORD_TEXT = '••••••';
-
 const METHODS_TO_BIND = ['handleOnFocus'];
 
 export default class FieldPassword extends FieldInput {
@@ -34,10 +32,7 @@ export default class FieldPassword extends FieldInput {
     attributes = this.bindEvents(attributes, this.props.handleEvent);
     attributes.onFocus = this.handleOnFocus;
 
-    let startValue = DEFAULT_PASSWORD_TEXT;
-    if (this.focused) {
-      startValue = attributes.startValue;
-    }
+    let startValue = attributes.startValue || '';
 
     if (this.isEditing() || this.props.writeType === 'input') {
       inputContent = (
