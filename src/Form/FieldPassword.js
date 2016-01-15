@@ -65,8 +65,8 @@ export default class FieldPassword extends FieldInput {
       );
     }
 
-    if (this.props.render) {
-      return this.props.render(inputContent);
+    if (this.props.renderer) {
+      return this.props.renderer(inputContent);
     }
 
     return inputContent;

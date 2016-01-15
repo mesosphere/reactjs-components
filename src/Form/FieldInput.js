@@ -135,8 +135,8 @@ export default class FieldInput extends React.Component {
       );
     }
 
-    if (this.props.render) {
-      return this.props.render(inputContent);
+    if (this.props.renderer) {
+      return this.props.renderer(inputContent);
     }
 
     return inputContent;
@@ -191,7 +191,7 @@ FieldInput.propTypes = {
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
   // Custom render function, receives the input element as its only argument
-  render: React.PropTypes.func,
+  renderer: React.PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
