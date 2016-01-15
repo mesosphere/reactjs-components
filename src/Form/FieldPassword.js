@@ -6,7 +6,7 @@ import React from 'react';
 import FieldInput from './FieldInput';
 import IconEdit from './icons/IconEdit';
 
-const METHODS_TO_BIND = ['handleOnFocus'];
+const METHODS_TO_BIND = ['handleOnBlur', 'handleOnFocus'];
 
 export default class FieldPassword extends FieldInput {
   constructor() {
@@ -15,6 +15,15 @@ export default class FieldPassword extends FieldInput {
     METHODS_TO_BIND.forEach((method) => {
       this[method] = this[method].bind(this);
     });
+  }
+
+  handleOnBlur(event) {
+    if (this.focused) {
+      this.focused = false;
+      this.forceUpdate();
+    }
+
+    this.props.handleEvent('blur', this.props.name, event);
   }
 
   handleOnFocus(event) {
@@ -30,9 +39,15 @@ export default class FieldPassword extends FieldInput {
     let classes = classNames(this.props.inputClass, this.props.sharedClass);
     let inputContent = null;
     attributes = this.bindEvents(attributes, this.props.handleEvent);
+    attributes.onBlur = this.handleOnBlur;
     attributes.onFocus = this.handleOnFocus;
 
-    let startValue = attributes.startValue || '';
+    let fieldValue = attributes.defaultPasswordValue ||
+      attributes.startValue || '';
+
+    if (this.focused) {
+      fieldValue = attributes.startValue;
+    }
 
     if (this.isEditing() || this.props.writeType === 'input') {
       inputContent = (
@@ -41,7 +56,7 @@ export default class FieldPassword extends FieldInput {
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
-          value={startValue} />
+          value={fieldValue} />
       );
     } else {
       inputContent = (
