@@ -191,6 +191,8 @@ class Form extends Util.mixin(BindMixin) {
   buildStateObj(definition, fieldProp) {
     let stateObj = {};
     Util.flatten(definition).forEach(function (formControlOption) {
+      // If the element is a React element, then we don't want to add it to the
+      // state object, which represents the form values.
       if (React.isValidElement(formControlOption)) {
         return;
       }
@@ -230,6 +232,8 @@ class Form extends Util.mixin(BindMixin) {
     ]);
 
     return definition.map((formControlOption, i) => {
+      // If it's a React element, we just want to return it. We need to add a
+      // key to the object because we're iterating over a list of items.
       if (React.isValidElement(formControlOption)) {
         return (
           <span key={i}>
