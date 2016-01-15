@@ -128,7 +128,7 @@ describe('FieldInput', function () {
           render={function () { return 'foo'; }} />
       );
 
-      expect(instance.getInputElement()).toEqual('foo');
+      expect(instance.getInputElement({})).toEqual('foo');
     });
 
     it('should return its custom render funciton', function () {
