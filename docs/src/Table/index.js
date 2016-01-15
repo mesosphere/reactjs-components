@@ -164,7 +164,6 @@ class TableExample extends React.Component {
     return [
       {
         className: 'name',
-        dontCache: true,
         heading: this.getColumnHeading,
         prop: 'name',
         sortable: true
@@ -173,6 +172,7 @@ class TableExample extends React.Component {
         // sortFunction: getSortFunction('age')
       },
       {
+        cacheCell: true,
         className: 'age',
         heading: this.getColumnHeading,
         prop: 'age',
@@ -180,6 +180,7 @@ class TableExample extends React.Component {
         sortFunction: getSortFunction('name')
       },
       {
+        cacheCell: true,
         className: 'location',
         defaultContent: 'None Specified',
         heading: this.getColumnHeading,
@@ -188,6 +189,7 @@ class TableExample extends React.Component {
         sortFunction: getSortFunction('name')
       },
       {
+        cacheCell: true,
         className: 'gender',
         heading: this.getColumnHeading,
         prop: 'gender',
@@ -331,7 +333,6 @@ class TableExample extends React.Component {
     // The first column will be a "name" column.
     {
       className: 'name',
-      dontCache: true,
       heading: this.getColumnHeading,
       prop: 'name',
       sortable: true
@@ -341,6 +342,7 @@ class TableExample extends React.Component {
       // sortFunction: getSortFunction('age')
     },
     {
+      cacheCell: true,
       className: 'age',
       heading: this.getColumnHeading,
       prop: 'age',
@@ -348,6 +350,7 @@ class TableExample extends React.Component {
       sortFunction: getSortFunction('name')
     },
     {
+      cacheCell: true,
       className: 'location',
       defaultContent: 'None Specified',
       heading: this.getColumnHeading,
@@ -356,6 +359,7 @@ class TableExample extends React.Component {
       sortFunction: getSortFunction('name')
     },
     {
+      cacheCell: true,
       className: 'gender',
       heading: this.getColumnHeading,
       prop: 'gender',

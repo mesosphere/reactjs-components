@@ -179,7 +179,7 @@ class Table extends React.Component {
       let cellValue = row[prop];
       let cellID;
 
-      if (!column.dontCache) {
+      if (column.cacheCell === true) {
         cellID = this.buildUniqueID(cellClassName, cellValue, prop);
       }
 
@@ -200,7 +200,7 @@ class Table extends React.Component {
           </td>
         );
 
-        if (column.dontCache) {
+        if (!column.cacheCell) {
           return cellElement;
         }
 
@@ -324,8 +324,8 @@ Table.propTypes = {
         PropTypes.func
       ]),
       defaultContent: PropTypes.string,
-      // Column cached by default; disable with this setting.
-      dontCache: PropTypes.bool,
+      // Enable caching of cells for better performance.
+      cacheCell: PropTypes.bool,
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
