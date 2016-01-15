@@ -9,12 +9,13 @@ import IconEdit from './icons/IconEdit';
 export default class FieldTextarea extends FieldInput {
   getInputElement(attributes) {
     let {props} = this;
+    let inputContent = null;
 
     let classes = classNames(props.inputClass, props.sharedClass);
     attributes = this.bindEvents(attributes);
 
     if (this.isEditing() || props.writeType === 'input') {
-      return (
+      inputContent = (
         <textarea
           ref="inputElement"
           className={classes}
@@ -22,21 +23,27 @@ export default class FieldTextarea extends FieldInput {
           {...attributes}
           value={attributes.startValue} />
       );
+    } else {
+      inputContent = (
+        <span
+          ref="inputElement"
+          {...attributes}
+          className={classes}
+          onClick={attributes.onFocus}>
+          <span className={props.inlineTextClass}>
+            {props.value || attributes.startValue}
+          </span>
+          <span className={props.inlineIconClass}>
+            <IconEdit />
+          </span>
+        </span>
+      );
     }
 
-    return (
-      <span
-        ref="inputElement"
-        {...attributes}
-        className={classes}
-        onClick={attributes.onFocus}>
-        <span className={props.inlineTextClass}>
-          {props.value || attributes.startValue}
-        </span>
-        <span className={props.inlineIconClass}>
-          <IconEdit />
-        </span>
-      </span>
-    );
+    if (this.props.render) {
+      return this.props.render(inputContent);
+    }
+
+    return inputContent;
   }
 }
