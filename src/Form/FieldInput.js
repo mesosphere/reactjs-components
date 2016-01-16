@@ -104,12 +104,13 @@ export default class FieldInput extends React.Component {
 
   getInputElement(attributes) {
     let {props} = this;
+    let inputContent = null;
 
     let classes = classNames(props.inputClass, props.sharedClass);
     attributes = this.bindEvents(attributes);
 
     if (this.isEditing() || props.writeType === 'input') {
-      return (
+      inputContent = (
         <input
           ref="inputElement"
           className={classes}
@@ -117,22 +118,28 @@ export default class FieldInput extends React.Component {
           {...attributes}
           value={attributes.startValue} />
       );
+    } else {
+      inputContent = (
+        <span
+          ref="inputElement"
+          {...attributes}
+          className={classes}
+          onClick={attributes.onFocus}>
+          <span className={props.inlineTextClass}>
+            {props.value || attributes.startValue}
+          </span>
+          <span className={props.inlineIconClass}>
+            <IconEdit />
+          </span>
+        </span>
+      );
     }
 
-    return (
-      <span
-        ref="inputElement"
-        {...attributes}
-        className={classes}
-        onClick={attributes.onFocus}>
-        <span className={props.inlineTextClass}>
-          {props.value || attributes.startValue}
-        </span>
-        <span className={props.inlineIconClass}>
-          <IconEdit />
-        </span>
-      </span>
-    );
+    if (this.props.renderer) {
+      return this.props.renderer(inputContent);
+    }
+
+    return inputContent;
   }
 
   render() {
@@ -183,6 +190,8 @@ FieldInput.propTypes = {
   // Name of the field property
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
+  // Custom render function, receives the input element as its only argument
+  renderer: React.PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.

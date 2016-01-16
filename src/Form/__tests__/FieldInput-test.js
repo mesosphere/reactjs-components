@@ -118,6 +118,19 @@ describe('FieldInput', function () {
       expect(instance.getInputElement({}).type).toEqual('input');
     });
 
+    it('should return its custom render function', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          name="username"
+          fieldType="text"
+          writeType="input"
+          handleEvent={function () {}}
+          renderer={function () { return 'foo'; }} />
+      );
+
+      expect(instance.getInputElement({})).toEqual('foo');
+    });
+
     it('should return an input if writeType is input', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldInput
