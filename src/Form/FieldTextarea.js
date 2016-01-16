@@ -6,7 +6,7 @@ import React from 'react';
 import FieldInput from './FieldInput';
 import IconEdit from './icons/IconEdit';
 
-export default class FieldTextarea extends FieldInput {
+module.exports = class FieldTextarea extends FieldInput {
   getInputElement(attributes) {
     let {props} = this;
     let inputContent = null;
