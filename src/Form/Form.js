@@ -70,7 +70,9 @@ class Form extends Util.mixin(BindMixin) {
     this.setState(nextState);
   }
 
-  handleEvent(eventType, fieldName, fieldValue) {
+  handleEvent(eventType, fieldName, fieldValue, event) {
+    let eventObj = {fieldName, fieldValue, event};
+
     switch (eventType) {
       case 'blur':
         this.handleBlur(fieldName);
@@ -85,7 +87,7 @@ class Form extends Util.mixin(BindMixin) {
         this.handleMultipleChange(fieldName, fieldValue);
     }
 
-    this.props.onChange(this.state.model);
+    this.props.onChange(this.state.model, eventObj);
   }
 
   handleSubmit(event) {

@@ -23,7 +23,7 @@ export default class FieldPassword extends FieldInput {
       this.forceUpdate();
     }
 
-    this.props.handleEvent('blur', this.props.name, event);
+    this.props.handleEvent('blur', this.props.name, event.target.value);
   }
 
   handleOnFocus(event) {
@@ -32,7 +32,7 @@ export default class FieldPassword extends FieldInput {
       this.forceUpdate();
     }
 
-    this.props.handleEvent('focus', this.props.name, event);
+    this.props.handleEvent('focus', this.props.name, event.target.value);
   }
 
   getInputElement(attributes) {
