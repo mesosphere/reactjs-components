@@ -63,7 +63,7 @@
     "react-gemini-scrollbar": "^2.1.0",
     "source-map-loader": "^0.1.5",
     "transform-loader": "^0.2.3",
-    "webpack": "^1.10.1"
+    "webpack": "^1.12.11"
   },
   "peerDependencies": {
     "canvas-ui": "^0.2.x",
