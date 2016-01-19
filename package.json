@@ -56,7 +56,6 @@
     "jest-cli": "^0.8.2",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "^0.5.2",
-    "npm-shrinkwrap": "^5.4.0",
     "react": "^0.14.6",
     "react-addons-css-transition-group": "^0.14.6",
     "react-addons-test-utils": "^0.14.6",
@@ -81,7 +80,6 @@
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
     "test": "jest",
-    "shrinkwrap": "npm-shrinkwrap --dev",
     "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./"
   },
   "jest": {
@@ -89,8 +87,13 @@
       "__DEV__": true
     },
     "scriptPreprocessor": "./node_modules/babel-jest",
-    "testFileExtensions": ["js"],
-    "moduleFileExtensions": ["js", "json"],
+    "testFileExtensions": [
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
     "setupTestFrameworkScriptFile": "jest/setupTestFramework.js",
     "setupEnvScriptFile": "jest/setupEnv.js",
     "modulePathIgnorePatterns": [
@@ -107,6 +110,8 @@
       "react-addons-test-utils",
       "fbsj"
     ],
-    "testPathIgnorePatterns": ["/node_modules/"]
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
