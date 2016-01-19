@@ -66,7 +66,7 @@
     "webpack": "~1.12.11"
   },
   "peerDependencies": {
-    "canvas-ui": "^0.2.x",
+    "canvas-ui": "~0.2.x",
     "react": "~0.14.x",
     "react-addons-css-transition-group": "~0.14.x",
     "react-dom": "~0.14.x",
