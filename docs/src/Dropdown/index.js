@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Dropdown from '../../../src/Dropdown/Dropdown.js';
 
@@ -589,4 +590,4 @@ class CustomHTMLDropdownExample extends React.Component {
   }
 }
 
-React.render(<DropdownExample />, document.getElementById('dropdown'));
+ReactDOM.render(<DropdownExample />, document.getElementById('dropdown'));

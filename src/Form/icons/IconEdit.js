@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class IconInfo extends React.Component {
+class IconInfo extends React.Component {
   render() {
     return (
       <svg
@@ -15,3 +15,5 @@ export default class IconInfo extends React.Component {
     );
   }
 }
+
+module.exports = IconInfo;

@@ -7,6 +7,10 @@
     "email": "web-public@mesosphere.com",
     "url": "http://www.mesosphere.com"
   },
+  "engines": {
+    "node": "^5.4.x",
+    "npm": "^3.3.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mesosphere/reactjs-components"
@@ -25,7 +29,7 @@
     "babel-cli": "^6.4.0",
     "babel-core": "^6.4.0",
     "babel-eslint": "^5.0.0-beta6",
-    "babel-jest": "^5.3.0",
+    "babel-jest": "^6.0.1",
     "babel-loader": "^6.2.1",
     "babel-plugin-transform-runtime": "^6.4.0",
     "babel-preset-es2015": "^6.3.13",
@@ -49,20 +53,25 @@
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
-    "jest-cli": "^0.4.15",
+    "jest-cli": "^0.8.2",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "^0.5.2",
     "npm-shrinkwrap": "^5.4.0",
-    "react": "^0.13.3",
-    "react-gemini-scrollbar": "^1.1.1",
+    "react": "^0.14.6",
+    "react-addons-css-transition-group": "^0.14.6",
+    "react-addons-test-utils": "^0.14.6",
+    "react-dom": "^0.14.6",
+    "react-gemini-scrollbar": "^2.1.0",
     "source-map-loader": "^0.1.5",
     "transform-loader": "^0.2.3",
     "webpack": "^1.10.1"
   },
   "peerDependencies": {
-    "canvas-ui": "^0.2.1",
-    "react": "0.13.x",
-    "react-gemini-scrollbar": "^1.1.x"
+    "canvas-ui": "^0.2.x",
+    "react": "~0.14.x",
+    "react-addons-css-transition-group": "~0.14.x",
+    "react-dom": "~0.14.x",
+    "react-gemini-scrollbar": "~2.1.x"
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
@@ -71,7 +80,7 @@
     "dist-src": "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
-    "test": "mv .babelrc .babelrc-tmp && jest && mv .babelrc-tmp .babelrc",
+    "test": "jest",
     "shrinkwrap": "npm-shrinkwrap --dev",
     "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./"
   },
@@ -80,15 +89,8 @@
       "__DEV__": true
     },
     "scriptPreprocessor": "./node_modules/babel-jest",
-    "testFileExtensions": [
-      "es6",
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "es6"
-    ],
+    "testFileExtensions": ["js"],
+    "moduleFileExtensions": ["js", "json"],
     "setupTestFrameworkScriptFile": "jest/setupTestFramework.js",
     "setupEnvScriptFile": "jest/setupEnv.js",
     "modulePathIgnorePatterns": [
@@ -97,11 +99,14 @@
       "/.module-cache/"
     ],
     "unmockedModulePathPatterns": [
+      "./src/Mixin",
+      "./src/Util",
       "classnames",
-      "react"
+      "react",
+      "react-dom",
+      "react-addons-test-utils",
+      "fbsj"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ]
+    "testPathIgnorePatterns": ["/node_modules/"]
   }
 }

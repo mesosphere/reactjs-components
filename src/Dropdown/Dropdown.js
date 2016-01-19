@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
-
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 class Dropdown extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -45,7 +45,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     // if it renders in the wrong direction.
     if (this.state.menuHeight == null &&
       this.refs.dropdownMenuConcealer != null) {
-      let dropdownMenuConcealer = this.refs.dropdownMenuConcealer.getDOMNode();
+      let dropdownMenuConcealer = this.refs.dropdownMenuConcealer;
       let {maxDropdownHeight, menuDirection, menuHeight} = this.state;
 
       if (dropdownMenuConcealer != null) {
@@ -144,7 +144,7 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getSpaceAroundDropdown() {
-    let dropdownWrapper = React.findDOMNode(this.refs.dropdownWrapper);
+    let dropdownWrapper = this.refs.dropdownWrapper;
     let position = dropdownWrapper.getBoundingClientRect();
     let viewportHeight = global.window.innerHeight;
 
@@ -178,7 +178,7 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   handleWrapperBlur(e) {
-    let elID = React.findDOMNode(this).dataset.reactid;
+    let elID = ReactDOM.findDOMNode(this).dataset.reactid;
     let currentEl = e.relatedTarget;
 
     // If the blur event fired from within the current dropdown, then the menu
@@ -287,9 +287,12 @@ class Dropdown extends Util.mixin(BindMixin) {
 
     if (props.transition) {
       dropdownMenu = (
-        <CSSTransitionGroup transitionName={transitionName}>
+        <ReactCSSTransitionGroup
+          transitionName={transitionName}
+          transitionEnterTimeout={props.transitionEnterTimeout}
+          transitionLeaveTimeout={props.transitionLeaveTimeout}>
           {dropdownMenu}
-        </CSSTransitionGroup>
+        </ReactCSSTransitionGroup>
       );
     }
 
@@ -315,6 +318,8 @@ class Dropdown extends Util.mixin(BindMixin) {
 Dropdown.defaultProps = {
   transition: false,
   transitionName: 'dropdown-menu',
+  transitionEnterTimeout: 250,
+  transitionLeaveTimeout: 250,
   onItemSelection: () => {}
 };
 
@@ -363,6 +368,9 @@ Dropdown.propTypes = {
   transition: React.PropTypes.bool,
   // The prefix of the transition classnames.
   transitionName: React.PropTypes.string,
+  // Transition lengths
+  transitionEnterTimeout: React.PropTypes.number,
+  transitionLeaveTimeout: React.PropTypes.number,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.

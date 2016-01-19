@@ -1,19 +1,11 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 
 jest.dontMock('../Confirm.js');
 
 var Confirm = require('../Confirm.js');
 
 describe('Confirm', function () {
-
-  beforeEach(function () {
-    document.body.classList = {
-      add: function () {},
-      remove: function () {},
-      toggle: function () {}
-    };
-  });
 
   describe('enabled', function () {
 
@@ -39,19 +31,13 @@ describe('Confirm', function () {
     });
 
     it('calls the left button callback', function () {
-      var button = TestUtils.findRenderedDOMComponentWithClass(
-        this.instance, 'left-button'
-      );
-
+      var button = this.instance.querySelector('.left-button');
       TestUtils.Simulate.click(button);
       expect(this.closeCallback).toHaveBeenCalled();
     });
 
     it('calls the right button callback', function () {
-      var button = TestUtils.findRenderedDOMComponentWithClass(
-        this.instance, 'right-button'
-      );
-
+      var button = this.instance.querySelector('.right-button');
       TestUtils.Simulate.click(button);
       expect(this.confirmCallback).toHaveBeenCalled();
     });
@@ -83,28 +69,19 @@ describe('Confirm', function () {
     });
 
     it('does not call the left button callback', function () {
-      var button = TestUtils.findRenderedDOMComponentWithClass(
-        this.instance, 'left-button'
-      );
-
+      var button = this.instance.querySelector('.left-button');
       TestUtils.Simulate.click(button);
       expect(this.closeCallback).not.toHaveBeenCalled();
     });
 
     it('does not call the right button callback', function () {
-      var button = TestUtils.findRenderedDOMComponentWithClass(
-        this.instance, 'right-button'
-      );
-
+      var button = this.instance.querySelector('.right-button');
       TestUtils.Simulate.click(button);
       expect(this.confirmCallback).not.toHaveBeenCalled();
     });
 
     it('sets the disabled class on buttons', function () {
-      var buttons = TestUtils.scryRenderedDOMComponentsWithClass(
-        this.instance, 'button'
-      );
-
+      var buttons = this.instance.querySelectorAll('.button');
       expect(buttons.length).toEqual(2);
     });
 

@@ -34,7 +34,7 @@ Side Panel
   z-index: @z-index-side-panel + 1;
   background-color: @side-panel-background-color;
   #gradient > .vertical(@side-panel-background-gradient-color-top, @side-panel-background-gradient-color-bottom);
-  .border-radius(@side-panel-border-radius);
+  border-radius: @side-panel-border-radius;
   border-width: @side-panel-border-width;
   border-top-width: @side-panel-border-top-width;
   border-top-color: @side-panel-border-top-color;
@@ -44,7 +44,7 @@ Side Panel
   border-bottom-color: @side-panel-border-bottom-color;
   border-left-width: @side-panel-border-left-width;
   border-left-color: @side-panel-border-left-color;
-  .box-shadow(@side-panel-shadow);
+  box-shadow: @side-panel-shadow;
 
   &:hover,
   &:focus,
@@ -80,8 +80,8 @@ Side Panel
     border-bottom-color: @side-panel-header-border-bottom-color;
     border-left-width: @side-panel-header-border-left-width;
     border-left-color: @side-panel-header-border-left-color;
-    .box-shadow(@side-panel-header-shadow);
-    .border-radius(@side-panel-border-radius @side-panel-border-radius 0px 0px);
+    box-shadow: @side-panel-header-shadow;
+    border-radius: @side-panel-border-radius @side-panel-border-radius 0px 0px;
 
     > .side-panel-header-container {
 
@@ -171,7 +171,7 @@ Side Panel
 
         margin-right: @base-spacing-unit * 0.25;
         vertical-align: middle;
-        .opacity(0.6);
+        opacity: 0.6;
 
         &:last-child {
 
@@ -192,7 +192,7 @@ Side Panel
 
         .icon {
 
-          .opacity(1.0);
+          opacity: 1.0;
 
         }
 
@@ -232,11 +232,11 @@ Side Panel
     border-bottom-color: @side-panel-content-border-bottom-color;
     border-left-width: @side-panel-content-border-left-width;
     border-left-color: @side-panel-content-border-left-color;
-    .border-radius(@side-panel-border-radius);
+    border-radius: @side-panel-border-radius;
 
     + .side-panel-footer {
 
-      .box-shadow(@side-panel-footer-shadow);
+      box-shadow: @side-panel-footer-shadow;
 
     }
 
@@ -268,7 +268,7 @@ Side Panel
     border-bottom-color: @side-panel-footer-border-bottom-color;
     border-left-width: @side-panel-footer-border-left-width;
     border-left-color: @side-panel-footer-border-left-color;
-    .border-radius(0px 0px @side-panel-border-radius @side-panel-border-radius);
+    border-radius: 0px 0px @side-panel-border-radius @side-panel-border-radius;
 
   }
 
@@ -734,7 +734,7 @@ Side Panel Animations
   &-enter, &-appear {
 
     transform: translate(100%, 0);
-    transition: transform .5s ease-in;
+    transition: transform 500ms ease-in;
 
     &.side-panel-slide-left {
 
@@ -761,7 +761,7 @@ Side Panel Animations
   &.side-panel-slide-left-leave-active {
 
     transform: translate(100%, 0);
-    transition: transform .5s ease-in;
+    transition: transform 500ms ease-in;
 
   }
 
@@ -771,8 +771,8 @@ Side Panel Animations
 
   &-enter, &-appear {
 
-    .opacity(0);
-    transition: opacity .5s ease-in;
+    opacity: 0;
+    transition: opacity 500ms ease-in;
 
     &.side-panel-fade-in {
 
@@ -780,7 +780,7 @@ Side Panel Animations
 
         &-active {
 
-          .opacity(1);
+          opacity: 1;
 
         }
 
@@ -794,12 +794,12 @@ Side Panel Animations
 
 .side-panel-fade-in-leave {
 
-  .opacity(1);
+  opacity: 1;
 
   &.side-panel-fade-in-leave-active {
 
-    .opacity(0);
-    transition: opacity .5s ease-in;
+    opacity: 0;
+    transition: opacity 500ms ease-in;
 
   }
 

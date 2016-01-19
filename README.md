@@ -6,6 +6,7 @@ A library of reusable React components. For examples, take a look at our
 ## Available components
 * Dropdown
 * List
+* Form
 * Modal
 * Confirm
 * Side Panel
@@ -47,7 +48,7 @@ A library of reusable React components. For examples, take a look at our
 4. Import LESS files which will add all styles for all components.
 
   ```less
-  @import "./node_modules/canvas-ui/canvas.less"
+  @import "./node_modules/canvas-ui/styles/canvas.less"
   @import (inline) "./node_modules/reactjs-components/lib/index.less"
   ```
 

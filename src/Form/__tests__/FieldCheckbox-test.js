@@ -1,8 +1,8 @@
 jest.dontMock('../FieldCheckbox');
 jest.dontMock('../ItemCheckbox');
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 
 var ItemCheckbox = require('../ItemCheckbox');
 var FieldCheckbox = require('../FieldCheckbox');
@@ -11,7 +11,7 @@ describe('FieldCheckbox', function () {
 
   describe('#hasError', function () {
     it('should return true when error contains name', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]}
@@ -23,7 +23,7 @@ describe('FieldCheckbox', function () {
     });
 
     it('should return false when error doesn\'t contains name', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]}
@@ -35,7 +35,7 @@ describe('FieldCheckbox', function () {
     });
 
     it('should return false when error is undefined', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]}

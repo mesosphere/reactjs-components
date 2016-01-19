@@ -4,8 +4,9 @@ jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('../Dropdown');
 jest.dontMock('./fixtures/MockDropdownList');
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 
 var MockDropdownList = require('./fixtures/MockDropdownList');
 var Dropdown = require('../Dropdown.js');
@@ -42,7 +43,7 @@ describe('Dropdown', function () {
       isOpen: true
     });
     // Add a dataset to the instance
-    var el = React.findDOMNode(this.instance);
+    var el = ReactDOM.findDOMNode(this.instance);
     if (!el.dataset) {
       el.dataset = {reactid: 'something'};
     }
@@ -77,7 +78,7 @@ describe('Dropdown', function () {
     );
     // Click on the second menu item returned, which we know to be "Baz"
     TestUtils.Simulate.click(selectableElements[1]);
-    var buttonText = React.findDOMNode(this.instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(this.instance.refs.button).textContent;
     expect(buttonText).toEqual('Baz');
   });
 
@@ -92,7 +93,7 @@ describe('Dropdown', function () {
         wrapperClassName="dropdown" />
     );
 
-    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('Quz');
   });
 
@@ -108,7 +109,7 @@ describe('Dropdown', function () {
         wrapperClassName="dropdown" />
     );
 
-    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('Quz');
   });
 
@@ -123,7 +124,7 @@ describe('Dropdown', function () {
         wrapperClassName="dropdown" />
     );
 
-    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('');
   });
 
@@ -138,7 +139,7 @@ describe('Dropdown', function () {
         wrapperClassName="dropdown" />
     );
 
-    var buttonText = React.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
     expect(buttonText).toEqual('');
   });
 
@@ -164,7 +165,7 @@ describe('Dropdown', function () {
     });
 
     it('should return persistentID over initialID after update', function () {
-      var instance = React.render(
+      var instance = TestUtils.renderIntoDocument(
         <Dropdown buttonClassName="button dropdown-toggle"
           dropdownMenuClassName="dropdown-menu"
           dropdownMenuListClassName="dropdown-menu-list"
@@ -175,7 +176,7 @@ describe('Dropdown', function () {
           wrapperClassName="dropdown" />,
           document.body
       );
-      instance = React.render(
+      instance = TestUtils.renderIntoDocument(
         <Dropdown buttonClassName="button dropdown-toggle"
           dropdownMenuClassName="dropdown-menu"
           dropdownMenuListClassName="dropdown-menu-list"

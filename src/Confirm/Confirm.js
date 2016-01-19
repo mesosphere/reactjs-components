@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
 
 import Modal from '../Modal/Modal';
 import Util from '../Util/Util';

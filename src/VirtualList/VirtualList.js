@@ -5,9 +5,10 @@
 
 /* eslint react/no-did-mount-set-state: 0 */
 import BindMixin from '../Mixin/BindMixin';
-import React from 'react';
-import Util from '../Util/Util';
 import DOMUtil from '../Util/DOMUtil';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Util from '../Util/Util';
 
 let mathMax = Math.max;
 let mathMin = Math.min;
@@ -102,7 +103,7 @@ class VirtualList extends Util.mixin(BindMixin) {
     }
 
     if (this.refs.list) {
-      let listBounding = React.findDOMNode(
+      let listBounding = ReactDOM.findDOMNode(
         this.refs.list
       ).getBoundingClientRect();
 

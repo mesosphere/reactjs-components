@@ -3,7 +3,7 @@ import React from 'react';
 import FieldTypes from './FieldTypes';
 import Util from '../Util/Util';
 
-export default class FormControl extends React.Component {
+class FormControl extends React.Component {
 
   renderGroup(definition) {
     return definition.map((inputOptions, i) => {
@@ -77,3 +77,5 @@ FormControl.propTypes = {
     React.PropTypes.array
   ])
 };
+
+module.exports = FormControl;

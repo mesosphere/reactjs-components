@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import BindMixin from '../Mixin/BindMixin';
 import Util from '../Util/Util';
 
-export default class ItemCheckbox extends Util.mixin(BindMixin) {
+class ItemCheckbox extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return ['handleChange'];
   }
@@ -21,7 +22,7 @@ export default class ItemCheckbox extends Util.mixin(BindMixin) {
 
   updateCheckbox() {
     let {props, refs} = this;
-    let checkbox = React.findDOMNode(refs.checkbox);
+    let checkbox = ReactDOM.findDOMNode(refs.checkbox);
 
     if (props.checked != null) {
       checkbox.checked = props.checked;
@@ -110,3 +111,5 @@ ItemCheckbox.propTypes = {
   // Classes
   labelClass: React.PropTypes.string
 };
+
+module.exports = ItemCheckbox;

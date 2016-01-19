@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import DOMUtil from '../Util/DOMUtil';
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 import Util from '../Util/Util';
 import VirtualList from '../VirtualList/VirtualList';
 
@@ -93,7 +94,7 @@ class Table extends React.Component {
 
     if (props.containerSelector && this.container === window) {
       this.container = DOMUtil.closest(
-        React.findDOMNode(this), props.containerSelector
+        ReactDOM.findDOMNode(this), props.containerSelector
       );
     }
 
@@ -102,7 +103,7 @@ class Table extends React.Component {
       refs.itemHeightContainer != null) {
       // Calculate content height only once and when node is ready
       let itemHeight = DOMUtil.getComputedDimensions(
-        React.findDOMNode(refs.itemHeightContainer).querySelector('tr')
+        ReactDOM.findDOMNode(refs.itemHeightContainer).querySelector('tr')
       ).height;
       this.setState({itemHeight});
     }
@@ -318,7 +319,7 @@ Table.propTypes = {
   // Define how columns should be rendered and if they are sortable.
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      attributes: React.PropTypes.object,
+      attributes: PropTypes.object,
       className: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func

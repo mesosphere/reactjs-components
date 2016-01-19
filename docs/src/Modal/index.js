@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Modal from '../../../src/Modal/Modal.js';
 
@@ -204,4 +205,4 @@ class ModalExample extends React.Component {
   }
 }
 
-React.render(<ModalExample />, document.getElementById('modal'));
+ReactDOM.render(<ModalExample />, document.getElementById('modal'));

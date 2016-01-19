@@ -1,5 +1,5 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 
 jest.dontMock('../SidePanelContents');
 jest.dontMock('../../Util/DOMUtil');
@@ -50,7 +50,7 @@ describe('SidePanelContents', function () {
         instance,
         'child'
       );
-      expect(child.getDOMNode().textContent).toEqual('foo');
+      expect(child.textContent).toEqual('foo');
     });
   });
 

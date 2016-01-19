@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import List from '../../../src/List/List.js';
 
@@ -235,4 +236,4 @@ class ListExample extends React.Component {
   }
 }
 
-React.render(<ListExample />, document.getElementById('list'));
+ReactDOM.render(<ListExample />, document.getElementById('list'));

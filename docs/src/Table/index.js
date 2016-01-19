@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Table from '../../../src/Table/Table.js';
 
@@ -699,4 +700,4 @@ class InfiniteScrollExample extends React.Component {
 
 }
 
-React.render(<TableExample />, document.getElementById('table'));
+ReactDOM.render(<TableExample />, document.getElementById('table'));

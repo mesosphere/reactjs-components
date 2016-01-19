@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import IconEdit from './icons/IconEdit';
 import KeyboardUtil from '../Util/KeyboardUtil';
@@ -7,9 +8,9 @@ import Util from '../Util/Util';
 
 const EVENTS = ['blur', 'change', 'focus'];
 
-export default class FieldInput extends React.Component {
+class FieldInput extends React.Component {
   componentDidUpdate() {
-    let inputElement = React.findDOMNode(this.refs.inputElement);
+    let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
 
     if (this.isEditing() && inputElement !== global.document.activeElement) {
       inputElement.focus();
@@ -38,7 +39,7 @@ export default class FieldInput extends React.Component {
         props.handleSubmit();
       }
 
-      React.findDOMNode(refs.inputElement).blur();
+      ReactDOM.findDOMNode(refs.inputElement).blur();
     }
   }
 
@@ -216,3 +217,5 @@ FieldInput.propTypes = {
   helpBlockClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };
+
+module.exports = FieldInput;

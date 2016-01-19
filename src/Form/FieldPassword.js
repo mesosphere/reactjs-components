@@ -8,7 +8,7 @@ import IconEdit from './icons/IconEdit';
 
 const METHODS_TO_BIND = ['handleOnBlur', 'handleOnFocus'];
 
-export default class FieldPassword extends FieldInput {
+class FieldPassword extends FieldInput {
   constructor() {
     super();
 
@@ -83,3 +83,5 @@ export default class FieldPassword extends FieldInput {
   }
 
 }
+
+module.exports = FieldPassword;

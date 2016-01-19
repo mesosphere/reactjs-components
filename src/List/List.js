@@ -1,13 +1,13 @@
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import ListItem from './ListItem';
 import Util from '../Util/Util';
 
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 class List extends React.Component {
   getListItems(list, childIndex = 0) {
-    let items = list.map(function (item, parentIndex) {
+    let {props} = this;
+    let items = list.map((item, parentIndex) => {
       let key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
@@ -18,7 +18,9 @@ class List extends React.Component {
             key={key}
             tag={item.tag}
             transition={true}
-            transitionName={this.props.transitionName}>
+            transitionName={props.transitionName}
+            transitionEnterTimeout={props.transitionEnterTimeout}
+            transitionLeaveTimeout={props.transitionLeaveTimeout}>
             {this.getListItems(item.content, childIndex)}
           </ListItem>
         );
@@ -29,32 +31,35 @@ class List extends React.Component {
           </ListItem>
         );
       }
-    }, this);
+    });
 
     return items;
   }
 
   render() {
-    let Tag = this.props.tag;
+    let {props} = this;
+    let Tag = props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    let attributes = Util.exclude(this.props, Object.keys(List.propTypes));
+    let attributes = Util.exclude(props, Object.keys(List.propTypes));
 
-    if (this.props.transition) {
+    if (props.transition) {
       return (
-        <CSSTransitionGroup
+        <ReactCSSTransitionGroup
           {...attributes}
+          className={props.className}
           component={Tag}
-          transitionName={this.props.transitionName}
-          className={this.props.className}>
-          {this.getListItems(this.props.content)}
-        </CSSTransitionGroup>
+          transitionName={props.transitionName}
+          transitionEnterTimeout={props.transitionEnterTimeout}
+          transitionLeaveTimeout={props.transitionLeaveTimeout}>
+          {this.getListItems(props.content)}
+        </ReactCSSTransitionGroup>
       );
     }
 
     return (
-      <Tag {...attributes} className={this.props.className}>
-        {this.getListItems(this.props.content)}
+      <Tag {...attributes} className={props.className}>
+        {this.getListItems(props.content)}
       </Tag>
     );
   }
@@ -64,7 +69,9 @@ List.defaultProps = {
   className: 'list',
   tag: 'ul',
   transition: true,
-  transitionName: 'list-item'
+  transitionName: 'list-item',
+  transitionEnterTimeout: 500,
+  transitionLeaveTimeout: 500
 };
 
 List.propTypes = {
@@ -89,7 +96,10 @@ List.propTypes = {
   // Optional tag for the container of the list
   tag: PropTypes.string,
   transition: PropTypes.bool,
-  transitionName: PropTypes.string
+  transitionName: PropTypes.string,
+  // Transition lengths
+  transitionEnterTimeout: React.PropTypes.number,
+  transitionLeaveTimeout: React.PropTypes.number
 };
 
 module.exports = List;

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SidePanel from '../../../src/SidePanel/SidePanel.js';
 
@@ -222,4 +223,4 @@ class SidePanelExample extends React.Component {
 
 }
 
-React.render(<SidePanelExample />, document.getElementById('side-panel'));
+ReactDOM.render(<SidePanelExample />, document.getElementById('side-panel'));
