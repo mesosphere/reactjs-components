@@ -64,10 +64,22 @@
 
     .dropdown-menu {
       z-index: 3;
+
+      &.inverse {
+
+        li {
+          &.is-selectable {
+            color: #ffffff;
+
+            &:hover {
+              background: #51596a;
+            }
+
+          }
+        }
+      }
     }
-
   }
-
 }
 
 .dropdown-toggle {
@@ -148,11 +160,6 @@
 
       &:hover {
         background: #f5f5f6;
-
-        .inverse {
-          background: #51596a;
-        }
-
       }
 
     }
