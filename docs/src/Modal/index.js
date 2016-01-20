@@ -47,6 +47,8 @@ class ModalExample extends React.Component {
               <div className="example-block">
                 <pre className="prettyprint linenums flush-bottom">
 {`ModalContents.propTypes = {
+  // Allow resize of modal to fit screen. Defaults to true.
+  dynamicHeight: PropTypes.bool,
   children: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
@@ -72,6 +74,8 @@ class ModalExample extends React.Component {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
+  // Optional disable Gemini scrollbar. Defaults to true.
+  useGemini: PropTypes.bool,
 
   // Classes
   backdropClass: PropTypes.string,

@@ -282,12 +282,15 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     let calculatedHeight = this.heightInfo;
-
     let contentHeight = calculatedHeight.contentHeight;
-    let modalStyle = {height: calculatedHeight.height};
+
+    let modalStyle = null;
+    if (this.props.dynamicHeight) {
+      modalStyle = {height: calculatedHeight.height};
+    }
 
     let useScrollbar = false;
-    if (calculatedHeight.height !== 'auto') {
+    if (this.props.useGemini && calculatedHeight.height !== 'auto') {
       useScrollbar = true;
     }
 
@@ -342,6 +345,7 @@ class ModalContents extends Util.mixin(BindMixin) {
 
 ModalContents.defaultProps = {
   closeByBackdropClick: true,
+  dynamicHeight: true,
   footer: null,
   maxHeightPercentage: 0.6,
   onClose: () => {},
@@ -353,6 +357,7 @@ ModalContents.defaultProps = {
   titleText: '',
   transitionNameBackdrop: 'modal-backdrop',
   transitionNameModal: 'modal',
+  useGemini: true,
 
   // Default classes.
   backdropClass: 'modal-backdrop',
@@ -375,6 +380,8 @@ ModalContents.propTypes = {
   children: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
+  // Allow resize of modal to fit screen. Defaults to true.
+  dynamicHeight: PropTypes.bool,
   // Optional footer
   footer: PropTypes.object,
   // Maximum percent of the viewport the modal can be. Defaults to 0.5.
@@ -397,6 +404,8 @@ ModalContents.propTypes = {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
+  // Optional disable Gemini scrollbar. Defaults to true.
+  useGemini: PropTypes.bool,
 
   // Classes
   backdropClass: PropTypes.string,

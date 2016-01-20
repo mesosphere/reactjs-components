@@ -33,6 +33,67 @@ describe('ModalContents', function () {
       var modal = instance.getModal();
       expect(TestUtils.isElement(modal)).toEqual(true);
     });
+
+    it('should not call for scrollbar when useGemini prop set to false',
+      function () {
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents
+            open={true}
+            useGemini={false} />
+        );
+        instance.getModalContent = jasmine.createSpy();
+        instance.getModal();
+
+        expect(instance.getModalContent.mostRecentCall.args[0]).toEqual(false);
+      }
+    );
+
+    it('should use scrollbar if scrollbar enabled and height not auto',
+      function () {
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents
+            open={true}
+            useGemini={true} />
+        );
+        instance.getModalContent = jasmine.createSpy();
+        instance.heightInfo.height = '63px';
+        instance.getModal();
+
+        expect(instance.getModalContent).toHaveBeenCalledWith(true, 'auto');
+      }
+    );
+
+    it('should not use scrollbar if height is auto, even if scrollbar enabled',
+      function () {
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents
+            open={true}
+            useGemini={true} />
+        );
+        instance.getModalContent = jasmine.createSpy();
+        instance.heightInfo.height = 'auto';
+        instance.getModal();
+
+        expect(instance.getModalContent).toHaveBeenCalledWith(false, 'auto');
+      }
+    );
+
+    it('should dynamically set height if dynamicHeight prop is true',
+      function () {
+        ModalContents.prototype.resetHeight = function () {
+          this.heightInfo = {height: 63}
+        };
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents
+            bodyClass={'target'}
+            open={true}
+            dynamicHeight={true} />
+        );
+        var modal = TestUtils.findRenderedDOMComponentWithClass(instance, 'target');
+
+        expect(modal.props.style).toEqual({height: 63});
+      }
+    );
   });
 
   describe('#onClose', function () {
