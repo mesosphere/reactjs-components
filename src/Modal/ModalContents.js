@@ -282,17 +282,11 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     let calculatedHeight = this.heightInfo;
-
     let contentHeight = calculatedHeight.contentHeight;
-    let modalStyle = {height: calculatedHeight.height};
+    let modalStyle = null;
 
-    let useScrollbar = this.props.useScrollbar;
-    if (useScrollbar === null) {
-      if (calculatedHeight.height !== 'auto') {
-        useScrollbar = true;
-      } else {
-        useScrollbar = false;
-      }
+    if (this.props.dynamicHeight) {
+      modalStyle = {height: calculatedHeight.height};
     }
 
     return (
@@ -302,7 +296,7 @@ class ModalContents extends Util.mixin(BindMixin) {
           {this.getHeader()}
           <div className={props.bodyClass} style={modalStyle}>
             <div ref="innerContainer" className={props.innerBodyClass}>
-              {this.getModalContent(useScrollbar, contentHeight)}
+              {this.getModalContent(this.props.useGemini, contentHeight)}
             </div>
           </div>
           {this.getFooter()}
@@ -345,6 +339,7 @@ class ModalContents extends Util.mixin(BindMixin) {
 }
 
 ModalContents.defaultProps = {
+  dynamicHeight: true,
   closeByBackdropClick: true,
   footer: null,
   maxHeightPercentage: 0.6,
@@ -357,7 +352,7 @@ ModalContents.defaultProps = {
   titleText: '',
   transitionNameBackdrop: 'modal-backdrop',
   transitionNameModal: 'modal',
-  useScrollbar: null,
+  useGemini: true,
 
   // Default classes.
   backdropClass: 'modal-backdrop',
@@ -377,6 +372,8 @@ ModalContents.defaultProps = {
 };
 
 ModalContents.propTypes = {
+  // Allow resize of modal to fit screen. Defaults to true.
+  dynamicHeight: PropTypes.bool,
   children: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
@@ -402,8 +399,8 @@ ModalContents.propTypes = {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
-  // Optionally disable scrollbar to allow overflow (such as a dropdown).
-  useScrollbar: PropTypes.bool,
+  // Optional disable Gemini scrollbar. Defaults to true.
+  useGemini: PropTypes.bool,
 
   // Classes
   backdropClass: PropTypes.string,
