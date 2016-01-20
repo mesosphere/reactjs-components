@@ -283,10 +283,15 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     let calculatedHeight = this.heightInfo;
     let contentHeight = calculatedHeight.contentHeight;
-    let modalStyle = null;
 
+    let modalStyle = null;
     if (this.props.dynamicHeight) {
       modalStyle = {height: calculatedHeight.height};
+    }
+
+    let useScrollbar = false;
+    if (this.props.useGemini && calculatedHeight.height !== 'auto') {
+      useScrollbar = true;
     }
 
     return (
@@ -296,7 +301,7 @@ class ModalContents extends Util.mixin(BindMixin) {
           {this.getHeader()}
           <div className={props.bodyClass} style={modalStyle}>
             <div ref="innerContainer" className={props.innerBodyClass}>
-              {this.getModalContent(this.props.useGemini, contentHeight)}
+              {this.getModalContent(useScrollbar, contentHeight)}
             </div>
           </div>
           {this.getFooter()}
@@ -339,8 +344,8 @@ class ModalContents extends Util.mixin(BindMixin) {
 }
 
 ModalContents.defaultProps = {
-  dynamicHeight: true,
   closeByBackdropClick: true,
+  dynamicHeight: true,
   footer: null,
   maxHeightPercentage: 0.6,
   onClose: () => {},
@@ -372,11 +377,11 @@ ModalContents.defaultProps = {
 };
 
 ModalContents.propTypes = {
-  // Allow resize of modal to fit screen. Defaults to true.
-  dynamicHeight: PropTypes.bool,
   children: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
+  // Allow resize of modal to fit screen. Defaults to true.
+  dynamicHeight: PropTypes.bool,
   // Optional footer
   footer: PropTypes.object,
   // Maximum percent of the viewport the modal can be. Defaults to 0.5.
