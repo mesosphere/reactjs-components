@@ -71,7 +71,7 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   handleEvent(eventType, fieldName, fieldValue, event) {
-    let eventObj = {fieldName, fieldValue, event};
+    let eventObj = {eventType, fieldName, fieldValue, event};
 
     switch (eventType) {
       case 'blur':
