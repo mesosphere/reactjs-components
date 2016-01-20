@@ -286,9 +286,13 @@ class ModalContents extends Util.mixin(BindMixin) {
     let contentHeight = calculatedHeight.contentHeight;
     let modalStyle = {height: calculatedHeight.height};
 
-    let useScrollbar = false;
-    if (calculatedHeight.height !== 'auto') {
-      useScrollbar = true;
+    let useScrollbar = this.props.useScrollbar;
+    if (useScrollbar === null) {
+      if (calculatedHeight.height !== 'auto') {
+        useScrollbar = true;
+      } else {
+        useScrollbar = false;
+      }
     }
 
     return (
@@ -353,6 +357,7 @@ ModalContents.defaultProps = {
   titleText: '',
   transitionNameBackdrop: 'modal-backdrop',
   transitionNameModal: 'modal',
+  useScrollbar: null,
 
   // Default classes.
   backdropClass: 'modal-backdrop',
@@ -397,6 +402,8 @@ ModalContents.propTypes = {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
+  // Optionally disable scrollbar to allow overflow (such as a dropdown).
+  useScrollbar: PropTypes.bool,
 
   // Classes
   backdropClass: PropTypes.string,

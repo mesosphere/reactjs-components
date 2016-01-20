@@ -72,6 +72,8 @@ class ModalExample extends React.Component {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
+  // Optionally disable scrollbar to allow overflow (such as a dropdown).
+  useScrollbar: PropTypes.bool,
 
   // Classes
   backdropClass: PropTypes.string,
