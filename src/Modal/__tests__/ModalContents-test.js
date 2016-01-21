@@ -80,7 +80,7 @@ describe('ModalContents', function () {
     it('should dynamically set height if dynamicHeight prop is true',
       function () {
         ModalContents.prototype.resetHeight = function () {
-          this.heightInfo = {height: 63}
+          this.heightInfo = {height: 63};
         };
         var instance = TestUtils.renderIntoDocument(
           <ModalContents
@@ -88,9 +88,11 @@ describe('ModalContents', function () {
             open={true}
             dynamicHeight={true} />
         );
-        var modal = TestUtils.findRenderedDOMComponentWithClass(instance, 'target');
+        var modal = TestUtils.findRenderedDOMComponentWithClass(
+          instance, 'target'
+        );
 
-        expect(modal.props.style).toEqual({height: 63});
+        expect(modal.style.height).toEqual('63px');
       }
     );
   });
