@@ -8,8 +8,8 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "^5.4.x",
-    "npm": "^3.3.x"
+    "node": "^4.x.x",
+    "npm": "^2.x.x"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
   ],
   "main": "main.js",
   "dependencies": {
-    "classnames": "~2.2.1"
+    "classnames": "~2.2.3"
   },
   "devDependencies": {
     "babel-cli": "~6.4.0",
@@ -37,7 +37,6 @@
     "babel-runtime": "~6.3.19",
     "browser-sync": "~2.11.0",
     "canvas-ui": "~0.2.1",
-    "classnames": "~2.2.3",
     "envify": "~3.4.0",
     "eslint": "~1.10.3",
     "eslint-plugin-react": "~3.15.0",
@@ -108,7 +107,7 @@
       "react",
       "react-dom",
       "react-addons-test-utils",
-      "fbsj"
+      "fbjs"
     ],
     "testPathIgnorePatterns": [
       "/node_modules/"
