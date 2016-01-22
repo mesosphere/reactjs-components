@@ -2,11 +2,11 @@ jest.dontMock('../Table');
 jest.dontMock('../../Util/Util');
 jest.dontMock('./fixtures/MockTable');
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
-import Table from '../Table';
-import DOMUtil from '../../Util/DOMUtil';
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
+var Table = require('../Table');
+var DOMUtil = require('../../Util/DOMUtil');
 
 var MockTable = require('./fixtures/MockTable');
 

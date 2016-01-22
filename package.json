@@ -103,6 +103,7 @@
     "unmockedModulePathPatterns": [
       "./src/Mixin",
       "./src/Util",
+      "babel-runtime",
       "classnames",
       "react",
       "react-dom",
