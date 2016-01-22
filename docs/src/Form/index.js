@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import Form from '../../../src/Form/Form.js';
 
@@ -248,4 +249,4 @@ class FormExample extends React.Component {
   }
 }
 
-React.render(<FormExample />, document.getElementById('form'));
+ReactDOM.render(<FormExample />, document.getElementById('form'));

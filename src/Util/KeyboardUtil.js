@@ -4,4 +4,4 @@ let KeyboardUtil = {
   }
 };
 
-export default KeyboardUtil;
+module.exports = KeyboardUtil;

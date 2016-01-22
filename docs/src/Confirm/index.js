@@ -1,4 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
+/* eslint-enable no-unused-vars */
+import ReactDOM from 'react-dom';
 
 import BindMixin from '../../../src/Mixin/BindMixin';
 import Confirm from '../../../src/Confirm/Confirm.js';
@@ -116,4 +119,4 @@ class ConfirmExample extends React.Component {
   }
 }
 
-React.render(<ConfirmExample />, document.getElementById('confirm'));
+ReactDOM.render(<ConfirmExample />, document.getElementById('confirm'));

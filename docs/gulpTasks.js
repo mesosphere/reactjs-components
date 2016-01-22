@@ -60,7 +60,7 @@ gulp.task('docs:less', function () {
       plugins: [colorLighten]
     }))
     .on('error', function (err) {
-      gutil.error(err);
+      gutil.log(err);
       this.emit('end');
     })
     .pipe(autoprefixer())

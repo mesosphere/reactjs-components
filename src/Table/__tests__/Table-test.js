@@ -2,11 +2,12 @@ jest.dontMock('../Table');
 jest.dontMock('../../Util/Util');
 jest.dontMock('./fixtures/MockTable');
 
-import React from 'react/addons';
-import Table from '../Table';
-import DOMUtil from '../../Util/DOMUtil';
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
+var Table = require('../Table');
+var DOMUtil = require('../../Util/DOMUtil');
 
-var TestUtils = React.addons.TestUtils;
 var MockTable = require('./fixtures/MockTable');
 
 describe('Table', function () {
@@ -49,30 +50,25 @@ describe('Table', function () {
   });
 
   describe('emptyMessage prop', function () {
-    beforeEach(function () {
-      this.emptyMessage = 'This is a custom message';
+
+    it('should display the custom empty message', function () {
       this.instance = TestUtils.renderIntoDocument(
         <Table
           className="table"
           columns={MockTable.columns}
           data={[]}
-          emptyMessage={this.emptyMessage}
+          emptyMessage={'Custom message'}
           idAttribute={this.idAttribute}
           sortBy={this.sortBy}
           onSortCallback={this.callback} />
       );
-    });
 
-    it('should display the custom empty message', function () {
-      var result = TestUtils.renderIntoDocument(
-        this.instance.getEmptyRowCell([1])
+      this.node = document.createElement('tbody');
+      var result = ReactDOM.render(
+        this.instance.getEmptyRowCell([1]), this.node
       );
-
-      result = TestUtils.findRenderedDOMComponentWithTag(
-        result, 'tr'
-      );
-
-      expect(React.findDOMNode(result).textContent).toBe(this.emptyMessage);
+      let td = this.node.querySelector('td');
+      expect(td.textContent).toBe('Custom message');
     });
 
     it('should display the default empty message', function () {
@@ -86,18 +82,14 @@ describe('Table', function () {
           onSortCallback={this.callback} />
       );
 
-      var result = TestUtils.renderIntoDocument(
-        instance.getEmptyRowCell([1])
+      this.node = document.createElement('tbody');
+      var result = ReactDOM.render(
+        this.instance.getEmptyRowCell([1]), this.node
       );
-
-      result = TestUtils.findRenderedDOMComponentWithTag(
-        result, 'tr'
-      );
-
-      expect(React.findDOMNode(result).textContent).toBe(
-        Table.defaultProps.emptyMessage
-      );
+      let td = this.node.querySelector('td');
+      expect(td.textContent).toBe(Table.defaultProps.emptyMessage);
     });
+
   });
 
 });

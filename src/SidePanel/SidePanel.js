@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 import Portal from '../Portal/Portal.js';
 import SidePanelContents from './SidePanelContents.js';

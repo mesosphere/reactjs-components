@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
 class Portal extends React.Component {
   componentDidMount() {
@@ -8,7 +9,7 @@ class Portal extends React.Component {
   }
 
   componentWillUnmount() {
-    React.unmountComponentAtNode(this.nodeEl);
+    ReactDOM.unmountComponentAtNode(this.nodeEl);
     document.body.removeChild(this.nodeEl);
   }
 
@@ -17,7 +18,7 @@ class Portal extends React.Component {
   }
 
   renderChildren(props) {
-    React.render(props.children, this.nodeEl);
+    ReactDOM.render(props.children, this.nodeEl);
   }
 
   render() {

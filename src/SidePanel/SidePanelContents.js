@@ -1,11 +1,10 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
 import Util from '../Util/Util';
-
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 class SidePanelContents extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -117,18 +116,24 @@ class SidePanelContents extends Util.mixin(BindMixin) {
 
     return (
       <div className={classes}>
-        <CSSTransitionGroup
+        <ReactCSSTransitionGroup
           transitionAppear={true}
           transitionName="side-panel-fade-in"
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
           component="div">
           {this.getBackdrop()}
-        </CSSTransitionGroup>
-        <CSSTransitionGroup
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
           transitionAppear={true}
           transitionName="side-panel-slide-left"
+          transitionAppearTimeout={500}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
           component="div">
           {this.getContents()}
-        </CSSTransitionGroup>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }

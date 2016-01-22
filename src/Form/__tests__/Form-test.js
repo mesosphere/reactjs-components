@@ -7,8 +7,8 @@ jest.dontMock('../FieldTypes');
 jest.dontMock('../../Mixin/BindMixin');
 jest.dontMock('../../Util/Util');
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var TestUtils = require('react-addons-test-utils');
 
 var Form = require('../Form');
 var FormControl = require('../FormControl');

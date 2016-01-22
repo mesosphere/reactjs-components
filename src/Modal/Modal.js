@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 import ModalContents from './ModalContents.js';
 import Portal from '../Portal/Portal.js';

@@ -5,7 +5,7 @@ import BindMixin from '../Mixin/BindMixin';
 import ItemCheckbox from './ItemCheckbox';
 import Util from '../Util/Util';
 
-export default class FieldCheckbox extends Util.mixin(BindMixin) {
+class FieldCheckbox extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return ['handleChange'];
   }
@@ -148,3 +148,5 @@ FieldCheckbox.propTypes = {
   helpBlockClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };
+
+module.exports = FieldCheckbox;

@@ -75,7 +75,7 @@
   &-enter, &-appear {
     opacity: 0.01;
     transform: translate(0, -25%);
-    transition: transform .5s ease-in, opacity .5s ease-in;
+    transition: transform 500ms ease-in, opacity 500ms ease-in;
 
     &.modal {
       &-enter-active, &-appear-active {
@@ -93,14 +93,14 @@
   &.modal-leave-active {
     opacity: 0.01;
     transform: translate(0, -25%);
-    transition: transform .5s ease-in, opacity .5s ease-in;
+    transition: transform 500ms ease-in, opacity 500ms ease-in;
   }
 }
 
 .modal-backdrop {
   &-enter, &-appear {
     opacity: 0.01;
-    transition: opacity .5s ease-in;
+    transition: opacity 500ms ease-in;
 
     &.modal-backdrop {
       &-enter-active, &-appear-active {
@@ -115,7 +115,7 @@
 
   &.modal-backdrop-leave-active {
     opacity: 0.01;
-    transition: opacity .5s ease-in;
+    transition: opacity 500ms ease-in;
   }
 }
 

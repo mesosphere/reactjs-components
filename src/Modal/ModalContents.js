@@ -1,17 +1,16 @@
 import GeminiScrollbar from 'react-gemini-scrollbar';
-import React, {PropTypes} from 'react/addons';
+import React, {PropTypes} from 'react';
+/**
+ * Lifecycle of a Modal:
+ * initial page load -> empty ReactCSSTransitionGroup
+ * interaction changes open to true -> render modal content without scrollbars
+ * get height of content -> rerender modal content and cap the height
+ */
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
 import * as DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
-
-/**
- * Lifecycle of a Modal:
- * initial page load -> empty CSSTransitionGroup
- * interaction changes open to true -> render modal content without scrollbars
- * get height of content -> rerender modal content and cap the height
- */
-const CSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 const DEFAULT_HEIGHT = {
   height: 'auto',
@@ -127,26 +126,20 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getInnerContentHeight() {
-    let innerContentRef = this.refs.innerContent;
-
-    if (!innerContentRef) {
+    if (!this.refs.innerContent) {
       return null;
     }
 
-    return DOMUtil.getComputedDimensions(
-      this.refs.innerContent.getDOMNode()
-    ).height;
+    return DOMUtil.getComputedDimensions(this.refs.innerContent).height;
   }
 
   getInnerContainerHeightInfo() {
     let innerContainer = this.refs.innerContainer;
-    let originalHeight = React.findDOMNode(innerContainer).offsetHeight;
-    let totalContentHeight = React.findDOMNode(this.refs.modal).offsetHeight;
+    let originalHeight = innerContainer.offsetHeight;
+    let totalContentHeight = this.refs.modal.offsetHeight;
 
     // Height without padding, margin, border.
-    let contentHeight = DOMUtil.getComputedDimensions(
-      innerContainer.getDOMNode()
-    ).height;
+    let contentHeight = DOMUtil.getComputedDimensions(innerContainer).height;
 
     // Height of padding, margin, border.
     let outerHeight = originalHeight - contentHeight;
@@ -326,18 +319,24 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     return (
       <div className={props.modalWrapperClass}>
-        <CSSTransitionGroup
+        <ReactCSSTransitionGroup
           transitionAppear={true}
           transitionName={props.transitionNameBackdrop}
+          transitionAppearTimeout={props.transitionAppearTimeoutBackdrop}
+          transitionEnterTimeout={props.transitionEnterTimeoutBackdrop}
+          transitionLeaveTimeout={props.transitionLeaveTimeoutBackdrop}
           component="div">
           {this.getBackdrop()}
-        </CSSTransitionGroup>
-        <CSSTransitionGroup
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
           transitionAppear={true}
           transitionName={props.transitionNameModal}
+          transitionAppearTimeout={props.transitionAppearTimeoutModal}
+          transitionEnterTimeout={props.transitionEnterTimeoutModal}
+          transitionLeaveTimeout={props.transitionLeaveTimeoutModal}
           component="div">
           {this.getModal()}
-        </CSSTransitionGroup>
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
@@ -356,7 +355,13 @@ ModalContents.defaultProps = {
   subHeader: null,
   titleText: '',
   transitionNameBackdrop: 'modal-backdrop',
+  transitionAppearTimeoutBackdrop: 500,
+  transitionEnterTimeoutBackdrop: 500,
+  transitionLeaveTimeoutBackdrop: 500,
   transitionNameModal: 'modal',
+  transitionAppearTimeoutModal: 500,
+  transitionEnterTimeoutModal: 500,
+  transitionLeaveTimeoutModal: 500,
   useGemini: true,
 
   // Default classes.
@@ -403,7 +408,15 @@ ModalContents.propTypes = {
   // Optional enter and leave transition name for backdrop
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
+  // Transition lengths
+  transitionAppearTimeoutBackdrop: PropTypes.number,
+  transitionEnterTimeoutBackdrop: PropTypes.number,
+  transitionLeaveTimeoutBackdrop: PropTypes.number,
   transitionNameModal: PropTypes.string,
+  // Transition lengths
+  transitionAppearTimeoutModal: PropTypes.number,
+  transitionEnterTimeoutModal: PropTypes.number,
+  transitionLeaveTimeoutModal: PropTypes.number,
   // Optional disable Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 

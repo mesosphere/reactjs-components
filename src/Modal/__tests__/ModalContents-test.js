@@ -1,5 +1,6 @@
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+import ReactDOM from 'react-dom';
+var TestUtils = require('react-addons-test-utils');
 
 jest.dontMock('../ModalContents');
 jest.dontMock('../../Util/DOMUtil');
@@ -9,11 +10,9 @@ var ModalContents = require('../ModalContents');
 describe('ModalContents', function () {
 
   beforeEach(function () {
-    document.body.classList = {
-      add: function () {},
-      remove: function () {},
-      toggle: function () {}
-    };
+    document.body.classList.add = function () {};
+    document.body.classList.remove = function () {};
+    document.body.classList.toggle = function () {};
   });
 
   describe('#getModal', function () {
@@ -81,7 +80,7 @@ describe('ModalContents', function () {
     it('should dynamically set height if dynamicHeight prop is true',
       function () {
         ModalContents.prototype.resetHeight = function () {
-          this.heightInfo = {height: 63}
+          this.heightInfo = {height: 63};
         };
         var instance = TestUtils.renderIntoDocument(
           <ModalContents
@@ -89,9 +88,11 @@ describe('ModalContents', function () {
             open={true}
             dynamicHeight={true} />
         );
-        var modal = TestUtils.findRenderedDOMComponentWithClass(instance, 'target');
+        var modal = TestUtils.findRenderedDOMComponentWithClass(
+          instance, 'target'
+        );
 
-        expect(modal.props.style).toEqual({height: 63});
+        expect(modal.style.height).toEqual('63px');
       }
     );
   });
@@ -308,39 +309,37 @@ describe('ModalContents', function () {
 
   describe('overflow hidden on body', function () {
     beforeEach(function () {
-      document.body.classList = {
-        add: jasmine.createSpy(),
-        remove: jasmine.createSpy(),
-        toggle: jasmine.createSpy()
-      };
+      document.body.classList.add = jasmine.createSpy();
+      document.body.classList.remove = jasmine.createSpy();
+      document.body.classList.toggle = jasmine.createSpy();
 
       this.node = document.createElement('div');
     });
 
     it('should toggle no-overflow on body when updated to open', function () {
-      React.render(<ModalContents open={false} />, this.node);
-      React.render(<ModalContents open={true} />, this.node);
+      ReactDOM.render(<ModalContents open={false} />, this.node);
+      ReactDOM.render(<ModalContents open={true} />, this.node);
 
       expect(document.body.classList.toggle)
         .toHaveBeenCalledWith('no-overflow');
     });
 
     it('should toggle no-overflow on body when updated to close', function () {
-      React.render(<ModalContents open={true} />, this.node);
-      React.render(<ModalContents open={false} />, this.node);
+      ReactDOM.render(<ModalContents open={true} />, this.node);
+      ReactDOM.render(<ModalContents open={false} />, this.node);
 
       expect(document.body.classList.toggle)
         .toHaveBeenCalledWith('no-overflow');
     });
 
     it('should add no-overflow on body when mounted open', function () {
-      React.render(<ModalContents open={true} />, this.node);
+      ReactDOM.render(<ModalContents open={true} />, this.node);
 
       expect(document.body.classList.add).toHaveBeenCalledWith('no-overflow');
     });
 
     it('should not change class on body when mounted close', function () {
-      React.render(<ModalContents open={false} />, this.node);
+      ReactDOM.render(<ModalContents open={false} />, this.node);
 
       expect(document.body.classList.toggle).not.toHaveBeenCalledWith();
       expect(document.body.classList.add).not.toHaveBeenCalledWith();
@@ -348,8 +347,8 @@ describe('ModalContents', function () {
     });
 
     it('should remove no-overflow on body when unmounted', function () {
-      React.render(<ModalContents open={true} />, this.node);
-      React.render(<div />, this.node);
+      ReactDOM.render(<ModalContents open={true} />, this.node);
+      ReactDOM.render(<div />, this.node);
 
       expect(document.body.classList.remove).toHaveBeenCalledWith('no-overflow');
     });

@@ -10,4 +10,4 @@ const FieldTypes = {
   'textarea': FieldTextarea
 };
 
-export default FieldTypes;
+module.exports = FieldTypes;
