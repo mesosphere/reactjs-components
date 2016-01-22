@@ -1,7 +1,9 @@
 jest.dontMock('../FieldCheckbox');
 jest.dontMock('../ItemCheckbox');
 
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 var TestUtils = require('react-addons-test-utils');
 
 var ItemCheckbox = require('../ItemCheckbox');

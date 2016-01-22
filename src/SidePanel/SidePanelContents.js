@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
+/* eslint-disable no-unused-vars */
 import React, {PropTypes} from 'react';
+/* eslint-enable no-unused-vars */
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';

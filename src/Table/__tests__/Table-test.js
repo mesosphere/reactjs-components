@@ -2,7 +2,9 @@ jest.dontMock('../Table');
 jest.dontMock('../../Util/Util');
 jest.dontMock('./fixtures/MockTable');
 
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var Table = require('../Table');
@@ -52,7 +54,7 @@ describe('Table', function () {
   describe('emptyMessage prop', function () {
 
     it('should display the custom empty message', function () {
-      this.instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <Table
           className="table"
           columns={MockTable.columns}
@@ -64,26 +66,16 @@ describe('Table', function () {
       );
 
       this.node = document.createElement('tbody');
-      var result = ReactDOM.render(
-        this.instance.getEmptyRowCell([1]), this.node
+      ReactDOM.render(
+        instance.getEmptyRowCell([1]), this.node
       );
       let td = this.node.querySelector('td');
       expect(td.textContent).toBe('Custom message');
     });
 
     it('should display the default empty message', function () {
-      var instance = TestUtils.renderIntoDocument(
-        <Table
-          className="table"
-          columns={MockTable.columns}
-          data={[]}
-          idAttribute={this.idAttribute}
-          sortBy={this.sortBy}
-          onSortCallback={this.callback} />
-      );
-
       this.node = document.createElement('tbody');
-      var result = ReactDOM.render(
+      ReactDOM.render(
         this.instance.getEmptyRowCell([1]), this.node
       );
       let td = this.node.querySelector('td');
