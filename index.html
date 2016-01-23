@@ -33,9 +33,11 @@
                     <li><a href="#goals">Goals</a></li>
                     <li><a href="#getting-started">Getting Started</a></li>
                     <li><a href="#dropdown">Dropdown</a></li>
+                    <li><a href="#form">Form</a></li>
                     <li><a href="#list">List</a></li>
                     <li><a href="#table">Table</a></li>
                     <li><a href="#modal">Modal</a></li>
+                    <li><a href="#confirm">Confirm</a></li>
                     <li><a href="#side-panel">Side Panel</a></li>
                   </ul>
                 </div>
@@ -58,7 +60,7 @@
                         <div class="example-block-content no-tag">
                           <p><span class="emphasize">1.</span> From the command line inside of your project:</p>
                           <pre class="flush-bottom">
-        npm install --save reactjs-components</pre>
+  npm install --save reactjs-components react react-gemini-scrollbar canvas-ui</pre>
                         </div>
                       </div>
                       <div class="example-block">
@@ -71,14 +73,14 @@ import {Modal} from 'reactjs-components';
 
 // es5
 var Modal = require('reactjs-components').Modal;
-            </pre>
-          </div>
-          <div class="example-block flush-bottom">
-            <div class="example-block-content no-tag">
-              <p><span class="emphasize">3.</span> Use as if it was any other component:</p>
-            </div>
-            <div class="example-block-footer example-block-footer-codeblock">
-              <pre class="prettyprint linenums flush-bottom">
+                        </pre>
+                      </div>
+                      <div class="example-block">
+                        <div class="example-block-content no-tag">
+                          <p><span class="emphasize">3.</span> Use as if it was any other component:</p>
+                        </div>
+                        <div class="example-block-footer example-block-footer-codeblock">
+                          <pre class="prettyprint linenums flush-bottom">
 // ...
 
 render: function () {
@@ -92,12 +94,23 @@ render: function () {
                           </pre>
                         </div>
                       </div>
+                      <div class="example-block flush-bottom">
+                        <div class="example-block-content no-tag">
+                          <p><span class="emphasize">4.</span> Import LESS files which will add all styles for all components.</p>
+                        </div>
+                        <pre class="prettyprint linenums flush-bottom">
+  @import "./node_modules/canvas-ui/styles/canvas.less"
+  @import (inline) "./node_modules/reactjs-components/lib/index.less"
+                        </pre>
+                      </div>
                     </div>
                   </section>
                   <section id="dropdown"></section>
+                  <section id="form"></section>
                   <section id="list"></section>
                   <section id="table"></section>
                   <section id="modal"></section>
+                  <section id="confirm"></section>
                   <section id="side-panel"></section>
                 </div>
               </div>
