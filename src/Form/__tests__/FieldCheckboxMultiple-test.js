@@ -1,18 +1,18 @@
-jest.dontMock('../FieldCheckbox');
+jest.dontMock('../FieldCheckboxMultiple');
 jest.dontMock('../ItemCheckbox');
 
 var React = require('react/addons');
 var TestUtils = React.addons.TestUtils;
 
 var ItemCheckbox = require('../ItemCheckbox');
-var FieldCheckbox = require('../FieldCheckbox');
+var FieldCheckboxMultiple = require('../FieldCheckboxMultiple');
 
-describe('FieldCheckbox', function () {
+describe('FieldCheckboxMultiple', function () {
 
   describe('#hasError', function () {
     it('should return true when error contains name', function () {
       var instance = instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           validationError={{foo: 'bar'}}
@@ -24,7 +24,7 @@ describe('FieldCheckbox', function () {
 
     it('should return false when error doesn\'t contains name', function () {
       var instance = instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           validationError={{bar: 'bar'}}
@@ -36,7 +36,7 @@ describe('FieldCheckbox', function () {
 
     it('should return false when error is undefined', function () {
       var instance = instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           fieldType="checkbox" />
@@ -49,7 +49,7 @@ describe('FieldCheckbox', function () {
   describe('#getErrorMsg', function () {
     it('should return a label if validationError is true', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           validationError={{foo: 'bar'}}
@@ -61,7 +61,7 @@ describe('FieldCheckbox', function () {
 
     it('should return null if validationError is false', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           fieldType="checkbox" />
@@ -74,7 +74,7 @@ describe('FieldCheckbox', function () {
   describe('#getLabel', function () {
     it('should return a paragraph if showLabel has a value', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           showLabel="bar"
           startValue={[]}
@@ -86,7 +86,7 @@ describe('FieldCheckbox', function () {
 
     it('can handle a custom render function', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           showLabel={<h1>hello</h1>}
           startValue={[]}
@@ -98,7 +98,7 @@ describe('FieldCheckbox', function () {
 
     it('should return null if showLabel doesn\'t has a value', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           fieldType="checkbox" />
@@ -111,7 +111,7 @@ describe('FieldCheckbox', function () {
   describe('#getItems', function () {
     beforeEach(function () {
       this.instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[
             {name: 'foo', indeterminate: false},
@@ -129,7 +129,7 @@ describe('FieldCheckbox', function () {
 
     it('should return an empty array if startValue is empty', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
           fieldType="checkbox" />
@@ -157,7 +157,7 @@ describe('FieldCheckbox', function () {
 
     it('should override parent labelClass with item labelClass', function () {
       var instance = TestUtils.renderIntoDocument(
-        <FieldCheckbox
+        <FieldCheckboxMultiple
           name="foo"
           startValue={[
             {name: 'foo', indeterminate: false},

@@ -31,7 +31,7 @@ class FormExample extends React.Component {
         validationErrorText: 'Password needs to be greater than 8 characters'
       },
       {
-        fieldType: 'checkbox',
+        fieldType: 'checkboxMultiple',
         value: [
           {
             name: 'isManager',
@@ -184,7 +184,7 @@ class FormExample extends React.Component {
         validationErrorText: 'Password needs to be greater than 8 characters'
       },
       {
-        fieldType: 'checkbox',
+        fieldType: 'checkboxMultiple',
         value: [
           {
             name: 'isManager',
