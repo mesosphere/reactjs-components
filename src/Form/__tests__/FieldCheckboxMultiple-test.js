@@ -175,10 +175,10 @@ describe('FieldCheckboxMultiple', function () {
       expect(children[1].props.labelClass).toEqual('bar');
     });
 
-    it('should have the parent handleChange on all items', function () {
+    it('should have the parent handleEvent on all items', function () {
       for (var i = 0; i < this.children.length; i++) {
-        expect(this.children[i].props.handleChange)
-          .toEqual(this.instance.handleChange);
+        expect(this.children[i].props.handleEvent)
+          .toEqual(this.instance.handleEvent);
       }
     });
 
