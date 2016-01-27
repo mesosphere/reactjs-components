@@ -4,7 +4,9 @@ jest.dontMock('../icons/IconEdit');
 jest.dontMock('../FieldTypes');
 jest.dontMock('../../Util/Util');
 
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 var TestUtils = require('react-addons-test-utils');
 
 var FormControl = require('../FormControl');

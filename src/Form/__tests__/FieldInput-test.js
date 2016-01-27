@@ -2,7 +2,9 @@ jest.dontMock('../FieldInput');
 jest.dontMock('../icons/IconEdit');
 jest.dontMock('../../Util/KeyboardUtil');
 
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 var TestUtils = require('react-addons-test-utils');
 
 var FieldInput = require('../FieldInput');

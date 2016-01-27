@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 import ReactDOM from 'react-dom';
 var TestUtils = require('react-addons-test-utils');
 

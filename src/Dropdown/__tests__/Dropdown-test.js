@@ -4,7 +4,9 @@ jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('../Dropdown');
 jest.dontMock('./fixtures/MockDropdownList');
 
+/* eslint-disable no-unused-vars */
 var React = require('react');
+/* eslint-enable no-unused-vars */
 var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 

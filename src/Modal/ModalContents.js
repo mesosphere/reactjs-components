@@ -1,5 +1,7 @@
 import GeminiScrollbar from 'react-gemini-scrollbar';
+/* eslint-disable no-unused-vars */
 import React, {PropTypes} from 'react';
+/* eslint-enable no-unused-vars */
 /**
  * Lifecycle of a Modal:
  * initial page load -> empty ReactCSSTransitionGroup
