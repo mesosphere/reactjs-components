@@ -5,26 +5,7 @@ import BindMixin from '../Mixin/BindMixin';
 import ItemCheckbox from './ItemCheckbox';
 import Util from '../Util/Util';
 
-class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
-  get methodsToBind() {
-    return ['handleEvent'];
-  }
-
-  handleEvent(eventType, name, modelState, event) {
-    let {props} = this;
-
-    props.handleEvent(
-      'multipleChange',
-      props.name,
-      {
-        name: name,
-        checked: modelState.checked,
-        indeterminate: modelState.indeterminate
-      },
-      event
-    );
-  }
-
+class FieldCheckbox extends Util.mixin(BindMixin) {
   hasError() {
     let {props} = this;
     let validationError = props.validationError;
@@ -64,29 +45,17 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
     }
 
     return (
-      <p className={props.descriptionClass}>
+      <p>
         {label}
       </p>
     );
   }
 
-  getItems() {
-    let {props, handleEvent} = this;
-    return props.startValue.map(function (attributes, index) {
-      return (
-        <ItemCheckbox
-          labelClass={props.labelClass}
-          handleEvent={handleEvent}
-          key={index}
-          {...attributes} />
-      );
-    });
-  }
-
   getRowClass(props) {
     return classNames(
       `column-${props.columnWidth}`,
-      'form-row-element checkbox'
+      'form-row-element',
+      'checkbox'
     );
   }
 
@@ -100,12 +69,10 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
     );
 
     return (
-      <div className={this.getRowClass(this.props)}>
+      <div className={this.getRowClass(props)}>
         <div className={classes}>
           {this.getLabel()}
-          <div ref="checkboxes">
-            {this.getItems()}
-          </div>
+          <ItemCheckbox {...this.props} />
           {this.getErrorMsg()}
         </div>
       </div>
@@ -113,17 +80,14 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
   }
 }
 
-FieldCheckboxMultiple.defaultProps = {
+FieldCheckbox.defaultProps = {
   columnWidth: 12,
   handleEvent: function () {}
 };
 
-FieldCheckboxMultiple.propTypes = {
+FieldCheckbox.propTypes = {
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
-  // Function to handle change event
-  // (usually passed down from form definition)
-  handleEvent: React.PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
@@ -133,21 +97,14 @@ FieldCheckboxMultiple.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool
   ]),
-  // Array of checkbox states to render
-  // (usually passed down from value in form definition)
-  startValue: React.PropTypes.array.isRequired,
-  // Optional name of the field property
-  // (usually passed down from form definition)
-  name: React.PropTypes.string,
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
 
   // Classes
-  descriptionClass: React.PropTypes.string,
   formGroupClass: React.PropTypes.string,
   formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };
 
-module.exports = FieldCheckboxMultiple;
+module.exports = FieldCheckbox;

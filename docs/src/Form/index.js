@@ -12,13 +12,15 @@ class FormExample extends React.Component {
           fieldType: 'text',
           name: 'description',
           placeholder: 'First name',
-          showError: 'Setting "showError" will make a field display an error'
+          showError: 'Setting "showError" will make a field display an error',
+          writeType: 'input'
         },
         {
           fieldType: 'text',
           name: 'uid',
           placeholder: 'Last name',
-          required: true
+          required: true,
+          writeType: 'input'
         }
       ],
       {
@@ -29,7 +31,20 @@ class FormExample extends React.Component {
         validation: function (value) {
           return value && value.length > 8;
         },
-        validationErrorText: 'Password needs to be greater than 8 characters'
+        validationErrorText: 'Password needs to be greater than 8 characters',
+        writeType: 'input'
+      },
+      {
+        fieldType: 'checkbox',
+        name: 'single-checkbox',
+        showLabel: 'Accept terms of service',
+        required: true,
+        label: 'Single checkbox',
+        validation: function (value) {
+          return value && value.checked;
+        },
+        validationErrorText: 'Must check checkbox!',
+        writeType: 'input'
       },
       {
         fieldType: 'checkboxMultiple',
@@ -62,7 +77,8 @@ class FormExample extends React.Component {
 
           return result;
         },
-        validationErrorText: 'Please select at least one option.'
+        validationErrorText: 'Please select at least one option.',
+        writeType: 'input'
       },
       {
         fieldType: 'textarea',
@@ -72,7 +88,8 @@ class FormExample extends React.Component {
         validation: function (value) {
           return value && value.length < 140;
         },
-        validationErrorText: 'Message needs to be less than 140 characters'
+        validationErrorText: 'Message needs to be less than 140 characters',
+        writeType: 'input'
       }
     ];
   }
