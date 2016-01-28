@@ -202,7 +202,7 @@ FieldInput.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool
   ]),
-  // initial value of field, should be either 'checked' or 'unchecked'
+  // initial value of field
   startValue: React.PropTypes.string,
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
