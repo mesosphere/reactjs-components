@@ -11,7 +11,7 @@ describe('FieldCheckbox', function () {
 
   describe('#hasError', function () {
     it('should return true when error contains name', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]}
@@ -22,7 +22,7 @@ describe('FieldCheckbox', function () {
     });
 
     it('should return false when error doesn\'t contains name', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]}
@@ -33,7 +33,7 @@ describe('FieldCheckbox', function () {
     });
 
     it('should return false when error is undefined', function () {
-      var instance = instance = TestUtils.renderIntoDocument(
+      var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
           startValue={[]} />
