@@ -1,7 +1,8 @@
 jest.dontMock('../ItemCheckbox');
 
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
+var React = require('react');
+var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 
 var ItemCheckbox = require('../ItemCheckbox');
 
@@ -18,7 +19,7 @@ describe('ItemCheckbox', function () {
       var component = TestUtils.findRenderedDOMComponentWithTag(
         instance, 'input'
       );
-      var el = React.findDOMNode(component);
+      var el = ReactDOM.findDOMNode(component);
 
       expect(el.checked).toEqual(false);
     });
@@ -33,7 +34,7 @@ describe('ItemCheckbox', function () {
       var component = TestUtils.findRenderedDOMComponentWithTag(
         instance, 'input'
       );
-      var el = React.findDOMNode(component);
+      var el = ReactDOM.findDOMNode(component);
 
       expect(el.checked).toEqual(true);
     });
@@ -47,7 +48,7 @@ describe('ItemCheckbox', function () {
       var component = TestUtils.findRenderedDOMComponentWithTag(
         instance, 'input'
       );
-      var el = React.findDOMNode(component);
+      var el = ReactDOM.findDOMNode(component);
 
       expect(el.disabled).toEqual(false);
     });
@@ -62,7 +63,7 @@ describe('ItemCheckbox', function () {
       var component = TestUtils.findRenderedDOMComponentWithTag(
         instance, 'input'
       );
-      var el = React.findDOMNode(component);
+      var el = ReactDOM.findDOMNode(component);
 
       expect(el.disabled).toEqual(true);
     });
