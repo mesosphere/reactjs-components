@@ -17,8 +17,7 @@ describe('FieldCheckboxMultiple', function () {
         <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
-          validationError={{foo: 'bar'}}
-          fieldType="checkbox" />
+          validationError={{foo: 'bar'}} />
       );
 
       expect(instance.hasError()).toEqual(true);
@@ -29,8 +28,7 @@ describe('FieldCheckboxMultiple', function () {
         <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
-          validationError={{bar: 'bar'}}
-          fieldType="checkbox" />
+          validationError={{bar: 'bar'}} />
       );
 
       expect(instance.hasError()).toEqual(false);
@@ -40,8 +38,7 @@ describe('FieldCheckboxMultiple', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckboxMultiple
           name="foo"
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.hasError()).toEqual(false);
@@ -54,8 +51,7 @@ describe('FieldCheckboxMultiple', function () {
         <FieldCheckboxMultiple
           name="foo"
           startValue={[]}
-          validationError={{foo: 'bar'}}
-          fieldType="checkbox" />
+          validationError={{foo: 'bar'}} />
       );
 
       expect(instance.getErrorMsg().type).toEqual('p');
@@ -65,8 +61,7 @@ describe('FieldCheckboxMultiple', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckboxMultiple
           name="foo"
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.getErrorMsg()).toEqual(null);
@@ -79,8 +74,7 @@ describe('FieldCheckboxMultiple', function () {
         <FieldCheckboxMultiple
           name="foo"
           showLabel="bar"
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.getLabel().type).toEqual('p');
@@ -91,8 +85,7 @@ describe('FieldCheckboxMultiple', function () {
         <FieldCheckboxMultiple
           name="foo"
           showLabel={<h1>hello</h1>}
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.getLabel().type).toEqual('h1');
@@ -102,8 +95,7 @@ describe('FieldCheckboxMultiple', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckboxMultiple
           name="foo"
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.getLabel()).toEqual(null);
@@ -120,8 +112,7 @@ describe('FieldCheckboxMultiple', function () {
             {name: 'bar', checked: true},
             {name: 'quis', checked: false, indeterminate: true}
           ]}
-          labelClass="foo"
-          fieldType="checkbox" />
+          labelClass="foo" />
       );
       this.children = TestUtils.scryRenderedComponentsWithType(
         this.instance,
@@ -133,8 +124,7 @@ describe('FieldCheckboxMultiple', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckboxMultiple
           name="foo"
-          startValue={[]}
-          fieldType="checkbox" />
+          startValue={[]} />
       );
 
       expect(instance.getItems()).toEqual([]);
@@ -166,8 +156,7 @@ describe('FieldCheckboxMultiple', function () {
             {name: 'bar', checked: true, labelClass: 'bar'},
             {name: 'quis', checked: false, indeterminate: true}
           ]}
-          labelClass="foo"
-          fieldType="checkbox" />
+          labelClass="foo" />
       );
       var children = TestUtils.scryRenderedComponentsWithType(
         instance,
