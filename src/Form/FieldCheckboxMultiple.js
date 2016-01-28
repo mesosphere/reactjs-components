@@ -64,7 +64,7 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
     }
 
     return (
-      <p className={props.descriptionClass}>
+      <p>
         {label}
       </p>
     );
@@ -133,17 +133,10 @@ FieldCheckboxMultiple.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool
   ]),
-  // Array of checkbox states to render
-  // (usually passed down from value in form definition)
-  startValue: React.PropTypes.array.isRequired,
-  // Optional name of the field property
-  // (usually passed down from form definition)
-  name: React.PropTypes.string,
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
 
   // Classes
-  descriptionClass: React.PropTypes.string,
   formGroupClass: React.PropTypes.string,
   formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,
