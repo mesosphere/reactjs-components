@@ -36,6 +36,8 @@ class FormExample extends React.Component {
       {
         fieldType: 'checkbox',
         name: 'single-checkbox',
+        checked: true,
+        disabled: true,
         showLabel: 'Accept terms of service',
         required: true,
         label: 'Single checkbox',
