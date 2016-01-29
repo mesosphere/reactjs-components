@@ -35,12 +35,15 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
   }
 
   handleChange(event) {
-    this.props.handleChange(
+    this.props.handleEvent(
+      'change',
       this.props.name,
       {
         checked: event.target.checked,
         indeterminate: event.target.indeterminate
-      });
+      },
+      event
+    );
   }
 
   getLabel() {
@@ -61,6 +64,7 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
 
     let labelClass = classNames({
       'form-row-element form-element-checkbox': true,
+      'mute': props.disabled,
       [props.labelClass]: true
     });
 
@@ -68,6 +72,7 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
       <label className={labelClass}>
         <input
           onChange={this.handleChange}
+          disabled={props.disabled}
           ref="checkbox"
           type="checkbox" />
         <span className="form-element-checkbox-decoy">
@@ -96,6 +101,11 @@ ItemCheckbox.propTypes = {
   // Optional value for setting the checked state of the checkbox,
   // should be either true for 'checked' or false 'unchecked'
   checked: React.PropTypes.bool,
+  // Optional value for setting disabled state
+  disabled: React.PropTypes.bool,
+  // Optional. Which field property is currently being edited
+  // (usually passed down from form definition)
+  editing: React.PropTypes.string,
   // Function to handle change event
   // (usually passed down from FieldCheckbox)
   handleChange: React.PropTypes.func,
