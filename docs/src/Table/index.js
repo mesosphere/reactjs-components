@@ -225,43 +225,39 @@ class TableExample extends React.Component {
   // Optional colgroup component.
   colGroup: PropTypes.object,
 
-  // Settings for each column in table.
+  // Define how columns should be rendered and if they are sortable.
   columns: PropTypes.arrayOf(
     PropTypes.shape({
-      // Attributes to pass down to each column item.
-      attributes: React.PropTypes.object,
-
-      // Class to give to each column item. Can be a function to programmatically create a class.
+      attributes: PropTypes.object,
       className: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]),
-
-      // Content to default to in the case of no data for the prop.
       defaultContent: PropTypes.string,
-
-      // Function to render the header of the column. Can also be a string.
-      // The arguments to the function will be: prop (prop to sort by), order (asc / desc), and sortBy (the sort function)
+      // Enable caching of cells for better performance.
+      cacheCell: PropTypes.bool,
       heading: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.func
       ]).isRequired,
-
-      // What prop of the data object to use.
       prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-      // If true, the column will sort on column heading click.
       sortable: PropTypes.bool,
-
       // Custom sorting function. If this function returns null,
       // it will fallback to default sorting.
       sortFunction: PropTypes.func
     })
   ).isRequired,
 
+  // Optional selector of the parent element that has a scrollbar in order to
+  // listen to its scroll event.
+  containerSelector: PropTypes.string,
+
   // Data to display in the table.
   // Make sure to clone the data, cannot be modified!
   data: PropTypes.array.isRequired,
+
+  // Text to show if there is no data.
+  emptyMessage: PropTypes.string,
 
   // Optional item height for the scroll table. If not provided, it will render
   // once to measure the height of the first child.
@@ -474,7 +470,10 @@ class TableExample extends React.Component {
                 <div className="row row-flex">
                   <div className="column-12">
                     <p>
-                      Here is a scroll table with 10k items. It will not grow beyond window height. The data is not sorted by default.
+                      Here is a scroll table with 10k items. Use the
+                      "containerSelector" property to indicate the parent
+                      element with a scrollbar in order to listen to its scroll
+                      event. The data is not sorted by default.
                     </p>
                   </div>
                 </div>
@@ -608,12 +607,15 @@ class InfiniteScrollExample extends React.Component {
 
   render() {
     return (
-      <Table
-        className="table"
-        colGroup={this.getColGroup()}
-        columns={this.getColumns()}
-        data={this.hugeRows}
-        idAttribute="id" />
+      <div class="container">
+        <Table
+          className="table"
+          colGroup={this.getColGroup()}
+          columns={this.getColumns()}
+          containerSelector=".container"
+          data={this.hugeRows}
+          idAttribute="id" />
+      </div>
     );
   }
 }`}
