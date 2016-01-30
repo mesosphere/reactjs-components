@@ -210,7 +210,7 @@ base/forms.less
           }
         }
 
-        &[disabled] + .form-element-checkbox-decoy {
+        &:disabled + .form-element-checkbox-decoy {
           background: #C5C5C5;
           box-shadow: none;
         }
@@ -221,6 +221,15 @@ base/forms.less
 
         input[type="checkbox"]  + .form-element-checkbox-decoy {
           box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
+        }
+
+        input[type="checkbox"] {
+
+          &:disabled + .form-element-checkbox-decoy {
+            background: @form-control-default-inverse-border-color;
+            box-shadow: none;
+          }
+
         }
       }
     }
