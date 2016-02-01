@@ -16,6 +16,14 @@ class SidePanelContents extends Util.mixin(BindMixin) {
     ];
   }
 
+  componentWillReceiveProps(newProps) {
+    super.componentWillReceiveProps(...arguments);
+
+    if (this.props.open !== newProps.open) {
+      document.body.classList.toggle('no-overflow');
+    }
+  }
+
   componentDidMount() {
     super.componentDidMount(...arguments);
     this.checkRerendered();
