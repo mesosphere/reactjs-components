@@ -13,8 +13,8 @@ class Portal extends React.Component {
     document.body.removeChild(this.nodeEl);
   }
 
-  componentWillReceiveProps(newProps) {
-    this.renderChildren(newProps);
+  componentWillReceiveProps(nextProps) {
+    this.renderChildren(nextProps);
   }
 
   renderChildren(props) {
