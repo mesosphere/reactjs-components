@@ -337,6 +337,11 @@ class DropdownExample extends React.Component {
   transition: React.PropTypes.bool,
   // The prefix of the transition classnames.
   transitionName: React.PropTypes.string,
+  // Transition lengths
+  transitionEnterTimeout: React.PropTypes.number,
+  transitionLeaveTimeout: React.PropTypes.number,
+  // Optional disable Gemini scrollbar. Defaults to true.
+  useGemini: React.PropTypes.bool,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.
