@@ -102,12 +102,6 @@ let rows = [
 class TableExample extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      rowAdded: false
-    };
-    ['handleToggleExtraRow', 'handleToggleScroll'].forEach((method) => {
-      this[method] = this[method].bind(this);
-    }, this);
 
     // Cache huge rows so we don't recreate the data every update.
     this.hugeRows = this.getManyRows();
@@ -115,16 +109,6 @@ class TableExample extends React.Component {
 
   componentDidMount() {
     this.forceUpdate();
-  }
-
-  handleToggleExtraRow() {
-    this.setState({
-      rowAdded: !this.state.rowAdded
-    });
-  }
-
-  handleToggleScroll() {
-    this.setState({shouldScroll: !this.state.shouldScroll});
   }
 
   getColumnHeading(prop, order, sortBy) {
@@ -201,19 +185,7 @@ class TableExample extends React.Component {
   }
 
   getRows() {
-    let newRows = rows.slice(0);
-
-    if (this.state.rowAdded) {
-      newRows.push({
-        name: 'Cheryl',
-        age: 28,
-        gender: 'Female',
-        location: 'Seattle, WA',
-        id: 'k'
-      });
-    }
-
-    return newRows;
+    return rows.slice(0);
   }
 
   getManyRows() {
@@ -234,14 +206,6 @@ class TableExample extends React.Component {
   }
 
   render() {
-    let rowButtonLabel;
-
-    if (this.state.rowAdded) {
-      rowButtonLabel = 'Remove Row';
-    } else {
-      rowButtonLabel = 'Add Row';
-    }
-
     return (
       <div>
         <section className="row canvas-pod">
@@ -314,11 +278,7 @@ class TableExample extends React.Component {
   sortBy: PropTypes.shape({
     order: PropTypes.oneOf(['asc', 'desc']),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  }),
-
-  // Optional property to add transitions or turn them off. Default is off.
-  // Only available for tables that does not scroll
-  transition: PropTypes.bool
+  })
 };
 `}
               </pre>
@@ -383,15 +343,7 @@ class TableExample extends React.Component {
                 <div className="container-pod-short
                   flush-top row row-flex">
                   <div className="column-9">
-                    <p>A simple example table with transition enabled.</p>
-                  </div>
-                  <div className="column-3 text-align-right">
-                    <button
-                      className="button button-small button-primary
-                        button-stroke"
-                      onClick={this.handleToggleExtraRow}>
-                      {rowButtonLabel}
-                    </button>
+                    <p>A simple example table.</p>
                   </div>
                 </div>
                 <Table
@@ -399,8 +351,7 @@ class TableExample extends React.Component {
                   colGroup={this.getColGroup()}
                   columns={this.getColumns()}
                   data={this.getRows('large')}
-                  idAttribute="id"
-                  transition={true} />
+                  idAttribute="id" />
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
@@ -448,16 +399,6 @@ let rows = [
 ];
 
 class TableExample extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      rowAdded: false
-    };
-    ['handleToggleExtraRow', 'handleToggleScroll'].forEach((method) => {
-      this[method] = this[method].bind(this);
-    }, this);
-  }
-
   getColGroup() {
     return (
       <colgroup>
@@ -506,19 +447,7 @@ class TableExample extends React.Component {
   }
 
   getRows() {
-    let newRows = rows.slice(0);
-
-    if (this.state.rowAdded) {
-      newRows.push({
-        name: 'Cheryl',
-        age: 28,
-        gender: 'Female',
-        location: 'Seattle, WA',
-        id: 'k'
-      });
-    }
-
-    return newRows;
+    return rows.slice(0);
   }
 
   render() {
@@ -528,8 +457,7 @@ class TableExample extends React.Component {
         colGroup={this.getColGroup()}
         columns={this.getColumns()}
         data={this.getRows()}
-        idAttribute="id"
-        transition={true} />
+        idAttribute="id" />
     );
   }
 }`}
