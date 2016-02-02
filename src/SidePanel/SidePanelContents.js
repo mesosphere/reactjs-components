@@ -100,7 +100,7 @@ class SidePanelContents extends Util.mixin(BindMixin) {
       </div>
     );
 
-    if (this.rerendered) {
+    if (this.rerendered && props.useGemini) {
       // Wrap in scrollbar after first render
       contents = (
         <GeminiScrollbar
@@ -155,10 +155,11 @@ SidePanelContents.defaultProps = {
   header: null,
   onClose: () => {},
   open: false,
+  useGemini: true,
 
   // Classes
   backdropClass: 'side-panel-backdrop',
-  bodyClass: 'side-panel-content container-scrollable',
+  bodyClass: 'side-panel-content',
   containerClass: 'side-panel-container',
   headerClass: 'side-panel-header',
   headerContainerClass: 'side-panel-header-container container container-fluid container-fluid-narrow container-pod container-pod-short',
@@ -177,6 +178,8 @@ SidePanelContents.propTypes = {
   onClose: PropTypes.func,
   // Bool that states if side panel is open or not. Default: false
   open: PropTypes.bool,
+  // Optional disable Gemini scrollbar. Defaults to true.
+  useGemini: PropTypes.bool,
 
   // Classes.
   backdropClass: PropTypes.string,
