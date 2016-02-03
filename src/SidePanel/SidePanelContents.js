@@ -150,7 +150,7 @@ SidePanelContents.defaultProps = {
 
   // Classes
   backdropClass: 'side-panel-backdrop',
-  bodyClass: 'side-panel-content',
+  bodyClass: 'side-panel-content container-scrollable',
   containerClass: 'side-panel-container',
   headerClass: 'side-panel-header',
   headerContainerClass: 'side-panel-header-container container container-fluid container-fluid-narrow container-pod container-pod-short',
