@@ -480,6 +480,7 @@ class TableExample extends React.Component {
                 </div>
                 <GeminiScrollbar
                   autoshow={true}
+                  className="container-scrollable"
                   style={{height: 800}}>
                   <Table
                     className="table"
