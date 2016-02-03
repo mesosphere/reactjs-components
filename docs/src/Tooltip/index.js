@@ -60,14 +60,14 @@ class ToolTipExample extends React.Component {
                   <Tooltip content="I'm a tooltip!">
                     <button className="button">Top</button>
                   </Tooltip>
-                  <Tooltip content="I'm a tooltip!" position="right">
-                    <button className="button">Right</button>
-                  </Tooltip>
                   <Tooltip content="I'm a tooltip!" position="bottom">
                     <button className="button">Bottom</button>
                   </Tooltip>
                   <Tooltip content="I'm a tooltip!" position="left">
                     <button className="button">Left</button>
+                  </Tooltip>
+                  <Tooltip content="I'm a tooltip!" position="right">
+                    <button className="button">Right</button>
                   </Tooltip>
                 </div>
               </section>

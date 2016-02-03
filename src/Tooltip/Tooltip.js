@@ -2,68 +2,84 @@ import classnames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const METHODS_TO_BIND = [
-  'getIdealPosition',
-  'handleMouseEnter',
-  'handleMouseLeave'
-];
+import BindMixin from '../../src/Mixin/BindMixin';
+import DOMUtil from '../../src/Util/DOMUtil';
+import Util from '../../src/Util/Util';
 
-class Tooltip extends React.Component {
+class Tooltip extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return [
+      'getIdealLocation',
+      'handleMouseEnter',
+      'handleMouseLeave'
+    ];
+  }
+
   constructor() {
     super();
 
     this.state = {isOpen: false};
-
-    METHODS_TO_BIND.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
   }
 
-  getIdealPosition() {
-    // Get the anchor and position from state if possible. If not, get it from
-    // the props.
+  getAnchor(anchor, position, renderedPosition, viewportWidth, viewportHeight) {
+    // Change the anchor if the tooltip will be rendered off the screen.
+    if (position === 'right' || position === 'left') {
+      if (renderedPosition.top < 0) {
+        anchor = 'start';
+      } else if (renderedPosition.bottom > viewportHeight) {
+        anchor = 'end';
+      }
+    } else if (position === 'top' || position === 'bottom') {
+      if (renderedPosition.right > viewportWidth) {
+        anchor = 'end';
+      } else if (renderedPosition.left < 0) {
+        anchor = 'start';
+      }
+    }
+
+    return anchor;
+  }
+
+  getPosition(position, renderedPosition, viewportWidth, viewportHeight) {
+    // Change the position if the tooltip will be rendered off the screen.
+    if (position === 'right' && renderedPosition.right > viewportWidth) {
+      position = 'left';
+    } else if (position === 'left' && renderedPosition.left < 0) {
+      position = 'right';
+    } else if (position === 'top' && renderedPosition.top < 0) {
+      position = 'bottom';
+    } else if (position === 'bottom' &&
+      renderedPosition.bottom > viewportHeight) {
+      position = 'top';
+    }
+
+    return position;
+  }
+
+  getIdealLocation() {
     let anchor = this.state.anchor || this.props.anchor;
     let position = this.state.position || this.props.position;
 
     if (this.refs.tooltipContent) {
-      let viewportHeight = global.window.innerHeight;
-      let viewportWidth = global.window.innerWidth;
-      let tooltipContent = ReactDOM.findDOMNode(this.refs.tooltipContent);
-      let tooltipPosition = tooltipContent.getBoundingClientRect();
+      let viewportHeight = DOMUtil.getViewportHeight();
+      let viewportWidth = DOMUtil.getViewportWidth();
+      let tooltipContentNode = ReactDOM.findDOMNode(this.refs.tooltipContent);
+      let renderedPosition = tooltipContentNode.getBoundingClientRect();
 
-      // Change the position if the tooltip will be rendered off the screen.
-      if (position === 'right' && tooltipPosition.right > viewportWidth) {
-        position = 'left';
-      } else if (position === 'left' && tooltipPosition.left < 0) {
-        position = 'right';
-      } else if (position === 'top' && tooltipPosition.top < 0) {
-        position = 'bottom';
-      } else if (position === 'bottom' &&
-        tooltipPosition.bottom > viewportHeight) {
-        position = 'top';
-      }
+      position = this.getPosition(
+        position, renderedPosition, viewportWidth, viewportHeight
+      );
 
-      // Change the anchor if the tooltip will be rendered off the screen.
-      if (position === 'right' || position === 'left') {
-        if (tooltipPosition.top < 0) {
-          anchor = 'start';
-        } else if (tooltipPosition.bottom > viewportHeight) {
-          anchor = 'end';
-        }
-      } else if (position === 'top' || position === 'bottom') {
-        if (tooltipPosition.right > viewportWidth) {
-          anchor = 'end';
-        } else if (tooltipPosition.left < 0) {
-          anchor = 'start';
-        }
-      }
+      anchor = this.getAnchor(
+        anchor, position, renderedPosition, viewportWidth, viewportHeight
+      );
     }
 
     return {anchor, position};
   }
 
   handleMouseEnter() {
-    let {anchor, position} = this.getIdealPosition();
+    let {anchor, position} = this.getIdealLocation();
     this.setState({anchor, isOpen: true, position});
   }
 

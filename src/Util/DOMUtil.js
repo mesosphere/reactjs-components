@@ -73,6 +73,13 @@ const DOMUtil = {
       document.documentElement.clientHeight || 0,
       window.innerHeight || 0
     );
+  },
+
+  getViewportWidth() {
+    return Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
   }
 };
 
