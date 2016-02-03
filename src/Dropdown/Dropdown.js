@@ -382,7 +382,7 @@ Dropdown.propTypes = {
   // Transition lengths
   transitionEnterTimeout: React.PropTypes.number,
   transitionLeaveTimeout: React.PropTypes.number,
-  // Optional disable Gemini scrollbar. Defaults to true.
+  // Option to use Gemini scrollbar. Defaults to true.
   useGemini: React.PropTypes.bool,
 
   // Classes:

@@ -75,7 +75,7 @@ class ModalExample extends React.Component {
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
   transitionNameModal: PropTypes.string,
-  // Optional disable Gemini scrollbar. Defaults to true.
+  // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
   // Classes

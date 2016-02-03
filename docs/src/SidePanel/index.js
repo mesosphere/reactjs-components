@@ -82,7 +82,7 @@ class SidePanelExample extends React.Component {
   onClose: PropTypes.func,
   // Bool that states if side panel is open or not. Default: false
   open: PropTypes.bool,
-  // Optional disable Gemini scrollbar. Defaults to true.
+  // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
   // Classes.

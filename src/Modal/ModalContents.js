@@ -419,7 +419,7 @@ ModalContents.propTypes = {
   transitionAppearTimeoutModal: PropTypes.number,
   transitionEnterTimeoutModal: PropTypes.number,
   transitionLeaveTimeoutModal: PropTypes.number,
-  // Optional disable Gemini scrollbar. Defaults to true.
+  // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
   // Classes
