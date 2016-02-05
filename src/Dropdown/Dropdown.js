@@ -254,14 +254,24 @@ class Dropdown extends Util.mixin(BindMixin) {
         dropdownMenuStyle = {
           height: `${state.maxDropdownHeight - 30}px`
         };
-        dropdownMenuItems = (
-          <GeminiScrollbar
+        if (props.useGemini) {
+          dropdownMenuItems = (
+            <GeminiScrollbar
             autoshow={true}
             className="container-scrollable"
             style={dropdownMenuStyle}>
             {dropdownMenuItems}
-          </GeminiScrollbar>
-        );
+            </GeminiScrollbar>
+          );
+        } else {
+          dropdownMenuItems = (
+            <div
+              className="container-scrollable"
+              style={dropdownMenuStyle}>
+              {dropdownMenuItems}
+            </div>
+          );
+        }
       }
 
       dropdownMenu = (
@@ -320,7 +330,8 @@ Dropdown.defaultProps = {
   transitionName: 'dropdown-menu',
   transitionEnterTimeout: 250,
   transitionLeaveTimeout: 250,
-  onItemSelection: () => {}
+  onItemSelection: () => {},
+  useGemini: true
 };
 
 Dropdown.propTypes = {
@@ -371,6 +382,8 @@ Dropdown.propTypes = {
   // Transition lengths
   transitionEnterTimeout: React.PropTypes.number,
   transitionLeaveTimeout: React.PropTypes.number,
+  // Option to use Gemini scrollbar. Defaults to true.
+  useGemini: React.PropTypes.bool,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.

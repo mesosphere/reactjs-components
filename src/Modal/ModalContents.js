@@ -29,10 +29,10 @@ class ModalContents extends Util.mixin(BindMixin) {
     ];
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(nextProps) {
     super.componentWillReceiveProps(...arguments);
 
-    if (this.props.open !== newProps.open) {
+    if (this.props.open !== nextProps.open) {
       document.body.classList.toggle('no-overflow');
     }
   }
@@ -419,7 +419,7 @@ ModalContents.propTypes = {
   transitionAppearTimeoutModal: PropTypes.number,
   transitionEnterTimeoutModal: PropTypes.number,
   transitionLeaveTimeoutModal: PropTypes.number,
-  // Optional disable Gemini scrollbar. Defaults to true.
+  // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
   // Classes

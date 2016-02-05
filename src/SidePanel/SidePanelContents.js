@@ -16,6 +16,14 @@ class SidePanelContents extends Util.mixin(BindMixin) {
     ];
   }
 
+  componentWillReceiveProps(nextProps) {
+    super.componentWillReceiveProps(...arguments);
+
+    if (this.props.open !== nextProps.open) {
+      document.body.classList.toggle('no-overflow');
+    }
+  }
+
   componentDidMount() {
     super.componentDidMount(...arguments);
     this.checkRerendered();
@@ -92,7 +100,7 @@ class SidePanelContents extends Util.mixin(BindMixin) {
       </div>
     );
 
-    if (this.rerendered) {
+    if (this.rerendered && props.useGemini) {
       // Wrap in scrollbar after first render
       contents = (
         <GeminiScrollbar
@@ -147,6 +155,7 @@ SidePanelContents.defaultProps = {
   header: null,
   onClose: () => {},
   open: false,
+  useGemini: true,
 
   // Classes
   backdropClass: 'side-panel-backdrop',
@@ -169,6 +178,8 @@ SidePanelContents.propTypes = {
   onClose: PropTypes.func,
   // Bool that states if side panel is open or not. Default: false
   open: PropTypes.bool,
+  // Option to use Gemini scrollbar. Defaults to true.
+  useGemini: PropTypes.bool,
 
   // Classes.
   backdropClass: PropTypes.string,
