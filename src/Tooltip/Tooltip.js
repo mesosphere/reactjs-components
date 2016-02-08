@@ -2,9 +2,9 @@ import classnames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import BindMixin from '../../src/Mixin/BindMixin';
-import DOMUtil from '../../src/Util/DOMUtil';
-import Util from '../../src/Util/Util';
+import BindMixin from '../Mixin/BindMixin';
+import DOMUtil from '../Util/DOMUtil';
+import Util from '../Util/Util';
 
 class Tooltip extends Util.mixin(BindMixin) {
   get methodsToBind() {
