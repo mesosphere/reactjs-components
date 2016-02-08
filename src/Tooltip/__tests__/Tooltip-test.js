@@ -4,7 +4,6 @@ jest.dontMock('../../Util/Util');
 /* eslint-disable no-unused-vars */
 var React = require('react');
 /* eslint-enable no-unused-vars */
-var ReactDOM = require('react-dom');
 var TestUtils = require('react-addons-test-utils');
 var Tooltip = require('../Tooltip');
 
@@ -52,14 +51,14 @@ describe('Tooltip', function () {
     });
 
     it('should set anchor to what was returned from #getIdealPosition',
-      function () {
+    function () {
       this.instance.handleMouseEnter();
 
       expect(this.instance.state.anchor).toEqual('start');
     });
 
     it('should set position to what was returned from #getIdealPosition',
-      function () {
+    function () {
       this.instance.handleMouseEnter();
 
       expect(this.instance.state.position).toEqual('bottom');
