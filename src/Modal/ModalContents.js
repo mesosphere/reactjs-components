@@ -36,12 +36,12 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     super.componentDidUpdate(...arguments);
 
     if (this.props.open) {
       this.checkHeight();
-    } else {
+    } else if (!this.props.open && prevProps.open) {
       this.resetHeight();
       this.rerendered = false;
     }
@@ -74,7 +74,9 @@ class ModalContents extends Util.mixin(BindMixin) {
   handleWindowResize() {
     // Render the modal again if the window resizes because the height
     // of the viewport may change and we need to adapt to that.
-    this.forceUpdate();
+    if (this.props.open) {
+      this.forceUpdate();
+    }
   }
 
   resetHeight() {
@@ -96,7 +98,8 @@ class ModalContents extends Util.mixin(BindMixin) {
       }
 
       let maxHeightDifference = maxHeight - prevMaxHeight;
-      if (maxHeightDifference > 0) {
+      if (maxHeightDifference > 0 &&
+        (heightInfo.contentHeight + difference < innerContentHeight)) {
         heightInfo.height += maxHeightDifference;
         heightInfo.contentHeight += maxHeightDifference;
         update = true;
