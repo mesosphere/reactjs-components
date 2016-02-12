@@ -170,9 +170,7 @@ class Table extends React.Component {
     );
   }
 
-  getRowCells(columns, sortBy, buildRowOptions, idAttribute, row) {
-    let id = row[idAttribute];
-
+  getRowCells(columns, sortBy, buildRowOptions, row, rowIndex) {
     let rowCells = columns.map((column, index) => {
       let cellClassName = getClassName(column, sortBy, row, columns);
       let prop = column.prop;
@@ -211,7 +209,7 @@ class Table extends React.Component {
     });
 
     return (
-      <tr key={id} {...buildRowOptions(row, this)}>
+      <tr key={rowIndex} {...buildRowOptions(row, this)}>
         {rowCells}
       </tr>
     );
@@ -243,12 +241,12 @@ class Table extends React.Component {
     }
   }
 
-  getTBody(columns, data, sortBy, itemHeight, idAttribute) {
+  getTBody(columns, data, sortBy, itemHeight) {
     let buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
     if (itemHeight === 0 && data.length) {
-      childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, idAttribute, data[0]);
+      childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, data[0], -1);
       return (
         <tbody ref="itemHeightContainer">
           {childToMeasure}
@@ -271,7 +269,7 @@ class Table extends React.Component {
         itemHeight={itemHeight}
         items={sortData(columns, data, sortBy)}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
-        renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions, idAttribute)}
+        renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions)}
         scrollDelay={200}
         tagName="tbody" />
     );
@@ -279,7 +277,7 @@ class Table extends React.Component {
 
   render() {
     let {props, state} = this;
-    let {columns, data, idAttribute} = props;
+    let {columns, data} = props;
     let classes = classNames(props.className, 'flush-bottom');
     let sortBy = state.sortBy;
     let itemHeight = state.itemHeight || props.itemHeight || 0;
@@ -293,7 +291,7 @@ class Table extends React.Component {
               {this.getHeaders(columns, sortBy)}
             </tr>
           </thead>
-          {this.getTBody(columns, data, sortBy, itemHeight, idAttribute)}
+          {this.getTBody(columns, data, sortBy, itemHeight)}
         </table>
       </div>
     );
@@ -352,9 +350,6 @@ Table.propTypes = {
   // once to measure the height of the first child.
   // NB: Initial render will stop any ongoing animation, if this is not provided
   itemHeight: PropTypes.number,
-
-  // Provide what attribute in the data make a row unique.
-  idAttribute: PropTypes.string.isRequired,
 
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,

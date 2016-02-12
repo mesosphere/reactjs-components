@@ -13,7 +13,6 @@ describe('Table', function () {
 
   beforeEach(function () {
     this.callback = jasmine.createSpy();
-    this.idAttribute = 'id';
     this.sortBy = {
       prop: 'name',
       order: 'desc'
@@ -23,7 +22,6 @@ describe('Table', function () {
         className="table"
         columns={MockTable.columns}
         data={MockTable.rows}
-        idAttribute={this.idAttribute}
         sortBy={this.sortBy}
         onSortCallback={this.callback} />
     );
@@ -81,7 +79,6 @@ describe('Table', function () {
           className="table"
           columns={MockTable.columns}
           data={[]}
-          idAttribute={this.idAttribute}
           sortBy={this.sortBy}
           onSortCallback={this.callback} />
       );

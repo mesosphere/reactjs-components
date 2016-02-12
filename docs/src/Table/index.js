@@ -303,9 +303,6 @@ class TableExample extends React.Component {
   // NB: Initial render will stop any ongoing animation, if this is not provided
   itemHeight: PropTypes.number,
 
-  // Provide what attribute in the data make a row unique.
-  idAttribute: PropTypes.string.isRequired,
-
   // Optional callback function when sorting is complete.
   onSortCallback: PropTypes.func,
 
@@ -397,9 +394,7 @@ class TableExample extends React.Component {
                   className="table flush-bottom"
                   colGroup={this.getColGroup()}
                   columns={this.getColumns()}
-                  data={this.getRows('large')}
-                  idAttribute="id"
-                  transition={true} />
+                  data={this.getRows('large')} />
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
                 <pre className="prettyprint linenums flush-bottom">
@@ -526,9 +521,7 @@ class TableExample extends React.Component {
         className="table"
         colGroup={this.getColGroup()}
         columns={this.getColumns()}
-        data={this.getRows()}
-        idAttribute="id"
-        transition={true} />
+        data={this.getRows()} />
     );
   }
 }`}
@@ -557,8 +550,7 @@ class TableExample extends React.Component {
                     colGroup={this.getColGroup()}
                     columns={this.getColumns()}
                     data={this.hugeRows}
-                    containerSelector=".gm-scroll-view"
-                    idAttribute="id" />
+                    containerSelector=".gm-scroll-view" />
                 </GeminiScrollbar>
               </div>
               <div className="example-block-footer example-block-footer-codeblock">
@@ -683,8 +675,7 @@ class InfiniteScrollExample extends React.Component {
         className="table"
         colGroup={this.getColGroup()}
         columns={this.getColumns()}
-        data={this.hugeRows}
-        idAttribute="id" />
+        data={this.hugeRows} />
     );
   }
 }`}
