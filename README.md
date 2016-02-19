@@ -11,6 +11,7 @@ A library of reusable React components. For examples, take a look at our
 * Confirm
 * Side Panel
 * Table
+* Tooltip
 
 ## Using the components
 
