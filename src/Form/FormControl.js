@@ -50,9 +50,14 @@ class FormControl extends React.Component {
     if (Util.isArray(content)) {
       content = Util.flatten(content);
     }
+    var className = props.formRowClass;
+
+    if (Util.isFunction(className)) {
+      className = className(this.props.definition);
+    }
 
     return (
-      <div className={props.formRowClass}>
+      <div className={className}>
         {content}
       </div>
     );

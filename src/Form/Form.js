@@ -244,6 +244,10 @@ class Form extends Util.mixin(BindMixin) {
         );
       }
 
+      if (formControlOption.render) {
+        return formControlOption.render();
+      }
+
       // Map each field to showError boolean
       let showError =
         this.buildFormPropObj(formControlOption, state.erroredFields);
