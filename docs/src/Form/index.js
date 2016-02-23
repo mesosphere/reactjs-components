@@ -126,7 +126,10 @@ class FormExample extends React.Component {
   // Classes.
   className: PropTypes.string,
   formGroupClass: PropTypes.string,
-  formRowClass: PropTypes.string,
+  formRowClass: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.func
+  ]),
   helpBlockClass: PropTypes.string,
   inlineIconClass: PropTypes.string,
   inlineTextClass: PropTypes.string,

@@ -66,7 +66,10 @@ class FormControl extends React.Component {
 
 FormControl.propTypes = {
   // Classes
-  formRowClass: React.PropTypes.string,
+  formRowClass: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.func
+  ]),
 
   // Optional number of columns in the grid
   maxColumnWidth: React.PropTypes.number,
