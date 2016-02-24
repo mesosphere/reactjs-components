@@ -244,6 +244,10 @@ class Form extends Util.mixin(BindMixin) {
         );
       }
 
+      if (formControlOption.render) {
+        return formControlOption.render();
+      }
+
       // Map each field to showError boolean
       let showError =
         this.buildFormPropObj(formControlOption, state.erroredFields);
@@ -301,7 +305,10 @@ Form.propTypes = {
   className: PropTypes.string,
   formGroupClass: PropTypes.string,
   formGroupErrorClass: PropTypes.string,
-  formRowClass: PropTypes.string,
+  formRowClass: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.func
+  ]),
   helpBlockClass: PropTypes.string,
   inlineIconClass: PropTypes.string,
   inlineTextClass: PropTypes.string,

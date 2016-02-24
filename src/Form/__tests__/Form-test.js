@@ -184,4 +184,19 @@ describe('Form', function () {
       expect(TestUtils.findRenderedDOMComponentWithTag(this.instance, 'h1'));
     });
   });
+
+  describe('custom render', function () {
+    beforeEach(function () {
+      var renderSpy = jasmine.createSpy();
+      var definition = [
+        {
+          render: renderSpy
+        }
+      ];
+
+      this.instance = getInstance(definition, noop, noop);
+
+      expect(renderSpy).toHaveBeenCalled();
+    });
+  });
 });
