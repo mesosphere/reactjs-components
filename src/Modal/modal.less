@@ -121,6 +121,12 @@
 }
 
 & when (@screen-mini-enabled) {
+  @media (max-width: @screen-mini) {
+    .modal {
+       max-width: 100%;
+    }
+  }
+
   @media (min-width: @screen-mini) {
     .modal {
       width: 500px;
