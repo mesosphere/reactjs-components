@@ -8,12 +8,28 @@ var computeInnerBound = function (compstyle, acc, key) {
   }
 };
 
+var matchesFn = (function () {
+  var el = document.querySelector('body');
+  var names = [
+    'matches', 'matchesSelector', 'msMatchesSelector',
+    'oMatchesSelector', 'mozMatchesSelector', 'webkitMatchesSelector'
+  ];
+
+  for (var i = 0; i < names.length; i++) {
+    if (el[names[i]]) {
+      return names[i];
+    }
+  }
+
+  return names[0];
+})();
+
 const DOMUtil = {
   closest(el, selector) {
     var currentEl = el;
 
     while (currentEl.parentElement !== null) {
-      if (currentEl.matches && currentEl.matches(selector)) {
+      if (currentEl[matchesFn] && currentEl[matchesFn](selector)) {
         return currentEl;
       }
 
