@@ -94,7 +94,7 @@ class Table extends React.Component {
     if (props.containerSelector && this.container === window) {
       this.container = DOMUtil.closest(
         React.findDOMNode(this), props.containerSelector
-      );
+      ) || window;
     }
 
     if (props.itemHeight == null &&

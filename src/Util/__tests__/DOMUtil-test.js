@@ -13,6 +13,9 @@ describe('DOMUtil', function () {
           id: 'something-fake',
           matches: function () {
             return true;
+          },
+          matchesSelector: function () {
+            return true;
           }
         },
         matches: function () {
@@ -30,6 +33,9 @@ describe('DOMUtil', function () {
         parentElement: null,
         matches: function () {
           return true;
+        },
+        matchesSelector: function () {
+          return true;
         }
       };
       var match = DOMUtil.closest(el, '.fake-selector');
@@ -43,6 +49,9 @@ describe('DOMUtil', function () {
         parentElement: {
           id: 'something-fake',
           matches: function () {
+            return false;
+          },
+          matchesSelector: function () {
             return false;
           }
         },
