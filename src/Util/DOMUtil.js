@@ -28,7 +28,7 @@ const DOMUtil = {
   closest(el, selector) {
     var currentEl = el;
 
-    while (currentEl.parentElement !== null) {
+    while (currentEl && currentEl.parentElement !== null) {
       if (currentEl[matchesFn] && currentEl[matchesFn](selector)) {
         return currentEl;
       }

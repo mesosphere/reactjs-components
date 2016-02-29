@@ -156,6 +156,12 @@ class Dropdown extends Util.mixin(BindMixin) {
     };
   }
 
+  removeBlurTimeout() {
+    if (this.currentBlurTimeout) {
+      global.clearTimeout(this.currentBlurTimeout);
+    }
+  }
+
   handleExternalClick() {
     if (this.state.isOpen) {
       this.setState({
@@ -175,21 +181,21 @@ class Dropdown extends Util.mixin(BindMixin) {
     }
 
     this.setState(newState);
+    this.removeBlurTimeout();
   }
 
   handleWrapperBlur(e) {
-    let elID = ReactDOM.findDOMNode(this).dataset.reactid;
-    let currentEl = e.relatedTarget;
+    this.removeBlurTimeout();
 
-    // If the blur event fired from within the current dropdown, then the menu
-    // needs to remain open. Otherwise it can safely be closed.
-    if (currentEl && DOMUtil.closest(currentEl, `[data-reactid="${elID}"]`)) {
-      return;
-    }
+    this.currentBlurTimeout = setTimeout(() => {
+      if (this.state.isOpen === true) {
+        this.setState({isOpen: false});
+      }
+    }, 150);
 
-    if (this.state.isOpen === true) {
-      this.setState({isOpen: false});
-    }
+    // We need to remove focus from the button to avoid this event firing again
+    // when we open the dropdown
+    global.focus();
   }
 
   handleMenuToggle(e) {
@@ -205,6 +211,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       maxDropdownHeight = menuStyle.height;
     }
 
+    this.removeBlurTimeout();
     this.setState({
       maxDropdownHeight,
       menuDirection,
