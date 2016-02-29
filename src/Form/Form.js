@@ -9,7 +9,12 @@ import Util from '../Util/Util';
 function findFieldOption(options, field) {
   let flattenedOptions = Util.flatten(options);
   return Util.find(flattenedOptions, function (fieldOption) {
-    return fieldOption.name === field;
+    var isField = fieldOption.name === field;
+    if (fieldOption.fieldType === 'object' && !isField) {
+      return findFieldOption(fieldOption.definition, field);
+    }
+
+    return isField;
   });
 }
 
@@ -32,6 +37,8 @@ class Form extends Util.mixin(BindMixin) {
       editingField: '',
       erroredFields: {}
     };
+
+    this.submitMap = {};
   }
 
   componentWillMount() {
@@ -90,6 +97,14 @@ class Form extends Util.mixin(BindMixin) {
     this.props.onChange(this.state.model, eventObj);
   }
 
+  getTriggerSubmit(formKey, triggerSubmit) {
+    this.submitMap[formKey] = triggerSubmit;
+  }
+
+  handleSubSubmit(formKey, model) {
+    this.state.model[formKey] = model;
+  }
+
   handleSubmit(event) {
     if (event) {
       event.preventDefault();
@@ -100,6 +115,10 @@ class Form extends Util.mixin(BindMixin) {
     let validated = this.validateSubmit(
       model, props.definition
     );
+
+    Object.keys(this.submitMap).forEach((formKey) => {
+      this.submitMap[formKey]();
+    });
 
     if (!validated) {
       props.onError();
@@ -184,6 +203,10 @@ class Form extends Util.mixin(BindMixin) {
       }
     });
 
+    erroredFields = Util.extend(
+      {}, this.buildStateObj(this.props.definition), erroredFields
+    );
+
     // Set the errored fields into state so we can render correctly.
     this.setState({erroredFields});
 
@@ -192,12 +215,21 @@ class Form extends Util.mixin(BindMixin) {
 
   buildStateObj(definition, fieldProp) {
     let stateObj = {};
-    Util.flatten(definition).forEach(function (formControlOption) {
+    Util.flatten(definition).forEach((formControlOption) => {
       // If the element is a React element, then we don't want to add it to the
       // state object, which represents the form values.
-      if (React.isValidElement(formControlOption)) {
+      if (React.isValidElement(formControlOption) || formControlOption.render) {
         return;
       }
+
+      if (formControlOption.fieldType === 'object') {
+        stateObj[formControlOption.name] = this.buildStateObj(
+          formControlOption.definition, fieldProp
+        );
+
+        return;
+      }
+
       stateObj[formControlOption.name] = formControlOption[fieldProp] || null;
     });
 
@@ -244,8 +276,22 @@ class Form extends Util.mixin(BindMixin) {
         );
       }
 
-      if (formControlOption.render) {
+      if (formControlOption.render && !formControlOption.definition) {
         return formControlOption.render();
+      }
+
+      if (formControlOption.fieldType === 'object') {
+        let nestedDefinition = [formControlOption.render()]
+          .concat(formControlOption.definition);
+
+        return (
+          <Form
+            key={i}
+            definition={nestedDefinition}
+            triggerSubmit={this.getTriggerSubmit.bind(this, formControlOption.name)}
+            onSubmit={this.handleSubSubmit.bind(this, formControlOption.name)}
+            formTag="div" />
+        );
       }
 
       // Map each field to showError boolean
@@ -273,9 +319,12 @@ class Form extends Util.mixin(BindMixin) {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className={this.props.className}>
+      <this.props.formTag
+        key={this.props.key}
+        onSubmit={this.handleSubmit}
+        className={this.props.className}>
         {this.getFormControls(this.props.definition)}
-      </form>
+      </this.props.formTag>
     );
   }
 }
@@ -291,6 +340,9 @@ Form.defaultProps = {
   inlineTextClass: 'form-element-inline-text',
   inputClass: 'form-control',
   readClass: 'read-only',
+
+  formTag: 'form',
+  key: '',
 
   definition: {},
   onChange: function () {},
@@ -315,6 +367,9 @@ Form.propTypes = {
   inputClass: PropTypes.string,
   readClass: PropTypes.string,
   sharedClass: PropTypes.string,
+
+  formTag: PropTypes.string,
+  key: PropTypes.node,
 
   // Form definition to build the form from. Contains either:
   // 1. Array of field definitions will be created on same row
