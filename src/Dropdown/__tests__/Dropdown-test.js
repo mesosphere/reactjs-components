@@ -52,6 +52,7 @@ describe('Dropdown', function () {
     // Trigger #handleWrapperBlur on the instance to simulate a user dismissing
     // the dropdown menu.
     this.instance.handleWrapperBlur({});
+    jest.runAllTimers();
     expect(this.instance.state.isOpen).toEqual(false);
   });
 
