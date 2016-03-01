@@ -204,7 +204,7 @@ class Form extends Util.mixin(BindMixin) {
     });
 
     erroredFields = Util.extend(
-      {}, this.buildStateObj(this.props.definition), erroredFields
+      {}, this.buildStateObj(this.props.definition, 'showError'), erroredFields
     );
 
     // Set the errored fields into state so we can render correctly.
