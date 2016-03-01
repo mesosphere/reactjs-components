@@ -37,12 +37,9 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
   handleChange(event) {
     this.props.handleEvent(
       'change',
-      this.props.name,
-      {
-        checked: event.target.checked,
-        indeterminate: event.target.indeterminate
-      },
-      event
+      // We don't pass back the indeterminate value because the indeterminate
+      // value is solely determined by the parent.
+      this.props.name, event.target.checked, event
     );
   }
 
