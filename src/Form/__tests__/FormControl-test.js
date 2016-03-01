@@ -96,6 +96,7 @@ describe('FormControl', function () {
   });
 
   describe('#renderType', function () {
+
     beforeEach(function () {
       this.instance = getInstance();
     });
@@ -119,6 +120,18 @@ describe('FormControl', function () {
 
       expect(result.props.columnWidth).toEqual(1);
     });
+
+    it('uses the definitions columnWidth', function () {
+      var definition = {
+        name: 'username',
+        fieldType: 'text',
+        columnWidth: 3
+      };
+      var result = this.instance.renderType(definition, 12, false);
+
+      expect(result.props.columnWidth).toEqual(3);
+    });
+
   });
 
 });
