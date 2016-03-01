@@ -17,11 +17,16 @@ class FormControl extends React.Component {
     let fieldTypeName = definition.fieldType;
     let FieldTypeComponent = FieldTypes[fieldTypeName];
     let props = this.props;
-    let maxColumnWidth = props.maxColumnWidth;
+    let columnWidth;
 
-    let columnWidth = Math.floor(maxColumnWidth / columnLength);
-    if (isLast) {
-      columnWidth += maxColumnWidth % columnLength;
+    if (definition.columnWidth == null) {
+      let maxColumnWidth = props.maxColumnWidth;
+      columnWidth = Math.floor(maxColumnWidth / columnLength);
+      if (isLast) {
+        columnWidth += maxColumnWidth % columnLength;
+      }
+    } else {
+      columnWidth = definition.columnWidth;
     }
 
     return (
