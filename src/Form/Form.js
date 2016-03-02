@@ -286,6 +286,7 @@ class Form extends Util.mixin(BindMixin) {
 
         return (
           <Form
+            className={this.props.className}
             key={i}
             definition={nestedDefinition}
             triggerSubmit={this.getTriggerSubmit.bind(this, formControlOption.name)}
