@@ -23,7 +23,6 @@ class Form extends Util.mixin(BindMixin) {
     return [
       'handleBlur',
       'handleEvent',
-      'handleNestedEvent',
       'handleOnFocus',
       'handleSubmit',
       'handleValueChange'
@@ -96,11 +95,6 @@ class Form extends Util.mixin(BindMixin) {
     }
 
     this.props.onChange(this.state.model, eventObj);
-  }
-
-  handleNestedEvent(model, eventObj) {
-    let {eventType, fieldName, fieldValue, event} = eventObj;
-    this.handleEvent(eventType, fieldName, fieldValue, event);
   }
 
   getTriggerSubmit(formKey, triggerSubmit) {
@@ -295,7 +289,7 @@ class Form extends Util.mixin(BindMixin) {
             key={i}
             definition={nestedDefinition}
             triggerSubmit={this.getTriggerSubmit.bind(this, formControlOption.name)}
-            onChange={this.handleNestedEvent}
+            onChange={this.props.onChange}
             onSubmit={this.handleSubSubmit.bind(this, formControlOption.name)}
             formTag="div" />
         );
