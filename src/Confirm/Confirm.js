@@ -79,7 +79,7 @@ Confirm.defaultProps = {
 };
 
 Confirm.propTypes = {
-  children: React.PropTypes.element.isRequired,
+  children: React.PropTypes.node.isRequired,
 
   open: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,

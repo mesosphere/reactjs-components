@@ -68,11 +68,19 @@ class FieldCheckbox extends Util.mixin(BindMixin) {
       }
     );
 
+    let checked = this.props.checked;
+
+    if (this.props.startValue != null) {
+      checked = this.props.startValue;
+    }
+
     return (
       <div className={this.getRowClass(props)}>
         <div className={classes}>
           {this.getLabel()}
-          <ItemCheckbox {...this.props} />
+          <ItemCheckbox
+            {...this.props}
+            checked={checked}/>
           {this.getErrorMsg()}
         </div>
       </div>
