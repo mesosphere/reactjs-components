@@ -219,8 +219,18 @@ base/forms.less
       &.inverse {
         color: @form-label-default-inverse-color;
 
-        input[type="checkbox"]  + .form-element-checkbox-decoy {
-          box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
+        input[type="checkbox"] {
+
+          & + .form-element-checkbox-decoy {
+            box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
+          }
+
+          &:checked {
+
+            & + .form-element-checkbox-decoy {
+              box-shadow: inset 0 0 0 1px @form-control-default-focus-text-color;
+            }
+          }
         }
 
         input[type="checkbox"] {
