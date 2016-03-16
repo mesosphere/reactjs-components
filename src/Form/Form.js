@@ -320,6 +320,7 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   render() {
+    /* eslint-disable react/jsx-no-undef */
     return (
       <this.props.formTag
         key={this.props.key}
@@ -328,6 +329,7 @@ class Form extends Util.mixin(BindMixin) {
         {this.getFormControls(this.props.definition)}
       </this.props.formTag>
     );
+    /* eslint-enable react/jsx-no-undef */
   }
 }
 

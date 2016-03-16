@@ -1,11 +1,9 @@
 import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
 
 class Dropdown extends Util.mixin(BindMixin) {
@@ -184,7 +182,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     this.removeBlurTimeout();
   }
 
-  handleWrapperBlur(e) {
+  handleWrapperBlur() {
     this.removeBlurTimeout();
 
     this.currentBlurTimeout = setTimeout(() => {
