@@ -96,6 +96,16 @@ const DOMUtil = {
       document.documentElement.clientWidth || 0,
       window.innerWidth || 0
     );
+  },
+
+  getScrollTop(element) {
+    if (element === window || element === document) {
+      return self.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+    } else {
+      return element.scrollTop;
+    }
   }
 };
 
