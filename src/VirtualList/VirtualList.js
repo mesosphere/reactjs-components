@@ -99,7 +99,7 @@ class VirtualList extends Util.mixin(BindMixin) {
     if (typeof container.scrollY !== 'undefined') {
       viewTop = container.scrollY;
     } else {
-      viewTop = container.scrollTop;
+      viewTop = DOMUtil.getScrollTop(container) || 0;
     }
 
     if (this.refs.list) {
@@ -107,8 +107,7 @@ class VirtualList extends Util.mixin(BindMixin) {
         this.refs.list
       ).getBoundingClientRect();
 
-      let elementTop = listBounding.top +
-        (container.pageYOffset || container.scrollTop || 0);
+      let elementTop = listBounding.top + DOMUtil.getScrollTop(container) || 0;
 
       viewTop -= elementTop;
     }
