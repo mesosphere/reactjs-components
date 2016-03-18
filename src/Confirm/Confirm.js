@@ -54,7 +54,7 @@ class Confirm extends React.Component {
         titleClass="modal-header-title text-align-center flush-top
           flush-bottom"
         innerBodyClass="modal-content-inner container container-pod
-          container-pod-short flex-container-col flush-bottom"
+          container-pod-short flush-bottom"
         {...props}
         >
         {this.props.children}
