@@ -110,7 +110,7 @@ ItemCheckbox.propTypes = {
   // should be either true or false
   indeterminate: React.PropTypes.bool,
   // Optional label for field
-  label: React.PropTypes.string,
+  label: React.PropTypes.node,
   // name of the field property
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
