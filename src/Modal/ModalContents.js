@@ -11,6 +11,7 @@ import React, {PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
+import KeyDownMixin from '../Mixin/KeyDownMixin';
 import * as DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
 
@@ -20,13 +21,19 @@ const DEFAULT_HEIGHT = {
   innerContentHeight: null
 };
 
-class ModalContents extends Util.mixin(BindMixin) {
+class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   get methodsToBind() {
     return [
       'handleWindowResize',
       'handleBackdropClick',
       'closeModal'
     ];
+  }
+
+  get keysToBind() {
+    return {
+      esc: this.closeModal
+    };
   }
 
   componentWillReceiveProps(nextProps) {

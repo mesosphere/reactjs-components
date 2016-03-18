@@ -4,15 +4,22 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
+import KeyDownMixin from '../Mixin/KeyDownMixin';
 import Util from '../Util/Util';
 
-class Dropdown extends Util.mixin(BindMixin) {
+class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
   get methodsToBind() {
     return [
       'handleMenuToggle',
       'handleExternalClick',
       'handleWrapperBlur'
     ];
+  }
+
+  get keysToBind() {
+    return {
+      esc: this.handleExternalClick
+    };
   }
 
   constructor() {
