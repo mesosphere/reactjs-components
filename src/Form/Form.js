@@ -218,7 +218,9 @@ class Form extends Util.mixin(BindMixin) {
     Util.flatten(definition).forEach((formControlOption) => {
       // If the element is a React element, then we don't want to add it to the
       // state object, which represents the form values.
-      if (React.isValidElement(formControlOption) || formControlOption.render) {
+      if (React.isValidElement(formControlOption)
+        || formControlOption.render
+        || formControlOption.fieldType === 'submit') {
         return;
       }
 

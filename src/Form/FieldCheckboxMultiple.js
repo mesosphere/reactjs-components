@@ -18,8 +18,7 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
       props.name,
       {
         name: name,
-        checked: modelState.checked,
-        indeterminate: modelState.indeterminate
+        checked: modelState
       },
       event
     );
