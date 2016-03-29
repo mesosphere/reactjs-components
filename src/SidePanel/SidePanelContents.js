@@ -6,14 +6,21 @@ import React, {PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
+import KeyDownMixin from '../Mixin/KeyDownMixin';
 import Util from '../Util/Util';
 
-class SidePanelContents extends Util.mixin(BindMixin) {
+class SidePanelContents extends Util.mixin(KeyDownMixin, BindMixin) {
   get methodsToBind() {
     return [
       'handleBackdropClick',
       'closeSidePanel'
     ];
+  }
+
+  get keysToBind() {
+    return {
+      esc: this.handleBackdropClick
+    };
   }
 
   componentWillReceiveProps(nextProps) {
