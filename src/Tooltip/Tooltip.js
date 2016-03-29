@@ -95,7 +95,7 @@ class Tooltip extends Util.mixin(BindMixin) {
     let anchor = state.anchor || props.anchor;
     let position = state.position || props.position;
     // Pass along any props that aren't specific to the Tooltip.
-    let nodeProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
+    let elementProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
 
     let tooltipClasses = classnames(props.className, `anchor-${anchor}`,
       `position-${position}`, {
@@ -116,7 +116,7 @@ class Tooltip extends Util.mixin(BindMixin) {
       <props.elementTag className={props.wrapperClassName}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        {...nodeProps}>
+        {...elementProps}>
         {props.children}
         <div className={tooltipClasses} ref="tooltipContent"
           style={tooltipStyle}>
