@@ -12,11 +12,10 @@
 @tooltip-arrow-border-width: 7px;
 @tooltip-arrow-offset: 8px;
 
-@tooltip-trigger-margin: @base-spacing-unit * 1/4;
+@tooltip-anchor-offset: @tooltip-arrow-offset + @tooltip-arrow-border-width;
 
 .tooltip-wrapper {
   display: inline-block;
-  margin-left: @tooltip-trigger-margin;
   position: relative;
 }
 
@@ -65,7 +64,7 @@
     }
 
     &.anchor-start {
-      left: @tooltip-arrow-offset * -1px;
+      left: calc(~"50% - @{tooltip-anchor-offset}");
 
       &:after {
         left: @tooltip-arrow-offset;
@@ -73,7 +72,7 @@
     }
 
     &.anchor-end {
-      right: @tooltip-arrow-offset * -1px;
+      right: calc(~"50% - @{tooltip-anchor-offset}");
 
       &:after {
         right: @tooltip-arrow-offset;
@@ -117,7 +116,7 @@
     }
 
     &.anchor-start {
-      top: @tooltip-arrow-offset * -1px;
+      top: calc(~"50% - @{tooltip-anchor-offset}");
 
       &:after {
         top: @tooltip-arrow-offset;
@@ -125,7 +124,7 @@
     }
 
     &.anchor-end {
-      bottom: @tooltip-arrow-offset * -1px;
+      bottom: calc(~"50% - @{tooltip-anchor-offset}");
 
       &:after {
         bottom: @tooltip-arrow-offset;
