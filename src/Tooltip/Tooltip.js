@@ -94,7 +94,6 @@ class Tooltip extends Util.mixin(BindMixin) {
     // the props.
     let anchor = state.anchor || props.anchor;
     let position = state.position || props.position;
-    let DOMNode = props.nodeType;
     // Pass along any props that aren't specific to the Tooltip.
     let nodeProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
 
@@ -114,7 +113,7 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
 
     return (
-      <DOMNode className={props.wrapperClassName}
+      <props.elementTag className={props.wrapperClassName}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...nodeProps}>
@@ -123,7 +122,7 @@ class Tooltip extends Util.mixin(BindMixin) {
           style={tooltipStyle}>
           {props.content}
         </div>
-      </DOMNode>
+      </props.elementTag>
     );
   }
 }
@@ -131,7 +130,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 Tooltip.defaultProps = {
   anchor: 'center',
   className: 'tooltip',
-  nodeType: 'div',
+  elementTag: 'div',
   position: 'top',
   wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: false
@@ -149,7 +148,7 @@ Tooltip.propTypes = {
   // The tooltip's content.
   content: React.PropTypes.node.isRequired,
   // The type of node rendered.
-  nodeType: React.PropTypes.string,
+  elementTag: React.PropTypes.string,
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   // Explicitly set the width of the tooltip. Default is auto.
