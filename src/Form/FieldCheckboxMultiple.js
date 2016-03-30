@@ -86,7 +86,7 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
   getRowClass(props) {
     return classNames(
       `column-${props.columnWidth}`,
-      'form-row-element checkbox'
+      props.formElementClass
     );
   }
 
@@ -115,6 +115,7 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
 
 FieldCheckboxMultiple.defaultProps = {
   columnWidth: 12,
+  formElementClass: 'form-row-element checkbox',
   handleEvent: function () {}
 };
 
@@ -137,6 +138,7 @@ FieldCheckboxMultiple.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
+  formElementClass: React.PropTypes.string,
   formGroupClass: React.PropTypes.string,
   formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,

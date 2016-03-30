@@ -60,7 +60,6 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
     let {props} = this;
 
     let labelClass = classNames({
-      'form-row-element form-element-checkbox': true,
       'mute': props.disabled,
       [props.labelClass]: !!props.labelClass
     });
@@ -91,7 +90,8 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
 }
 
 ItemCheckbox.defaultProps = {
-  handleChange: function () {}
+  handleChange: function () {},
+  labelClass: 'form-row-element form-element-checkbox'
 };
 
 ItemCheckbox.propTypes = {

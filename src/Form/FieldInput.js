@@ -58,7 +58,7 @@ class FieldInput extends React.Component {
   getRowClass(props) {
     return classNames(
       `column-${props.columnWidth}`,
-      'form-row-element',
+      props.formElementClass,
       {
         'form-row-edit': this.isEditing(),
         'form-row-input': props.writeType === 'input',
@@ -169,6 +169,7 @@ class FieldInput extends React.Component {
 
 FieldInput.defaultProps = {
   columnWidth: 12,
+  formElementClass: 'form-row-element',
   handleEvent: function () {},
   value: '',
   writeType: 'input'
@@ -212,6 +213,7 @@ FieldInput.propTypes = {
   writeType: React.PropTypes.string,
 
   // Classes
+  formElementClass: React.PropTypes.string,
   formGroupClass: React.PropTypes.string,
   formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: React.PropTypes.string,
