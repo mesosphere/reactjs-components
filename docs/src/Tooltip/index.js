@@ -57,18 +57,28 @@ class ToolTipExample extends React.Component {
               </section>
               <section className="row canvas-pod">
                 <div className="column-12 column-mini-12">
-                  <Tooltip content="I'm a tooltip!">
-                    <button className="button">Top</button>
-                  </Tooltip>
-                  <Tooltip content="I'm a tooltip!" position="bottom">
-                    <button className="button">Bottom</button>
-                  </Tooltip>
-                  <Tooltip content="I'm a tooltip!" position="left">
-                    <button className="button">Left</button>
-                  </Tooltip>
-                  <Tooltip content="I'm a tooltip!" position="right">
-                    <button className="button">Right</button>
-                  </Tooltip>
+                  <div className="button-collection">
+                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                      wrapperClassName="tooltip-wrapper text-align-center
+                      button">
+                      Top
+                    </Tooltip>
+                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                      position="bottom" wrapperClassName="tooltip-wrapper
+                      text-align-center button">
+                      Bottom
+                    </Tooltip>
+                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                      position="left" wrapperClassName="tooltip-wrapper
+                      text-align-center button">
+                      Left
+                    </Tooltip>
+                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                      position="right" wrapperClassName="tooltip-wrapper
+                      text-align-center button">
+                      Right
+                    </Tooltip>
+                  </div>
                 </div>
               </section>
             </div>

@@ -94,9 +94,12 @@ class Tooltip extends Util.mixin(BindMixin) {
     // the props.
     let anchor = state.anchor || props.anchor;
     let position = state.position || props.position;
+    // Pass along any props that aren't specific to the Tooltip.
+    let elementProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
 
     let tooltipClasses = classnames(props.className, `anchor-${anchor}`,
       `position-${position}`, {
+        'is-interactive': props.interactive,
         'is-open': state.isOpen,
         'wrap-text': props.wrapText
       }
@@ -111,15 +114,16 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div className={props.tooltipWrapperClassName}
+      <props.elementTag className={props.wrapperClassName}
         onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}>
+        onMouseLeave={this.handleMouseLeave}
+        {...elementProps}>
         {props.children}
         <div className={tooltipClasses} ref="tooltipContent"
           style={tooltipStyle}>
           {props.content}
         </div>
-      </div>
+      </props.elementTag>
     );
   }
 }
@@ -127,8 +131,10 @@ class Tooltip extends Util.mixin(BindMixin) {
 Tooltip.defaultProps = {
   anchor: 'center',
   className: 'tooltip',
+  elementTag: 'div',
+  interactive: false,
   position: 'top',
-  tooltipWrapperClassName: 'tooltip-wrapper text-align-center',
+  wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: false
 };
 
@@ -143,11 +149,15 @@ Tooltip.propTypes = {
   className: React.PropTypes.string,
   // The tooltip's content.
   content: React.PropTypes.node.isRequired,
+  // The type of node rendered.
+  elementTag: React.PropTypes.string,
+  // Allows user interaction on tooltips.
+  interactive: React.PropTypes.bool,
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
-  tooltipWrapperClassName: React.PropTypes.string,
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
+  wrapperClassName: React.PropTypes.string,
   // Allow the text content to wrap. Default is false. This should be used with
   // the width property, because otherwise the width of the content will be the
   // same as the trigger.
