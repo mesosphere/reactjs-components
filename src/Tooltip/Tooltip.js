@@ -99,6 +99,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
     let tooltipClasses = classnames(props.className, `anchor-${anchor}`,
       `position-${position}`, {
+        'is-interactive': props.interactive,
         'is-open': state.isOpen,
         'wrap-text': props.wrapText
       }
@@ -131,6 +132,7 @@ Tooltip.defaultProps = {
   anchor: 'center',
   className: 'tooltip',
   elementTag: 'div',
+  interactive: false,
   position: 'top',
   wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: false
@@ -149,6 +151,8 @@ Tooltip.propTypes = {
   content: React.PropTypes.node.isRequired,
   // The type of node rendered.
   elementTag: React.PropTypes.string,
+  // Allows user interaction on tooltips.
+  interactive: React.PropTypes.bool,
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   // Explicitly set the width of the tooltip. Default is auto.

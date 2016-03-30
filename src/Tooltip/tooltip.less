@@ -27,6 +27,7 @@
   line-height: @tooltip-line-height;
   opacity: 0;
   padding: @tooltip-padding-vertical @tooltip-padding-horizontal;
+  pointer-events: none;
   position: absolute;
   transition: opacity 0.3s, visibility 0.3s;
   visibility: hidden;
@@ -43,6 +44,10 @@
 
   &.wrap-text {
     white-space: normal;
+  }
+
+  &.is-interactive {
+    pointer-events: auto;
   }
 
   &.is-open {
