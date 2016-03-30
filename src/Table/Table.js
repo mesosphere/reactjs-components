@@ -171,11 +171,20 @@ class Table extends React.Component {
     );
   }
 
+  getCellValue(row, prop, column) {
+    let {getValue} = column;
+    if (getValue && typeof getValue === 'function') {
+      return getValue(row, prop);
+    }
+
+    return row[prop];
+  }
+
   getRowCells(columns, sortBy, buildRowOptions, row, rowIndex) {
     let rowCells = columns.map((column, index) => {
       let cellClassName = getClassName(column, sortBy, row, columns);
       let prop = column.prop;
-      let cellValue = row[prop];
+      let cellValue = this.getCellValue(row, prop, column);
       let cellID;
 
       if (column.cacheCell === true) {
