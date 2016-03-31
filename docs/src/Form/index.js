@@ -97,7 +97,7 @@ class FormExample extends React.Component {
       {
         fieldType: 'submit',
         buttonText: 'Submit',
-        buttonClass: 'button buttom-primary button-wide'
+        buttonClass: 'button button-primary button-wide'
       }
     ];
   }

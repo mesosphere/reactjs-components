@@ -5,15 +5,16 @@ class FieldSubmit extends React.Component {
 
   render() {
     let {
-      buttonClass, columnWidth, buttonText, formGroupClass, handleSubmit
+      buttonClass, columnWidth, buttonText, formGroupClass, handleSubmit,
+      formElementClass
     } = this.props;
 
     let rowClass = classNames(
       `column-${columnWidth}`,
-      'form-row-element'
+      formElementClass
     );
 
-    let buttonClassSet = classNames('button button-primary', {
+    let buttonClassSet = classNames({
       [buttonClass]: !!buttonClass
     });
 
@@ -33,6 +34,7 @@ class FieldSubmit extends React.Component {
 
 FieldSubmit.defaultProps = {
   buttonText: 'Submit',
+  formElementClass: 'form-row-element',
   handleSubmit: function () {}
 };
 
@@ -49,7 +51,8 @@ FieldSubmit.propTypes = {
 
   // Classes
   buttonClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string
+  formGroupClass: React.PropTypes.string,
+  formElementClass: React.PropTypes.string
 };
 
 module.exports = FieldSubmit;
