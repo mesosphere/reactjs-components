@@ -28,7 +28,7 @@
   opacity: 0;
   padding: @tooltip-padding-vertical @tooltip-padding-horizontal;
   pointer-events: none;
-  position: absolute;
+  position: fixed;
   transition: opacity 0.3s, visibility 0.3s;
   visibility: hidden;
   white-space: nowrap;
@@ -59,7 +59,6 @@
   &.position-top {
 
     &.anchor-center {
-      left: 50%;
       transform: translateX(-50%);
 
       &:after {
@@ -69,7 +68,7 @@
     }
 
     &.anchor-start {
-      left: calc(~"50% - @{tooltip-anchor-offset}");
+      transform: translateX(@tooltip-anchor-offset * -1);
 
       &:after {
         left: @tooltip-arrow-offset;
@@ -77,7 +76,7 @@
     }
 
     &.anchor-end {
-      right: calc(~"50% - @{tooltip-anchor-offset}");
+      transform: translateX(@tooltip-anchor-offset);
 
       &:after {
         right: @tooltip-arrow-offset;
@@ -86,7 +85,6 @@
   }
 
   &.position-bottom {
-    top: calc(~"100% + @{tooltip-arrow-border-width}");
 
     &:after {
       border-left-color: transparent;
@@ -97,7 +95,6 @@
   }
 
   &.position-top {
-    bottom: calc(~"100% + @{tooltip-arrow-border-width}");
 
     &:after {
       border-bottom: none;
@@ -121,7 +118,7 @@
     }
 
     &.anchor-start {
-      top: calc(~"50% - @{tooltip-anchor-offset}");
+      transform: translateY(@tooltip-anchor-offset * -1);
 
       &:after {
         top: @tooltip-arrow-offset;
@@ -129,7 +126,7 @@
     }
 
     &.anchor-end {
-      bottom: calc(~"50% - @{tooltip-anchor-offset}");
+      transform: translateY(calc(~"-100% + @{tooltip-anchor-offset}"));
 
       &:after {
         bottom: @tooltip-arrow-offset;
@@ -138,7 +135,6 @@
   }
 
   &.position-left {
-    right: calc(~"100% + @{tooltip-arrow-border-width}");
 
     &:after {
       border-bottom-color: transparent;
@@ -149,7 +145,6 @@
   }
 
   &.position-right {
-    left: calc(~"100% + @{tooltip-arrow-border-width}");
 
     &:after {
       border-bottom-color: transparent;
