@@ -225,21 +225,18 @@ base/forms.less
             box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
           }
 
-          &:checked {
+          &:checked,
+          &:indeterminate {
 
             & + .form-element-checkbox-decoy {
               box-shadow: inset 0 0 0 1px @form-control-default-focus-text-color;
             }
           }
-        }
-
-        input[type="checkbox"] {
 
           &:disabled + .form-element-checkbox-decoy {
             background: @form-control-default-inverse-border-color;
             box-shadow: none;
           }
-
         }
       }
     }
