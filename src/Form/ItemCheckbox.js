@@ -50,7 +50,7 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
     }
 
     return (
-      <span className="form-element-checkbox-label">
+      <span className={this.props.checkboxLabelClass}>
         {label}
       </span>
     );
@@ -60,7 +60,6 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
     let {props} = this;
 
     let labelClass = classNames({
-      'form-row-element form-element-checkbox': true,
       'mute': props.disabled,
       [props.labelClass]: !!props.labelClass
     });
@@ -91,7 +90,9 @@ class ItemCheckbox extends Util.mixin(BindMixin) {
 }
 
 ItemCheckbox.defaultProps = {
-  handleChange: function () {}
+  checkboxLabelClass: 'form-element-checkbox-label',
+  handleChange: function () {},
+  labelClass: 'form-row-element form-element-checkbox'
 };
 
 ItemCheckbox.propTypes = {
@@ -116,6 +117,7 @@ ItemCheckbox.propTypes = {
   name: React.PropTypes.string.isRequired,
 
   // Classes
+  checkboxLabelClass: React.PropTypes.string,
   labelClass: React.PropTypes.string
 };
 
