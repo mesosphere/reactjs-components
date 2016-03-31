@@ -42,8 +42,9 @@ class FormExample extends React.Component {
         showLabel: 'Accept terms of service',
         required: true,
         label: 'Single checkbox',
+        value: true,
         validation: function (value) {
-          return value && value.checked;
+          return value;
         },
         validationErrorText: 'Must check checkbox!',
         writeType: 'input'
@@ -64,7 +65,7 @@ class FormExample extends React.Component {
           {
             name: 'isSRE',
             label: 'SRE',
-            checked: false
+            checked: true
           }
         ],
         showLabel: 'What is your role?',
@@ -92,6 +93,11 @@ class FormExample extends React.Component {
         },
         validationErrorText: 'Message needs to be less than 140 characters',
         writeType: 'input'
+      },
+      {
+        fieldType: 'submit',
+        buttonText: 'Submit',
+        buttonClass: 'button button-primary button-wide'
       }
     ];
   }
@@ -248,6 +254,11 @@ class FormExample extends React.Component {
           return value && value.length < 140;
         },
         validationErrorText: 'Message needs to be less than 140 characters'
+      },
+      {
+        fieldType: 'submit',
+        buttonText: 'Submit',
+        buttonClass: 'button buttom-primary button-wide'
       }
     ];
   }
