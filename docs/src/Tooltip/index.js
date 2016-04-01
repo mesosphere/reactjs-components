@@ -39,6 +39,8 @@ class ToolTipExample extends React.Component {
   // when the mouse leaves the trigger. When true, the mouse is allowed to enter
   // the tooltip. Default is false.
   interactive: React.PropTypes.bool,
+  maxWidth: React.PropTypes.oneOf([React.PropTypes.number,
+    React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   // Explicitly set the width of the tooltip. Default is auto.

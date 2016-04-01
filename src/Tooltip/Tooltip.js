@@ -193,7 +193,7 @@ class Tooltip extends Util.mixin(BindMixin) {
       `position-${position}`, {
         'is-interactive': props.interactive,
         'is-open': state.isOpen,
-        'wrap-text': props.wrapText
+        'no-wrap': !props.wrapText
       }
     );
 
@@ -206,6 +206,16 @@ class Tooltip extends Util.mixin(BindMixin) {
 
     if (props.width) {
       tooltipStyle.width = `${props.width}px`;
+    }
+
+    if (props.maxWidth) {
+      let maxWidth = props.maxWidth;
+
+      if (typeof props.maxWidth === 'number') {
+        maxWidth = `${maxWidth}px`;
+      }
+
+      tooltipStyle.maxWidth = maxWidth;
     }
 
     return (
@@ -237,7 +247,7 @@ Tooltip.defaultProps = {
   interactive: false,
   position: 'top',
   wrapperClassName: 'tooltip-wrapper text-align-center',
-  wrapText: false
+  wrapText: true
 };
 
 Tooltip.propTypes = {
@@ -253,16 +263,18 @@ Tooltip.propTypes = {
   content: React.PropTypes.node.isRequired,
   // The type of node rendered.
   elementTag: React.PropTypes.string,
-  // Allows user interaction on tooltips.
+  // Allows user interaction on tooltips. When false, the tooltip is dismissed
+  // when the mouse leaves the trigger. When true, the mouse is allowed to enter
+  // the tooltip. Default is false.
   interactive: React.PropTypes.bool,
+  maxWidth: React.PropTypes.oneOf([React.PropTypes.number,
+    React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
-  // Allow the text content to wrap. Default is false. This should be used with
-  // the width property, because otherwise the width of the content will be the
-  // same as the trigger.
+  // Allow the text content to wrap. Default is true.
   wrapText: React.PropTypes.bool
 };
 

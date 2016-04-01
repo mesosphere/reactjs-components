@@ -20,13 +20,13 @@
 }
 
 .tooltip {
+  max-width: 600px;
   opacity: 0;
   pointer-events: none;
   position: fixed;
   transition: opacity 0.3s, visibility 0.3s;
   visibility: hidden;
-  white-space: nowrap;
-  z-index: 100;
+  z-index: 9999;
 
   .tooltip-content {
     background: @tooltip-background;
@@ -46,8 +46,8 @@
     }
   }
 
-  &.wrap-text {
-    white-space: normal;
+  &.no-wrap {
+    white-space: nowrap;
   }
 
   &.is-interactive {
@@ -86,7 +86,7 @@
     }
 
     &.anchor-end {
-      transform: translateX(@tooltip-anchor-offset);
+      transform: translateX(calc(~"-100% + @{tooltip-anchor-offset}"));
 
       .tooltip-content {
 
