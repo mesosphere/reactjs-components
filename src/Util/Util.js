@@ -435,9 +435,9 @@ var isArray = function (arg) {
 
 function sortBy(collection, sortProp) {
   if (isFunction(sortProp)) {
-    return collection.sort(sortProp);
+    return collection.slice().sort(sortProp);
   } else {
-    return collection.sort((a, b) => {
+    return collection.slice().sort((a, b) => {
       let keyA = a[sortProp],
         keyB = b[sortProp];
       if (keyA < keyB) {

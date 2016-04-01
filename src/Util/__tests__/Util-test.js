@@ -147,4 +147,38 @@ describe('Util', function () {
         .toEqual(capitalizedString);
     });
   });
+
+  describe('#sortBy', function () {
+
+    beforeEach(function () {
+      this.collection =
+        [{name: 'c', value: 1}, {name: 't', value: 3}, {name: 'a', value: 3}];
+    });
+
+    it('should not mutate original collection', function () {
+      let result = Util.sortBy(this.collection, 'value');
+
+      expect(result !== this.collection).toBeTruthy();
+    });
+
+    it('should sort collection by prop', function () {
+      let result = Util.sortBy(this.collection, 'name');
+
+      expect(result).toEqual(
+        [{name: 'a', value: 3}, {name: 'c', value: 1}, {name: 't', value: 3}]
+      );
+    });
+
+    it('should use custom compare function', function () {
+      let result = Util.sortBy(this.collection, function (a, b) {
+        var delta = a.value - b.value;
+        return delta / Math.abs(delta || 0);
+      });
+
+      expect(result).toEqual(
+        [{name: 'c', value: 1}, {name: 't', value: 3}, {name: 'a', value: 3}]
+      );
+    });
+
+  });
 });
