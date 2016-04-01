@@ -33,11 +33,17 @@ class ToolTipExample extends React.Component {
   className: React.PropTypes.string,
   // The tooltip's content.
   content: React.PropTypes.node.isRequired,
+  // The type of node rendered.
+  elementTag: React.PropTypes.string,
+  // Allows user interaction on tooltips. When false, the tooltip is dismissed
+  // when the mouse leaves the trigger. When true, the mouse is allowed to enter
+  // the tooltip. Default is false.
+  interactive: React.PropTypes.bool,
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
-  tooltipWrapperClassName: React.PropTypes.string,
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
+  wrapperClassName: React.PropTypes.string,
   // Allow the text content to wrap. Default is false. This should be used with
   // the width property, because otherwise the width of the content will be the
   // same as the trigger.
