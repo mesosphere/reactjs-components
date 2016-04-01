@@ -16,7 +16,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]}
+          startValue={true}
           validationError={{foo: 'bar'}} />
       );
 
@@ -27,7 +27,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]}
+          startValue={true}
           validationError={{bar: 'bar'}} />
       );
 
@@ -38,7 +38,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]} />
+          startValue={true} />
       );
 
       expect(instance.hasError()).toEqual(false);
@@ -50,7 +50,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]}
+          startValue={true}
           validationError={{foo: 'bar'}} />
       );
 
@@ -61,7 +61,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]} />
+          startValue={true} />
       );
 
       expect(instance.getErrorMsg()).toEqual(null);
@@ -74,7 +74,7 @@ describe('FieldCheckbox', function () {
         <FieldCheckbox
           name="foo"
           showLabel="bar"
-          startValue={[]} />
+          startValue={true} />
       );
 
       expect(instance.getLabel().type).toEqual('p');
@@ -85,7 +85,7 @@ describe('FieldCheckbox', function () {
         <FieldCheckbox
           name="foo"
           showLabel={<h1>hello</h1>}
-          startValue={[]} />
+          startValue={true} />
       );
 
       expect(instance.getLabel().type).toEqual('h1');
@@ -95,7 +95,7 @@ describe('FieldCheckbox', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
-          startValue={[]} />
+          startValue={true} />
       );
 
       expect(instance.getLabel()).toEqual(null);

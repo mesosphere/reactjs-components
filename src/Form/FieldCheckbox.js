@@ -94,6 +94,9 @@ FieldCheckbox.defaultProps = {
 };
 
 FieldCheckbox.propTypes = {
+  // Optional value for setting the checked state of the checkbox,
+  // should be either true for 'checked' or false 'unchecked'
+  checked: React.PropTypes.bool,
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
   // Optional boolean, string, or react node.
@@ -105,6 +108,9 @@ FieldCheckbox.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool
   ]),
+  // Optional value to initialize the component with a non-empty checkbox
+  // value, should be either true for 'checked' or false 'unchecked'
+  startValue: React.PropTypes.bool,
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
 
