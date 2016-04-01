@@ -15,7 +15,9 @@ class Tooltip extends Util.mixin(BindMixin) {
       'dismissTooltip',
       'getIdealLocation',
       'handleMouseEnter',
-      'handleMouseLeave'
+      'handleMouseLeave',
+      'handleTooltipMouseEnter',
+      'handleTooltipMouseLeave'
     ];
   }
 
@@ -40,19 +42,25 @@ class Tooltip extends Util.mixin(BindMixin) {
 
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
     triggerDimension) {
-    // Transform the anchor based on the clearance available.
-    let tooltipOverflow = tooltipDimension / 2 - triggerDimension / 2;
-    let isStartOverflowing = clearanceStart < tooltipOverflow;
-    let isEndOverflowing = clearanceEnd < tooltipOverflow;
-
+    // Change the provided anchor based on the clearance available.
     if (anchor === 'start' && clearanceEnd < tooltipDimension) {
       return 'end';
-    } else if (anchor === 'end' && clearanceStart < tooltipDimension) {
+    }
+
+    if (anchor === 'end' && clearanceStart < tooltipDimension) {
       return 'start';
-    } else if (anchor === 'center' && isStartOverflowing) {
-      return 'start';
-    } else if (anchor === 'center' && isEndOverflowing) {
-      return 'end';
+    }
+
+    if (anchor === 'center') {
+      let tooltipOverflow = (tooltipDimension - triggerDimension) / 2;
+
+      if (clearanceStart < tooltipOverflow) {
+        return 'start';
+      }
+
+      if (clearanceEnd < tooltipOverflow) {
+        return 'end';
+      }
     }
 
     return anchor;
@@ -60,7 +68,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
   getAnchor(isVertical, anchor, clearance, tooltipWidth, tooltipHeight,
     triggerRect) {
-    // Change the anchor if the tooltip will be rendered off the screen.
+    // Calculate the ideal anchor.
     if (isVertical) {
       return this.transformAnchor(anchor, clearance.left, clearance.right,
         tooltipWidth, triggerRect.width);
@@ -76,22 +84,22 @@ class Tooltip extends Util.mixin(BindMixin) {
     if (position === 'top') {
       return {
         left: triggerRect.left + triggerRect.width / 2,
-        top: triggerRect.top - tooltipHeight
+        top: triggerRect.top - tooltipHeight + ARROW_SIZE
       };
     } else if (position === 'right') {
       return {
-        left: triggerRect.right + ARROW_SIZE,
+        left: triggerRect.right,
         top: triggerRect.top + triggerRect.height / 2
       };
     } else if (position === 'bottom') {
       return {
         left: triggerRect.left + triggerRect.width / 2,
-        top: triggerRect.bottom + ARROW_SIZE
+        top: triggerRect.bottom
       };
     }
 
     return {
-      left: triggerRect.left - tooltipWidth,
+      left: triggerRect.left - tooltipWidth + ARROW_SIZE,
       top: triggerRect.top + triggerRect.height / 2
     };
   }
@@ -139,12 +147,6 @@ class Tooltip extends Util.mixin(BindMixin) {
       top: triggerRect.top
     };
 
-    if (isVertical) {
-      tooltipWidth = tooltipRect.width;
-    } else {
-      tooltipHeight = tooltipRect.height;
-    }
-
     anchor = this.getAnchor(isVertical, anchor, clearance, tooltipWidth,
       tooltipHeight, triggerRect);
     position = this.getPosition(position, clearance, tooltipWidth,
@@ -163,6 +165,16 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   handleMouseLeave() {
+    this.dismissTooltip();
+  }
+
+  handleTooltipMouseEnter() {
+    if (this.props.interactive) {
+      this.setState({isOpen: true});
+    }
+  }
+
+  handleTooltipMouseLeave() {
     this.dismissTooltip();
   }
 
@@ -205,8 +217,11 @@ class Tooltip extends Util.mixin(BindMixin) {
         {props.children}
         <Portal>
           <div className={tooltipClasses} ref="tooltipNode"
-            style={tooltipStyle}>
-            {props.content}
+            style={tooltipStyle} onMouseEnter={this.handleTooltipMouseEnter}
+            onMouseLeave={this.handleTooltipMouseLeave}>
+            <div className={props.contentClassName}>
+              {props.content}
+            </div>
           </div>
         </Portal>
       </props.elementTag>
@@ -217,6 +232,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 Tooltip.defaultProps = {
   anchor: 'center',
   className: 'tooltip',
+  contentClassName: 'tooltip-content',
   elementTag: 'div',
   interactive: false,
   position: 'top',
