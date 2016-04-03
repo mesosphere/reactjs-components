@@ -26,18 +26,120 @@ class Tooltip extends Util.mixin(BindMixin) {
     this.state = {isOpen: false};
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.dismissTooltip);
-    window.addEventListener('resize', this.dismissTooltip);
+  componentWillUnmount() {
+    this.removeScrollListener();
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.dismissTooltip);
-    window.removeEventListener('resize', this.dismissTooltip);
+  handleMouseEnter(currentAnchor, currentPosition) {
+    let {anchor, position, coordinates} = this.getIdealLocation(currentAnchor,
+      currentPosition);
+    this.setState({anchor, isOpen: true, position, coordinates});
+    this.addScrollListener();
+  }
+
+  handleMouseLeave() {
+    this.dismissTooltip();
+  }
+
+  handleTooltipMouseEnter() {
+    if (this.props.interactive) {
+      this.setState({isOpen: true});
+    }
+  }
+
+  handleTooltipMouseLeave() {
+    this.dismissTooltip();
+  }
+
+  addScrollListener() {
+    this.props.scrollContainer.addEventListener('scroll', this.dismissTooltip);
   }
 
   dismissTooltip() {
-    this.setState({isOpen: false});
+    if (this.state.isOpen) {
+      this.setState({isOpen: false});
+      this.removeScrollListener();
+    }
+  }
+
+  getAnchor(isVertical, anchor, clearance, tooltipWidth, tooltipHeight) {
+    // Calculate the ideal anchor.
+    if (isVertical) {
+      return this.transformAnchor(anchor, clearance.left, clearance.right,
+        tooltipWidth, clearance.boundingRect.width);
+    }
+
+    return this.transformAnchor(anchor, clearance.top, clearance.bottom,
+      tooltipHeight, clearance.boundingRect.height);
+  }
+
+  getCoordinates(position, clearance, tooltipWidth, tooltipHeight) {
+    // Calculate the coordinates of the tooltip content.
+    if (position === 'top') {
+      return {
+        left: clearance.boundingRect.left + clearance.boundingRect.width / 2,
+        top: clearance.boundingRect.top - tooltipHeight + ARROW_SIZE
+      };
+    } else if (position === 'right') {
+      return {
+        left: clearance.boundingRect.right,
+        top: clearance.boundingRect.top + clearance.boundingRect.height / 2
+      };
+    } else if (position === 'bottom') {
+      return {
+        left: clearance.boundingRect.left + clearance.boundingRect.width / 2,
+        top: clearance.boundingRect.bottom
+      };
+    }
+
+    return {
+      left: clearance.boundingRect.left - tooltipWidth + ARROW_SIZE,
+      top: clearance.boundingRect.top + clearance.boundingRect.height / 2
+    };
+  }
+
+  isVertical(position) {
+    return position !== 'left' && position !== 'right';
+  }
+
+  getPosition(position, clearance, tooltipWidth, tooltipHeight) {
+    // Change the position if the tooltip will be rendered off the screen.
+    if (position === 'left' && clearance.left < tooltipWidth) {
+      position = 'right';
+    } else if (position === 'right' && clearance.right < tooltipWidth) {
+      position = 'left';
+    }
+
+    if (position === 'top' && clearance.top < tooltipHeight) {
+      position = 'bottom';
+    } else if (position === 'bottom' && clearance.bottom < tooltipHeight) {
+      position = 'top';
+    }
+
+    return position;
+  }
+
+  getIdealLocation(anchor, position) {
+    let clearance = DOMUtil.getNodeClearance(this.refs.triggerNode);
+    let isVertical = this.isVertical(position);
+    let tooltipRect = this.refs.tooltipNode.getBoundingClientRect();
+    let tooltipHeight = tooltipRect.height + ARROW_SIZE;
+    let tooltipWidth = tooltipRect.width + ARROW_SIZE;
+
+    anchor = this.getAnchor(isVertical, anchor, clearance, tooltipWidth,
+      tooltipHeight);
+    position = this.getPosition(position, clearance, tooltipWidth,
+      tooltipHeight);
+
+    let coordinates = this.getCoordinates(position, clearance, tooltipWidth,
+      tooltipHeight);
+
+    return {anchor, position, coordinates};
+  }
+
+  removeScrollListener() {
+    this.props.scrollContainer.removeEventListener('scroll',
+      this.dismissTooltip);
   }
 
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
@@ -64,118 +166,6 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
 
     return anchor;
-  }
-
-  getAnchor(isVertical, anchor, clearance, tooltipWidth, tooltipHeight,
-    triggerRect) {
-    // Calculate the ideal anchor.
-    if (isVertical) {
-      return this.transformAnchor(anchor, clearance.left, clearance.right,
-        tooltipWidth, triggerRect.width);
-    }
-
-    return this.transformAnchor(anchor, clearance.top, clearance.bottom,
-      tooltipHeight, triggerRect.height);
-  }
-
-  getCoordinates(triggerRect, position, clearance, tooltipWidth,
-    tooltipHeight) {
-    // Calculate the coordinates of the tooltip content.
-    if (position === 'top') {
-      return {
-        left: triggerRect.left + triggerRect.width / 2,
-        top: triggerRect.top - tooltipHeight + ARROW_SIZE
-      };
-    } else if (position === 'right') {
-      return {
-        left: triggerRect.right,
-        top: triggerRect.top + triggerRect.height / 2
-      };
-    } else if (position === 'bottom') {
-      return {
-        left: triggerRect.left + triggerRect.width / 2,
-        top: triggerRect.bottom
-      };
-    }
-
-    return {
-      left: triggerRect.left - tooltipWidth + ARROW_SIZE,
-      top: triggerRect.top + triggerRect.height / 2
-    };
-  }
-
-  isVertical(position) {
-    if (position === 'left' || position === 'right') {
-      return false;
-    }
-
-    return true;
-  }
-
-  getPosition(position, clearance, tooltipWidth, tooltipHeight) {
-    // Change the position if the tooltip will be rendered off the screen.
-    if (position === 'left' && clearance.left < tooltipWidth) {
-      position = 'right';
-    } else if (position === 'right' && clearance.right < tooltipWidth) {
-      position = 'left';
-    }
-
-    if (position === 'top' && clearance.top < tooltipHeight) {
-      position = 'bottom';
-    } else if (position === 'bottom' && clearance.bottom < tooltipHeight) {
-      position = 'top';
-    }
-
-    return position;
-  }
-
-  getIdealLocation(anchor, position) {
-    let isVertical = this.isVertical(position);
-    let triggerNode = ReactDOM.findDOMNode(this.refs.triggerNode);
-    let tooltipNode = ReactDOM.findDOMNode(this.refs.tooltipNode);
-    let triggerRect = triggerNode.getBoundingClientRect();
-    let tooltipRect = tooltipNode.getBoundingClientRect();
-    let viewportHeight = DOMUtil.getViewportHeight();
-    let viewportWidth = DOMUtil.getViewportWidth();
-    let tooltipHeight = tooltipRect.height + ARROW_SIZE;
-    let tooltipWidth = tooltipRect.width + ARROW_SIZE;
-
-    let clearance = {
-      bottom: viewportHeight - triggerRect.bottom,
-      left: triggerRect.left,
-      right: viewportWidth - triggerRect.right,
-      top: triggerRect.top
-    };
-
-    anchor = this.getAnchor(isVertical, anchor, clearance, tooltipWidth,
-      tooltipHeight, triggerRect);
-    position = this.getPosition(position, clearance, tooltipWidth,
-      tooltipHeight);
-
-    let coordinates = this.getCoordinates(triggerRect, position, clearance,
-      tooltipWidth, tooltipHeight);
-
-    return {anchor, position, coordinates};
-  }
-
-  handleMouseEnter(currentAnchor, currentPosition) {
-    let {anchor, position, coordinates} = this.getIdealLocation(currentAnchor,
-      currentPosition);
-    this.setState({anchor, isOpen: true, position, coordinates});
-  }
-
-  handleMouseLeave() {
-    this.dismissTooltip();
-  }
-
-  handleTooltipMouseEnter() {
-    if (this.props.interactive) {
-      this.setState({isOpen: true});
-    }
-  }
-
-  handleTooltipMouseLeave() {
-    this.dismissTooltip();
   }
 
   render() {
@@ -246,6 +236,7 @@ Tooltip.defaultProps = {
   elementTag: 'div',
   interactive: false,
   position: 'top',
+  scrollContainer: window,
   wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: true
 };
@@ -271,6 +262,8 @@ Tooltip.propTypes = {
     React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
+  // The nearest scrolling DOMNode that contains the tooltip. Default is window.
+  scrollContainer: React.PropTypes.object,
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
