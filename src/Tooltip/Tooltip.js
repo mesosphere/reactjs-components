@@ -44,6 +44,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   handleTooltipMouseEnter() {
     if (this.props.interactive) {
       this.setState({isOpen: true});
+      this.addScrollListener();
     }
   }
 
@@ -195,17 +196,11 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
 
     if (props.width) {
-      tooltipStyle.width = `${props.width}px`;
+      tooltipStyle.width = props.width;
     }
 
     if (props.maxWidth) {
-      let maxWidth = props.maxWidth;
-
-      if (typeof props.maxWidth === 'number') {
-        maxWidth = `${maxWidth}px`;
-      }
-
-      tooltipStyle.maxWidth = maxWidth;
+      tooltipStyle.maxWidth = props.maxWidth;
     }
 
     return (
