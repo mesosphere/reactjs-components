@@ -5,6 +5,22 @@ import Tooltip from '../../../src/Tooltip/Tooltip.js';
 
 class ToolTipExample extends React.Component {
   render() {
+    let tooltipContent = (
+      <p className="text-color-white small flush-bottom">
+        This tooltip is not interactive.
+      </p>
+    );
+    let interactiveTooltipContent = (
+      <div>
+        <p className="text-color-white small">
+          This tooltip is interactive, so the user is able to interact with its contents.
+        </p>
+        <p className="text-color-white small flush-bottom">
+          Example: <a href="#">Back to Top</a>.
+        </p>
+      </div>
+    );
+
     return (
       <div className="row canvas-pod">
         <div>
@@ -39,16 +55,18 @@ class ToolTipExample extends React.Component {
   // when the mouse leaves the trigger. When true, the mouse is allowed to enter
   // the tooltip. Default is false.
   interactive: React.PropTypes.bool,
-  maxWidth: React.PropTypes.oneOf([React.PropTypes.number,
+  maxWidth: React.PropTypes.oneOfType([React.PropTypes.number,
     React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
+  // The nearest scrolling DOMNode that contains the tooltip. Default is window.
+  // Also accepts a string, which will be treated as a selector for the node.
+  scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
+    React.PropTypes.string]),
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
-  // Allow the text content to wrap. Default is false. This should be used with
-  // the width property, because otherwise the width of the content will be the
-  // same as the trigger.
+  // Allow the text content to wrap. Default is true.
   wrapText: React.PropTypes.bool
 };`}
             </pre>
@@ -66,22 +84,24 @@ class ToolTipExample extends React.Component {
               <section className="row canvas-pod">
                 <div className="column-12 column-mini-12">
                   <div className="button-collection">
-                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                    <Tooltip content={tooltipContent} elementTag="button"
                       wrapperClassName="tooltip-wrapper text-align-center
                       button">
                       Top
                     </Tooltip>
-                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                    <Tooltip content={tooltipContent} elementTag="button"
                       position="bottom" wrapperClassName="tooltip-wrapper
                       text-align-center button">
                       Bottom
                     </Tooltip>
-                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                    <Tooltip content={interactiveTooltipContent}
+                      elementTag="button" interactive={true} maxWidth={225}
                       position="left" wrapperClassName="tooltip-wrapper
                       text-align-center button">
                       Left
                     </Tooltip>
-                    <Tooltip content="I'm a tooltip!" elementTag="button"
+                    <Tooltip content={interactiveTooltipContent}
+                      elementTag="button" interactive={true} maxWidth={225}
                       position="right" wrapperClassName="tooltip-wrapper
                       text-align-center button">
                       Right
@@ -98,27 +118,49 @@ import React from 'react';
 
 class FormExample extends React.Component {
   render() {
+    let tooltipContent = (
+      <p className="text-color-white small flush-bottom">
+        This tooltip is not interactive.
+      </p>
+    );
+    let interactiveTooltipContent = (
+      <div>
+        <p className="text-color-white small">
+          This tooltip is interactive, so the user is able to interact with its contents.
+        </p>
+        <p className="text-color-white small flush-bottom">
+          Example: <a href="#">Back to Top</a>.
+        </p>
+      </div>
+    );
+
     return (
       <section className="row canvas-pod">
-        <div className="column-6 column-mini-3">
-          <Tooltip content="I'm a tooltip!">
-            <button className="button">Top</button>
-          </Tooltip>
-        </div>
-        <div className="column-6 column-mini-3">
-          <Tooltip content="I'm a tooltip!" position="right">
-            <button className="button">Right</button>
-          </Tooltip>
-        </div>
-        <div className="column-6 column-mini-3">
-          <Tooltip content="I'm a tooltip!" position="bottom">
-            <button className="button">Bottom</button>
-          </Tooltip>
-        </div>
-        <div className="column-6 column-mini-3">
-          <Tooltip content="I'm a tooltip!" position="left">
-            <button className="button">Left</button>
-          </Tooltip>
+        <div className="column-12 column-mini-12">
+          <div className="button-collection">
+            <Tooltip content={tooltipContent} elementTag="button"
+              wrapperClassName="tooltip-wrapper text-align-center
+              button">
+              Top
+            </Tooltip>
+            <Tooltip content={tooltipContent} elementTag="button"
+              position="bottom" wrapperClassName="tooltip-wrapper
+              text-align-center button">
+              Bottom
+            </Tooltip>
+            <Tooltip content={interactiveTooltipContent}
+              elementTag="button" interactive={true} maxWidth={225}
+              position="left" wrapperClassName="tooltip-wrapper
+              text-align-center button">
+              Left
+            </Tooltip>
+            <Tooltip content={interactiveTooltipContent}
+              elementTag="button" interactive={true} maxWidth={225}
+              position="right" wrapperClassName="tooltip-wrapper
+              text-align-center button">
+              Right
+            </Tooltip>
+          </div>
         </div>
       </section>
     );

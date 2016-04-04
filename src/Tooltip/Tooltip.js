@@ -23,6 +23,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
   constructor() {
     super(...arguments);
+    this.container = null;
     this.state = {isOpen: false};
   }
 
@@ -53,7 +54,16 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   addScrollListener() {
-    this.props.scrollContainer.addEventListener('scroll', this.dismissTooltip);
+    if (!this.container) {
+      if (typeof this.props.scrollContainer === 'string') {
+        this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
+          this.props.scrollContainer) || window;
+      } else {
+        this.container = this.props.scrollContainer;
+      }
+    }
+
+    this.container.addEventListener('scroll', this.dismissTooltip);
   }
 
   dismissTooltip() {
@@ -139,8 +149,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   removeScrollListener() {
-    this.props.scrollContainer.removeEventListener('scroll',
-      this.dismissTooltip);
+    this.container.removeEventListener('scroll', this.dismissTooltip);
   }
 
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
@@ -253,12 +262,14 @@ Tooltip.propTypes = {
   // when the mouse leaves the trigger. When true, the mouse is allowed to enter
   // the tooltip. Default is false.
   interactive: React.PropTypes.bool,
-  maxWidth: React.PropTypes.oneOf([React.PropTypes.number,
+  maxWidth: React.PropTypes.oneOfType([React.PropTypes.number,
     React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
   // The nearest scrolling DOMNode that contains the tooltip. Default is window.
-  scrollContainer: React.PropTypes.object,
+  // Also accepts a string, which will be treated as a selector for the node.
+  scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
+    React.PropTypes.string]),
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
