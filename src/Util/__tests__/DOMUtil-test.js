@@ -3,8 +3,8 @@ jest.dontMock('../DOMUtil');
 /* eslint-disable no-unused-vars */
 var React = require('react');
 /* eslint-enable no-unused-vars */
-var TestUtils = require('react-addons-test-utils');
 var ReactDOM = require('react-dom');
+var TestUtils = require('react-addons-test-utils');
 
 var DOMUtil = require('../DOMUtil');
 
