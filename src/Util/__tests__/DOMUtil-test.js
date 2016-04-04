@@ -1,5 +1,11 @@
 jest.dontMock('../DOMUtil');
 
+/* eslint-disable no-unused-vars */
+var React = require('react');
+/* eslint-enable no-unused-vars */
+var TestUtils = require('react-addons-test-utils');
+var ReactDOM = require('react-dom');
+
 var DOMUtil = require('../DOMUtil');
 
 describe('DOMUtil', function () {
@@ -54,6 +60,40 @@ describe('DOMUtil', function () {
       var match = DOMUtil.closest(el, '.fake-selector');
 
       expect(match.id).toEqual('child-element');
+    });
+
+  });
+
+  describe('#getNodeClearance', function () {
+
+    beforeEach(function () {
+      DOMUtil.getViewportHeight = function () {
+        return 600;
+      };
+
+      DOMUtil.getViewportWidth = function () {
+        return 600;
+      };
+    });
+
+    it('should return the element\'s distance from all edges', function () {
+      let node = {
+        getBoundingClientRect: function () {
+          return {
+            bottom: 200,
+            left: 100,
+            right: 200,
+            top: 100
+          };
+        }
+      };
+
+      let clearance = DOMUtil.getNodeClearance(node);
+
+      expect(clearance.bottom).toEqual(400);
+      expect(clearance.left).toEqual(100);
+      expect(clearance.right).toEqual(400);
+      expect(clearance.top).toEqual(100);
     });
 
   });
