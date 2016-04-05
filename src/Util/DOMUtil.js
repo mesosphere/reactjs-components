@@ -84,6 +84,20 @@ const DOMUtil = {
     };
   },
 
+  getNodeClearance(DOMNode) {
+    let viewportHeight = DOMUtil.getViewportHeight();
+    let viewportWidth = DOMUtil.getViewportWidth();
+    let boundingRect = DOMNode.getBoundingClientRect();
+
+    return {
+      bottom: viewportHeight - boundingRect.bottom,
+      left: boundingRect.left,
+      right: viewportWidth - boundingRect.right,
+      top: boundingRect.top,
+      boundingRect
+    };
+  },
+
   getViewportHeight() {
     return Math.max(
       document.documentElement.clientHeight || 0,

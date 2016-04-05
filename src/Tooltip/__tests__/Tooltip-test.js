@@ -19,27 +19,18 @@ describe('Tooltip', function () {
   });
 
   it('should render with the intended class', function () {
-    var tooltip = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'foo'
-    );
-
-    expect(tooltip.length).toEqual(1);
+    expect(this.instance.refs.tooltipNode.classList.contains('foo'))
+      .toBeTruthy();
   });
 
   it('should render with the intended position as a class', function () {
-    var tooltip = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'position-bottom'
-    );
-
-    expect(tooltip.length).toEqual(1);
+    expect(this.instance.refs.tooltipNode.classList.contains('position-bottom'))
+      .toBeTruthy();
   });
 
   it('should render with the intended anchor as a class', function () {
-    var tooltip = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'anchor-start'
-    );
-
-    expect(tooltip.length).toEqual(1);
+    expect(this.instance.refs.tooltipNode.classList.contains('anchor-start'))
+      .toBeTruthy();
   });
 
   describe('#handleMouseEnter', function () {
@@ -51,15 +42,15 @@ describe('Tooltip', function () {
     });
 
     it('should set anchor to what was returned from #getIdealPosition',
-    function () {
-      this.instance.handleMouseEnter();
+      function () {
+      this.instance.handleMouseEnter('start', 'bottom');
 
       expect(this.instance.state.anchor).toEqual('start');
     });
 
     it('should set position to what was returned from #getIdealPosition',
-    function () {
-      this.instance.handleMouseEnter();
+      function () {
+      this.instance.handleMouseEnter('start', 'bottom');
 
       expect(this.instance.state.position).toEqual('bottom');
     });
@@ -68,7 +59,7 @@ describe('Tooltip', function () {
 
   describe('#handleMouseLeave', function () {
 
-    it('should set isOpen to true', function () {
+    it('should set isOpen to false', function () {
       this.instance.handleMouseLeave();
 
       expect(this.instance.state.isOpen).toBeFalsy();
