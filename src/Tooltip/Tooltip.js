@@ -149,7 +149,9 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   removeScrollListener() {
-    this.container.removeEventListener('scroll', this.dismissTooltip);
+    if (this.container) {
+      this.container.removeEventListener('scroll', this.dismissTooltip);
+    }
   }
 
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
