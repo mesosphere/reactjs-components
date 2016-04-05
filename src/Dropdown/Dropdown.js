@@ -4,6 +4,7 @@ import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
+import DOMUtil from '../Util/DOMUtil';
 import KeyDownMixin from '../Mixin/KeyDownMixin';
 import Util from '../Util/Util';
 
@@ -83,7 +84,8 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       return {direction: 'down', height: null};
     }
     // Calculate the space above and below the dropdown button.
-    let spaceAroundDropdown = this.getSpaceAroundDropdown();
+    let spaceAroundDropdown = DOMUtil
+      .getNodeClearance(this.refs.dropdownWrapper);
 
     // If the menu height is larger than the space available on the bottom and
     // less than the space available on top, then render it up. Otherwise always
@@ -146,19 +148,6 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
   getSelectedID() {
     return this.props.persistentID || this.state.selectedID;
-  }
-
-  getSpaceAroundDropdown() {
-    let dropdownWrapper = this.refs.dropdownWrapper;
-    let position = dropdownWrapper.getBoundingClientRect();
-    let viewportHeight = global.window.innerHeight;
-
-    // Calculate the distance from the top/bottom of the viewport to the
-    // top/bottom of the dropdown button.
-    return {
-      bottom: viewportHeight - position.bottom,
-      top: position.top
-    };
   }
 
   removeBlurTimeout() {
