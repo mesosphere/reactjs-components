@@ -43,17 +43,17 @@ describe('Tooltip', function () {
 
     it('should set anchor to what was returned from #getIdealPosition',
       function () {
-      this.instance.handleMouseEnter('start', 'bottom');
+        this.instance.handleMouseEnter('start', 'bottom');
 
-      expect(this.instance.state.anchor).toEqual('start');
-    });
+        expect(this.instance.state.anchor).toEqual('start');
+      });
 
     it('should set position to what was returned from #getIdealPosition',
       function () {
-      this.instance.handleMouseEnter('start', 'bottom');
+        this.instance.handleMouseEnter('start', 'bottom');
 
-      expect(this.instance.state.position).toEqual('bottom');
-    });
+        expect(this.instance.state.position).toEqual('bottom');
+      });
 
   });
 
