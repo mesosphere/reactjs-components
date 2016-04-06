@@ -166,8 +166,8 @@ base/forms.less
         transform: translateY(-50%);
 
         & + .form-element-checkbox-decoy {
+          border: 1px solid @form-control-default-border-color;
           border-radius: 3px;
-          box-shadow: inset 0 0 0 1px @form-control-default-border-color;
           display: inline-block;
           height: 16px;
           position: relative;
@@ -192,7 +192,7 @@ base/forms.less
 
           & + .form-element-checkbox-decoy {
             background: @form-control-default-focus-text-color;
-            box-shadow: none;
+            border-color: @form-control-default-focus-text-color;
           }
         }
 
@@ -212,7 +212,7 @@ base/forms.less
 
         &:disabled + .form-element-checkbox-decoy {
           background: #C5C5C5;
-          box-shadow: none;
+          border-color: #C5C5C5;
         }
       }
 
@@ -222,20 +222,20 @@ base/forms.less
         input[type="checkbox"] {
 
           & + .form-element-checkbox-decoy {
-            box-shadow: inset 0 0 0 1px @form-control-default-inverse-border-color;
+            border-color: @form-control-default-inverse-border-color;
           }
 
           &:checked,
           &:indeterminate {
 
             & + .form-element-checkbox-decoy {
-              box-shadow: inset 0 0 0 1px @form-control-default-focus-text-color;
+              border-color: @form-control-default-focus-text-color;
             }
           }
 
           &:disabled + .form-element-checkbox-decoy {
             background: @form-control-default-inverse-border-color;
-            box-shadow: none;
+            border-color: @form-control-default-inverse-border-color;
           }
         }
       }
