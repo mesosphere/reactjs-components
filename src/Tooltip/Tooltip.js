@@ -244,7 +244,7 @@ Tooltip.defaultProps = {
   position: 'top',
   scrollContainer: window,
   wrapperClassName: 'tooltip-wrapper text-align-center',
-  wrapText: true
+  wrapText: false
 };
 
 Tooltip.propTypes = {
@@ -275,7 +275,7 @@ Tooltip.propTypes = {
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
-  // Allow the text content to wrap. Default is true.
+  // Allow the text content to wrap. Default is false.
   wrapText: React.PropTypes.bool
 };
 

@@ -66,7 +66,7 @@ class ToolTipExample extends React.Component {
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
-  // Allow the text content to wrap. Default is true.
+  // Allow the text content to wrap. Default is false.
   wrapText: React.PropTypes.bool
 };`}
             </pre>
@@ -97,13 +97,13 @@ class ToolTipExample extends React.Component {
                     <Tooltip content={interactiveTooltipContent}
                       elementTag="button" interactive={true} maxWidth={225}
                       position="left" wrapperClassName="tooltip-wrapper
-                      text-align-center button">
+                      text-align-center button" wrapText={true}>
                       Left
                     </Tooltip>
                     <Tooltip content={interactiveTooltipContent}
                       elementTag="button" interactive={true} maxWidth={225}
                       position="right" wrapperClassName="tooltip-wrapper
-                      text-align-center button">
+                      text-align-center button" wrapText={true}>
                       Right
                     </Tooltip>
                   </div>
