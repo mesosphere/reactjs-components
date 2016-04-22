@@ -35,6 +35,20 @@ class FormExample extends React.Component {
         writeType: 'input'
       },
       {
+        fieldType: 'number',
+        name: 'Number',
+        required: false,
+        showLabel: true,
+        max: '10',
+        min: '0',
+        step: '1',
+        validation: function (value) {
+          return value >= 0 && value <= 10;
+        },
+        validationErrorText: 'Must be a positive integer between 0 and 10 representing its priority',
+        writeType: 'input'
+      },
+      {
         fieldType: 'checkbox',
         name: 'single-checkbox',
         checked: true,
@@ -211,6 +225,20 @@ class FormExample extends React.Component {
           return value && value.length > 8;
         },
         validationErrorText: 'Password needs to be greater than 8 characters'
+      },
+      {
+        fieldType: 'number',
+        name: 'Number',
+        required: false,
+        showLabel: true,
+        max: '10',
+        min: '0',
+        step: '1',
+        validation: function (value) {
+          return value >= 0 && value <= 10;
+        },
+        validationErrorText: 'Must be a positive integer between 0 and 10 representing its priority',
+        writeType: 'input'
       },
       {
         fieldType: 'checkboxMultiple',
