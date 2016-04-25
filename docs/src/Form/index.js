@@ -35,6 +35,20 @@ class FormExample extends React.Component {
         writeType: 'input'
       },
       {
+        fieldType: 'number',
+        name: 'Number',
+        required: false,
+        showLabel: true,
+        max: '10',
+        min: '0',
+        step: '1',
+        validation: function (value) {
+          return value >= 0 && value <= 10;
+        },
+        validationErrorText: 'Must be a positive integer between 0 and 10 representing its priority',
+        writeType: 'input'
+      },
+      {
         fieldType: 'checkbox',
         name: 'single-checkbox',
         checked: true,
@@ -193,13 +207,15 @@ class FormExample extends React.Component {
           fieldType: 'text',
           name: 'description',
           placeholder: 'First name',
-          showError: 'Setting "showError" will make a field display an error'
+          showError: 'Setting "showError" will make a field display an error',
+          writeType: 'input'
         },
         {
           fieldType: 'text',
           name: 'uid',
           placeholder: 'Last name',
-          required: true
+          required: true,
+          writeType: 'input'
         }
       ],
       {
@@ -210,7 +226,37 @@ class FormExample extends React.Component {
         validation: function (value) {
           return value && value.length > 8;
         },
-        validationErrorText: 'Password needs to be greater than 8 characters'
+        validationErrorText: 'Password needs to be greater than 8 characters',
+        writeType: 'input'
+      },
+      {
+        fieldType: 'number',
+        name: 'Number',
+        required: false,
+        showLabel: true,
+        max: '10',
+        min: '0',
+        step: '1',
+        validation: function (value) {
+          return value >= 0 && value <= 10;
+        },
+        validationErrorText: 'Must be a positive integer between 0 and 10 representing its priority',
+        writeType: 'input'
+      },
+      {
+        fieldType: 'checkbox',
+        name: 'single-checkbox',
+        checked: true,
+        disabled: true,
+        showLabel: 'Accept terms of service',
+        required: true,
+        label: 'Single checkbox',
+        value: true,
+        validation: function (value) {
+          return value;
+        },
+        validationErrorText: 'Must check checkbox!',
+        writeType: 'input'
       },
       {
         fieldType: 'checkboxMultiple',
@@ -228,7 +274,7 @@ class FormExample extends React.Component {
           {
             name: 'isSRE',
             label: 'SRE',
-            checked: false
+            checked: true
           }
         ],
         showLabel: 'What is your role?',
@@ -243,7 +289,8 @@ class FormExample extends React.Component {
 
           return result;
         },
-        validationErrorText: 'Please select at least one option.'
+        validationErrorText: 'Please select at least one option.',
+        writeType: 'input'
       },
       {
         fieldType: 'textarea',
@@ -253,12 +300,13 @@ class FormExample extends React.Component {
         validation: function (value) {
           return value && value.length < 140;
         },
-        validationErrorText: 'Message needs to be less than 140 characters'
+        validationErrorText: 'Message needs to be less than 140 characters',
+        writeType: 'input'
       },
       {
         fieldType: 'submit',
         buttonText: 'Submit',
-        buttonClass: 'button buttom-primary button-wide'
+        buttonClass: 'button button-primary button-wide'
       }
     ];
   }

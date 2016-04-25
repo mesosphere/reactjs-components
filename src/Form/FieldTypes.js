@@ -8,6 +8,7 @@ import FieldTextarea from './FieldTextarea';
 const FieldTypes = {
   'checkbox': FieldCheckbox,
   'checkboxMultiple': FieldCheckboxMultiple,
+  'number': FieldInput,
   'password': FieldPassword,
   'submit': FieldSubmit,
   'text': FieldInput,
