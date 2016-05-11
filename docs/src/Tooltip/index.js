@@ -63,6 +63,10 @@ class ToolTipExample extends React.Component {
   // Also accepts a string, which will be treated as a selector for the node.
   scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
     React.PropTypes.string]),
+  // Keeps a tooltip open after it's triggered. Defaults to false.
+  stayOpen: React.PropTypes.bool,
+  // Prevents a tooltip from being displayed. Defaults to false.
+  suppress: React.PropTypes.bool,
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
