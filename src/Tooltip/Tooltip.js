@@ -31,9 +31,18 @@ class Tooltip extends Util.mixin(BindMixin) {
     this.removeScrollListener();
   }
 
-  handleMouseEnter(currentAnchor, currentPosition) {
-    let {anchor, position, coordinates} = this.getIdealLocation(currentAnchor,
-      currentPosition);
+  handleMouseEnter(options = {}) {
+    let {props} = this;
+
+    if (props.suppress && !options.forceOpen) {
+      return;
+    }
+
+    let {anchor, position, coordinates} = this.getIdealLocation(
+      props.anchor,
+      props.position
+    );
+
     this.setState({anchor, isOpen: true, position, coordinates});
     this.addScrollListener();
   }
@@ -67,7 +76,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   dismissTooltip() {
-    if (this.state.isOpen) {
+    if (!this.props.stayOpen && this.state.isOpen) {
       this.setState({isOpen: false});
       this.removeScrollListener();
     }
@@ -154,6 +163,10 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
   }
 
+  triggerTooltip() {
+    this.handleMouseEnter({forceOpen: true});
+  }
+
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
     triggerDimension) {
     // Change the provided anchor based on the clearance available.
@@ -216,8 +229,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
     return (
       <props.elementTag className={props.wrapperClassName}
-        onMouseEnter={this.handleMouseEnter.bind(this, props.anchor,
-          props.position)}
+        onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...elementProps} ref="triggerNode">
         {props.children}
@@ -243,6 +255,8 @@ Tooltip.defaultProps = {
   interactive: false,
   position: 'top',
   scrollContainer: window,
+  stayOpen: false,
+  suppress: false,
   wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: false
 };
