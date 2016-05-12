@@ -17,7 +17,8 @@ class Tooltip extends Util.mixin(BindMixin) {
       'handleMouseEnter',
       'handleMouseLeave',
       'handleTooltipMouseEnter',
-      'handleTooltipMouseLeave'
+      'handleTooltipMouseLeave',
+      'triggerClose'
     ];
   }
 
@@ -75,8 +76,8 @@ class Tooltip extends Util.mixin(BindMixin) {
     this.container.addEventListener('scroll', this.dismissTooltip);
   }
 
-  dismissTooltip() {
-    if (!this.props.stayOpen && this.state.isOpen) {
+  dismissTooltip(options = {}) {
+    if ((!this.props.stayOpen || options.forceClose) && this.state.isOpen) {
       this.setState({isOpen: false});
       this.removeScrollListener();
     }
@@ -163,7 +164,11 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
   }
 
-  triggerTooltip() {
+  triggerClose() {
+    this.dismissTooltip({forceClose: true});
+  }
+
+  triggerOpen() {
     this.handleMouseEnter({forceOpen: true});
   }
 
