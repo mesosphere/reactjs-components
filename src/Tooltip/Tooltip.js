@@ -25,7 +25,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   constructor() {
     super(...arguments);
     this.container = null;
-    this.state = {isOpen: false};
+    this.state = {isOpen: false, wasTriggeredClose: false};
   }
 
   componentWillUnmount() {
@@ -44,7 +44,13 @@ class Tooltip extends Util.mixin(BindMixin) {
       props.position
     );
 
-    this.setState({anchor, isOpen: true, position, coordinates});
+    this.setState({
+      anchor,
+      isOpen: true,
+      position,
+      coordinates,
+      wasTriggeredClose: false
+    });
     this.addScrollListener();
   }
 
@@ -53,7 +59,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   handleTooltipMouseEnter() {
-    if (this.props.interactive) {
+    if (this.props.interactive && !this.state.wasTriggeredClose) {
       this.setState({isOpen: true});
       this.addScrollListener();
     }
@@ -165,6 +171,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   triggerClose() {
+    this.setState({wasTriggeredClose: true});
     this.dismissTooltip({forceClose: true});
   }
 
