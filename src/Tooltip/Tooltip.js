@@ -17,24 +17,40 @@ class Tooltip extends Util.mixin(BindMixin) {
       'handleMouseEnter',
       'handleMouseLeave',
       'handleTooltipMouseEnter',
-      'handleTooltipMouseLeave'
+      'handleTooltipMouseLeave',
+      'triggerClose'
     ];
   }
 
   constructor() {
     super(...arguments);
     this.container = null;
-    this.state = {isOpen: false};
+    this.state = {isOpen: false, wasTriggeredClose: false};
   }
 
   componentWillUnmount() {
     this.removeScrollListener();
   }
 
-  handleMouseEnter(currentAnchor, currentPosition) {
-    let {anchor, position, coordinates} = this.getIdealLocation(currentAnchor,
-      currentPosition);
-    this.setState({anchor, isOpen: true, position, coordinates});
+  handleMouseEnter(options = {}) {
+    let {props} = this;
+
+    if (props.suppress && !options.forceOpen) {
+      return;
+    }
+
+    let {anchor, position, coordinates} = this.getIdealLocation(
+      props.anchor,
+      props.position
+    );
+
+    this.setState({
+      anchor,
+      isOpen: true,
+      position,
+      coordinates,
+      wasTriggeredClose: false
+    });
     this.addScrollListener();
   }
 
@@ -43,7 +59,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   handleTooltipMouseEnter() {
-    if (this.props.interactive) {
+    if (this.props.interactive && !this.state.wasTriggeredClose) {
       this.setState({isOpen: true});
       this.addScrollListener();
     }
@@ -66,8 +82,8 @@ class Tooltip extends Util.mixin(BindMixin) {
     this.container.addEventListener('scroll', this.dismissTooltip);
   }
 
-  dismissTooltip() {
-    if (this.state.isOpen) {
+  dismissTooltip(options = {}) {
+    if ((!this.props.stayOpen || options.forceClose) && this.state.isOpen) {
       this.setState({isOpen: false});
       this.removeScrollListener();
     }
@@ -154,6 +170,15 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
   }
 
+  triggerClose() {
+    this.setState({wasTriggeredClose: true});
+    this.dismissTooltip({forceClose: true});
+  }
+
+  triggerOpen() {
+    this.handleMouseEnter({forceOpen: true});
+  }
+
   transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
     triggerDimension) {
     // Change the provided anchor based on the clearance available.
@@ -216,8 +241,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
     return (
       <props.elementTag className={props.wrapperClassName}
-        onMouseEnter={this.handleMouseEnter.bind(this, props.anchor,
-          props.position)}
+        onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...elementProps} ref="triggerNode">
         {props.children}
@@ -243,6 +267,8 @@ Tooltip.defaultProps = {
   interactive: false,
   position: 'top',
   scrollContainer: window,
+  stayOpen: false,
+  suppress: false,
   wrapperClassName: 'tooltip-wrapper text-align-center',
   wrapText: false
 };
@@ -272,6 +298,10 @@ Tooltip.propTypes = {
   // Also accepts a string, which will be treated as a selector for the node.
   scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
     React.PropTypes.string]),
+  // Keeps a tooltip open after it's triggered. Defaults to false.
+  stayOpen: React.PropTypes.bool,
+  // Prevents a tooltip from being displayed. Defaults to false.
+  suppress: React.PropTypes.bool,
   // Explicitly set the width of the tooltip. Default is auto.
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
