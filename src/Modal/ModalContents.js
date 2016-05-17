@@ -92,30 +92,41 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   checkContentHeightChange(prevHeightInfo, heightInfo) {
-    let {height, maxHeight, innerContentHeight} = heightInfo;
-    let prevContentHeight = prevHeightInfo.innerContentHeight;
+    let {contentHeight, height, maxHeight, innerContentHeight} = heightInfo;
+    let prevInnerContentHeight = prevHeightInfo.innerContentHeight;
+    let prevHeight = prevHeightInfo.height;
+    let prevContentHeight = prevHeightInfo.contentHeight;
     let prevMaxHeight = prevHeightInfo.maxHeight;
-    let update = false;
 
-    if (prevContentHeight != null) {
-      let difference = innerContentHeight - prevContentHeight;
+    // Default update height to whether there is some change in height
+    let update = prevHeight !== height || prevContentHeight !== contentHeight;
+
+    // Make sure to update heightInfo with new height difference
+    if (prevInnerContentHeight != null) {
+      let difference = innerContentHeight - prevInnerContentHeight;
       if (difference !== 0 && height + difference < maxHeight) {
+        // Changes this.heightInfo as this is a reference
         heightInfo.height += difference;
         heightInfo.contentHeight += difference;
         update = true;
       }
+    }
 
+    // Make sure to update heightInfo with new max height difference
+    if (innerContentHeight != null) {
       let maxHeightDifference = maxHeight - prevMaxHeight;
       if (maxHeightDifference > 0 &&
         (heightInfo.contentHeight + difference < innerContentHeight)) {
+        // Changes this.heightInfo as this is a reference
         heightInfo.height += maxHeightDifference;
         heightInfo.contentHeight += maxHeightDifference;
         update = true;
       }
 
-      if (update) {
-        this.forceUpdate();
-      }
+    }
+
+    if (update) {
+      this.forceUpdate();
     }
   }
 
