@@ -4,6 +4,7 @@ jest.dontMock('../../Util/KeyboardUtil');
 
 /* eslint-disable no-unused-vars */
 var React = require('react');
+var ReactDOM = require('react-dom');
 /* eslint-enable no-unused-vars */
 var TestUtils = require('react-addons-test-utils');
 
@@ -143,6 +144,26 @@ describe('FieldInput', function () {
       );
 
       expect(instance.getInputElement({}).type).toEqual('input');
+    });
+
+    it('should have the right selectionStart if focused', function () {
+      var instance = TestUtils.renderIntoDocument(
+        <FieldInput
+          focused={true}
+          name="username"
+          fieldType="text"
+          startValue="Username"
+          writeType="input"
+          handleEvent={function () {}} />
+      );
+
+      jest.runAllTimers();
+
+      let input = TestUtils
+        .findRenderedDOMComponentWithTag(instance, 'input');
+
+      expect(input.selectionStart).toEqual(8);
+      expect(input.selectionEnd).toEqual(8);
     });
   });
 

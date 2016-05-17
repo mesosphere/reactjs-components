@@ -17,9 +17,11 @@ class FormExample extends React.Component {
         },
         {
           fieldType: 'text',
+          focused: true,
           name: 'uid',
           placeholder: 'Last name',
           required: true,
+          value: 'Last name',
           writeType: 'input'
         }
       ],
@@ -212,9 +214,11 @@ class FormExample extends React.Component {
         },
         {
           fieldType: 'text',
+          focused: true,
           name: 'uid',
           placeholder: 'Last name',
           required: true,
+          value: 'Last name',
           writeType: 'input'
         }
       ],

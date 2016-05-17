@@ -17,6 +17,20 @@ class FieldInput extends React.Component {
     }
   }
 
+  componentDidMount() {
+    let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
+    if (inputElement != null &&
+        inputElement.type === 'text' &&
+        this.props.focused) {
+      // Don't interfere with existing transitions
+      setTimeout(function () {
+        var valueLength = inputElement.value.length;
+        inputElement.focus();
+        inputElement.setSelectionRange(valueLength, valueLength);
+      }, 0);
+    }
+  }
+
   bindEvents(attributes) {
     EVENTS.forEach((event) => {
       let htmlEvent = `on${Util.capitalize(event)}`;
@@ -181,6 +195,10 @@ FieldInput.propTypes = {
   // Optional. Which field property is currently being edited
   // (usually passed down from form definition)
   editing: React.PropTypes.string,
+  // Optional. Specify if the field should be focused
+  // Useful in combination with preset values, will set cursor to end of input
+  // (usually passed down from form definition)
+  focused: React.PropTypes.bool,
   // Function to handle when form is submitted
   // (usually passed down from form definition)
   handleSubmit: React.PropTypes.func,
