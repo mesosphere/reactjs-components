@@ -167,11 +167,13 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   validateValue(field, value, definition) {
-    let validation = findFieldOption(definition, field).validation;
+    let options = findFieldOption(definition, field);
 
-    if (validation == null) {
+    if (options == null || options.validation == null) {
       return true;
     }
+
+    let {validation} = options;
 
     if (typeof validation === 'function') {
       return validation(value);
@@ -185,8 +187,12 @@ class Form extends Util.mixin(BindMixin) {
     let submitValidated = true;
 
     Object.keys(model).forEach((name) => {
-      let fieldValue = model[name];
       let options = findFieldOption(definition, name);
+      if (options == null) {
+        return true;
+      }
+
+      let fieldValue = model[name];
       let validated = this.validateValue(
         name, fieldValue, definition
       );
