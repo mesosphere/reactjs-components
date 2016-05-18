@@ -101,8 +101,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     // Default update height to whether there is some change in height
     let update = prevHeight !== height || prevContentHeight !== contentHeight;
 
-    // Make sure to update heightInfo with new height difference
     if (prevInnerContentHeight != null) {
+      // Make sure to update heightInfo with new height difference
       let difference = innerContentHeight - prevInnerContentHeight;
       if (difference !== 0 && height + difference < maxHeight) {
         // Changes this.heightInfo as this is a reference
@@ -110,10 +110,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
         heightInfo.contentHeight += difference;
         update = true;
       }
-    }
 
-    // Make sure to update heightInfo with new max height difference
-    if (innerContentHeight != null) {
+      // Make sure to update heightInfo with new max height difference
       let maxHeightDifference = maxHeight - prevMaxHeight;
       if (maxHeightDifference > 0 &&
         (heightInfo.contentHeight + difference < innerContentHeight)) {
