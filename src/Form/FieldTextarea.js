@@ -19,7 +19,6 @@ module.exports = class FieldTextarea extends FieldInput {
         <textarea
           ref="inputElement"
           className={classes}
-          onKeyDown={this.handleKeyDown.bind(this)}
           {...attributes}
           value={attributes.startValue} />
       );
