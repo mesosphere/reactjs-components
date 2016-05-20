@@ -121,7 +121,7 @@ class FormExample extends React.Component {
           }
         ],
         showLabel: 'What is your favorite fruit?',
-        name: 'color',
+        name: 'fruit',
         validation: function (value) {
           let result = false;
           value.forEach(function (item) {
@@ -352,7 +352,7 @@ class FormExample extends React.Component {
           }
         ],
         showLabel: 'What is your favorite fruit?',
-        name: 'color',
+        name: 'fruit',
         validation: function (value) {
           let result = false;
           value.forEach(function (item) {
