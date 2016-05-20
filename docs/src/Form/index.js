@@ -120,7 +120,7 @@ class FormExample extends React.Component {
             checked: false
           }
         ],
-        showLabel: 'What is fruit?',
+        showLabel: 'What is your favorite fruit?',
         name: 'color',
         validation: function (value) {
           let result = false;
@@ -351,7 +351,7 @@ class FormExample extends React.Component {
             checked: false
           }
         ],
-        showLabel: 'What is fruit?',
+        showLabel: 'What is your favorite fruit?',
         name: 'color',
         validation: function (value) {
           let result = false;
