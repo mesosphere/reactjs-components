@@ -190,7 +190,9 @@ base/forms.less
 
     // Checkbox specific styles
     .form-element-checkbox {
+
       input[type="checkbox"] {
+
         & + .form-element-checkbox-decoy {
           border: 1px solid @form-control-default-border-color;
           border-radius: 3px;
@@ -234,7 +236,7 @@ base/forms.less
 
         input[type="checkbox"] {
 
-          & + .form-element-checkbox-decoy  {
+          & + .form-element-checkbox-decoy {
             border-color: @form-control-default-inverse-border-color;
           }
 
@@ -256,8 +258,11 @@ base/forms.less
 
     // Radio button specific styles
     .form-element-radio-button {
+
       input[type="radio"] {
+
         & + .form-element-radio-button-decoy {
+
           .icon-radio-button {
             fill: currentColor;
 
@@ -276,6 +281,7 @@ base/forms.less
         }
 
         &:disabled + .form-element-radio-button-decoy {
+
           .large-circle {
             color: #C5C5C5;
           }
