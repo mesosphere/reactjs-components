@@ -30,10 +30,6 @@ class IconRadioButton extends React.Component {
   }
 }
 
-IconRadioButton.defaultProps = {
-  checked: false
-};
-
 let classPropType = React.PropTypes.oneOfType([
   React.PropTypes.array,
   React.PropTypes.object,
