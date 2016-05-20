@@ -2,6 +2,7 @@ import FieldCheckbox from './FieldCheckbox';
 import FieldCheckboxMultiple from './FieldCheckboxMultiple';
 import FieldInput from './FieldInput';
 import FieldPassword from './FieldPassword';
+import FieldRadioButton from './FieldRadioButton';
 import FieldSubmit from './FieldSubmit';
 import FieldTextarea from './FieldTextarea';
 
@@ -10,6 +11,7 @@ const FieldTypes = {
   'checkboxMultiple': FieldCheckboxMultiple,
   'number': FieldInput,
   'password': FieldPassword,
+  'radioButton': FieldRadioButton,
   'submit': FieldSubmit,
   'text': FieldInput,
   'textarea': FieldTextarea

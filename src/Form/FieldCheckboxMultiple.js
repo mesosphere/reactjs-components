@@ -10,18 +10,10 @@ class FieldCheckboxMultiple extends Util.mixin(BindMixin) {
     return ['handleEvent'];
   }
 
-  handleEvent(eventType, name, modelState, event) {
+  handleEvent(eventType, name, checked, event) {
     let {props} = this;
 
-    props.handleEvent(
-      'multipleChange',
-      props.name,
-      {
-        name: name,
-        checked: modelState
-      },
-      event
-    );
+    props.handleEvent('multipleChange', props.name, [{name, checked}], event);
   }
 
   hasError() {

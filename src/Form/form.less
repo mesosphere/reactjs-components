@@ -149,41 +149,54 @@ base/forms.less
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 
-  Checkbox Form Elements
+  Checkbox and Radio Button Form Elements
 
   --------------------------------------------------------------------------------
   ----------------------------------------------------------------------------- */
-  .checkbox {
-    .form-element-checkbox {
+  .checkbox,
+  .radio-button {
+
+    .form-element-checkbox,
+    .form-element-radio-button {
       position: relative;
       padding-left: 0;
 
-      input[type="checkbox"] {
+      input[type="checkbox"],
+      input[type="radio"] {
         left: 0;
         opacity: 0;
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
 
-        & + .form-element-checkbox-decoy {
-          border: 1px solid @form-control-default-border-color;
-          border-radius: 3px;
+        & + .form-element-checkbox-decoy,
+        & + .form-element-radio-button-decoy {
           display: inline-block;
           height: 16px;
+          margin-top: -2px;
           position: relative;
-          width: 16px;
           vertical-align: middle;
+          width: 16px;
 
           svg {
             display: block;
           }
 
+          & + .form-element-checkbox-label,
+          & + .form-element-radio-button-label {
+            margin-left: @base-spacing-unit * 1/2;
+          }
+        }
+      }
+    }
+
+    // Checkbox specific styles
+    .form-element-checkbox {
+      input[type="checkbox"] {
+        & + .form-element-checkbox-decoy {
+          border: 1px solid @form-control-default-border-color;
+          border-radius: 3px;
+
           .icon {
             opacity: 0;
-          }
-
-          & + .form-element-checkbox-label {
-            margin-left: @base-spacing-unit * 1/2;
           }
         }
 
@@ -221,7 +234,7 @@ base/forms.less
 
         input[type="checkbox"] {
 
-          & + .form-element-checkbox-decoy {
+          & + .form-element-checkbox-decoy  {
             border-color: @form-control-default-inverse-border-color;
           }
 
@@ -237,6 +250,37 @@ base/forms.less
             background: @form-control-default-inverse-border-color;
             border-color: @form-control-default-inverse-border-color;
           }
+        }
+      }
+    }
+
+    // Radio button specific styles
+    .form-element-radio-button {
+      input[type="radio"] {
+        & + .form-element-radio-button-decoy {
+          .icon-radio-button {
+            fill: currentColor;
+
+            .large-circle {
+              color: @form-control-default-focus-text-color;
+            }
+
+            .small-circle {
+              color: @white;
+            }
+
+            .shadow {
+              color: @black;
+            }
+          }
+        }
+
+        &:disabled + .form-element-radio-button-decoy {
+          .large-circle {
+            color: #C5C5C5;
+          }
+
+
         }
       }
     }
