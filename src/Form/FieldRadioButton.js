@@ -94,7 +94,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
           type="radio"
           {...attributes} />
         <span className="form-element-radio-button-decoy">
-          <IconRadioButton checked={attributes.checked} />
+          <IconRadioButton labelClass={labelClass} {...attributes} />
         </span>
         {itemLabel}
       </label>
