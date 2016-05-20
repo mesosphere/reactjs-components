@@ -50,7 +50,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   getLabel() {
-    let {showLabel, name} = this;
+    let {showLabel, name} = this.props;
     let label = name;
 
     if (!showLabel) {
