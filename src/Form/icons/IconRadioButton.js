@@ -6,12 +6,12 @@ class IconRadioButton extends React.Component {
     let {checked, className, shadowClassName, smallCircleClassName} = this.props;
     let iconClasses = classNames('icon-radio-button', className);
     let shadowClasses = classNames(
-      'shadow',
+      'icon-radio-button-shadow',
       {hidden: !checked},
       shadowClassName
     );
     let smallCircleClasses = classNames(
-      'small-circle',
+      'icon-radio-small-circle',
       {hidden: !checked},
       smallCircleClassName
     );
@@ -22,7 +22,7 @@ class IconRadioButton extends React.Component {
         width="16"
         height="16"
         viewBox="0 0 16 16">
-        <rect className="large-circle" width="16" height="16" rx="8"/>
+        <rect className="icon-radio-large-circle" width="16" height="16" rx="8"/>
         <rect className={shadowClasses} fillOpacity=".13" x="5" y="6" width="6" height="6" rx="8"/>
         <rect className={smallCircleClasses} x="5" y="5" width="6" height="6" rx="8"/>
       </svg>
