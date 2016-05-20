@@ -17,14 +17,23 @@ class FieldSelect extends React.Component {
   }
 
   getDropDown(dropdownItems) {
-    let {
-      defaultValue,
-      dropdownMenuButtonClassName,
-      dropdownMenuClassName,
-      dropdownMenuListClassName,
-      dropdownMenuWrapperClassName,
-      persistentID
-    } = this.props;
+    let {defaultValue, persistentID} = this.props;
+
+    let classes = {
+      buttonClassName: 'button dropdown-toggle',
+      dropdownMenuClassName: 'dropdown-menu',
+      dropdownMenuListClassName: 'dropdown-menu-list',
+      wrapperClassName: 'dropdown'
+    };
+
+    classes = Object.keys(classes)
+      .reduce(function (classSet, className) {
+        classSet[className] = classNames(
+          classes[className],
+          this.props[className]
+        );
+        return classSet;
+    }.bind(this), classes);
 
     if (defaultValue == null) {
       defaultValue = dropdownItems[0];
@@ -37,25 +46,13 @@ class FieldSelect extends React.Component {
       };
     }
 
-    let dropdownMenuButtonClassSet = classNames('button dropdown-toggle',
-      dropdownMenuButtonClassName);
-    let dropdownMenuClassSet = classNames('dropdown-menu',
-      dropdownMenuClassName);
-    let dropdownMenuListClassSet = classNames('dropdown-menu-list',
-      dropdownMenuListClassName);
-    let dropdownMenuWrapperClassSet = classNames('dropdown',
-      dropdownMenuWrapperClassName);
-
     return (
-      <Dropdown buttonClassName={dropdownMenuButtonClassSet}
-        dropdownMenuClassName={dropdownMenuClassSet}
-        dropdownMenuListClassName={dropdownMenuListClassSet}
+      <Dropdown {...classes}
+        initialID={defaultValue.id}
         items={dropdownItems}
         onItemSelection={this.handleChange.bind(this)}
-        transition={true}
         persistentID={persistentID}
-        initialID={defaultValue.id}
-        wrapperClassName={dropdownMenuWrapperClassSet} />
+        transition={true} />
     );
   }
 
@@ -190,9 +187,10 @@ FieldSelect.propTypes = {
   formElementClass: React.PropTypes.string,
 
   //Classes for the Dropdown
-  dropdownMenuButtonClassName: React.PropTypes.string,
-  dropdownMenuListClassName: React.PropTypes.string,
+  buttonClassName: React.PropTypes.string,
   dropdownMenuClassName: React.PropTypes.string,
+  dropdownMenuListClassName: React.PropTypes.string,
+  wrapperClassName: React.PropTypes.string
 };
 
 module.exports = FieldSelect;
