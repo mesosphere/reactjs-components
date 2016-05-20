@@ -39,7 +39,7 @@ class FieldSelect extends React.Component {
       defaultValue = dropdownItems[0];
     }
 
-    if (typeof defaultValue === 'string'){
+    if (typeof defaultValue === 'string') {
       defaultValue = {
         html: defaultValue,
         id: defaultValue.toLowerCase()
@@ -134,6 +134,7 @@ class FieldSelect extends React.Component {
 
 FieldSelect.defaultProps = {
   columnWidth: 12,
+  handleEvent: function () {},
   formElementClass: 'form-row-element'
 };
 
