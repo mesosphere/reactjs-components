@@ -70,25 +70,26 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     );
   }
 
-  getItem(eventName, labelClass, disabled, attributes, index) {
+  getItem(eventName, labelClass, attributes, index) {
     let itemLabel;
 
     if (attributes.label) {
-      let labelClasses = classNames(
+      let radioButtonLabelClass = classNames(
         attributes.radioButtonLabelClass,
         this.props.radioButtonLabelClass
       );
       itemLabel = (
-        <span className={labelClasses}>
+        <span className={radioButtonLabelClass}>
           {attributes.label}
         </span>
       );
     }
 
+    let labelClasses = classNames(labelClass, {mute: attributes.disabled});
+
     return (
-      <label className={labelClass} key={index}>
+      <label className={labelClasses} key={index}>
         <input
-          disabled={disabled}
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           ref="radio"
           type="radio"
@@ -105,11 +106,11 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     let {disabled, labelClass, startValue} = this.props;
 
     if (!Util.isArray(startValue)) {
-      return this.getItem('change', labelClass, disabled, startValue, 0);
+      return this.getItem('change', labelClass, startValue, 0);
     }
 
     return startValue.map(
-      this.getItem.bind(this, 'multipleChange', labelClass, disabled)
+      this.getItem.bind(this, 'multipleChange', labelClass)
     );
   }
 
