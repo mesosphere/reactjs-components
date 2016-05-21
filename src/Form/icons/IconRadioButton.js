@@ -3,7 +3,7 @@ import React from 'react';
 
 class IconRadioButton extends React.Component {
   render() {
-    let {checked, className, disabled, shadowClassName, radioDotClassName} = this.props;
+    let {checked, className, shadowClassName, radioDotClassName} = this.props;
     let iconClasses = classNames('icon-radio-button', className);
     let shadowClasses = classNames(
       'icon-radio-button-shadow',
@@ -17,13 +17,22 @@ class IconRadioButton extends React.Component {
     );
 
     return (
-      <svg
-        className={iconClasses}
-        width="16"
-        height="16"
-        viewBox="0 0 16 16">
-        <rect className={shadowClasses} fillOpacity=".13" x="5" y="6" width="6" height="6" rx="8"/>
-        <rect className={radioDotClasses} x="5" y="5" width="6" height="6" rx="8"/>
+      <svg className={iconClasses} width="16" height="16" viewBox="0 0 16 16">
+        <rect
+          className={shadowClasses}
+          fillOpacity=".13"
+          x="5"
+          y="6"
+          width="6"
+          height="6"
+          rx="8" />
+        <rect
+          className={radioDotClasses}
+          x="5"
+          y="5"
+          width="6"
+          height="6"
+          rx="8" />
       </svg>
     );
   }
