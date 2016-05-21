@@ -70,21 +70,24 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     );
   }
 
-  getItem(eventName, labelClass, attributes, index) {
-    let itemLabel;
-
-    if (attributes.label) {
-      let radioButtonLabelClass = classNames(
-        attributes.radioButtonLabelClass,
-        this.props.radioButtonLabelClass
-      );
-      itemLabel = (
-        <span className={radioButtonLabelClass}>
-          {attributes.label}
-        </span>
-      );
+  getItemLabel(attributes) {
+    if (!attributes.label) {
+      return null;
     }
 
+    let radioButtonLabelClass = classNames(
+      attributes.radioButtonLabelClass,
+      this.props.radioButtonLabelClass
+    );
+
+    return (
+      <span className={radioButtonLabelClass}>
+        {attributes.label}
+      </span>
+    );
+  }
+
+  getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(labelClass, {mute: attributes.disabled});
 
     return (
@@ -97,7 +100,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
         <span className="form-element-radio-button-decoy">
           <IconRadioButton labelClass={labelClass} {...attributes} />
         </span>
-        {itemLabel}
+        {this.getItemLabel(attributes)}
       </label>
     );
   }
