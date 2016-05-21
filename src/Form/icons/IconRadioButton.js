@@ -3,17 +3,17 @@ import React from 'react';
 
 class IconRadioButton extends React.Component {
   render() {
-    let {checked, className, shadowClassName, smallCircleClassName} = this.props;
+    let {checked, className, disabled, shadowClassName, radioDotClassName} = this.props;
     let iconClasses = classNames('icon-radio-button', className);
     let shadowClasses = classNames(
       'icon-radio-button-shadow',
-      {hidden: !checked},
+      {hidden: !checked && !disabled},
       shadowClassName
     );
-    let smallCircleClasses = classNames(
-      'icon-radio-small-circle',
-      {hidden: !checked},
-      smallCircleClassName
+    let radioDotClasses = classNames(
+      'icon-radio-button-dot',
+      {hidden: !checked && !disabled},
+      radioDotClassName
     );
 
     return (
@@ -22,9 +22,8 @@ class IconRadioButton extends React.Component {
         width="16"
         height="16"
         viewBox="0 0 16 16">
-        <rect className="icon-radio-large-circle" width="16" height="16" rx="8"/>
         <rect className={shadowClasses} fillOpacity=".13" x="5" y="6" width="6" height="6" rx="8"/>
-        <rect className={smallCircleClasses} x="5" y="5" width="6" height="6" rx="8"/>
+        <rect className={radioDotClasses} x="5" y="5" width="6" height="6" rx="8"/>
       </svg>
     );
   }
@@ -42,7 +41,7 @@ IconRadioButton.propTypes = {
   // Classes
   className: classPropType,
   shadowClassName: classPropType,
-  smallCircleClassName: classPropType
+  radioDotClassName: classPropType
 };
 
 module.exports = IconRadioButton;

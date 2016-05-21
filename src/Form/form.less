@@ -169,6 +169,7 @@ base/forms.less
 
         & + .form-element-checkbox-decoy,
         & + .form-element-radio-button-decoy {
+          border: 1px solid @form-control-default-border-color;
           display: inline-block;
           height: 16px;
           margin-top: -2px;
@@ -194,7 +195,6 @@ base/forms.less
       input[type="checkbox"] {
 
         & + .form-element-checkbox-decoy {
-          border: 1px solid @form-control-default-border-color;
           border-radius: 3px;
 
           .icon {
@@ -260,17 +260,15 @@ base/forms.less
     .form-element-radio-button {
 
       input[type="radio"] {
-
         & + .form-element-radio-button-decoy {
+          border-radius: 50%;
+          box-sizing: content-box;
+
 
           .icon-radio-button {
             fill: currentColor;
 
-            .icon-radio-large-circle {
-              color: @form-control-default-focus-text-color;
-            }
-
-            .icon-radio-small-circle {
+            .icon-radio-button-dot {
               color: @white;
             }
 
@@ -280,13 +278,21 @@ base/forms.less
           }
         }
 
+        &:checked + .form-element-radio-button-decoy {
+          background: @form-control-default-focus-text-color;
+          border-color: @form-control-default-focus-text-color;
+        }
+
         &:disabled + .form-element-radio-button-decoy {
+          background: #C5C5C5;
+          border-color: color-lighten(#C5C5C5, -5);
 
-          .icon-radio-large-circle {
-            color: #C5C5C5;
+          .icon-radio-button {
+
+            .icon-radio-button-dot {
+              color: color-lighten(#C5C5C5, 50);
+            }
           }
-
-
         }
       }
     }
