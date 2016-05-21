@@ -94,7 +94,6 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       <label className={labelClasses} key={index}>
         <input
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
-          ref="radio"
           type="radio"
           {...attributes} />
         <span className="form-element-radio-button-decoy">
