@@ -33,7 +33,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
   handleChange(eventName, name, event) {
     let {props} = this;
-    let model = [{name, checked: event.target.checked}];
+    let model = {name, checked: event.target.checked};
 
     if (eventName === 'multipleChange') {
       model = props.startValue.reduce(function (changedItems, item) {
@@ -43,7 +43,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
         }
 
         return changedItems;
-      }, model);
+      }, [model]);
     }
 
     props.handleEvent(eventName, props.name, model, event);
