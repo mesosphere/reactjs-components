@@ -105,14 +105,14 @@ class FormExample extends React.Component {
             checked: false
           },
           {
-            name: 'pineapple',
-            label: 'Pineapple',
-            checked: false
-          },
-          {
             name: 'apple',
             label: 'Apple',
             checked: false
+          },
+          {
+            name: 'pineapple',
+            label: 'Pineapple',
+            checked: true
           },
           {
             name: 'other',
@@ -336,14 +336,14 @@ class FormExample extends React.Component {
             checked: false
           },
           {
-            name: 'pineapple',
-            label: 'Pineapple',
-            checked: false
-          },
-          {
             name: 'apple',
             label: 'Apple',
             checked: false
+          },
+          {
+            name: 'pineapple',
+            label: 'Pineapple',
+            checked: true
           },
           {
             name: 'other',
