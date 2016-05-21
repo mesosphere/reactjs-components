@@ -123,7 +123,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {formGroupClass, formGroupErrorClass} = this;
+    let {formGroupClass, formGroupErrorClass} = this.props;
 
     let classes = classNames(formGroupClass, {
       [formGroupErrorClass]: this.hasError()
