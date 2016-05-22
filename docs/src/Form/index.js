@@ -85,7 +85,7 @@ class FormExample extends React.Component {
         validationErrorText: 'One option has to be selected'
       },
       {
-        fieldType: 'checkboxMultiple',
+        fieldType: 'checkbox',
         value: [
           {
             name: 'isManager',
@@ -310,7 +310,7 @@ class FormExample extends React.Component {
         writeType: 'input'
       },
       {
-        fieldType: 'checkboxMultiple',
+        fieldType: 'checkbox',
         value: [
           {
             name: 'isManager',
