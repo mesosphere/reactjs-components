@@ -201,7 +201,7 @@ describe('FieldRadioButton', function () {
       var args = handleEventSpy.mostRecentCall.args;
       expect(args[0]).toEqual('change');
       expect(args[1]).toEqual('foo');
-      expect(args[2]).toEqual([{name: 'bar', checked: true}]);
+      expect(args[2]).toEqual({name: 'bar', checked: true});
     });
 
     it('should display the checked of each item', function () {
