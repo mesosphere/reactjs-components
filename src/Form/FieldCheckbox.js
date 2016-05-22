@@ -1,88 +1,91 @@
 import classNames from 'classnames';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
-import BindMixin from '../Mixin/BindMixin';
-import ItemCheckbox from './ItemCheckbox';
+import FieldRadioButton from './FieldRadioButton';
+import IconCheckbox from './icons/IconCheckbox';
 import Util from '../Util/Util';
 
-class FieldCheckbox extends Util.mixin(BindMixin) {
-  hasError() {
-    let {props} = this;
-    let validationError = props.validationError;
-    return !!(validationError && validationError[props.name]);
+class FieldCheckbox extends FieldRadioButton {
+
+  componentDidMount() {
+    super.componentDidMount(...arguments);
+    this.updateCheckbox();
   }
 
-  getErrorMsg() {
-    let errorMsg = null;
-    let {props} = this;
+  componentDidUpdate() {
+    super.componentDidUpdate(...arguments);
+    this.updateCheckbox();
+  }
 
-    if (this.hasError()) {
-      errorMsg = (
-        <p className={props.helpBlockClass}>
-          {props.validationError[props.name]}
-        </p>
-      );
+  updateCheckbox() {
+    let {props, refs} = this;
+    Object.keys(refs).forEach(function (refName) {
+      let checkbox = ReactDOM.findDOMNode(refs[refName]);
+      let indeterminate;
+      // Single checkbox
+      if (props.name === refName) {
+        indeterminate = props.indeterminate;
+      }
+
+      // Multiple checkboxes
+      if (Util.isArray(props.startValue)) {
+        indeterminate = Util.find(props.startValue, function (item) {
+          return item.name === refName;
+        }).indeterminate;
+      }
+
+      if (indeterminate != null) {
+        checkbox.indeterminate = indeterminate;
+      }
+    });
+  }
+
+  handleChange(eventName, name, event) {
+    let {props} = this;
+    let model = {name, checked: event.target.checked};
+
+    if (eventName === 'multipleChange') {
+      props.handleEvent(eventName, props.name, [model], event);
     }
 
-    return errorMsg;
+    if (eventName === 'change') {
+      props.handleEvent(eventName, props.name, model, event);
+    }
   }
 
-  getLabel() {
-    let {props} = this;
-    let label = props.name;
-    let showLabel = props.showLabel;
-
-    if (!showLabel) {
+  getItemLabel(attributes) {
+    if (!attributes.label) {
       return null;
     }
 
-    if (typeof showLabel === 'string') {
-      label = showLabel;
-    }
-
-    if (typeof showLabel !== 'string' && showLabel !== true) {
-      return showLabel;
-    }
+    let checkboxLabelClass = classNames(
+      attributes.checkboxLabelClass,
+      this.props.checkboxLabelClass
+    );
 
     return (
-      <p>
-        {label}
-      </p>
+      <span className={checkboxLabelClass}>
+        {attributes.label}
+      </span>
     );
   }
 
-  getRowClass(props) {
-    return classNames(
-      `column-${props.columnWidth}`,
-      props.formElementClass
-    );
-  }
-
-  render() {
-    let {props} = this;
-    let classes = classNames(
-      props.formGroupClass,
-      {
-        [props.formGroupErrorClass]: this.hasError()
-      }
-    );
-
-    let checked = this.props.checked;
-
-    if (this.props.startValue != null) {
-      checked = this.props.startValue;
-    }
+  getItem(eventName, labelClass, attributes, index) {
+    let labelClasses = classNames(labelClass, {mute: attributes.disabled});
 
     return (
-      <div className={this.getRowClass(props)}>
-        <div className={classes}>
-          {this.getLabel()}
-          <ItemCheckbox
-            {...this.props}
-            checked={checked}/>
-          {this.getErrorMsg()}
-        </div>
-      </div>
+      <label className={labelClasses} key={index}>
+        <input
+          onChange={this.handleChange.bind(this, eventName, attributes.name)}
+          ref={attributes.name}
+          type="checkbox"
+          {...attributes} />
+        <span className="form-element-checkbox-decoy">
+          <IconCheckbox labelClass={labelClass} {...attributes} />
+        </span>
+        {this.getItemLabel(attributes)}
+      </label>
     );
   }
 }
@@ -90,15 +93,17 @@ class FieldCheckbox extends Util.mixin(BindMixin) {
 FieldCheckbox.defaultProps = {
   columnWidth: 12,
   formElementClass: 'form-row-element checkbox',
-  handleEvent: function () {}
+  checkboxLabelClass: 'form-element-checkbox-label',
+  handleChange: function () {},
+  labelClass: 'form-row-element form-element-checkbox'
 };
 
 FieldCheckbox.propTypes = {
-  // Optional value for setting the checked state of the checkbox,
-  // should be either true for 'checked' or false 'unchecked'
-  checked: React.PropTypes.bool,
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
+  // Function to handle change event
+  // (usually passed down from form definition)
+  handleEvent: React.PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
@@ -108,9 +113,6 @@ FieldCheckbox.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool
   ]),
-  // Optional value to initialize the component with a non-empty checkbox
-  // value, should be either true for 'checked' or false 'unchecked'
-  startValue: React.PropTypes.bool,
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
 
