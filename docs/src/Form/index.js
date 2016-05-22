@@ -84,13 +84,10 @@ class FormExample extends React.Component {
         ],
         showLabel: 'What is your role?',
         name: 'role',
-        validation: function (value) {
-          let result = false;
-          value.forEach(function (item) {
+        validation: function (value) {;
+          return value.some(function (item) {
             return item.checked;
           });
-
-          return result;
         },
         validationErrorText: 'Please select at least one option.',
         writeType: 'input'
@@ -123,12 +120,9 @@ class FormExample extends React.Component {
         showLabel: 'What is your favorite fruit?',
         name: 'fruit',
         validation: function (value) {
-          let result = false;
-          value.forEach(function (item) {
+          return value.some(function (item) {
             return item.checked;
           });
-
-          return result;
         },
         validationErrorText: 'Please select at least one option.',
         writeType: 'input'
