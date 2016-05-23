@@ -84,15 +84,45 @@ class FormExample extends React.Component {
         ],
         showLabel: 'What is your role?',
         name: 'role',
-        validation: function (value) {
-          let result = false;
-          value.forEach(function (item) {
-            if (item.checked) {
-              result = item.checked;
-            }
+        validation: function (value) {;
+          return value.some(function (item) {
+            return item.checked;
           });
-
-          return result;
+        },
+        validationErrorText: 'Please select at least one option.',
+        writeType: 'input'
+      },
+      {
+        fieldType: 'radioButton',
+        value: [
+          {
+            disabled: true,
+            name: 'bananas',
+            label: 'Bananas (disabled)',
+            checked: false
+          },
+          {
+            name: 'apple',
+            label: 'Apple',
+            checked: false
+          },
+          {
+            name: 'pineapple',
+            label: 'Pineapple',
+            checked: true
+          },
+          {
+            name: 'other',
+            label: 'Something else',
+            checked: false
+          }
+        ],
+        showLabel: 'What is your favorite fruit?',
+        name: 'fruit',
+        validation: function (value) {
+          return value.some(function (item) {
+            return item.checked;
+          });
         },
         validationErrorText: 'Please select at least one option.',
         writeType: 'input'
@@ -282,9 +312,45 @@ class FormExample extends React.Component {
         validation: function (value) {
           let result = false;
           value.forEach(function (item) {
-            if (item.checked) {
-              result = item.checked;
-            }
+            return item.checked;
+          });
+
+          return result;
+        },
+        validationErrorText: 'Please select at least one option.',
+        writeType: 'input'
+      },
+      {
+        fieldType: 'radioButton',
+        value: [
+          {
+            disabled: true,
+            name: 'bananas',
+            label: 'Bananas (disabled)',
+            checked: false
+          },
+          {
+            name: 'apple',
+            label: 'Apple',
+            checked: false
+          },
+          {
+            name: 'pineapple',
+            label: 'Pineapple',
+            checked: true
+          },
+          {
+            name: 'other',
+            label: 'Something else',
+            checked: false
+          }
+        ],
+        showLabel: 'What is your favorite fruit?',
+        name: 'fruit',
+        validation: function (value) {
+          let result = false;
+          value.forEach(function (item) {
+            return item.checked;
           });
 
           return result;
