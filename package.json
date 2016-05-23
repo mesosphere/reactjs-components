@@ -8,8 +8,8 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "^4.x.x",
-    "npm": "^2.x.x"
+    "node": "^4.3.x",
+    "npm": "^2.10.x"
   },
   "repository": {
     "type": "git",
