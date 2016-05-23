@@ -9,7 +9,7 @@
   },
   "engines": {
     "node": "^4.x.x",
-    "npm": "^2.x.x"
+    "npm": "^3.x.x"
   },
   "repository": {
     "type": "git",
