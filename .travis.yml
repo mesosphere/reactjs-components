@@ -1,3 +1,5 @@
 language: node_js
 node_js:
-  - "4"
+  - "4.3"
+before_install:
+  - if [[ `npm -v` != 2.10* ]]; then npm i -g npm@2.10; fi
