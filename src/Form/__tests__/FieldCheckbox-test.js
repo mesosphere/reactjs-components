@@ -247,7 +247,7 @@ describe('FieldCheckbox', function () {
       expect(el.checked).toEqual(false);
     });
 
-    it('is not checked by default', function () {
+    it('allows setting initial checked value', function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldCheckbox
           name="foo"
