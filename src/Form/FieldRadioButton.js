@@ -126,7 +126,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {formGroupClass, formGroupErrorClass} = this.props;
+    let {formGroupClass, formGroupErrorClass, itemWrapperClass} = this.props;
 
     let classes = classNames(formGroupClass, {
       [formGroupErrorClass]: this.hasError()
@@ -136,7 +136,9 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       <div className={this.getRowClass()}>
         <div className={classes}>
           {this.getLabel()}
-          {this.getItems()}
+          <div className={classNames(itemWrapperClass)}>
+            {this.getItems()}
+          </div>
           {this.getErrorMsg()}
         </div>
       </div>
@@ -187,6 +189,7 @@ FieldRadioButton.propTypes = {
   formGroupClass: classPropType,
   formGroupErrorClass: classPropType,
   helpBlockClass: classPropType,
+  itemWrapperClass: classPropType,
   labelClass: classPropType,
   radioButtonLabelClass: classPropType
 };
