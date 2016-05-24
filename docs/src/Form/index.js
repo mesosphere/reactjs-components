@@ -64,6 +64,27 @@ class FormExample extends React.Component {
         writeType: 'input'
       },
       {
+        fieldType: 'select',
+        label: 'Level',
+        showLabel: true,
+        options: [
+          {
+            html: 'Senior',
+            id: 'Senior'
+          },
+          {
+            html: 'Junior',
+            id: 'junior'
+          }
+        ],
+        value: 'junior',
+        name: 'level',
+        validation: function (value) {
+          return !!value;
+        },
+        validationErrorText: 'One option has to be selected'
+      },
+      {
         fieldType: 'checkboxMultiple',
         value: [
           {
@@ -357,6 +378,27 @@ class FormExample extends React.Component {
         },
         validationErrorText: 'Please select at least one option.',
         writeType: 'input'
+      },
+      {
+        fieldType: 'select',
+        label: 'Level',
+        showLabel: true,
+        options: [
+          {
+            html: 'Senior',
+            id: 'Senior'
+          },
+          {
+            html: 'Junior',
+            id: 'junior'
+          }
+        ],
+        value: 'junior',
+        name: 'level',
+        validation: function (value) {
+          return !!value;
+        },
+        validationErrorText: 'One option has to be selected'
       },
       {
         fieldType: 'textarea',

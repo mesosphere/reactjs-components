@@ -3,6 +3,7 @@ import FieldCheckboxMultiple from './FieldCheckboxMultiple';
 import FieldInput from './FieldInput';
 import FieldPassword from './FieldPassword';
 import FieldRadioButton from './FieldRadioButton';
+import FieldSelect from './FieldSelect';
 import FieldSubmit from './FieldSubmit';
 import FieldTextarea from './FieldTextarea';
 
@@ -14,7 +15,8 @@ const FieldTypes = {
   'radioButton': FieldRadioButton,
   'submit': FieldSubmit,
   'text': FieldInput,
-  'textarea': FieldTextarea
+  'textarea': FieldTextarea,
+  'select': FieldSelect
 };
 
 module.exports = FieldTypes;
