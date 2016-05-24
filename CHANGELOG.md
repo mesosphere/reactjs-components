@@ -3,6 +3,7 @@
 ### Added
 
 - #180 – Adds ability to render disabled checkbox.
+- #260 - Add FieldSelect component
 
 ### Changed
 
