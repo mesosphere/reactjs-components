@@ -184,7 +184,7 @@ FieldRadioButton.propTypes = {
   // (usually passed down from form definition)
   startValue: React.PropTypes.oneOfType([
     React.PropTypes.array,
-    React.PropTypes.object
+    React.PropTypes.bool
   ]),
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,

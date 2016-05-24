@@ -192,7 +192,7 @@ describe('FieldCheckbox', function () {
         <FieldCheckbox
           name="foo"
           handleEvent={handleEventSpy}
-          startValue={{name: 'bar'}}
+          startValue={false}
           labelClass="foo" />
       );
       var input = TestUtils.findRenderedDOMComponentWithTag(instance, 'input');
