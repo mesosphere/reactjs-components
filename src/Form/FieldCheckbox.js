@@ -43,14 +43,18 @@ class FieldCheckbox extends FieldRadioButton {
 
   handleChange(eventName, name, event) {
     let {props} = this;
-    let model = {name, checked: event.target.checked};
 
     if (eventName === 'multipleChange') {
-      props.handleEvent(eventName, props.name, [model], event);
+      props.handleEvent(
+        eventName,
+        props.name,
+        [{name, checked: event.target.checked}],
+        event
+      );
     }
 
     if (eventName === 'change') {
-      props.handleEvent(eventName, props.name, model, event);
+      props.handleEvent(eventName, props.name, event.target.checked, event);
     }
   }
 
