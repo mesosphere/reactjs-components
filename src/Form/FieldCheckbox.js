@@ -98,7 +98,7 @@ FieldCheckbox.defaultProps = {
   columnWidth: 12,
   formElementClass: 'form-row-element checkbox',
   checkboxLabelClass: 'form-element-checkbox-label',
-  handleChange: function () {},
+  handleEvent: function () {},
   labelClass: 'form-row-element form-element-checkbox'
 };
 
