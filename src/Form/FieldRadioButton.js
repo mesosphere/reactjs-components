@@ -108,7 +108,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   getItems() {
-    let {disabled, labelClass, startValue} = this.props;
+    let {labelClass, startValue} = this.props;
 
     if (!Util.isArray(startValue)) {
       // Fetch other attributes from props

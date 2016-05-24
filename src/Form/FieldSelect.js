@@ -25,13 +25,13 @@ class FieldSelect extends React.Component {
       wrapperClassName: 'dropdown'
     };
 
-    classes = Object.keys(classes)
-      .reduce((classSet, className) => {
-        classSet[className] = classNames(
-          classes[className],
-          this.props[className]
-        );
-        return classSet;
+    classes = Object.keys(classes).reduce((classSet, className) => {
+      classSet[className] = classNames(
+        classes[className],
+        this.props[className]
+      );
+
+      return classSet;
     }, classes);
 
     if (startValue == null) {
@@ -186,7 +186,7 @@ FieldSelect.propTypes = {
   helpBlockClass: React.PropTypes.string,
   formElementClass: React.PropTypes.string,
 
-  //Classes for the Dropdown
+  // Classes for the Dropdown
   buttonClassName: React.PropTypes.string,
   dropdownMenuClassName: React.PropTypes.string,
   dropdownMenuListClassName: React.PropTypes.string,
