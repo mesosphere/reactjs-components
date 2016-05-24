@@ -137,6 +137,12 @@ FieldSelect.defaultProps = {
   formElementClass: 'form-row-element'
 };
 
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
+
 FieldSelect.propTypes = {
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
@@ -181,10 +187,10 @@ FieldSelect.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
-  formGroupClass: React.PropTypes.string,
-  formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  formElementClass: React.PropTypes.string,
+  formGroupClass: classPropType,
+  formGroupErrorClass: classPropType,
+  helpBlockClass: classPropType,
+  formElementClass: classPropType,
 
   //Classes for the Dropdown
   buttonClassName: React.PropTypes.string,

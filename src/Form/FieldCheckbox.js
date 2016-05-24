@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -98,6 +98,12 @@ FieldCheckbox.defaultProps = {
   labelClass: 'form-row-element form-element-checkbox'
 };
 
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
+
 FieldCheckbox.propTypes = {
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
@@ -117,11 +123,11 @@ FieldCheckbox.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
-  formElementClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string,
-  formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  labelClass: React.PropTypes.string
+  formElementClass: classPropType,
+  formGroupClass: classPropType,
+  formGroupErrorClass: classPropType,
+  helpBlockClass: classPropType,
+  labelClass: classPropType
 };
 
 module.exports = FieldCheckbox;
