@@ -112,7 +112,11 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
     if (!Util.isArray(startValue)) {
       // Fetch other attributes from props
-      let model = Util.extend({}, this.props, {checked: startValue});
+      let value = {};
+      if (startValue != null) {
+        value.checked = startValue;
+      }
+      let model = Util.extend({}, this.props, value);
 
       return this.getItem('change', labelClass, model, 0);
     }
