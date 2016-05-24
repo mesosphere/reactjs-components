@@ -70,7 +70,7 @@ class FormExample extends React.Component {
         options: [
           {
             html: 'Senior',
-            id: 'Senior'
+            id: 'senior'
           },
           {
             html: 'Junior',
