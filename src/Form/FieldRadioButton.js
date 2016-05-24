@@ -33,20 +33,23 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
   handleChange(eventName, name, event) {
     let {props} = this;
-    let model = {name, checked: event.target.checked};
 
     if (eventName === 'multipleChange') {
-      model = props.startValue.reduce(function (changedItems, item) {
+      let model = props.startValue.reduce(function (changedItems, item) {
         if (item.checked && item.name !== name) {
           item.checked = false;
           changedItems.push(item);
         }
 
         return changedItems;
-      }, [model]);
+      }, [{name, checked: event.target.checked}]);
+
+      props.handleEvent(eventName, props.name, model, event);
     }
 
-    props.handleEvent(eventName, props.name, model, event);
+    if (eventName === 'change') {
+      props.handleEvent(eventName, props.name, event.target.checked, event);
+    }
   }
 
   getLabel() {
@@ -109,7 +112,11 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
     if (!Util.isArray(startValue)) {
       // Fetch other attributes from props
-      let model = Util.extend({}, this.props, startValue);
+      let value = {};
+      if (startValue != null) {
+        value.checked = startValue;
+      }
+      let model = Util.extend({}, this.props, value);
 
       return this.getItem('change', labelClass, model, 0);
     }
