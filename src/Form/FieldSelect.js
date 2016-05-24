@@ -30,6 +30,7 @@ class FieldSelect extends React.Component {
         classes[className],
         this.props[className]
       );
+
       return classSet;
     }, classes);
 
