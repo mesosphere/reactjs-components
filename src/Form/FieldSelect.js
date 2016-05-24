@@ -7,7 +7,7 @@ class FieldSelect extends React.Component {
 
   handleChange(selectedValue) {
     this.props.handleEvent('change',
-      this.props.name, selectedValue);
+      this.props.name, selectedValue.id);
   }
 
   hasError() {
