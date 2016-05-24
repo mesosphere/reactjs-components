@@ -16,9 +16,7 @@ describe('FieldSelect', function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           validationError={{username: 'bar'}}
           handleEvent={function () {}} />
       );
@@ -30,9 +28,7 @@ describe('FieldSelect', function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           validationError={{foo: 'bar'}}
           handleEvent={function () {}} />
       );
@@ -44,9 +40,7 @@ describe('FieldSelect', function () {
       var instance = instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}} />
       );
 
@@ -59,9 +53,7 @@ describe('FieldSelect', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}}
           showLabel={true} />
       );
@@ -73,9 +65,7 @@ describe('FieldSelect', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}}
           showLabel={<h1>hello</h1>} />
       );
@@ -87,9 +77,7 @@ describe('FieldSelect', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}}
           showLabel={false} />
       );
@@ -103,9 +91,7 @@ describe('FieldSelect', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}}
           validationError={{username: 'errored'}} />
       );
@@ -117,9 +103,7 @@ describe('FieldSelect', function () {
       var instance = TestUtils.renderIntoDocument(
         <FieldSelect
           name="username"
-          options={[
-            '1', '2'
-          ]}
+          options={['1', '2']}
           handleEvent={function () {}} />
       );
 
