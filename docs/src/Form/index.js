@@ -77,10 +77,7 @@ class FormExample extends React.Component {
             id: 'junior'
           }
         ],
-        defaultValue: {
-          html: 'Junior',
-          id: 'junior'
-        },
+        value: 'junior',
         name: 'level',
         validation: function (value) {
           return !!value;
@@ -388,14 +385,15 @@ class FormExample extends React.Component {
         showLabel: true,
         options: [
           {
-            html: 'Señor',
-            id: 'señor'
+            html: 'Senior',
+            id: 'Senior'
           },
           {
             html: 'Junior',
             id: 'junior'
           }
         ],
+        value: 'junior',
         name: 'level',
         validation: function (value) {
           return !!value;

@@ -17,8 +17,7 @@ class FieldSelect extends React.Component {
   }
 
   getDropDown(dropdownItems) {
-    let {defaultValue, persistentID} = this.props;
-
+    let {startValue, persistentID} = this.props;
     let classes = {
       buttonClassName: 'button dropdown-toggle',
       dropdownMenuClassName: 'dropdown-menu',
@@ -27,28 +26,28 @@ class FieldSelect extends React.Component {
     };
 
     classes = Object.keys(classes)
-      .reduce(function (classSet, className) {
+      .reduce((classSet, className) => {
         classSet[className] = classNames(
           classes[className],
           this.props[className]
         );
         return classSet;
-    }.bind(this), classes);
+    }, classes);
 
-    if (defaultValue == null) {
-      defaultValue = dropdownItems[0];
+    if (startValue == null) {
+      startValue = dropdownItems[0];
     }
 
-    if (typeof defaultValue === 'string') {
-      defaultValue = {
-        html: defaultValue,
-        id: defaultValue.toLowerCase()
+    if (typeof startValue === 'string') {
+      startValue = {
+        html: startValue,
+        id: startValue.toLowerCase()
       };
     }
 
     return (
       <Dropdown {...classes}
-        initialID={defaultValue.id}
+        initialID={startValue.id}
         items={dropdownItems}
         onItemSelection={this.handleChange.bind(this)}
         persistentID={persistentID}
@@ -169,7 +168,7 @@ FieldSelect.propTypes = {
       })
     ])
   ).isRequired,
-  defaultValue: React.PropTypes.oneOfType([
+  startValue: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.shape({
       html: React.PropTypes.string,
