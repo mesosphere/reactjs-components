@@ -4,6 +4,7 @@
 
 - #180 – Adds ability to render disabled checkbox.
 - #260 - Add FieldSelect component
+- #257 - Added support for focus for input fields with type "text" in the Form component
 
 ### Changed
 
