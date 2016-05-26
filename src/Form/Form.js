@@ -141,12 +141,16 @@ class Form extends Util.mixin(BindMixin) {
     let model = Util.clone(this.state.model);
     model[field].forEach(function (item) {
       let {name} = item;
-      values.forEach(function (value) {
-        // Update value in field
-        if (name === value.name) {
-          Util.extend(item, value);
-        }
-      });
+      if (Util.isArray(values)) {
+        values.forEach(function (value) {
+          // Update value in field
+          if (name === value.name) {
+            Util.extend(item, value);
+          }
+        });
+      } else if (name === values.name) {
+        Util.extend(item, values);
+      }
     });
 
     this.setState({model});

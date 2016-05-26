@@ -48,7 +48,7 @@ class FieldCheckbox extends FieldRadioButton {
       props.handleEvent(
         eventName,
         props.name,
-        [{name, checked: event.target.checked}],
+        {name, checked: event.target.checked},
         event
       );
     }
@@ -76,7 +76,11 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   getItem(eventName, labelClass, attributes, index) {
-    let labelClasses = classNames(labelClass, {mute: attributes.disabled});
+    let labelClasses = classNames(
+      labelClass,
+      {mute: attributes.disabled},
+      attributes.labelClass
+    );
 
     return (
       <label className={labelClasses} key={index}>

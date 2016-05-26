@@ -183,7 +183,7 @@ describe('FieldCheckbox', function () {
       var args = this.handleEventSpy.mostRecentCall.args;
       expect(args[0]).toEqual('multipleChange');
       expect(args[1]).toEqual('foo');
-      expect(args[2]).toEqual([{name: 'foo', checked: true}]);
+      expect(args[2]).toEqual({name: 'foo', checked: true});
     });
 
     it('should call handleChange with \'change\' on single item', function () {
@@ -217,7 +217,7 @@ describe('FieldCheckbox', function () {
         // Field name
         'foo',
          // Changed radio buttons
-        [{name: 'quis', checked: true}],
+        {name: 'quis', checked: true},
          // Event fired
         {target: {checked: true}}
       );

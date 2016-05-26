@@ -91,7 +91,11 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   getItem(eventName, labelClass, attributes, index) {
-    let labelClasses = classNames(labelClass, {mute: attributes.disabled});
+    let labelClasses = classNames(
+      labelClass,
+      {mute: attributes.disabled},
+      attributes.labelClass
+    );
 
     return (
       <label className={labelClasses} key={index}>
