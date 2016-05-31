@@ -10,7 +10,8 @@ class FieldSelect extends React.Component {
       'change',
       this.props.name,
       selectedValue.id,
-      event
+      event,
+      selectedValue
     );
   }
 
