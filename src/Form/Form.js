@@ -18,6 +18,18 @@ function findFieldOption(options, field) {
   });
 }
 
+function mergeNewModel(stateModel, currentModelDefinition, nextModelDefinition) {
+  let newModel = {};
+
+  Object.keys(nextModelDefinition).forEach(function (key) {
+    if (currentModelDefinition[key] !== nextModelDefinition[key]) {
+      newModel[key] = nextModelDefinition[key];
+    }
+  });
+
+  return Util.extend({}, stateModel, newModel);
+}
+
 class Form extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
@@ -63,14 +75,16 @@ class Form extends Util.mixin(BindMixin) {
     let currentModel = this.buildStateObj(props.definition, 'value');
     let nextModel = this.buildStateObj(nextProps.definition, 'value');
     if (!Util.isEqual(currentModel, nextModel)) {
-      nextState.model = Util.extend({}, state.model, nextModel);
+      nextState.model = mergeNewModel(state.model, currentModel, nextModel);
     }
 
     let currentErrors = this.buildStateObj(props.definition, 'showError');
     let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
     if (!Util.isEqual(currentErrors, nextErrors)) {
-      nextState.erroredFields = Util.extend(
-        {}, state.erroredFields, nextErrors
+      nextState.erroredFields = mergeNewModel(
+        state.erroredFields,
+        currentErrors,
+        nextErrors
       );
     }
 
