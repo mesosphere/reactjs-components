@@ -18,22 +18,22 @@ function findFieldOption(options, field) {
   });
 }
 
-function mergeNewModel(stateModel, currentModelDefinition, nextModelDefinition) {
+function mergeNewModel(stateModel, currentDefinitionModel, nextDefinitionModel) {
   let newModel = {};
   let stateModelClone = Util.extend({}, stateModel);
 
   // This allows us to remove fields on the model, if we remove that field from
   // the definition.
   Object.keys(stateModelClone).forEach(function (modelKey) {
-    if (!nextModelDefinition.hasOwnProperty(modelKey)) {
+    if (!nextDefinitionModel.hasOwnProperty(modelKey)) {
       delete stateModelClone[modelKey];
     }
   });
 
   // This makes sure we only update the keys that are different.
-  Object.keys(nextModelDefinition).forEach(function (key) {
-    if (currentModelDefinition[key] !== nextModelDefinition[key]) {
-      newModel[key] = nextModelDefinition[key];
+  Object.keys(nextDefinitionModel).forEach(function (key) {
+    if (currentDefinitionModel[key] !== nextDefinitionModel[key]) {
+      newModel[key] = nextDefinitionModel[key];
     }
   });
 
