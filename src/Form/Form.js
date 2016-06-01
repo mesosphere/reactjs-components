@@ -18,6 +18,28 @@ function findFieldOption(options, field) {
   });
 }
 
+function mergeNewModel(stateModel, currentDefinitionModel, nextDefinitionModel) {
+  let newModel = {};
+  let stateModelClone = Util.extend({}, stateModel);
+
+  // This allows us to remove fields on the model, if we remove that field from
+  // the definition.
+  Object.keys(stateModelClone).forEach(function (modelKey) {
+    if (!nextDefinitionModel.hasOwnProperty(modelKey)) {
+      delete stateModelClone[modelKey];
+    }
+  });
+
+  // This makes sure we only update the keys that are different.
+  Object.keys(nextDefinitionModel).forEach(function (key) {
+    if (currentDefinitionModel[key] !== nextDefinitionModel[key]) {
+      newModel[key] = nextDefinitionModel[key];
+    }
+  });
+
+  return Util.extend({}, stateModelClone, newModel);
+}
+
 class Form extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
@@ -63,14 +85,16 @@ class Form extends Util.mixin(BindMixin) {
     let currentModel = this.buildStateObj(props.definition, 'value');
     let nextModel = this.buildStateObj(nextProps.definition, 'value');
     if (!Util.isEqual(currentModel, nextModel)) {
-      nextState.model = Util.extend({}, state.model, nextModel);
+      nextState.model = mergeNewModel(state.model, currentModel, nextModel);
     }
 
     let currentErrors = this.buildStateObj(props.definition, 'showError');
     let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
     if (!Util.isEqual(currentErrors, nextErrors)) {
-      nextState.erroredFields = Util.extend(
-        {}, state.erroredFields, nextErrors
+      nextState.erroredFields = mergeNewModel(
+        state.erroredFields,
+        currentErrors,
+        nextErrors
       );
     }
 
