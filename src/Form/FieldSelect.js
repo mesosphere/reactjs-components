@@ -5,9 +5,14 @@ import Dropdown from '../Dropdown/Dropdown';
 
 class FieldSelect extends React.Component {
 
-  handleChange(selectedValue) {
-    this.props.handleEvent('change',
-      this.props.name, selectedValue.id);
+  handleChange(selectedValue, event) {
+    this.props.handleEvent(
+      'change',
+      this.props.name,
+      selectedValue.id,
+      event,
+      selectedValue
+    );
   }
 
   hasError() {

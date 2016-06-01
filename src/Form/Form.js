@@ -77,7 +77,7 @@ class Form extends Util.mixin(BindMixin) {
     this.setState(nextState);
   }
 
-  handleEvent(eventType, fieldName, fieldValue, event) {
+  handleEvent(eventType, fieldName, fieldValue, event, ...rest) {
     let eventObj = {eventType, fieldName, fieldValue, event};
 
     switch (eventType) {
@@ -94,7 +94,7 @@ class Form extends Util.mixin(BindMixin) {
         this.handleMultipleChange(fieldName, fieldValue);
     }
 
-    this.props.onChange(this.state.model, eventObj);
+    this.props.onChange(this.state.model, eventObj, ...rest);
   }
 
   getTriggerSubmit(formKey, triggerSubmit) {

@@ -9,6 +9,7 @@
 ### Changed
 
 - #180 – Moved FieldCheckbox to FieldCheckboxMultiple, and created a new FieldCheckbox that only renders one checkbox.
+- #275 - Pass through all data on change in Form FieldSelect
 
 ### Fixed
 
