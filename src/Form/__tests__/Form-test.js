@@ -51,6 +51,7 @@ describe('Form', function () {
     beforeEach(function () {
       this.instance = getInstance(getDefinition(), noop, noop);
     });
+
     it('should update model if definition value is different', function () {
       this.instance.componentWillReceiveProps(
         {
@@ -74,6 +75,19 @@ describe('Form', function () {
 
       expect(this.instance.state.erroredFields.username)
         .toEqual('different error');
+    });
+
+    it('should update delete field from model if no longer part of definition', function () {
+      this.instance.componentWillReceiveProps(
+        {
+          definition: [
+            {name: 'password', value: 'secretpassword'}
+          ]
+        }
+      );
+
+      expect(this.instance.state.model.username)
+        .toEqual(undefined);
     });
   });
 
