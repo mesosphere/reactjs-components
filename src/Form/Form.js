@@ -20,14 +20,24 @@ function findFieldOption(options, field) {
 
 function mergeNewModel(stateModel, currentModelDefinition, nextModelDefinition) {
   let newModel = {};
+  let stateModelClone = Util.extend({}, stateModel);
 
+  // This allows us to remove fields on the model, if we remove that field from
+  // the definition.
+  Object.keys(stateModelClone).forEach(function (modelKey) {
+    if (!nextModelDefinition.hasOwnProperty(modelKey)) {
+      delete stateModelClone[modelKey];
+    }
+  });
+
+  // This makes sure we only update the keys that are different.
   Object.keys(nextModelDefinition).forEach(function (key) {
     if (currentModelDefinition[key] !== nextModelDefinition[key]) {
       newModel[key] = nextModelDefinition[key];
     }
   });
 
-  return Util.extend({}, stateModel, newModel);
+  return Util.extend({}, stateModelClone, newModel);
 }
 
 class Form extends Util.mixin(BindMixin) {
