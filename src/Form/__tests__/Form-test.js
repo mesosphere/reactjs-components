@@ -77,7 +77,7 @@ describe('Form', function () {
         .toEqual('different error');
     });
 
-    it('should update delete field from model if no longer part of definition', function () {
+    it('should delete field from model if no longer part of definition', function () {
       this.instance.componentWillReceiveProps(
         {
           definition: [
