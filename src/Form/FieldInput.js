@@ -86,7 +86,7 @@ class FieldInput extends React.Component {
 
     if (this.hasError()) {
       errorMsg = (
-        <p className={props.helpBlockClass}>
+        <p className={classNames(props.helpBlockClass)}>
           {props.validationError[props.name]}
         </p>
       );
@@ -96,16 +96,15 @@ class FieldInput extends React.Component {
   }
 
   getLabel() {
-    let {props} = this;
-    let label = props.name;
-    let showLabel = props.showLabel;
+    let {labelClass, name, showLabel} = this;
+    let contents = name;
 
     if (!showLabel) {
       return null;
     }
 
     if (typeof showLabel === 'string') {
-      label = showLabel;
+      contents = showLabel;
     }
 
     if (typeof showLabel !== 'string' && showLabel !== true) {
@@ -113,7 +112,7 @@ class FieldInput extends React.Component {
     }
 
     return (
-      <label>{label}</label>
+      <label className={classNames(labelClass)}>{contents}</label>
     );
   }
 
@@ -140,10 +139,10 @@ class FieldInput extends React.Component {
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}>
-          <span className={props.inlineTextClass}>
+          <span className={classNames(props.inlineTextClass)}>
             {props.value || attributes.startValue}
           </span>
-          <span className={props.inlineIconClass}>
+          <span className={classNames(props.inlineIconClass)}>
             <IconEdit />
           </span>
         </span>
@@ -189,6 +188,12 @@ FieldInput.defaultProps = {
   writeType: 'input'
 };
 
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
+
 FieldInput.propTypes = {
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
@@ -231,11 +236,13 @@ FieldInput.propTypes = {
   writeType: React.PropTypes.string,
 
   // Classes
-  formElementClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string,
-  formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  labelClass: React.PropTypes.string
+  formElementClass: classPropType,
+  formGroupClass: classPropType,
+  formGroupErrorClass: React.PropTypes.string, // class to be toggled
+  helpBlockClass: classPropType,
+  labelClass: classPropType,
+  inlineTextClass: classPropType,
+  inlineIconClass: classPropType
 };
 
 module.exports = FieldInput;
