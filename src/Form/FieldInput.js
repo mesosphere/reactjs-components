@@ -117,13 +117,21 @@ class FieldInput extends React.Component {
   }
 
   getInputElement(attributes) {
-    let {props} = this;
+    let {
+      inlineIconClass,
+      inlineTextClass,
+      inputClass,
+      renderer,
+      sharedClass,
+      value,
+      writeType
+    } = this.props;
     let inputContent = null;
 
-    let classes = classNames(props.inputClass, props.sharedClass);
+    let classes = classNames(inputClass, sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || props.writeType === 'input') {
+    if (this.isEditing() || writeType === 'input') {
       inputContent = (
         <input
           ref="inputElement"
@@ -139,18 +147,18 @@ class FieldInput extends React.Component {
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}>
-          <span className={classNames(props.inlineTextClass)}>
-            {props.value || attributes.startValue}
+          <span className={classNames(inlineTextClass)}>
+            {value || attributes.startValue}
           </span>
-          <span className={classNames(props.inlineIconClass)}>
+          <span className={classNames(inlineIconClass)}>
             <IconEdit />
           </span>
         </span>
       );
     }
 
-    if (this.props.renderer) {
-      return this.props.renderer(inputContent);
+    if (this.renderer) {
+      return this.renderer(inputContent);
     }
 
     return inputContent;
