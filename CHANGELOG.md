@@ -10,8 +10,8 @@
 ### Changed
 
 - #180 – Moved FieldCheckbox to FieldCheckboxMultiple, and created a new FieldCheckbox that only renders one checkbox.
-- #275 - Pass through all data on change in Form FieldSelect
 - #262 – Change Checkbox component to extend Radio Button component and reuse functionality. Functionality of FieldCheckbox and FieldCheckboxMultiple is now both contained in FieldCheckbox.
+- #275 - Pass through all data on change in Form FieldSelect
 - #276 - Change Form updating to delete fields that are no longer part of the definition.
 
 ### Fixed
