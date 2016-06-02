@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 import React from 'react';
 
 class FieldSubmit extends React.Component {
@@ -14,14 +14,10 @@ class FieldSubmit extends React.Component {
       formElementClass
     );
 
-    let buttonClassSet = classNames({
-      [buttonClass]: !!buttonClass
-    });
-
     return (
       <div className={rowClass}>
-        <div className={formGroupClass}>
-          <div className={buttonClassSet}
+        <div className={classNames(formGroupClass)}>
+          <div className={classNames(buttonClass)}
             onClick={handleSubmit}>
             {buttonText}
           </div>
@@ -38,6 +34,12 @@ FieldSubmit.defaultProps = {
   handleSubmit: function () {}
 };
 
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
+
 FieldSubmit.propTypes = {
   // Optional number of columns to take up of the grid
   columnWidth: React.PropTypes.number.isRequired,
@@ -50,9 +52,9 @@ FieldSubmit.propTypes = {
   buttonText: React.PropTypes.string,
 
   // Classes
-  buttonClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string,
-  formElementClass: React.PropTypes.string
+  buttonClass: classPropType,
+  formGroupClass: classPropType,
+  formElementClass: classPropType
 };
 
 module.exports = FieldSubmit;
