@@ -248,9 +248,10 @@ FieldInput.propTypes = {
   formGroupClass: classPropType,
   formGroupErrorClass: React.PropTypes.string, // class to be toggled
   helpBlockClass: classPropType,
-  labelClass: classPropType,
+  inlineIconClass: classPropType,
   inlineTextClass: classPropType,
-  inlineIconClass: classPropType
+  labelClass: classPropType,
+  sharedClass: classPropType
 };
 
 module.exports = FieldInput;
