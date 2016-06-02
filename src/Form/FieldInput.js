@@ -96,7 +96,7 @@ class FieldInput extends React.Component {
   }
 
   getLabel() {
-    let {labelClass, name, showLabel} = this;
+    let {labelClass, name, showLabel} = this.props;
     let contents = name;
 
     if (!showLabel) {
@@ -157,8 +157,8 @@ class FieldInput extends React.Component {
       );
     }
 
-    if (this.renderer) {
-      return this.renderer(inputContent);
+    if (renderer) {
+      return renderer(inputContent);
     }
 
     return inputContent;
