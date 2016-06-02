@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 /* eslint-disable no-unused-vars */
 import React from 'react';
 /* eslint-enable no-unused-vars */
@@ -8,13 +8,21 @@ import IconEdit from './icons/IconEdit';
 
 module.exports = class FieldTextarea extends FieldInput {
   getInputElement(attributes) {
-    let {props} = this;
+    let {
+      inlineIconClass,
+      inlineTextClass,
+      inputClass,
+      renderer,
+      sharedClass,
+      value,
+      writeType,
+    } = this.props;
     let inputContent = null;
 
-    let classes = classNames(props.inputClass, props.sharedClass);
+    let classes = classNames(inputClass, sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || props.writeType === 'input') {
+    if (this.isEditing() || writeType === 'input') {
       inputContent = (
         <textarea
           ref="inputElement"
@@ -29,18 +37,18 @@ module.exports = class FieldTextarea extends FieldInput {
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}>
-          <span className={props.inlineTextClass}>
-            {props.value || attributes.startValue}
+          <span className={classNames(inlineTextClass)}>
+            {value || attributes.startValue}
           </span>
-          <span className={props.inlineIconClass}>
+          <span className={classNames(inlineIconClass)}>
             <IconEdit />
           </span>
         </span>
       );
     }
 
-    if (this.props.renderer) {
-      return this.props.renderer(inputContent);
+    if (renderer) {
+      return renderer(inputContent);
     }
 
     return inputContent;
