@@ -43,11 +43,11 @@ function mergeNewModel(stateModel, currentDefinitionModel, nextDefinitionModel) 
 class Form extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
-      'handleBlur',
+      'getBlurChange',
+      'getOnFocusChange',
+      'getValueChange',
       'handleEvent',
-      'handleOnFocus',
-      'handleSubmit',
-      'handleValueChange'
+      'handleSubmit'
     ];
   }
 
@@ -103,22 +103,29 @@ class Form extends Util.mixin(BindMixin) {
 
   handleEvent(eventType, fieldName, fieldValue, event, ...rest) {
     let eventObj = {eventType, fieldName, fieldValue, event};
+    let newState = {};
 
     switch (eventType) {
       case 'blur':
-        this.handleBlur(fieldName);
+        newState = this.getBlurChange(fieldName);
         break;
       case 'change':
-        this.handleValueChange(fieldName, fieldValue);
+        newState = this.getValueChange(fieldName, fieldValue);
         break;
       case 'focus':
-        this.handleOnFocus(fieldName);
+        newState = this.getOnFocusChange(fieldName);
         break;
       case 'multipleChange':
-        this.handleMultipleChange(fieldName, fieldValue);
+        newState = this.getMultipleChange(fieldName, fieldValue);
     }
 
-    this.props.onChange(this.state.model, eventObj, ...rest);
+    // If there is no change to the model, just return the old one
+    let newModel = newState.model || this.state.model;
+    this.props.onChange(newModel, eventObj, ...rest);
+    console.log(this.state);
+    if (Object.keys(newState).length) {
+      this.setState(newState);
+    }
   }
 
   getTriggerSubmit(formKey, triggerSubmit) {
@@ -150,18 +157,17 @@ class Form extends Util.mixin(BindMixin) {
 
     if (validated && props.onSubmit) {
       props.onSubmit(model);
-      return;
     }
   }
 
-  handleValueChange(field, value) {
+  getValueChange(field, value) {
     let model = Util.clone(this.state.model);
     model[field] = value;
 
-    this.setState({model});
+    return {model};
   }
 
-  handleMultipleChange(field, values) {
+  getMultipleChange(field, values) {
     let model = Util.clone(this.state.model);
     model[field].forEach(function (item) {
       let {name} = item;
@@ -177,26 +183,28 @@ class Form extends Util.mixin(BindMixin) {
       }
     });
 
-    this.setState({model});
+    return {model};
   }
 
-  handleBlur(field) {
+  getBlurChange(field) {
     let options = findFieldOption(this.props.definition, field);
 
     if (options.writeType === 'input') {
-      return;
+      return {};
     }
 
     this.handleSubmit();
-    this.setState({editingField: null});
+    return {editingField: null};
   }
 
-  handleOnFocus(name) {
+  getOnFocusChange(name) {
     let fieldOption = findFieldOption(this.props.definition, name);
 
     if (fieldOption.writeType === 'edit') {
-      this.setState({editingField: name});
+      return {editingField: name};
     }
+
+    return {};
   }
 
   validateValue(field, value, definition) {
