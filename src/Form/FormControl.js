@@ -1,3 +1,4 @@
+import classNames from 'classnames/dedupe';
 import React from 'react';
 
 import FieldTypes from './FieldTypes';
@@ -55,14 +56,9 @@ class FormControl extends React.Component {
     if (Util.isArray(content)) {
       content = Util.flatten(content);
     }
-    var className = props.formRowClass;
-
-    if (Util.isFunction(className)) {
-      className = className(this.props.definition);
-    }
 
     return (
-      <div className={className}>
+      <div className={classNames(props.formRowClass)}>
         {content}
       </div>
     );
@@ -70,12 +66,6 @@ class FormControl extends React.Component {
 }
 
 FormControl.propTypes = {
-  // Classes
-  formRowClass: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.func
-  ]),
-
   // Optional number of columns in the grid
   maxColumnWidth: React.PropTypes.number,
 

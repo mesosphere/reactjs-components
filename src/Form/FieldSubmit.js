@@ -10,7 +10,7 @@ class FieldSubmit extends React.Component {
     } = this.props;
 
     let rowClass = classNames(
-      `column-${columnWidth}`,
+      `form-row-element column-${columnWidth}`,
       formElementClass
     );
 
@@ -30,7 +30,6 @@ class FieldSubmit extends React.Component {
 
 FieldSubmit.defaultProps = {
   buttonText: 'Submit',
-  formElementClass: 'form-row-element',
   handleSubmit: function () {}
 };
 

@@ -66,7 +66,7 @@ class FieldSelect extends React.Component {
 
     if (this.hasError()) {
       errorMsg = (
-        <p className={props.helpBlockClass}>
+        <p className={classNames(props.helpBlockClass)}>
           {props.validationError[props.name]}
         </p>
       );
@@ -113,13 +113,12 @@ class FieldSelect extends React.Component {
     });
 
     let classes = classNames(
-      formGroupClass,
-      {
-        [formGroupErrorClass]: this.hasError()
-      }
+      {[formGroupErrorClass]: this.hasError()},
+      formGroupClass
     );
 
     let rowClass = classNames(
+      'form-row-element',
       `column-${columnWidth}`,
       formElementClass
     );
@@ -138,9 +137,14 @@ class FieldSelect extends React.Component {
 
 FieldSelect.defaultProps = {
   columnWidth: 12,
-  handleEvent: function () {},
-  formElementClass: 'form-row-element'
+  handleEvent: function () {}
 };
+
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
 
 FieldSelect.propTypes = {
   // Optional number of columns to take up of the grid
@@ -186,16 +190,17 @@ FieldSelect.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
-  formGroupClass: React.PropTypes.string,
+  formGroupClass: classPropType,
+  // Class to be toggled, can be overridden by formGroupClass
   formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  formElementClass: React.PropTypes.string,
+  helpBlockClass: classPropType,
+  formElementClass: classPropType,
 
   // Classes for the Dropdown
-  buttonClassName: React.PropTypes.string,
-  dropdownMenuClassName: React.PropTypes.string,
-  dropdownMenuListClassName: React.PropTypes.string,
-  wrapperClassName: React.PropTypes.string
+  buttonClassName: classPropType,
+  dropdownMenuClassName: classPropType,
+  dropdownMenuListClassName: classPropType,
+  wrapperClassName: classPropType
 };
 
 module.exports = FieldSelect;

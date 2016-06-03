@@ -71,7 +71,7 @@ class FieldInput extends React.Component {
 
   getRowClass(props) {
     return classNames(
-      `column-${props.columnWidth}`,
+      `form-row-element column-${props.columnWidth}`,
       props.formElementClass,
       {
         'form-row-edit': this.isEditing(),
@@ -170,10 +170,8 @@ class FieldInput extends React.Component {
     let attributes = Util.exclude(props, 'onChange', 'value');
 
     let classes = classNames(
-      props.formGroupClass,
-      {
-        [props.formGroupErrorClass]: this.hasError()
-      }
+      {[props.formGroupErrorClass]: this.hasError()},
+      props.formGroupClass
     );
 
     return (
@@ -190,7 +188,6 @@ class FieldInput extends React.Component {
 
 FieldInput.defaultProps = {
   columnWidth: 12,
-  formElementClass: 'form-row-element',
   handleEvent: function () {},
   value: '',
   writeType: 'input'
@@ -246,7 +243,8 @@ FieldInput.propTypes = {
   // Classes
   formElementClass: classPropType,
   formGroupClass: classPropType,
-  formGroupErrorClass: React.PropTypes.string, // class to be toggled
+  // Class to be toggled, can be overridden by formGroupClass
+  formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: classPropType,
   inlineIconClass: classPropType,
   inlineTextClass: classPropType,
