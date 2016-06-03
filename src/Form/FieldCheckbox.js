@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -64,6 +64,7 @@ class FieldCheckbox extends FieldRadioButton {
     }
 
     let checkboxLabelClass = classNames(
+      'form-element-checkbox-label',
       attributes.checkboxLabelClass,
       this.props.checkboxLabelClass
     );
@@ -77,6 +78,7 @@ class FieldCheckbox extends FieldRadioButton {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
+      'form-row-element form-element-checkbox',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
@@ -96,14 +98,20 @@ class FieldCheckbox extends FieldRadioButton {
       </label>
     );
   }
+
+  getRowClass() {
+    let {columnWidth, formElementClass} = this.props;
+
+    return classNames(
+      `form-row-element checkbox column-${columnWidth}`,
+      formElementClass
+    );
+  }
 }
 
 FieldCheckbox.defaultProps = {
   columnWidth: 12,
-  formElementClass: 'form-row-element checkbox',
-  checkboxLabelClass: 'form-element-checkbox-label',
-  handleEvent: function () {},
-  labelClass: 'form-row-element form-element-checkbox'
+  handleEvent: function () {}
 };
 
 FieldCheckbox.propTypes = {
@@ -125,11 +133,11 @@ FieldCheckbox.propTypes = {
   validationError: React.PropTypes.object,
 
   // Classes
-  formElementClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string,
-  formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  labelClass: React.PropTypes.string
+  checkboxButtonLabelClass: React.PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.object,
+    React.PropTypes.string
+  ])
 };
 
 module.exports = FieldCheckbox;

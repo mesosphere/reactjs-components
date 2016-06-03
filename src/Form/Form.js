@@ -1,5 +1,5 @@
-import React from 'react';
-const PropTypes = React.PropTypes;
+import classNames from 'classnames/dedupe';
+import React, {PropTypes} from 'react';
 
 import BindMixin from '../Mixin/BindMixin';
 import FormControl from './FormControl';
@@ -301,17 +301,20 @@ class Form extends Util.mixin(BindMixin) {
 
   getFormControls(definition) {
     let {props, state} = this;
-    let classes = Util.pick(props, [
-      'formGroupClass',
-      'formGroupErrorClass',
-      'formRowClass',
-      'helpBlockClass',
-      'inlineIconClass',
-      'inlineTextClass',
-      'inputClass',
-      'readClass',
-      'sharedClass'
-    ]);
+    let classes = {
+      formGroupClass: 'form-group',
+      formGroupErrorClass: 'form-group-error',
+      formRowClass: 'row',
+      helpBlockClass: 'form-help-block',
+      inlineIconClass: 'form-element-inline-icon',
+      inlineTextClass: 'form-element-inline-text',
+      inputClass: 'form-control',
+      readClass: 'read-only'
+    };
+
+    Object.keys(classes).forEach(function (className) {
+      classes[className] = classNames(classes[className], props[className]);
+    });
 
     return definition.map((formControlOption, i) => {
       // If it's a React element, we just want to return it. We need to add a
@@ -368,57 +371,49 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   render() {
+    let {className, definition, formTag, key} = this.props;
     /* eslint-disable react/jsx-no-undef */
     return (
-      <this.props.formTag
-        key={this.props.key}
+      <formTag
+        key={key}
         onSubmit={this.handleSubmit}
-        className={this.props.className}>
-        {this.getFormControls(this.props.definition)}
-      </this.props.formTag>
+        className={classNames('form flush-bottom', className)}>
+        {this.getFormControls(definition)}
+      </formTag>
     );
     /* eslint-enable react/jsx-no-undef */
   }
 }
 
-Form.defaultProps = {
-  // Classes.
-  className: 'form flush-bottom',
-  formGroupClass: 'form-group',
-  formGroupErrorClass: 'form-group-error',
-  formRowClass: 'row',
-  helpBlockClass: 'form-help-block',
-  inlineIconClass: 'form-element-inline-icon',
-  inlineTextClass: 'form-element-inline-text',
-  inputClass: 'form-control',
-  readClass: 'read-only',
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
 
+Form.defaultProps = {
+  definition: {},
   formTag: 'form',
   key: '',
-
-  definition: {},
+  maxColumnWidth: 12,
   onChange: function () {},
   onError: function () {},
   onSubmit: function () {},
-  maxColumnWidth: 12,
   triggerSubmit: function () {}
 };
 
 Form.propTypes = {
   // Classes.
-  className: PropTypes.string,
-  formGroupClass: PropTypes.string,
-  formGroupErrorClass: PropTypes.string,
-  formRowClass: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.func
-  ]),
-  helpBlockClass: PropTypes.string,
-  inlineIconClass: PropTypes.string,
-  inlineTextClass: PropTypes.string,
-  inputClass: PropTypes.string,
-  readClass: PropTypes.string,
-  sharedClass: PropTypes.string,
+  className: classPropType,
+  formGroupClass: classPropType,
+  formGroupErrorClass: classPropType,
+  formRowClass: classPropType,
+  helpBlockClass: classPropType,
+  inlineIconClass: classPropType,
+  inlineTextClass: classPropType,
+  inputClass: classPropType,
+  readClass: classPropType,
+  sharedClass: classPropType,
 
   formTag: PropTypes.string,
   key: PropTypes.node,

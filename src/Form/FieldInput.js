@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -71,7 +71,7 @@ class FieldInput extends React.Component {
 
   getRowClass(props) {
     return classNames(
-      `column-${props.columnWidth}`,
+      `form-row-element column-${props.columnWidth}`,
       props.formElementClass,
       {
         'form-row-edit': this.isEditing(),
@@ -86,7 +86,7 @@ class FieldInput extends React.Component {
 
     if (this.hasError()) {
       errorMsg = (
-        <p className={props.helpBlockClass}>
+        <p className={classNames(props.helpBlockClass)}>
           {props.validationError[props.name]}
         </p>
       );
@@ -96,16 +96,15 @@ class FieldInput extends React.Component {
   }
 
   getLabel() {
-    let {props} = this;
-    let label = props.name;
-    let showLabel = props.showLabel;
+    let {labelClass, name, showLabel} = this.props;
+    let contents = name;
 
     if (!showLabel) {
       return null;
     }
 
     if (typeof showLabel === 'string') {
-      label = showLabel;
+      contents = showLabel;
     }
 
     if (typeof showLabel !== 'string' && showLabel !== true) {
@@ -113,18 +112,26 @@ class FieldInput extends React.Component {
     }
 
     return (
-      <label>{label}</label>
+      <label className={classNames(labelClass)}>{contents}</label>
     );
   }
 
   getInputElement(attributes) {
-    let {props} = this;
+    let {
+      inlineIconClass,
+      inlineTextClass,
+      inputClass,
+      renderer,
+      sharedClass,
+      value,
+      writeType
+    } = this.props;
     let inputContent = null;
 
-    let classes = classNames(props.inputClass, props.sharedClass);
+    let classes = classNames(inputClass, sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || props.writeType === 'input') {
+    if (this.isEditing() || writeType === 'input') {
       inputContent = (
         <input
           ref="inputElement"
@@ -140,18 +147,18 @@ class FieldInput extends React.Component {
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}>
-          <span className={props.inlineTextClass}>
-            {props.value || attributes.startValue}
+          <span className={classNames(inlineTextClass)}>
+            {value || attributes.startValue}
           </span>
-          <span className={props.inlineIconClass}>
+          <span className={classNames(inlineIconClass)}>
             <IconEdit />
           </span>
         </span>
       );
     }
 
-    if (this.props.renderer) {
-      return this.props.renderer(inputContent);
+    if (renderer) {
+      return renderer(inputContent);
     }
 
     return inputContent;
@@ -163,10 +170,8 @@ class FieldInput extends React.Component {
     let attributes = Util.exclude(props, 'onChange', 'value');
 
     let classes = classNames(
-      props.formGroupClass,
-      {
-        [props.formGroupErrorClass]: this.hasError()
-      }
+      {[props.formGroupErrorClass]: this.hasError()},
+      props.formGroupClass
     );
 
     return (
@@ -183,11 +188,16 @@ class FieldInput extends React.Component {
 
 FieldInput.defaultProps = {
   columnWidth: 12,
-  formElementClass: 'form-row-element',
   handleEvent: function () {},
   value: '',
   writeType: 'input'
 };
+
+let classPropType = React.PropTypes.oneOfType([
+  React.PropTypes.array,
+  React.PropTypes.object,
+  React.PropTypes.string
+]);
 
 FieldInput.propTypes = {
   // Optional number of columns to take up of the grid
@@ -231,11 +241,15 @@ FieldInput.propTypes = {
   writeType: React.PropTypes.string,
 
   // Classes
-  formElementClass: React.PropTypes.string,
-  formGroupClass: React.PropTypes.string,
+  formElementClass: classPropType,
+  formGroupClass: classPropType,
+  // Class to be toggled, can be overridden by formGroupClass
   formGroupErrorClass: React.PropTypes.string,
-  helpBlockClass: React.PropTypes.string,
-  labelClass: React.PropTypes.string
+  helpBlockClass: classPropType,
+  inlineIconClass: classPropType,
+  inlineTextClass: classPropType,
+  labelClass: classPropType,
+  sharedClass: classPropType
 };
 
 module.exports = FieldInput;

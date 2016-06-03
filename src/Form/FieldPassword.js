@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 /* eslint-disable no-unused-vars */
 import React from 'react';
 /* eslint-enable no-unused-vars */
@@ -36,9 +36,19 @@ class FieldPassword extends FieldInput {
   }
 
   getInputElement(attributes) {
-    let classes = classNames(this.props.inputClass, this.props.sharedClass);
+    let {
+      handleEvent,
+      inlineIconClass,
+      inlineTextClass,
+      inputClass,
+      renderer,
+      sharedClass,
+      writeType
+    } = this.props;
+
+    let classes = classNames(inputClass, sharedClass);
     let inputContent = null;
-    attributes = this.bindEvents(attributes, this.props.handleEvent);
+    attributes = this.bindEvents(attributes, handleEvent);
     attributes.onBlur = this.handleOnBlur;
     attributes.onFocus = this.handleOnFocus;
 
@@ -49,7 +59,7 @@ class FieldPassword extends FieldInput {
       fieldValue = attributes.startValue;
     }
 
-    if (this.isEditing() || this.props.writeType === 'input') {
+    if (this.isEditing() || writeType === 'input') {
       inputContent = (
         <input
           {...attributes}
@@ -65,18 +75,18 @@ class FieldPassword extends FieldInput {
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}>
-          <span className={this.props.inlineTextClass}>
+          <span className={classNames(inlineTextClass)}>
             {attributes.defaultPasswordValue}
           </span>
-          <span className={this.props.inlineIconClass}>
+          <span className={classNames(inlineIconClass)}>
             <IconEdit />
           </span>
         </span>
       );
     }
 
-    if (this.props.renderer) {
-      return this.props.renderer(inputContent);
+    if (renderer) {
+      return renderer(inputContent);
     }
 
     return inputContent;

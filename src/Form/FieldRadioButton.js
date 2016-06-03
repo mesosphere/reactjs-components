@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'classnames/dedupe';
 import React from 'react';
 
 import BindMixin from '../Mixin/BindMixin';
@@ -79,6 +79,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     }
 
     let radioButtonLabelClass = classNames(
+      'form-element-radio-button-label',
       attributes.radioButtonLabelClass,
       this.props.radioButtonLabelClass
     );
@@ -92,6 +93,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
+      'form-row-element form-element-radio-button',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
@@ -133,21 +135,27 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   getRowClass() {
     let {columnWidth, formElementClass} = this.props;
 
-    return classNames(`column-${columnWidth}`, formElementClass);
+    return classNames(
+      `form-row-element radio-button column-${columnWidth}`,
+      formElementClass
+    );
   }
 
   render() {
-    let {formGroupClass, formGroupErrorClass} = this.props;
+    let {formGroupClass, formGroupErrorClass, itemWrapperClasses} = this.props;
 
-    let classes = classNames(formGroupClass, {
-      [formGroupErrorClass]: this.hasError()
-    });
+    let classes = classNames(
+      {[formGroupErrorClass]: this.hasError()},
+      formGroupClass
+    );
 
     return (
       <div className={this.getRowClass()}>
         <div className={classes}>
           {this.getLabel()}
-          {this.getItems()}
+          <div className={classNames(itemWrapperClasses)}>
+            {this.getItems()}
+          </div>
           {this.getErrorMsg()}
         </div>
       </div>
@@ -157,10 +165,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
 FieldRadioButton.defaultProps = {
   columnWidth: 12,
-  formElementClass: 'form-row-element radio-button',
-  handleEvent: function () {},
-  labelClass: 'form-row-element form-element-radio-button',
-  radioButtonLabelClass: 'form-element-radio-button-label'
+  handleEvent: function () {}
 };
 
 let classPropType = React.PropTypes.oneOfType([
@@ -196,7 +201,8 @@ FieldRadioButton.propTypes = {
   // Classes
   formElementClass: classPropType,
   formGroupClass: classPropType,
-  formGroupErrorClass: classPropType,
+  // Class to be toggled, can be overridden by formGroupClass
+  formGroupErrorClass: React.PropTypes.string,
   helpBlockClass: classPropType,
   labelClass: classPropType,
   radioButtonLabelClass: classPropType

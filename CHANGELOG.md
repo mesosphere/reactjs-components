@@ -14,6 +14,7 @@
 - #275 - Pass through all data on change in Form FieldSelect
 - #276 - Change Form updating to delete fields that are no longer part of the definition.
 - #280 - Make sure Form always returns the latest model to on change handler
+- #279 - Make all form elements use classname/dedupe to allow for more class customizability
 
 ### Fixed
 
