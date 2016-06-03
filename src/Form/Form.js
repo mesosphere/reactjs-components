@@ -122,7 +122,6 @@ class Form extends Util.mixin(BindMixin) {
     // If there is no change to the model, just return the old one
     let newModel = newState.model || this.state.model;
     this.props.onChange(newModel, eventObj, ...rest);
-    console.log(this.state);
     if (Object.keys(newState).length) {
       this.setState(newState);
     }
