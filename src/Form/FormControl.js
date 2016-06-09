@@ -46,6 +46,10 @@ class FormControl extends React.Component {
       return this.renderGroup(definition);
     }
 
+    if (React.isValidElement(definition)) {
+      return definition;
+    }
+
     return this.renderType(definition, columnLength, isLast);
   }
 
