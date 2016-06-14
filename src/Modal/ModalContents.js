@@ -425,7 +425,10 @@ ModalContents.propTypes = {
   // Optional subheader.
   subHeader: PropTypes.node,
   // Optional title.
-  titleText: PropTypes.string,
+  titleText: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.node
+  ]),
   // Optional enter and leave transition name for backdrop
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
