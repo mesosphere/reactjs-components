@@ -371,15 +371,15 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {className, definition, formTag, key} = this.props;
+    let {className, definition, key} = this.props;
     /* eslint-disable react/jsx-no-undef */
     return (
-      <formTag
+      <this.props.formTag
         key={key}
         onSubmit={this.handleSubmit}
         className={classNames('form flush-bottom', className)}>
         {this.getFormControls(definition)}
-      </formTag>
+      </this.props.formTag>
     );
     /* eslint-enable react/jsx-no-undef */
   }
