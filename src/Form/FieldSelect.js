@@ -46,7 +46,7 @@ class FieldSelect extends React.Component {
     if (typeof startValue === 'string') {
       startValue = {
         html: startValue,
-        id: startValue.toLowerCase()
+        id: startValue
       };
     }
 
@@ -105,7 +105,7 @@ class FieldSelect extends React.Component {
       if (typeof option === 'string') {
         return {
           html: option,
-          id: option.toLowerCase()
+          id: option
         };
       }
 
