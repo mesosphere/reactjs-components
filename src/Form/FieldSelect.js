@@ -44,10 +44,25 @@ class FieldSelect extends React.Component {
     }
 
     if (typeof startValue === 'string') {
-      startValue = {
-        html: startValue,
-        id: startValue
-      };
+      // Try to find id in dropdown items
+      let existingOption = dropdownItems.reduce(function (memo, option) {
+        if (typeof option === 'object') {
+          if (option.id === startValue) {
+            memo = option;
+          }
+        }
+
+        return memo;
+      }, null);
+
+      if (existingOption) {
+        startValue = existingOption;
+      } else {
+        startValue = {
+          html: startValue,
+          id: startValue
+        };
+      }
     }
 
     return (
