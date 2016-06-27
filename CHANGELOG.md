@@ -16,6 +16,7 @@
 - #280 - Make sure Form always returns the latest model to on change handler
 - #279 - Make all form elements use classname/dedupe to allow for more class customizability
 - #289 - Don't transform form field select option ids to lower case
+- #296 - Set padding of modal inside scrollable component rathe than outside
 
 ### Fixed
 

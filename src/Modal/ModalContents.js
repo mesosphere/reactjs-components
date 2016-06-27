@@ -270,7 +270,11 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
   getModalContent(useScrollbar, contentHeight) {
     if (!useScrollbar) {
-      return this.props.children;
+      return (
+        <div className={this.props.scrollContainerClass}>
+          {this.props.children}
+        </div>
+      );
     }
 
     let geminiContainerStyle = {
@@ -282,7 +286,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
         autoshow={true}
         className="container-scrollable"
         style={geminiContainerStyle}>
-        <div ref="innerContent">
+        <div className={this.props.scrollContainerClass} ref="innerContent">
           {this.props.children}
         </div>
       </GeminiScrollbar>
@@ -396,9 +400,8 @@ ModalContents.defaultProps = {
   footerContainerClass: 'container',
   headerClass: 'modal-header',
   headerContainerClass: 'container',
-  innerBodyClass: 'modal-content-inner container container-pod ' +
-    'container-pod-short',
   modalClass: 'modal modal-large',
+  scrollContainerClass: 'modal-content-inner',
   titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
 };
 
@@ -458,6 +461,7 @@ ModalContents.propTypes = {
   innerBodyClass: PropTypes.string,
   modalClass: PropTypes.string,
   modalWrapperClass: PropTypes.string,
+  scrollContainerClass: PropTypes.string,
   titleClass: PropTypes.string
 };
 
