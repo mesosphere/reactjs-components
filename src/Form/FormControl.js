@@ -7,9 +7,13 @@ import Util from '../Util/Util';
 class FormControl extends React.Component {
 
   renderGroup(definition) {
+    let columnLength = definition.filter(function (fieldDefinition) {
+      return !React.isValidElement(fieldDefinition);
+    }).length;
+
     return definition.map((inputOptions, i) => {
       return this.renderDefinition(
-        inputOptions, definition.length, i === definition.length - 1
+        inputOptions, columnLength, i === definition.length - 1
       );
     });
   }
