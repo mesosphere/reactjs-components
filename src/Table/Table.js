@@ -57,7 +57,7 @@ class Table extends React.Component {
   }
 
   componentWillMount() {
-    if (!!this.props.sortBy) {
+    if (this.props.sortBy != null) {
       this.setState(
         {sortBy: this.props.sortBy},
         this.handleSort.bind(this, this.props.sortBy.prop, {toggle: false})
