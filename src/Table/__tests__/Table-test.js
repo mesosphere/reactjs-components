@@ -81,4 +81,41 @@ describe('Table', function () {
 
   });
 
+  describe('initial sorting', function () {
+
+    it('should sort the data descending on initial mount', function () {
+      this.instance = TestUtils.renderIntoDocument(
+        <Table
+          className="table"
+          columns={MockTable.columns}
+          data={MockTable.rows}
+          itemHeight={20}
+          sortBy={{prop: 'name', order: 'desc'}} />
+      );
+
+      var tableRows = TestUtils.scryRenderedDOMComponentsWithTag(this.instance, 'tr');
+
+      expect(tableRows[2].children[0].textContent).toEqual('Zach');
+      expect(tableRows[6].children[0].textContent).toEqual('Francis');
+    });
+
+    it('should sort the data ascending on initial mount', function () {
+      this.instance = TestUtils.renderIntoDocument(
+        <Table
+          className="table"
+          columns={MockTable.columns}
+          data={MockTable.rows}
+          itemHeight={20}
+          sortBy={{prop: 'name', order: 'asc'}}
+          onSortCallback={this.callback} />
+      );
+
+      var tableRows = TestUtils.scryRenderedDOMComponentsWithTag(this.instance, 'tr');
+
+      expect(tableRows[2].children[0].textContent).toEqual('Francis');
+      expect(tableRows[6].children[0].textContent).toEqual('Zach');
+    });
+
+  });
+
 });
