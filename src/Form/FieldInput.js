@@ -9,6 +9,10 @@ import Util from '../Util/Util';
 const EVENTS = ['blur', 'change', 'focus'];
 
 class FieldInput extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return !Util.isEqual(this.props, nextProps);
+  }
+
   componentDidUpdate() {
     let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
 

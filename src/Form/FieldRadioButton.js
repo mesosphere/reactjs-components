@@ -10,6 +10,10 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     return ['handleChange'];
   }
 
+  shouldComponentUpdate(nextProps) {
+    return !Util.isEqual(this.props, nextProps);
+  }
+
   hasError() {
     let {props} = this;
     let validationError = props.validationError;

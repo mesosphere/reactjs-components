@@ -2,8 +2,12 @@ import classNames from 'classnames/dedupe';
 import React from 'react';
 
 import Dropdown from '../Dropdown/Dropdown';
+import Util from '../Util/Util';
 
 class FieldSelect extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return !Util.isEqual(this.props, nextProps);
+  }
 
   handleChange(selectedValue, event) {
     this.props.handleEvent(
