@@ -7,7 +7,6 @@ import IconCheckbox from './icons/IconCheckbox';
 import Util from '../Util/Util';
 
 class FieldCheckbox extends FieldRadioButton {
-
   componentDidMount() {
     super.componentDidMount(...arguments);
     this.updateCheckbox();

@@ -5,7 +5,6 @@ import FieldTypes from './FieldTypes';
 import Util from '../Util/Util';
 
 class FormControl extends React.Component {
-
   renderGroup(definition) {
     let columnLength = definition.filter(function (fieldDefinition) {
       return !React.isValidElement(fieldDefinition);

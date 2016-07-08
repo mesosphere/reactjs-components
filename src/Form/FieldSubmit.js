@@ -1,7 +1,12 @@
 import classNames from 'classnames/dedupe';
 import React from 'react';
 
+import Util from '../Util/Util';
+
 class FieldSubmit extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    return !Util.isEqual(this.props, nextProps);
+  }
 
   render() {
     let {
