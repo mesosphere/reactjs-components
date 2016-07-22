@@ -88,14 +88,18 @@ class Form extends Util.mixin(BindMixin) {
       nextState.model = mergeNewModel(state.model, currentModel, nextModel);
     }
 
-    let currentErrors = this.buildStateObj(props.definition, 'showError');
-    let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
-    if (!Util.isEqual(currentErrors, nextErrors)) {
-      nextState.erroredFields = mergeNewModel(
-        state.erroredFields,
-        currentErrors,
-        nextErrors
-      );
+    if (this.props.useExternalErrors) {
+      nextState.erroredFields = this.buildStateObj(nextProps.definition, 'showError');
+    } else {
+      let currentErrors = this.buildStateObj(props.definition, 'showError');
+      let nextErrors = this.buildStateObj(nextProps.definition, 'showError');
+      if (!Util.isEqual(currentErrors, nextErrors)) {
+        nextState.erroredFields = mergeNewModel(
+          state.erroredFields,
+          currentErrors,
+          nextErrors
+        );
+      }
     }
 
     this.setState(nextState);
@@ -438,7 +442,9 @@ Form.propTypes = {
   onSubmit: PropTypes.func,
   // Optional function. Will receive a trigger function.
   // Call the trigger function, when a submit needs to be triggered externally
-  triggerSubmit: PropTypes.func
+  triggerSubmit: PropTypes.func,
+  // If set to true, errors will be completely driven from the form definition.
+  useExternalErrors: PropTypes.bool
 };
 
 module.exports = Form;
