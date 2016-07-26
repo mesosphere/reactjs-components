@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactDOM from 'react-dom';
 
 import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
@@ -11,6 +12,7 @@ import Util from '../Util/Util';
 class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
   get methodsToBind() {
     return [
+      'closeDropdown',
       'handleMenuToggle',
       'handleExternalClick',
       'handleWrapperBlur'
@@ -25,10 +27,12 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
   constructor() {
     super();
+    this.container = null;
     this.state = {
       maxDropdownHeight: null,
       menuDirection: 'down',
       menuHeight: null,
+      menuPosition: {},
       isOpen: false,
       selectedID: null
     };
@@ -43,6 +47,17 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    // If the open state changed, add or remove listener as needed.
+    if (nextState.isOpen !== this.state.isOpen) {
+      if (nextState.isOpen) {
+        this.addScrollListener();
+      } else {
+        this.removeScrollListener();
+      }
+    }
+  }
+
   componentDidUpdate() {
     super.componentDidUpdate(...arguments);
 
@@ -52,15 +67,21 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     if (this.state.menuHeight == null &&
       this.refs.dropdownMenuConcealer != null) {
       let dropdownMenuConcealer = this.refs.dropdownMenuConcealer;
-      let {maxDropdownHeight, menuDirection, menuHeight} = this.state;
+      let {
+        maxDropdownHeight,
+        menuDirection,
+        menuHeight,
+        menuPosition
+      } = this.state;
 
       if (dropdownMenuConcealer != null) {
         // Get the height and direction of the concealed menu.
         menuHeight = dropdownMenuConcealer.firstChild.clientHeight || 0;
         let menuStyle = this.getOptimalMenuStyle(menuHeight);
 
-        menuDirection = menuStyle.direction;
         maxDropdownHeight = menuStyle.height;
+        menuDirection = menuStyle.direction;
+        menuPosition = menuStyle.position;
       }
 
       // Setting state with menu height and direction will re-render the
@@ -69,15 +90,34 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       this.setState({
         maxDropdownHeight,
         menuDirection,
-        menuHeight
+        menuHeight,
+        menuPosition
       });
       /* eslint-enable react/no-did-update-set-state */
     }
   }
 
+  addScrollListener() {
+    if (!this.container) {
+      if (typeof this.props.scrollContainer === 'string') {
+        this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
+          this.props.scrollContainer) || window;
+      } else {
+        this.container = this.props.scrollContainer;
+      }
+    }
+
+    this.container.addEventListener('scroll', this.closeDropdown);
+  }
+
+  closeDropdown() {
+    this.setState({isOpen: false});
+  }
+
   getOptimalMenuStyle(menuHeight) {
     let direction = 'down';
     let height = null;
+    let position = {};
 
     // If we don't know the menu height, render it down.
     if (menuHeight == null) {
@@ -88,15 +128,27 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       .getNodeClearance(this.refs.dropdownWrapper);
 
     // If the menu height is larger than the space available on the bottom and
-    // less than the space available on top, then render it up. Otherwise always
-    // render down.
-    if (menuHeight > spaceAroundDropdown.bottom
-      && menuHeight < spaceAroundDropdown.top) {
+    // less than the space available on top, then render it up. If the height of
+    // the menu exceeds the space below and above, but there is more space above
+    // than below, render it up. Otherwise, render down.
+    if ((menuHeight > spaceAroundDropdown.bottom
+      && menuHeight < spaceAroundDropdown.top)
+      || (menuHeight > spaceAroundDropdown.bottom
+      && menuHeight > spaceAroundDropdown.top
+      && spaceAroundDropdown.top > spaceAroundDropdown.bottom)) {
       direction = 'up';
+      position.bottom = spaceAroundDropdown.bottom + spaceAroundDropdown.boundingRect.height;
       height = spaceAroundDropdown.top;
     } else {
       direction = 'down';
+      position.top = spaceAroundDropdown.top + spaceAroundDropdown.boundingRect.height;
       height = spaceAroundDropdown.bottom;
+    }
+
+    if (this.props.anchorRight) {
+      position.right = spaceAroundDropdown.right;
+    } else {
+      position.left = spaceAroundDropdown.left;
     }
 
     // We assume that 125 pixels is the smallest height we should render.
@@ -104,7 +156,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       height = 125;
     }
 
-    return {direction, height};
+    return {direction, height, position};
   }
 
   getMenuItems(items) {
@@ -148,6 +200,12 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
   getSelectedID() {
     return this.props.persistentID || this.state.selectedID;
+  }
+
+  removeScrollListener() {
+    if (this.container) {
+      this.container.removeEventListener('scroll', this.closeDropdown);
+    }
   }
 
   removeBlurTimeout() {
@@ -196,19 +254,22 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     e.stopPropagation();
     let menuDirection = this.state.menuDirection;
     let maxDropdownHeight = this.state.maxDropdownHeight;
+    let menuPosition = {};
 
     // If the menu isn't open, then we're about to open it and we need to
     // calculate the direction every time.
     if (!this.state.isOpen) {
       let menuStyle = this.getOptimalMenuStyle(this.state.menuHeight);
-      menuDirection = menuStyle.direction;
       maxDropdownHeight = menuStyle.height;
+      menuDirection = menuStyle.direction;
+      menuPosition = menuStyle.position;
     }
 
     this.removeBlurTimeout();
     this.setState({
       maxDropdownHeight,
       menuDirection,
+      menuPosition,
       isOpen: !this.state.isOpen
     });
   }
@@ -229,6 +290,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       'open': state.isOpen
     };
     let items = props.items;
+    let menuPosition = {};
     let transitionName =
       `${props.transitionName}-${state.menuDirection}`;
     let wrapperClassSet = classNames(
@@ -247,6 +309,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
           {this.getMenuItems(props.items)}
         </ul>
       );
+      let menuPosition = Object.assign({}, state.menuPosition);
 
       // Render with Gemini scrollbar if the dropdown's height is constrainted.
       if (state.menuHeight >= state.maxDropdownHeight) {
@@ -276,8 +339,12 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       }
 
       dropdownMenu = (
-        <span className={dropdownMenuClassSet}
-          role="menu" ref="dropdownMenu" key={dropdownKey}>
+        <span
+          className={dropdownMenuClassSet}
+          key={dropdownKey}
+          role="menu"
+          ref="dropdownMenu"
+          style={menuPosition}>
           <div className={props.dropdownMenuListClassName}>
             {dropdownMenuItems}
           </div>
@@ -327,6 +394,8 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 }
 
 Dropdown.defaultProps = {
+  anchorRight: false,
+  scrollContainer: window,
   transition: false,
   transitionName: 'dropdown-menu',
   transitionEnterTimeout: 250,
@@ -336,6 +405,8 @@ Dropdown.defaultProps = {
 };
 
 Dropdown.propTypes = {
+  // When true, anchors the dropdown to the right of the trigger.
+  anchorRight: React.PropTypes.bool,
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
   persistentID: React.PropTypes.oneOfType([
@@ -375,6 +446,10 @@ Dropdown.propTypes = {
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
+  // The nearest scrolling DOMNode that contains the dropdown. Defaults to
+  // window. Also accepts a string, treated as a selector for the node.
+  scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
+    React.PropTypes.string]),
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
   transition: React.PropTypes.bool,
