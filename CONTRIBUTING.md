@@ -74,7 +74,7 @@ After this you can pull down the latest module version from npm.
 
 1. Make sure you are on `master` branch and have pulled the latest changes.
 
-2. Create the tag with as outlined above, with the full version number (including beta).
+2. Create the tag as outlined above, with the full version number (including beta).
 
 3. Push the new tag to github:
 
