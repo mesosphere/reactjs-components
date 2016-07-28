@@ -58,7 +58,7 @@ If you want to add a new npm package to `node_modules`:
 
 1. Make sure you are on `master` branch and have pulled the latest changes.
 
-2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)). You can use this shorthand which will create a tag from current package.json version:
+2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)).
 
 3. Push the new tag to github:
 
@@ -69,6 +69,24 @@ If you want to add a new npm package to `node_modules`:
         npm run release
 
 After this you can pull down the latest module version from npm.
+
+### Publishing a Beta Release
+
+1. Make sure you are on `master` branch and have pulled the latest changes.
+
+2. Create the tag with as outlined above, with the full version number (including beta).
+
+3. Push the new tag to github:
+
+        git push --tags
+
+4. Compile the assets for distribution:
+
+        npm run dist-src
+
+5. Now do the release with the proper flags, where `{NUMBER}` is the beta number you wish to release:
+
+        npm publish ./ --tag -.beta-{NUMBER}
 
 ## Making a PR
 
