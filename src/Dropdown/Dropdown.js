@@ -185,16 +185,20 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     let {scrollContainer, scrollContainerParentSelector} = this.props;
 
     if (typeof scrollContainer === 'string') {
-      let scrollContainerSelector = null;
+      // Find the closest scrolling element by the specified selector.
+      scrollContainer = DOMUtil.closest(ReactDOM.findDOMNode(this),
+        scrollContainer) || window;
 
-      if (scrollContainerParentSelector == null) {
-        scrollContainerSelector = scrollContainer;
-      } else {
-        scrollContainerSelector = scrollContainerParentSelector;
+      let {parentElement} = scrollContainer;
+
+      // If the user specified scrollContainerParentSelector, we check to see
+      // if the parent scrolling element matches the specified parent selector.
+      if (scrollContainer != window && scrollContainerParentSelector != null
+        && parentElement != null && parentElement[DOMUtil.matchesFn](
+          scrollContainerParentSelector
+        )) {
+        scrollContainer = parentElement;
       }
-
-      return DOMUtil.closest(ReactDOM.findDOMNode(this),
-        scrollContainerSelector) || window;
     }
 
     return scrollContainer;
