@@ -8,12 +8,28 @@ var computeInnerBound = function (compstyle, acc, key) {
   }
 };
 
+var matchesFn = (function () {
+  var el = document.querySelector('body');
+  var names = [
+    'matches', 'matchesSelector', 'msMatchesSelector',
+    'oMatchesSelector', 'mozMatchesSelector', 'webkitMatchesSelector'
+  ];
+
+  for (var i = 0; i < names.length; i++) {
+    if (el[names[i]]) {
+      return names[i];
+    }
+  }
+
+  return names[0];
+})();
+
 const DOMUtil = {
   closest(el, selector) {
     var currentEl = el;
 
     while (currentEl && currentEl.parentElement !== null) {
-      if (currentEl[this.matchesFn] && currentEl[this.matchesFn](selector)) {
+      if (currentEl[matchesFn] && currentEl[matchesFn](selector)) {
         return currentEl;
       }
 
@@ -104,23 +120,7 @@ const DOMUtil = {
     } else {
       return element.scrollTop;
     }
-  },
-
-  matchesFn: (function () {
-    let el = document.querySelector('body');
-    let names = [
-      'matches', 'matchesSelector', 'msMatchesSelector',
-      'oMatchesSelector', 'mozMatchesSelector', 'webkitMatchesSelector'
-    ];
-
-    for (let i = 0; i < names.length; i++) {
-      if (el[names[i]]) {
-        return names[i];
-      }
-    }
-
-    return names[0];
-  })()
+  }
 };
 
 module.exports = DOMUtil;
