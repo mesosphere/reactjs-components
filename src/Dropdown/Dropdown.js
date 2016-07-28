@@ -49,16 +49,16 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
   componentDidMount() {
     if (typeof this.props.scrollContainer === 'string') {
-      this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
-        this.props.scrollContainer) || window;
+      let scrollingNodeSelector = null;
 
-      if (this.container.parentElement != null
-        && this.props.scrollContainerParentSelector != null
-        && this.container.parentElement[DOMUtil.matchesFn](
-          this.props.scrollContainerParentSelector
-        )) {
-        this.container = this.container.parentElement;
+      if (this.props.scrollContainerParentSelector == null) {
+        scrollingNodeSelector = this.props.scrollContainer;
+      } else {
+        scrollingNodeSelector = this.props.scrollContainerParentSelector;
       }
+
+      this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
+        scrollingNodeSelector) || window;
 
       return;
     }
