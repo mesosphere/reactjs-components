@@ -48,22 +48,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   componentDidMount() {
-    if (typeof this.props.scrollContainer === 'string') {
-      let scrollingNodeSelector = null;
-
-      if (this.props.scrollContainerParentSelector == null) {
-        scrollingNodeSelector = this.props.scrollContainer;
-      } else {
-        scrollingNodeSelector = this.props.scrollContainerParentSelector;
-      }
-
-      this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
-        scrollingNodeSelector) || window;
-
-      return;
-    }
-
-    this.container = this.props.scrollContainer;
+    this.container = this.getScrollContainer();
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -194,6 +179,25 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
         </li>
       );
     });
+  }
+
+  getScrollContainer() {
+    let {scrollContainer, scrollContainerParentSelector} = this.props;
+
+    if (typeof scrollContainer === 'string') {
+      let scrollContainerSelector = null;
+
+      if (scrollContainerParentSelector == null) {
+        scrollContainerSelector = scrollContainer;
+      } else {
+        scrollContainerSelector = scrollContainerParentSelector;
+      }
+
+      return DOMUtil.closest(ReactDOM.findDOMNode(this),
+        scrollContainerSelector) || window;
+    }
+
+    return scrollContainer;
   }
 
   getSelectedHtml(id, items) {
