@@ -47,6 +47,10 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
+  componentDidMount() {
+    this.container = this.getScrollContainer();
+  }
+
   componentWillUpdate(nextProps, nextState) {
     // If the open state changed, add or remove listener as needed.
     if (nextState.isOpen !== this.state.isOpen) {
@@ -98,15 +102,6 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   addScrollListener() {
-    if (!this.container) {
-      if (typeof this.props.scrollContainer === 'string') {
-        this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
-          this.props.scrollContainer) || window;
-      } else {
-        this.container = this.props.scrollContainer;
-      }
-    }
-
     this.container.addEventListener('scroll', this.closeDropdown);
   }
 
@@ -184,6 +179,29 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
         </li>
       );
     });
+  }
+
+  getScrollContainer() {
+    let {scrollContainer, scrollContainerParentSelector} = this.props;
+
+    if (typeof scrollContainer === 'string') {
+      // Find the closest scrolling element by the specified selector.
+      scrollContainer = DOMUtil.closest(ReactDOM.findDOMNode(this),
+        scrollContainer) || window;
+
+      let {parentElement} = scrollContainer;
+
+      // If the user specified scrollContainerParentSelector, we check to see
+      // if the parent scrolling element matches the specified parent selector.
+      if (scrollContainer != window && scrollContainerParentSelector != null
+        && parentElement != null && parentElement[DOMUtil.matchesFn](
+          scrollContainerParentSelector
+        )) {
+        scrollContainer = parentElement;
+      }
+    }
+
+    return scrollContainer;
   }
 
   getSelectedHtml(id, items) {
@@ -396,6 +414,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 Dropdown.defaultProps = {
   anchorRight: false,
   scrollContainer: window,
+  scrollContainerParentSelector: null,
   transition: false,
   transitionName: 'dropdown-menu',
   transitionEnterTimeout: 250,
@@ -450,6 +469,9 @@ Dropdown.propTypes = {
   // window. Also accepts a string, treated as a selector for the node.
   scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
     React.PropTypes.string]),
+  // Will attach the scroll handler to the the direct parent of scrollContainer
+  // if it matches this selector. Defaults to null.
+  scrollContainerParentSelector: React.PropTypes.string,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
   transition: React.PropTypes.bool,
