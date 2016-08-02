@@ -81,7 +81,7 @@
     "test": "jest",
     "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./",
     "release-beta": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm version prerelease",
-    "postversion": "npm publish ./ --tag $npm_package_version"
+    "postversion": "npm publish ./ --tag version-$npm_package_version"
   },
   "jest": {
     "globals": {

@@ -74,19 +74,9 @@ After this you can pull down the latest module version from npm.
 
 1. Make sure you are on `master` branch and have pulled the latest changes.
 
-2. Create the tag as outlined above, with the full version number (including beta).
+2. Run the `release-beta` NPM script:
 
-3. Push the new tag to github:
-
-        git push --tags
-
-4. Compile the assets for distribution:
-
-        npm run dist-src
-
-5. Now do the release with the proper flags, where `{NUMBER}` is the beta number you wish to release:
-
-        npm publish ./ --tag -.beta-{NUMBER}
+        npm run release-beta
 
 ## Making a PR
 
