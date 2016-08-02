@@ -3,10 +3,12 @@ var browserSync = require('browser-sync');
 var colorLighten = require('less-color-lighten');
 var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
+var fs = require('fs');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var less = require('gulp-less');
 var minifyCSS = require('gulp-minify-css');
+var path = require('path');
 var replace = require('gulp-replace');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
@@ -87,6 +89,20 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
 
 function replaceJsStringsFn() {
   return gulp.src(config.files.docs.distJS)
+    .pipe(replace(/PROPTYPES_BLOCK\((.*?)\)/g, function(match, srcPath) {
+      srcPath = path.join(__dirname, '..', srcPath);
+
+      // Find the propTypes block in source file
+      var srcContent = fs.readFileSync(srcPath, {encoding: 'utf8'});
+      var matches = srcContent.match(/^\w+\.propTypes[\s\S]*?^};$/m);
+
+      // Finally do the replace
+      var contents = matches[0];
+      contents = contents.replace(/([^\\])'/g, '$1\\\'');
+      contents = contents.replace(/\n|\r/g, '\\n');
+
+      return contents;
+    }))
     .pipe(replace('@@VERSION', packageInfo.version))
     .pipe(gulp.dest(config.dirs.docs.distJS))
     .on('end', browserSyncReload);

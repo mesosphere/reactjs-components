@@ -70,29 +70,7 @@ class SidePanelExample extends React.Component {
           <h3>Properties API</h3>
           <div className="example-block">
             <pre className="prettyprint linenums flush-bottom">
-{`SidePanelContents.propTypes = {
-  // Nodes to render inside of side panel.
-  children: PropTypes.node,
-  // Set to false to disable the backdrop click listener for close.
-  // Default: true
-  closeByBackdropClick: PropTypes.bool,
-  // Node to render for header. Default: null
-  header: PropTypes.node,
-  // Function to call on close.
-  onClose: PropTypes.func,
-  // Bool that states if side panel is open or not. Default: false
-  open: PropTypes.bool,
-  // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: PropTypes.bool,
-
-  // Classes.
-  backdropClass: PropTypes.string,
-  bodyClass: PropTypes.string,
-  containerClass: PropTypes.string,
-  headerClass: PropTypes.string,
-  headerContainerClass: PropTypes.string,
-  sidePanelClass: PropTypes.string
-};`}
+{'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'}
             </pre>
           </div>
           <div className="example-block flush-bottom">

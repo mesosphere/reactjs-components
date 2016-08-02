@@ -53,24 +53,7 @@ class ConfirmExample extends Util.mixin(BindMixin) {
                 <h3>Properties API</h3>
                 <div className="example-block">
                   <pre className="prettyprint linenums flush-bottom">
-{`Confirm.propTypes = {
-  children: React.PropTypes.element.isRequired,
-
-  open: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool,
-  // This will be triggered by backdrop click
-  onClose: PropTypes.func,
-
-  // Left button properties
-  leftButtonText: PropTypes.string.isRequired,
-  leftButtonClassName: PropTypes.string,
-  leftButtonCallback: PropTypes.func.isRequired,
-  // Right button properties
-  rightButtonText: PropTypes.string.isRequired,
-  rightButtonClassName: PropTypes.string,
-  rightButtonCallback: PropTypes.func.isRequired
-};
-`}
+{'PROPTYPES_BLOCK(src/Confirm/Confirm.js)'}
                   </pre>
                 </div>
                 <div className="example-block flush-bottom">
