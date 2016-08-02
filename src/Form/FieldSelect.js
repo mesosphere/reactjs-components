@@ -26,7 +26,7 @@ class FieldSelect extends React.Component {
   }
 
   getDropDown(dropdownItems) {
-    let {startValue, persistentID} = this.props;
+    let {matchButtonWidth, startValue, persistentID} = this.props;
     let classes = {
       buttonClassName: 'button dropdown-toggle',
       dropdownMenuClassName: 'dropdown-menu',
@@ -73,6 +73,7 @@ class FieldSelect extends React.Component {
       <Dropdown {...classes}
         initialID={startValue.id}
         items={dropdownItems}
+        matchButtonWidth={matchButtonWidth}
         onItemSelection={this.handleChange.bind(this)}
         persistentID={persistentID}
         transition={true} />
