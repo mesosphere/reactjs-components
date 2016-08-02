@@ -435,12 +435,12 @@ ModalContents.propTypes = {
   // Optional enter and leave transition name for backdrop
   transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
-  // Transition lengths
+  // Transition lengths, must be non-zero
   transitionAppearTimeoutBackdrop: PropTypes.number,
   transitionEnterTimeoutBackdrop: PropTypes.number,
   transitionLeaveTimeoutBackdrop: PropTypes.number,
   transitionNameModal: PropTypes.string,
-  // Transition lengths
+  // Transition lengths, must be non-zero
   transitionAppearTimeoutModal: PropTypes.number,
   transitionEnterTimeoutModal: PropTypes.number,
   transitionLeaveTimeoutModal: PropTypes.number,
