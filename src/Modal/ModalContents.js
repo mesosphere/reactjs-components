@@ -345,9 +345,9 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     return (
       <div className={props.modalWrapperClass}>
         <ReactCSSTransitionGroup
-          transitionAppear={true}
-          transitionEnter={props.transitionsIn}
-          transitionLeave={props.transitionsOut}
+          transitionAppear={props.transitionAppear}
+          transitionEnter={props.transitionEnter}
+          transitionLeave={props.transitionLeave}
           transitionName={props.transitionNameBackdrop}
           transitionAppearTimeout={props.transitionAppearTimeoutBackdrop}
           transitionEnterTimeout={props.transitionEnterTimeoutBackdrop}
@@ -356,9 +356,9 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
           {this.getBackdrop()}
         </ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup
-          transitionAppear={true}
-          transitionEnter={props.transitionsIn}
-          transitionLeave={props.transitionsOut}
+          transitionAppear={props.transitionAppear}
+          transitionEnter={props.transitionEnter}
+          transitionLeave={props.transitionLeave}
           transitionName={props.transitionNameModal}
           transitionAppearTimeout={props.transitionAppearTimeoutModal}
           transitionEnterTimeout={props.transitionEnterTimeoutModal}
@@ -391,8 +391,9 @@ ModalContents.defaultProps = {
   transitionAppearTimeoutModal: 500,
   transitionEnterTimeoutModal: 500,
   transitionLeaveTimeoutModal: 500,
-  transitionsIn: true,
-  transitionsOut: true,
+  transitionAppear: true,
+  transitionEnter: true,
+  transitionLeave: true,
   useGemini: true,
 
   // Default classes.
@@ -451,8 +452,9 @@ ModalContents.propTypes = {
   transitionEnterTimeoutModal: PropTypes.number,
   transitionLeaveTimeoutModal: PropTypes.number,
   // Optionally disable transitions
-  transitionsIn: PropTypes.bool,
-  transitionsOut: PropTypes.bool,
+  transitionAppear: PropTypes.bool,
+  transitionEnter: PropTypes.bool,
+  transitionLeave: PropTypes.bool,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
