@@ -9,8 +9,8 @@ import Util from '../Util/Util';
 const EVENTS = ['blur', 'change', 'focus'];
 
 class FieldInput extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return !Util.isEqual(this.props, nextProps);
+  shouldComponentUpdate(nextProps, nextState) {
+    return !Util.isEqual(this.props, nextProps) || !Util.isEqual(this.state, nextState);
   }
 
   componentDidUpdate() {
