@@ -346,6 +346,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       <div className={props.modalWrapperClass}>
         <ReactCSSTransitionGroup
           transitionAppear={true}
+          transitionEnter={props.transitionsIn}
+          transitionLeave={props.transitionsOut}
           transitionName={props.transitionNameBackdrop}
           transitionAppearTimeout={props.transitionAppearTimeoutBackdrop}
           transitionEnterTimeout={props.transitionEnterTimeoutBackdrop}
@@ -355,6 +357,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
         </ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup
           transitionAppear={true}
+          transitionEnter={props.transitionsIn}
+          transitionLeave={props.transitionsOut}
           transitionName={props.transitionNameModal}
           transitionAppearTimeout={props.transitionAppearTimeoutModal}
           transitionEnterTimeout={props.transitionEnterTimeoutModal}
@@ -387,6 +391,8 @@ ModalContents.defaultProps = {
   transitionAppearTimeoutModal: 500,
   transitionEnterTimeoutModal: 500,
   transitionLeaveTimeoutModal: 500,
+  transitionsIn: true,
+  transitionsOut: true,
   useGemini: true,
 
   // Default classes.
@@ -444,6 +450,9 @@ ModalContents.propTypes = {
   transitionAppearTimeoutModal: PropTypes.number,
   transitionEnterTimeoutModal: PropTypes.number,
   transitionLeaveTimeoutModal: PropTypes.number,
+  // Optionally disable transitions
+  transitionsIn: PropTypes.bool,
+  transitionsOut: PropTypes.bool,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 
