@@ -4,6 +4,7 @@
 // * @import (inline) "../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css";
 
 .table {
+
   th {
     outline: none;
     user-select: none;
@@ -13,7 +14,7 @@
 .caret {
   border-left: 0.3em solid transparent;
   border-right: 0.3em solid transparent;
-  border-top: 0.45em solid rgba(50, 58, 78, 0.5);
+  border-top: 0.45em solid fade(@neutral, 50%);
   display: inline-block;
   margin-left: 0.5em;
   opacity: 0;
@@ -21,7 +22,7 @@
   visibility: hidden;
 
   .inverse & {
-    border-top: 0.45em solid rgba(255, 255, 255, 0.5);
+    border-top: 0.45em solid fade(@white, 50%);
   }
 
   &--visible {
