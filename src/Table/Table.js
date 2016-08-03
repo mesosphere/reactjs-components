@@ -277,6 +277,7 @@ class Table extends React.Component {
 
     return (
       <VirtualList
+        className="virtual-list"
         container={this.container}
         itemBuffer={70}
         itemHeight={itemHeight}
