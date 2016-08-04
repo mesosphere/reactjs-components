@@ -241,43 +241,6 @@ Page Header
 
 & when (@screen-mini-enabled) {
 
-  @media (max-width: @screen-mini) {
-
-    #page-header {
-
-      #page-header-inner {
-
-        .github-corner {
-
-          &:hover {
-
-            .octo-arm {
-              animation: none;
-            }
-
-          }
-
-          .octo-arm {
-            animation: octocat-wave 0.5s ease-in-out
-          }
-
-        }
-
-      }
-
-    }
-
-  }
-
-}
-
-
-
-
-
-
-& when (@screen-mini-enabled) {
-
   /* ----------------------------------------------------------------------------------------------------
   -------------------------------------------------------------------------------------------------------
 
@@ -333,6 +296,42 @@ Page Header
         line-height: @page-header-description-text-line-height * @page-header-description-text-line-height-scale-screen-mini;
         margin-top: @page-header-description-text-margin-top * @page-header-description-text-margin-top-scale-screen-mini;
         margin-bottom: @page-header-description-text-margin-bottom * @page-header-description-text-margin-bottom-scale-screen-mini;
+
+      }
+
+    }
+
+  }
+
+  /* ----------------------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------------
+
+  Screen Size: Up to mini (@screen-mini) and below
+
+  -------------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------- */
+
+  @media (max-width: @screen-mini) {
+
+    #page-header {
+
+      #page-header-inner {
+
+        .github-corner {
+
+          &:hover {
+
+            .octo-arm {
+              animation: none;
+            }
+
+          }
+
+          .octo-arm {
+            animation: octocat-wave 0.5s ease-in-out
+          }
+
+        }
 
       }
 
