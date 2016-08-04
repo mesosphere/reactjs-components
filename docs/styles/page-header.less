@@ -125,6 +125,29 @@ Page Header
 -------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------- */
 
+
+@keyframes octocat-wave{
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80%{
+    transform: rotate(10deg);
+  }
+}
+
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation: qnone;
+  }
+
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+  }
+}
+
 #page-header {
 
   margin-top: -@header-height;
@@ -132,6 +155,22 @@ Page Header
   #page-header-inner {
 
     padding-top: @header-height;
+
+    .github-corner {
+      position: absolute;
+      bottom: -46px;
+      left: 50%;
+      transform: rotate(-45deg) translate(-50%, -50%);
+
+      &:hover .octo-arm{
+        animation: octocat-wave 560ms ease-in-out;
+      }
+
+      svg {
+        fill:transparent;
+        color:#fff;
+      }
+    }
 
   }
 
