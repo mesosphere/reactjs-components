@@ -59,19 +59,26 @@ Example Block
 
 
 	&.show-snippet {
-		border-bottom: 0;
-		border-bottom-left-radius: 0;
-		border-bottom-right-radius: 0;
-		box-shadow: none;
 		height: @base-spacing-unit * 1.7;
 		margin-bottom: @base-spacing-unit;
 		position: relative;
 
-		&:after {
-			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+		&:before {
+			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, @code-block-prettyprint-linenums-background-color 100%);
 			bottom: 0px;
 			content: '';
 			height: 15px;
+			position: absolute;
+			width: @code-block-prettyprint-padding + @code-block-prettyprint-linenums-width;
+			z-index: 1;
+		}
+
+		&:after {
+			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, @code-block-prettyprint-background-color 100%);
+			bottom: 0px;
+			content: '';
+			height: 15px;
+			left: @code-block-prettyprint-padding + @code-block-prettyprint-linenums-width;
 			position: absolute;
 			width: 100%;
 		}
@@ -233,6 +240,15 @@ Example Block
 			&.show-snippet {
 				height: @base-spacing-unit-screen-mini * 1.7;
 				margin-bottom: @base-spacing-unit-screen-mini;
+
+				&:before {
+					width: @code-block-prettyprint-padding-screen-mini + @code-block-prettyprint-linenums-width-screen-mini;
+				}
+
+				&:after {
+					left: @code-block-prettyprint-padding-screen-mini + @code-block-prettyprint-linenums-width-screen-mini;
+				}
+
 			}
 
 			.example-block-content {
@@ -290,6 +306,15 @@ Example Block
 			&.show-snippet {
 				height: @base-spacing-unit-screen-small * 1.7;
 				margin-bottom: @base-spacing-unit-screen-small;
+
+				&:before {
+					width: @code-block-prettyprint-padding-screen-small + @code-block-prettyprint-linenums-width-screen-small;
+				}
+
+				&:after {
+					left: @code-block-prettyprint-padding-screen-small + @code-block-prettyprint-linenums-width-screen-small;
+				}
+
 			}
 
 			.example-block-content {
@@ -352,6 +377,15 @@ Example Block
 			&.show-snippet {
 				height: @base-spacing-unit-screen-medium * 1.7;
 				margin-bottom: @base-spacing-unit-screen-medium;
+
+				&:before {
+					width: @code-block-prettyprint-padding-screen-medium + @code-block-prettyprint-linenums-width-screen-medium;
+				}
+
+				&:after {
+					left: @code-block-prettyprint-padding-screen-medium + @code-block-prettyprint-linenums-width-screen-medium;
+				}
+
 			}
 
 			.example-block-content {
@@ -413,6 +447,15 @@ Example Block
 			&.show-snippet {
 				height: @base-spacing-unit-screen-large * 1.7;
 				margin-bottom: @base-spacing-unit-screen-large;
+
+				&:before {
+					width: @code-block-prettyprint-padding-screen-large + @code-block-prettyprint-linenums-width-screen-large;
+				}
+
+				&:after {
+					left: @code-block-prettyprint-padding-screen-large + @code-block-prettyprint-linenums-width-screen-large;
+				}
+
 			}
 
 			.example-block-content {
