@@ -39,8 +39,9 @@ Example Block
 	text-align: left;
 
 	&.open {
+
 		&:after {
-			transform: rotate(180deg) translate3d(0, 0, 0);
+			transform: rotate(180deg);
 		}
 	}
 }
@@ -63,23 +64,24 @@ Example Block
 		margin-bottom: @base-spacing-unit;
 		position: relative;
 
-		&:before {
-			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, @code-block-prettyprint-linenums-background-color 100%);
-			bottom: 0px;
+		&:before,
+		&:after {
+			bottom: 0;
 			content: '';
-			height: 15px;
+			height: 25px;
 			position: absolute;
+		}
+
+		&:before {
+			background: linear-gradient(180deg, fade(@code-block-prettyprint-linenums-background-color, 0%) 0%, @code-block-prettyprint-linenums-background-color 90%);
+			left: 0;
 			width: @code-block-prettyprint-padding + @code-block-prettyprint-linenums-width;
 			z-index: 1;
 		}
 
 		&:after {
-			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, @code-block-prettyprint-background-color 100%);
-			bottom: 0px;
-			content: '';
-			height: 15px;
+			background: linear-gradient(180deg, fade(@code-block-prettyprint-linenums-background-color, 0) 0%, @code-block-prettyprint-background-color 90%);
 			left: @code-block-prettyprint-padding + @code-block-prettyprint-linenums-width;
-			position: absolute;
 			width: 100%;
 		}
 	}
