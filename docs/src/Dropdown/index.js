@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Dropdown from '../../../src/Dropdown/Dropdown.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class DropdownExample extends React.Component {
 
@@ -289,12 +290,7 @@ class DropdownExample extends React.Component {
                   Create a dropdown menu with custom HTML and onclick callback
                   functionality. View the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Dropdown/Dropdown.js">component source</a>.
                 </p>
-                <h3>Properties API</h3>
-                <div className="example-block">
-                  <pre className="prettyprint linenums flush-bottom">
-{'PROPTYPES_BLOCK(src/Dropdown/Dropdown.js)'}
-                  </pre>
-                </div>
+                <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Dropdown/Dropdown.js)'} />
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
                     <div className="row">

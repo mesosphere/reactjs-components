@@ -34,6 +34,19 @@ Example Block
 -------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------- */
 
+.example-block-toggle {
+	padding: 0;
+	text-align: left;
+
+	&.open {
+		&:after {
+			transform: rotate(180deg) translate3d(0, 0, 0);
+		}
+	}
+}
+
+
+
 .example-block {
 
 	border-radius: 5px;
@@ -42,6 +55,27 @@ Example Block
 	.box-shadow(@shadow);
 	overflow: hidden;
 	margin-bottom: @base-spacing-unit * 0.5;
+
+
+
+	&.show-snippet {
+		border-bottom: 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		box-shadow: none;
+		height: @base-spacing-unit * 1.7;
+		margin-bottom: @base-spacing-unit;
+		position: relative;
+
+		&:after {
+			background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 100%);
+			bottom: 0px;
+			content: '';
+			height: 15px;
+			position: absolute;
+			width: 100%;
+		}
+	}
 
 
 
@@ -196,6 +230,11 @@ Example Block
 
 		.example-block {
 
+			&.show-snippet {
+				height: @base-spacing-unit-screen-mini * 1.7;
+				margin-bottom: @base-spacing-unit-screen-mini;
+			}
+
 			.example-block-content {
 
 				padding: (@base-spacing-unit-screen-mini * 0.5);
@@ -247,6 +286,11 @@ Example Block
 		.example-block {
 
 			margin-bottom: @base-spacing-unit-screen-small * 0.5;
+
+			&.show-snippet {
+				height: @base-spacing-unit-screen-small * 1.7;
+				margin-bottom: @base-spacing-unit-screen-small;
+			}
 
 			.example-block-content {
 
@@ -305,6 +349,11 @@ Example Block
 
 			margin-bottom: @base-spacing-unit-screen-medium * 0.5;
 
+			&.show-snippet {
+				height: @base-spacing-unit-screen-medium * 1.7;
+				margin-bottom: @base-spacing-unit-screen-medium;
+			}
+
 			.example-block-content {
 
 				padding: (@base-spacing-unit-screen-medium * 0.5);
@@ -360,6 +409,11 @@ Example Block
 		.example-block {
 
 			margin-bottom: @base-spacing-unit-screen-large * 0.5;
+
+			&.show-snippet {
+				height: @base-spacing-unit-screen-large * 1.7;
+				margin-bottom: @base-spacing-unit-screen-large;
+			}
 
 			.example-block-content {
 

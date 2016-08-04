@@ -58,7 +58,7 @@ gulp.task('docs:less', function () {
   return gulp.src(config.files.docs.srcCSS, {read: true}, {ignorePath: 'src'})
     .pipe(sourcemaps.init())
     .pipe(less({
-      paths: [config.dirs.docs.cssSrc], // @import paths
+      paths: [config.dirs.docs.srcCSS], // @import paths
       plugins: [colorLighten]
     }))
     .on('error', function (err) {

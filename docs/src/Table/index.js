@@ -3,6 +3,7 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Table from '../../../src/Table/Table.js';
 
 function compareValues(a, b) {
@@ -213,12 +214,7 @@ class TableExample extends React.Component {
             <h2>Tables</h2>
             <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll). If no item height is passed, table will first render one row to measure</p>
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
-            <h3>Properties API</h3>
-            <div className="example-block">
-              <pre className="prettyprint linenums flush-bottom">
-{'PROPTYPES_BLOCK(src/Table/Table.js)'}
-              </pre>
-            </div>
+            <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
             <h3>A Closer Look At Table Columns</h3>
             <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
             <div className="example-block">

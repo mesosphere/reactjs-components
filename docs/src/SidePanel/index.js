@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import SidePanel from '../../../src/SidePanel/SidePanel.js';
 
 class SidePanelExample extends React.Component {
@@ -67,12 +68,7 @@ class SidePanelExample extends React.Component {
             View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
             View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
           </p>
-          <h3>Properties API</h3>
-          <div className="example-block">
-            <pre className="prettyprint linenums flush-bottom">
-{'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'}
-            </pre>
-          </div>
+          <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'} />
           <div className="example-block flush-bottom">
             <div className="example-block-content">
               <section className="row canvas-pod">

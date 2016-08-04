@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Modal from '../../../src/Modal/Modal.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class ModalExample extends React.Component {
 
@@ -44,12 +45,7 @@ class ModalExample extends React.Component {
                 Style modals with optional header, footer, transition, and more.
                 For details, view the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Modal/ModalContents.js">component source</a>.
               </p>
-              <h3>Properties API</h3>
-              <div className="example-block">
-                <pre className="prettyprint linenums flush-bottom">
-{'PROPTYPES_BLOCK(src/Modal/ModalContents.js)'}
-                </pre>
-              </div>
+              <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Modal/ModalContents.js)'} />
 
 
               <div className="example-block flush-bottom">

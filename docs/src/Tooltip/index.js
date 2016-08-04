@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Tooltip from '../../../src/Tooltip/Tooltip.js';
 
 class ToolTipExample extends React.Component {
@@ -35,12 +36,7 @@ class ToolTipExample extends React.Component {
             View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Tooltip/Tooltip.js">here</a>.
             View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Tooltip/index.js">here</a>.
           </p>
-          <h3>Properties API</h3>
-          <div className="example-block">
-            <pre className="prettyprint linenums flush-bottom">
-{'PROPTYPES_BLOCK(src/Tooltip/Tooltip.js)'}
-            </pre>
-          </div>
+          <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Tooltip/Tooltip.js)'} />
           <div className="example-block flush-bottom example-block-overflow">
             <div className="example-block-content">
               <section className="row canvas-pod">
