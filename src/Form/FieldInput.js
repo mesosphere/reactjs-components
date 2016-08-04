@@ -236,11 +236,19 @@ FieldInput.propTypes = {
     React.PropTypes.bool
   ]),
   // initial value of field
-  startValue: React.PropTypes.string,
+  startValue: React.PropTypes.oneOfType([
+    React.PropTypes.bool,
+    React.PropTypes.number,
+    React.PropTypes.string
+  ]),
   // Optional object of error messages, with key equal to field property name
   validationError: React.PropTypes.object,
   // Optional value of the field
-  value: React.PropTypes.string,
+  value: React.PropTypes.oneOfType([
+    React.PropTypes.bool,
+    React.PropTypes.number,
+    React.PropTypes.string
+  ]),
   // Optional field to set input to 'edit' or 'input' mode
   writeType: React.PropTypes.string,
 
