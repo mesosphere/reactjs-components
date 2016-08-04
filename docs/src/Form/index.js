@@ -17,7 +17,6 @@ class FormExample extends React.Component {
         },
         {
           fieldType: 'text',
-          focused: true,
           name: 'uid',
           placeholder: 'Last name',
           required: true,
@@ -265,7 +264,6 @@ class FormExample extends React.Component {
         },
         {
           fieldType: 'text',
-          focused: true,
           name: 'uid',
           placeholder: 'Last name',
           required: true,
