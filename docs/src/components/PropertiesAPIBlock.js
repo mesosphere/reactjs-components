@@ -16,7 +16,7 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
 
     this.state = {
       open: false
-    }
+    };
   }
 
   handleToggleClick() {
@@ -24,13 +24,11 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let toggleClasses = classNames({
-      'h4 button button-link dropdown-toggle example-block-toggle': true,
-      'flush-bottom': true,
-      open: this.state.open
-    })
-    let blockClassNames = classNames({
-      'example-block': true,
+    let toggleClasses = classNames('h4 button button-link dropdown-toggle',
+      'example-block-toggle flush-bottom', {
+        open: this.state.open
+      });
+    let blockClassNames = classNames('example-block', {
       'show-snippet': !this.state.open
     });
 
