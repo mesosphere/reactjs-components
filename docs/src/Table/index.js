@@ -3,6 +3,7 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Table from '../../../src/Table/Table.js';
 
 function compareValues(a, b) {
@@ -213,84 +214,7 @@ class TableExample extends React.Component {
             <h2>Tables</h2>
             <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll). If no item height is passed, table will first render one row to measure</p>
             <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
-            <h3>Properties API</h3>
-            <div className="example-block">
-              <pre className="prettyprint linenums flush-bottom">
-{`Table.propTypes = {
-  // Optional attributes to be passed to the row elements.
-  buildRowOptions: PropTypes.func,
-
-  className: PropTypes.string,
-
-  // Optional colgroup component.
-  colGroup: PropTypes.object,
-
-  // Define how columns should be rendered and if they are sortable.
-  columns: PropTypes.arrayOf(
-    PropTypes.shape({
-      // Attributes to pass down to each column item.
-      attributes: PropTypes.object,
-
-      // Class to give to each column item.
-      // Can be a function to programmatically create a class.
-      className: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func
-      ]),
-
-      // Content to default to in the case of no data for the prop.
-      defaultContent: PropTypes.string,
-
-      // Enable caching of cells for better performance. Not cached by default.
-      cacheCell: PropTypes.bool,
-
-      // Function to render the header of the column. Can also be a string.
-      // The arguments to the function will be:
-      // prop (prop to sort by), order (asc/desc), sortBy (the sort function)
-      heading: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func
-      ]).isRequired,
-
-      // What prop of the data object to use.
-      prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-      // If true, the column will sort on column heading click.
-      sortable: PropTypes.bool,
-
-      // Custom sorting function. If this function returns null,
-      // it will fallback to default sorting.
-      sortFunction: PropTypes.func
-    })
-  ).isRequired,
-
-  // Optional selector of the parent element that has a scrollbar in order to
-  // listen to its scroll event.
-  containerSelector: PropTypes.string,
-
-  // Data to display in the table.
-  // Make sure to clone the data, cannot be modified!
-  data: PropTypes.array.isRequired,
-
-  // Text to show if there is no data.
-  emptyMessage: PropTypes.string,
-
-  // Optional item height for the scroll table. If not provided, it will render
-  // once to measure the height of the first child.
-  // NB: Initial render will stop any ongoing animation, if this is not provided
-  itemHeight: PropTypes.number,
-
-  // Optional callback function when sorting is complete.
-  onSortCallback: PropTypes.func,
-
-  // Optional default sorting criteria.
-  sortBy: PropTypes.shape({
-    order: PropTypes.oneOf(['asc', 'desc']),
-    prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  })
-};`}
-              </pre>
-            </div>
+            <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
             <h3>A Closer Look At Table Columns</h3>
             <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
             <div className="example-block">

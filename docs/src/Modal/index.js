@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Modal from '../../../src/Modal/Modal.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class ModalExample extends React.Component {
 
@@ -44,58 +45,7 @@ class ModalExample extends React.Component {
                 Style modals with optional header, footer, transition, and more.
                 For details, view the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Modal/ModalContents.js">component source</a>.
               </p>
-              <h3>Properties API</h3>
-              <div className="example-block">
-                <pre className="prettyprint linenums flush-bottom">
-{`ModalContents.propTypes = {
-  // Allow resize of modal to fit screen. Defaults to true.
-  dynamicHeight: PropTypes.bool,
-  children: PropTypes.node,
-  // Allow closing of modal when click happens outside modal. Defaults to true.
-  closeByBackdropClick: PropTypes.bool,
-  // Optional footer
-  footer: PropTypes.object,
-  // Maximum percent of the viewport the modal can be. Defaults to 0.5.
-  maxHeightPercentage: PropTypes.number,
-  // Optional callback function exected when modal is closed.
-  onClose: PropTypes.func,
-  // True if modal is open, false otherwise.
-  open: PropTypes.bool,
-  // Set true to show explicit close button. Defaults to false.
-  showCloseButton: PropTypes.bool,
-  // Set true to show header. Defaults to false.
-  showHeader: PropTypes.bool,
-  // Set true to show footer. Defaults to false.
-  showFooter: PropTypes.bool,
-  // Optional subheader.
-  subHeader: PropTypes.node,
-  // Optional title.
-  titleText: PropTypes.string,
-  // Optional enter and leave transition name for backdrop
-  transitionNameBackdrop: PropTypes.string,
-  // Optional enter and leave transition name for modal
-  transitionNameModal: PropTypes.string,
-  // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: PropTypes.bool,
-
-  // Classes
-  backdropClass: PropTypes.string,
-  bodyClass: PropTypes.string,
-  closeButtonClass: PropTypes.string,
-  closeIconClass: PropTypes.string,
-  closeTitleClass: PropTypes.string,
-  containerClass: PropTypes.string,
-  footerClass: PropTypes.string,
-  footerContainerClass: PropTypes.string,
-  headerClass: PropTypes.string,
-  headerContainerClass: PropTypes.string,
-  innerBodyClass: PropTypes.string,
-  modalClass: PropTypes.string,
-  modalWrapperClass: PropTypes.string,
-  titleClass: PropTypes.string
-};`}
-                </pre>
-              </div>
+              <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Modal/ModalContents.js)'} />
 
 
               <div className="example-block flush-bottom">

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import List from '../../../src/List/List.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class ListExample extends React.Component {
   constructor() {
@@ -108,37 +109,7 @@ class ListExample extends React.Component {
                 </p>
                 <div className="row row-flex row-flex">
                   <div className="column-12">
-                    <h3>Properties API</h3>
-                    <div className="example-block">
-                      <div className="example-block-footer example-block-footer-codeblock">
-                        <pre className="prettyprint linenums flush-bottom">
-{`List.propTypes = {
-  className: PropTypes.string,
-  // Content of List. Can be either an array of objects or a string
-  content: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      // Each item in the array should be an object
-      PropTypes.shape({
-        // Optionally add a class to a given item
-        className: PropTypes.string,
-        // An item can be a container of another ist
-        items: PropTypes.array,
-        // Optional tag for item instead of an 'li'
-        tag: PropTypes.string,
-        // If this item isn't a list of other items just use a value
-        value: PropTypes.string
-      })
-    ),
-    PropTypes.string
-  ]).isRequired,
-  // Optional tag for the container of the list
-  tag: PropTypes.string,
-  transition: PropTypes.bool,
-  transitionName: PropTypes.string
-};`}
-                        </pre>
-                      </div>
-                    </div>
+                    <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/List/List.js)'} />
                   </div>
                 </div>
                 <div className="example-block flush-bottom">

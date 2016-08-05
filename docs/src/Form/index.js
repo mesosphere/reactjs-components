@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Form from '../../../src/Form/Form.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class FormExample extends React.Component {
 
@@ -190,50 +191,7 @@ class FormExample extends React.Component {
                 </p>
                 <div className="row row-flex row-flex">
                   <div className="column-12">
-                    <h3>Properties API</h3>
-                    <div className="example-block">
-                      <div className="example-block-footer example-block-footer-codeblock">
-                        <pre className="prettyprint linenums flush-bottom">
-{`Form.propTypes = {
-  // Classes.
-  className: PropTypes.string,
-  formGroupClass: PropTypes.string,
-  formRowClass: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.func
-  ]),
-  helpBlockClass: PropTypes.string,
-  inlineIconClass: PropTypes.string,
-  inlineTextClass: PropTypes.string,
-  inputClass: PropTypes.string,
-  readClass: PropTypes.string,
-  sharedClass: PropTypes.string,
-
-  // Form definition to build the form from. Contains either:
-  // 1. Array of field definitions will be created on same row
-  // 2. Field definition (object) will create a single field in that row
-  definition: PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array
-    ])
-  ),
-
-  // Optional number of columns in the grid
-  maxColumnWidth: PropTypes.number,
-  // Optional function to call on error
-  onError: PropTypes.func,
-  // Optional function to call on change
-  onChange: PropTypes.func,
-  // Optional function to call on submit
-  onSubmit: PropTypes.func,
-  // Optional function. Will receive a trigger function.
-  // Call the trigger function, when a submit needs to be triggered externally
-  triggerSubmit: PropTypes.func
-};`}
-                        </pre>
-                      </div>
-                    </div>
+                    <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} />
                   </div>
                 </div>
                 <div className="example-block flush-bottom">

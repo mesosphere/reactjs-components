@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 
 import BindMixin from '../../../src/Mixin/BindMixin';
 import Confirm from '../../../src/Confirm/Confirm.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Util from '../../../src/Util/Util';
 
 class ConfirmExample extends Util.mixin(BindMixin) {
@@ -50,29 +51,7 @@ class ConfirmExample extends Util.mixin(BindMixin) {
                 <p>
                   Opens a Confirm modal. View the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Confirm/Confirm.js">component source</a>.
                 </p>
-                <h3>Properties API</h3>
-                <div className="example-block">
-                  <pre className="prettyprint linenums flush-bottom">
-{`Confirm.propTypes = {
-  children: React.PropTypes.element.isRequired,
-
-  open: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool,
-  // This will be triggered by backdrop click
-  onClose: PropTypes.func,
-
-  // Left button properties
-  leftButtonText: PropTypes.string.isRequired,
-  leftButtonClassName: PropTypes.string,
-  leftButtonCallback: PropTypes.func.isRequired,
-  // Right button properties
-  rightButtonText: PropTypes.string.isRequired,
-  rightButtonClassName: PropTypes.string,
-  rightButtonCallback: PropTypes.func.isRequired
-};
-`}
-                  </pre>
-                </div>
+                <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Confirm/Confirm.js)'} />
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
                     <button className="button button-inverse"

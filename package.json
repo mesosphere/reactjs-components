@@ -18,8 +18,7 @@
   "license": "Apache-2.0",
   "files": [
     "main.js",
-    "lib",
-    "npm-shrinkwrap.json"
+    "lib"
   ],
   "main": "main.js",
   "dependencies": {
