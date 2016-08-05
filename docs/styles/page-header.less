@@ -125,6 +125,19 @@ Page Header
 -------------------------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------- */
 
+
+@keyframes octocat-wave{
+  0%, 100% {
+    transform: rotate(0);
+  }
+  20%, 60% {
+    transform: rotate(-25deg);
+  }
+  40%, 80%{
+    transform: rotate(10deg);
+  }
+}
+
 #page-header {
 
   margin-top: -@header-height;
@@ -132,6 +145,26 @@ Page Header
   #page-header-inner {
 
     padding-top: @header-height;
+
+    .github-corner {
+      position: absolute;
+      bottom: -48px;
+      left: 50%;
+      transform: rotate(-45deg) translate(-50%, -50%);
+
+      &:hover {
+
+        .octo-arm{
+          animation: octocat-wave 0.5s ease-in-out;
+        }
+
+      }
+
+      svg {
+        fill: transparent;
+        color: #fff;
+      }
+    }
 
   }
 
@@ -263,6 +296,42 @@ Page Header
         line-height: @page-header-description-text-line-height * @page-header-description-text-line-height-scale-screen-mini;
         margin-top: @page-header-description-text-margin-top * @page-header-description-text-margin-top-scale-screen-mini;
         margin-bottom: @page-header-description-text-margin-bottom * @page-header-description-text-margin-bottom-scale-screen-mini;
+
+      }
+
+    }
+
+  }
+
+  /* ----------------------------------------------------------------------------------------------------
+  -------------------------------------------------------------------------------------------------------
+
+  Screen Size: Up to mini (@screen-mini) and below
+
+  -------------------------------------------------------------------------------------------------------
+  ---------------------------------------------------------------------------------------------------- */
+
+  @media (max-width: @screen-mini) {
+
+    #page-header {
+
+      #page-header-inner {
+
+        .github-corner {
+
+          &:hover {
+
+            .octo-arm {
+              animation: none;
+            }
+
+          }
+
+          .octo-arm {
+            animation: octocat-wave 0.5s ease-in-out
+          }
+
+        }
 
       }
 
