@@ -1,0 +1,95 @@
+.component-title {
+
+  a {
+    display: inline;
+    margin-left: @base-spacing-unit * 0.25;
+  }
+
+  &:hover {
+
+    a {
+      display: inline;
+    }
+
+  }
+
+}
+
+
+& when (@screen-mini-enabled) {
+
+  @media (min-width: @screen-mini) {
+
+    .component-title {
+
+      a {
+        margin-left: @base-spacing-unit-screen-mini * 0.25;
+      }
+
+    }
+
+  }
+
+}
+
+
+& when (@screen-small-enabled) {
+
+  @media (min-width: @screen-small) {
+
+    .component-title {
+
+      a {
+        display: none;
+        margin-left: @base-spacing-unit-screen-small * 0.25;
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+
+& when (@screen-medium-enabled) {
+
+  @media (min-width: @screen-medium) {
+
+    .component-title {
+
+      a {
+        display: none;
+        margin-left: @base-spacing-unit-screen-medium * 0.25;
+      }
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+& when (@screen-large-enabled) {
+
+  @media (min-width: @screen-large) {
+
+    .component-title {
+
+      a {
+        margin-left: @base-spacing-unit-screen-large * 0.25;
+      }
+
+    }
+
+  }
+
+}

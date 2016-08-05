@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ComponentWrapper from '../components/ComponentWrapper';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import SidePanel from '../../../src/SidePanel/SidePanel.js';
 
 class SidePanelExample extends React.Component {
-
   constructor() {
     super();
     this.state = {};
@@ -58,34 +58,28 @@ class SidePanelExample extends React.Component {
 
   render() {
     return (
-      <div className="row canvas-pod">
-        <div>
-          <h2 className="short-bottom">Side panels</h2>
-          <p>
-            A side panel component that is hidden until opened by interaction. Can be used for showing things that are useful only at certain times, such as a settings sidebar or specific item information.
-          </p>
-          <p>
-            View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
-            View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
-          </p>
-          <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'} />
-          <div className="example-block flush-bottom">
-            <div className="example-block-content">
-              <section className="row canvas-pod">
-                <div className="column-12">
-                  <p>
-                    The panel will pop out from the side; thus, the side panel.
-                  </p>
-                  <button
-                    className="button button-inverse"
-                    onClick={this.handlePanelOpen.bind(this)}>
-                    Open side panel
-                  </button>
-                </div>
-              </section>
-            </div>
-            <div className="example-block-footer example-block-footer-codeblock">
-              <pre className="prettyprint linenums flush-bottom">
+      <ComponentWrapper title="Side Panel" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">
+        <p className="lead flush-bottom">
+          A side panel component that is hidden until opened by interaction. Handy for showing information only at certain times, such as a settings sidebar or specific item information.
+        </p>
+        <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'} />
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
+            <section className="row canvas-pod">
+              <div className="column-12">
+                <p>
+                  The panel will pop out from the side; thus, the side panel.
+                </p>
+                <button
+                  className="button button-inverse"
+                  onClick={this.handlePanelOpen.bind(this)}>
+                  Open side panel
+                </button>
+              </div>
+            </section>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {SidePanel} from 'reactjs-components';
 import React from 'react';
 
@@ -163,8 +157,7 @@ class SidePanelExample extends React.Component {
   }
 }
 `}
-              </pre>
-            </div>
+            </pre>
           </div>
         </div>
 
@@ -193,7 +186,7 @@ class SidePanelExample extends React.Component {
             </p>
           </div>
         </SidePanel>
-      </div>
+      </ComponentWrapper>
     );
   }
 

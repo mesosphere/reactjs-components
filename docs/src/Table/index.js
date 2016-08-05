@@ -3,6 +3,7 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ComponentWrapper from '../components/ComponentWrapper';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Table from '../../../src/Table/Table.js';
 
@@ -208,17 +209,13 @@ class TableExample extends React.Component {
 
   render() {
     return (
-      <div>
-        <section className="row canvas-pod">
-          <div className="flush-bottom">
-            <h2>Tables</h2>
-            <p>This is a Table component that allows for displaying data in a structured way. Smart enough, while handling extremely large amounts of data, to only display the rows needed (à la infinite scroll). If no item height is passed, table will first render one row to measure</p>
-            <p>View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">here</a>. View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/Table/index.js">here</a>.</p>
-            <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
-            <h3>A Closer Look At Table Columns</h3>
-            <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
-            <div className="example-block">
-              <pre className="prettyprint linenums flush-bottom">
+      <ComponentWrapper title="Table" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">
+        <p className="lead flush-bottom">Display data in a structured way. Handles extremely large amounts of data and only displays the rows needed (à la infinite scroll).</p>
+        <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
+        <h3>A Close Look At Table Columns</h3>
+        <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
+        <div className="example-block">
+          <pre className="prettyprint linenums flush-bottom">
 {`getColumns() {
   // We want to pass an array of objects.
   // Each object should contain information about the settings for that column.
@@ -267,25 +264,18 @@ class TableExample extends React.Component {
   columns={this.getColumns()} />
 
 `}
-              </pre>
-            </div>
-            <h3>Examples</h3>
-            <div className="example-block flush-bottom">
-              <div className="example-block-content">
-                <div className="container-pod-short
-                  flush-top row row-flex">
-                  <div className="column-9">
-                    <p>A simple example table.</p>
-                  </div>
-                </div>
-                <Table
-                  className="table flush-bottom"
-                  colGroup={this.getColGroup()}
-                  columns={this.getColumns()}
-                  data={this.getRows('large')} />
-              </div>
-              <div className="example-block-footer example-block-footer-codeblock">
-                <pre className="prettyprint linenums flush-bottom">
+          </pre>
+        </div>
+        <div className="example-block">
+          <div className="example-block-content">
+            <Table
+              className="table flush-bottom"
+              colGroup={this.getColGroup()}
+              columns={this.getColumns()}
+              data={this.getRows('large')} />
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
@@ -391,40 +381,35 @@ class TableExample extends React.Component {
     );
   }
 }`}
-                </pre>
+            </pre>
+          </div>
+        </div>
+
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
+            <div className="row row-flex">
+              <div className="column-12">
+                <h4 className="flush-top">Infinite Scroll</h4>
+                <p>
+                  Here is a scroll table with 10k items. Use the
+                  "containerSelector" property to indicate the parent element with a scrollbar in order to listen to its scroll event. The data is not sorted by default.
+                </p>
               </div>
             </div>
+            <GeminiScrollbar
+              autoshow={true}
+              className="container-scrollable"
+              style={{height: 800}}>
+              <Table
+                className="table"
+                colGroup={this.getColGroup()}
+                columns={this.getColumns()}
+                data={this.hugeRows}
+                containerSelector=".gm-scroll-view" />
+            </GeminiScrollbar>
           </div>
-        </section>
-        <section className="row canvas-pod">
-          <div>
-            <h4>Infinite Scroll Example</h4>
-            <div className="example-block flush-bottom">
-              <div className="example-block-content">
-                <div className="row row-flex">
-                  <div className="column-12">
-                    <p>
-                      Here is a scroll table with 10k items. Use the
-                      "containerSelector" property to indicate the parent
-                      element with a scrollbar in order to listen to its scroll
-                      event. The data is not sorted by default.
-                    </p>
-                  </div>
-                </div>
-                <GeminiScrollbar
-                  autoshow={true}
-                  className="container-scrollable"
-                  style={{height: 800}}>
-                  <Table
-                    className="table"
-                    colGroup={this.getColGroup()}
-                    columns={this.getColumns()}
-                    data={this.hugeRows}
-                    containerSelector=".gm-scroll-view" />
-                </GeminiScrollbar>
-              </div>
-              <div className="example-block-footer example-block-footer-codeblock">
-                <pre className="prettyprint linenums flush-bottom">
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
@@ -552,12 +537,10 @@ class InfiniteScrollExample extends React.Component {
     );
   }
 }`}
-                </pre>
-              </div>
-            </div>
+            </pre>
           </div>
-        </section>
-      </div>
+        </div>
+      </ComponentWrapper>
     );
   }
 
