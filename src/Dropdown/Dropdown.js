@@ -140,7 +140,10 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       height = spaceAroundDropdown.bottom;
     }
 
-    if (this.props.anchorRight) {
+    if (this.props.matchButtonWidth) {
+      position.left = spaceAroundDropdown.left;
+      position.right = spaceAroundDropdown.right;
+    } else if (this.props.anchorRight) {
       position.right = spaceAroundDropdown.right;
     } else {
       position.left = spaceAroundDropdown.left;
@@ -308,7 +311,6 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       'open': state.isOpen
     };
     let items = props.items;
-    let menuPosition = {};
     let transitionName =
       `${props.transitionName}-${state.menuDirection}`;
     let wrapperClassSet = classNames(
@@ -327,7 +329,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
           {this.getMenuItems(props.items)}
         </ul>
       );
-      let menuPosition = Object.assign({}, state.menuPosition);
+      let dropdownMenuWrapperStyle = Object.assign({}, state.menuPosition);
 
       // Render with Gemini scrollbar if the dropdown's height is constrainted.
       if (state.menuHeight >= state.maxDropdownHeight) {
@@ -336,6 +338,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
         dropdownMenuStyle = {
           height: `${state.maxDropdownHeight - 30}px`
         };
+
         if (props.useGemini) {
           dropdownMenuItems = (
             <GeminiScrollbar
@@ -362,7 +365,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
           key={dropdownKey}
           role="menu"
           ref="dropdownMenu"
-          style={menuPosition}>
+          style={dropdownMenuWrapperStyle}>
           <div className={props.dropdownMenuListClassName}>
             {dropdownMenuItems}
           </div>
@@ -413,6 +416,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
 Dropdown.defaultProps = {
   anchorRight: false,
+  matchButtonWidth: false,
   scrollContainer: window,
   scrollContainerParentSelector: null,
   transition: false,
@@ -462,6 +466,8 @@ Dropdown.propTypes = {
     React.PropTypes.string,
     React.PropTypes.number
   ]),
+  // When true, the width of the dropdown will match the width of the button.
+  matchButtonWidth: React.PropTypes.bool,
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
   onItemSelection: React.PropTypes.func,
