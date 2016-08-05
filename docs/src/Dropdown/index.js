@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Dropdown from '../../../src/Dropdown/Dropdown.js';
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class DropdownExample extends React.Component {
 
@@ -289,75 +290,7 @@ class DropdownExample extends React.Component {
                   Create a dropdown menu with custom HTML and onclick callback
                   functionality. View the full <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Dropdown/Dropdown.js">component source</a>.
                 </p>
-                <h3>Properties API</h3>
-                <div className="example-block">
-                  <pre className="prettyprint linenums flush-bottom">
-{`Dropdown.propTypes = {
-  // When set it will always set this property as the selected ID.
-  // Notice: This property will override the initialID
-  persistentID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
-  // The items to display in the dropdown.
-  items: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      // An optional classname for the menu item.
-      className: React.PropTypes.string,
-      // A required ID for each item
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-      ]).isRequired,
-      // The HTML (or text) to render for the list item.
-      html: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ]),
-      // Whether or not the user can choose the item.
-      selectable: React.PropTypes.bool,
-      // The HTML (or text) to display when the option is selected. If this is
-      // not provided, the value for the \`html\` property will be used.
-      selectedHtml: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ])
-    })
-  ).isRequired,
-  // The ID of the item that should be selected initially.
-  initialID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
-  // An optional callback when an item is selected. Will receive an argument
-  // containing the selected item as it was supplied via the items array.
-  onItemSelection: React.PropTypes.func,
-  // Optional transition on the dropdown menu. Must be accompanied
-  // by an animation or transition in CSS.
-  transition: React.PropTypes.bool,
-  // The prefix of the transition classnames.
-  transitionName: React.PropTypes.string,
-  // Transition lengths
-  transitionEnterTimeout: React.PropTypes.number,
-  transitionLeaveTimeout: React.PropTypes.number,
-  // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: React.PropTypes.bool,
-
-  // Classes:
-  // Classname for the element that ther user interacts with to open menu.
-  buttonClassName: React.PropTypes.string,
-  // Classname for the dropdown menu wrapper.
-  dropdownMenuClassName: React.PropTypes.string,
-  // Classname for the dropdown list wrapper.
-  dropdownMenuListClassName: React.PropTypes.string,
-  // Classname for the dropdown list item.
-  dropdownMenuListItemClassName: React.PropTypes.string,
-  // Classname for the element that wraps the entire component.
-  wrapperClassName: React.PropTypes.string
-};
-`}
-                  </pre>
-                </div>
+                <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Dropdown/Dropdown.js)'} />
                 <div className="example-block flush-bottom">
                   <div className="example-block-content">
                     <div className="row">

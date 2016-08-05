@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import SidePanel from '../../../src/SidePanel/SidePanel.js';
 
 class SidePanelExample extends React.Component {
@@ -67,34 +68,7 @@ class SidePanelExample extends React.Component {
             View component source <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/SidePanel/SidePanelContents.js">here</a>.
             View full example source <a href="https://github.com/mesosphere/reactjs-components/blob/master/docs/src/SidePanel/index.js">here</a>.
           </p>
-          <h3>Properties API</h3>
-          <div className="example-block">
-            <pre className="prettyprint linenums flush-bottom">
-{`SidePanelContents.propTypes = {
-  // Nodes to render inside of side panel.
-  children: PropTypes.node,
-  // Set to false to disable the backdrop click listener for close.
-  // Default: true
-  closeByBackdropClick: PropTypes.bool,
-  // Node to render for header. Default: null
-  header: PropTypes.node,
-  // Function to call on close.
-  onClose: PropTypes.func,
-  // Bool that states if side panel is open or not. Default: false
-  open: PropTypes.bool,
-  // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: PropTypes.bool,
-
-  // Classes.
-  backdropClass: PropTypes.string,
-  bodyClass: PropTypes.string,
-  containerClass: PropTypes.string,
-  headerClass: PropTypes.string,
-  headerContainerClass: PropTypes.string,
-  sidePanelClass: PropTypes.string
-};`}
-            </pre>
-          </div>
+          <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/SidePanel/SidePanelContents.js)'} />
           <div className="example-block flush-bottom">
             <div className="example-block-content">
               <section className="row canvas-pod">

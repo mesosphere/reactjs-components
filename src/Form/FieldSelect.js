@@ -27,12 +27,19 @@ class FieldSelect extends React.Component {
 
   getDropDown(dropdownItems) {
     let {startValue, persistentID} = this.props;
+
     let classes = {
       buttonClassName: 'button dropdown-toggle',
       dropdownMenuClassName: 'dropdown-menu',
       dropdownMenuListClassName: 'dropdown-menu-list',
       wrapperClassName: 'dropdown'
     };
+
+    let propagatedProps = Util.exclude(this.props, [
+      ...Object.keys(classes),
+      'persistentID',
+      'startValue'
+    ]);
 
     classes = Object.keys(classes).reduce((classSet, className) => {
       classSet[className] = classNames(
@@ -70,7 +77,9 @@ class FieldSelect extends React.Component {
     }
 
     return (
-      <Dropdown {...classes}
+      <Dropdown
+        {...propagatedProps}
+        {...classes}
         initialID={startValue.id}
         items={dropdownItems}
         onItemSelection={this.handleChange.bind(this)}
@@ -191,7 +200,7 @@ FieldSelect.propTypes = {
     React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.shape({
-        html: React.PropTypes.string,
+        html: React.PropTypes.node,
         id: React.PropTypes.string
       })
     ])
@@ -199,7 +208,7 @@ FieldSelect.propTypes = {
   startValue: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.shape({
-      html: React.PropTypes.string,
+      html: React.PropTypes.node,
       id: React.PropTypes.string
     })
   ]),
