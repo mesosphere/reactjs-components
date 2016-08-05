@@ -200,7 +200,7 @@ FieldSelect.propTypes = {
     React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.shape({
-        html: React.PropTypes.string,
+        html: React.PropTypes.node,
         id: React.PropTypes.string
       })
     ])
@@ -208,7 +208,7 @@ FieldSelect.propTypes = {
   startValue: React.PropTypes.oneOfType([
     React.PropTypes.string,
     React.PropTypes.shape({
-      html: React.PropTypes.string,
+      html: React.PropTypes.node,
       id: React.PropTypes.string
     })
   ]),
