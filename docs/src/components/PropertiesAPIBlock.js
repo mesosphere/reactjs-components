@@ -27,7 +27,7 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
     let toggleClasses = classNames('h4 button button-link dropdown-toggle',
       'example-block-toggle flush-bottom', {
         open: this.state.open
-      });
+      }, this.props.toggleClasses);
     let blockClassNames = classNames('example-block', {
       'show-snippet': !this.state.open
     });
@@ -46,6 +46,10 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
 }
 
 PropertiesAPIBlock.propTypes = {
+  toggleClasses: React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.object,
+  ]),
   propTypesBlock: React.PropTypes.string.isRequired,
 };
 

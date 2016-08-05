@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import ComponentWrapper from '../components/ComponentWrapper';
 import Form from '../../../src/Form/Form.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 
 class FormExample extends React.Component {
-
   getDefinition() {
     return [
       [
@@ -170,41 +170,23 @@ class FormExample extends React.Component {
   }
 
   render() {
-
     return (
-      <div>
-        <section className="row canvas-pod">
-          <div>
-            <div className="row row-flex row-flex-align-vertical-center">
-              <div className="column-12">
-                <h2>
-                  Forms
-                </h2>
-                <p>
-                  Create forms with custom elements.
-                </p>
-                <p>
-                  View full source&nbsp;
-                  <a href="https://github.com/mesosphere/reactjs-components/blob/master/src/Form/Form.js">
-                    here
-                  </a>.
-                </p>
-                <div className="row row-flex row-flex">
-                  <div className="column-12">
-                    <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} />
-                  </div>
-                </div>
-                <div className="example-block flush-bottom">
-                  <div className="example-block-content">
-                    <div className="row row-flex">
-                      <div className="column-9">
-                        <Form definition={this.getDefinition()} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="example-block-footer example-block-footer-codeblock">
-                    <pre className="prettyprint linenums flush-bottom">
-
+      <ComponentWrapper title="Form" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Form/Form.js">
+        <div className="row row-flex row-flex">
+          <div className="column-12">
+            <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} toggleClasses="flush-top" />
+          </div>
+        </div>
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
+            <div className="row row-flex">
+              <div className="column-9">
+                <Form definition={this.getDefinition()} />
+              </div>
+            </div>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Form} from 'reactjs-components';
 import React from 'react';
 
@@ -386,14 +368,10 @@ class FormExample extends React.Component {
   }
 }`}
 
-                    </pre>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </pre>
           </div>
-        </section>
-      </div>
+        </div>
+      </ComponentWrapper>
     );
   }
 }
