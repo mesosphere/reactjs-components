@@ -3,8 +3,6 @@
 // * @import "../overrides/gemini-scrollbar.less";
 // * @import (inline) "../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css";
 
-@import "./variables-modal.less";
-
 .modal-container {
   align-items: center;
   display: flex;
@@ -40,7 +38,7 @@
   .modal-content {
     overflow: auto;
     border-radius: 0;
-    background-color: @body-background-color;
+    background-color: @modal-body-background-color;
   }
 
   > :first-child {
@@ -52,22 +50,21 @@
   }
 
   .modal-header {
-    background-color: @canvas-pod-light-background-color;
+    background-color: @modal-header-background-color;
   }
 
   &.inverse {
-    color: @modal-inverse-text-color;
 
     .modal-header {
-      background-color: @modal-inverse-header-background-color
+      background-color: @modal-header-inverse-background-color;
     }
 
     .modal-content {
-      background-color: @modal-inverse-content-background-color;
+      background-color: @modal-body-inverse-background-color;
     }
 
     .modal-footer {
-      background-color: @modal-inverse-footer-background-color
+      background-color: @modal-footer-inverse-background-color;
     }
   }
 }
@@ -120,38 +117,38 @@
   }
 }
 
-& when (@screen-mini-enabled) {
-  @media (max-width: @screen-mini) {
+& when (@layout-screen-small-enabled) {
+  @media (max-width: @layout-screen-small-max-width) {
     .modal {
        max-width: 100%;
     }
   }
 
-  @media (min-width: @screen-mini) {
+  @media (min-width: @layout-screen-small-min-width) {
     .modal {
       width: 500px;
     }
   }
 }
 
-& when (@screen-small-enabled) {
-  @media (min-width: @screen-small) {
+& when (@layout-screen-medium-enabled) {
+  @media (min-width: @layout-screen-medium-min-width) {
     .modal.modal-large {
       width: 700px;
     }
   }
 }
 
-& when (@screen-medium-enabled) {
-  @media (min-width: @screen-medium) {
+& when (@layout-screen-large-enabled) {
+  @media (min-width: @layout-screen-large-min-width) {
     .modal.modal-large {
       width: 800px;
     }
   }
 }
 
-& when (@screen-large-enabled) {
-  @media (min-width: @screen-large) {
+& when (@layout-screen-jumbo-enabled) {
+  @media (min-width: @layout-screen-jumbo-min-width) {
     .modal.modal-large {
       width: 1000px;
     }
