@@ -1,37 +1,16 @@
-/* -----------------------------------------------------------------------------
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
-variables-side-panel.less
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
------------------------------------------------------------------------------ */
-
-
-
-
-
-
-/* -----------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Side Panel
---------------------------------------------------------------------------------
------------------------------------------------------------------------------ */
+/*
+ * Side Panel
+ */
 
 @z-index-side-panel:2000;
 
-/* -----------------------------------------------------------------------------
-Side Panel Transitions
------------------------------------------------------------------------------ */
+// Side Panel Transitions
 
 @side-panel-transition-in:                                                      e('right 0.3s ease-out');
 
 @side-panel-transition-out:                                                     e('right 0.3s ease-out');
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Styling
------------------------------------------------------------------------------ */
+// Side Panel Styling
 
 @side-panel-background-color:                                                   @white;
 @side-panel-background-gradient-color-top:                                      none;
@@ -50,11 +29,7 @@ Side Panel Styling
 @side-panel-shadow:                                                             0px 0px 0px 1px rgba(0, 0, 0, 0.1),
                                                                                 0px  5px 5px 0px rgba(0, 0, 0, 0.1);
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Header Styling
------------------------------------------------------------------------------ */
+// Side Panel Header Styling
 
 @side-panel-header-background-color:                                            @canvas-pod-light-background-color;
 @side-panel-header-background-gradient-color-top:                               none;
@@ -71,11 +46,7 @@ Side Panel Header Styling
 @side-panel-header-border-left-color:                                           @side-panel-header-border-color;
 @side-panel-header-shadow:                                                      inset 0px -1px 0px 0px rgba(0, 0, 0, 0.1);
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Header Actions Styling
------------------------------------------------------------------------------ */
+// Side Panel Header Actions Styling
 
 @side-panel-header-action-text-color:                                           @body-text-color;
 @side-panel-header-action-text-font-family:                                     @button-default-text-font-family;
@@ -101,11 +72,7 @@ Side Panel Header Actions Styling
 @side-panel-header-action-text-line-height-scale-screen-medium:                 @button-text-line-height-scale-screen-medium;
 @side-panel-header-action-text-line-height-scale-screen-large:                  @button-text-line-height-scale-screen-large;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Header Content Title
------------------------------------------------------------------------------ */
+// Side Panel Header Content Title
 
 @side-panel-header-content-title-text-color:                                    @heading-h3-text-color;
 @side-panel-header-content-title-text-font-family:                              @heading-h3-text-font-family;
@@ -131,11 +98,7 @@ Side Panel Header Content Title
 @side-panel-header-content-title-text-line-height-scale-screen-medium:          @heading-h3-text-line-height-scale-screen-medium;
 @side-panel-header-content-title-text-line-height-scale-screen-large:           @heading-h3-text-line-height-scale-screen-large;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Header Content Subtitle
------------------------------------------------------------------------------ */
+// Side Panel Header Content Subtitle
 
 @side-panel-header-content-subtitle-text-color:                                 @body-text-color;
 @side-panel-header-content-subtitle-text-font-family:                           @body-text-font-family;
@@ -161,11 +124,7 @@ Side Panel Header Content Subtitle
 @side-panel-header-content-subtitle-text-line-height-scale-screen-medium:       @body-text-line-height-scale-screen-medium;
 @side-panel-header-content-subtitle-text-line-height-scale-screen-large:        @body-text-line-height-scale-screen-large;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Content Styling
------------------------------------------------------------------------------ */
+// Side Panel Content Styling
 
 @side-panel-content-background-color:                                           @white;
 @side-panel-content-background-gradient-color-top:                              none;
@@ -181,11 +140,7 @@ Side Panel Content Styling
 @side-panel-content-border-left-width:                                          @side-panel-content-border-width;
 @side-panel-content-border-left-color:                                          @side-panel-content-border-color;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Footer Styling
------------------------------------------------------------------------------ */
+// Side Panel Footer Styling
 
 @side-panel-footer-background-color:                                            @canvas-pod-light-background-color;
 @side-panel-footer-background-gradient-color-top:                               none;
@@ -202,11 +157,7 @@ Side Panel Footer Styling
 @side-panel-footer-border-left-color:                                           @side-panel-footer-border-color;
 @side-panel-footer-shadow:                                                      0px -1px 0px 0px rgba(0, 0, 0, 0.1);
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Widths
------------------------------------------------------------------------------ */
+// Side Panel Widths
 
 @side-panel-width:                                                              100%;
 @side-panel-width-screen-mini:                                                  100%;
@@ -214,11 +165,7 @@ Side Panel Widths
 @side-panel-width-screen-medium:                                                600px;
 @side-panel-width-screen-large:                                                 700px;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Margins
------------------------------------------------------------------------------ */
+// Side Panel Margins
 
 @side-panel-margin-horizontal:                                                  @base-spacing-unit * 0.5;
 @side-panel-margin-horizontal-screen-mini:                                      @base-spacing-unit * 0.5;
@@ -226,11 +173,7 @@ Side Panel Margins
 @side-panel-margin-horizontal-screen-medium:                                    @base-spacing-unit-screen-medium * 0.5;
 @side-panel-margin-horizontal-screen-large:                                     @base-spacing-unit-screen-large * 0.5;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Grid
------------------------------------------------------------------------------ */
+// Side Panel Grid
 
 @side-panel-grid-columns-count:                                                 12;
 
@@ -257,23 +200,11 @@ Side Panel Grid
 @side-panel-grid-gutter-width-screen-large:                                     @side-panel-grid-container-gutter-width-screen-large * 0.5;
 @side-panel-grid-container-gutter-width-screen-large:                           @grid-gutter-width-screen-large * 0.5;
 
+/*
+ * Side Panel Close
+ */
 
-
-
-
-
-
-/* -----------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Side Panel Close
---------------------------------------------------------------------------------
------------------------------------------------------------------------------ */
-
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Close Styling
------------------------------------------------------------------------------ */
+// Side Panel Close Styling
 
 @side-panel-close-border-radius:                                                100px;
 @side-panel-close-background-color:                                             @button-primary-background-color;
@@ -325,11 +256,7 @@ Side Panel Close Styling
 @side-panel-close-active-border-left-color:                                     @side-panel-close-active-border-color;
 @side-panel-close-active-shadow:                                                @button-primary-active-shadow;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Close Size
------------------------------------------------------------------------------ */
+// Side Panel Close Size
 
 @side-panel-close-width:                                                        @button-height;
 @side-panel-close-height:                                                       @button-height;
@@ -346,11 +273,7 @@ Side Panel Close Size
 @side-panel-close-width-screen-large:                                           @button-height * @button-height-scale-screen-large;
 @side-panel-close-height-screen-large:                                          @button-height * @button-height-scale-screen-large;
 
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Close Position
------------------------------------------------------------------------------ */
+// Side Panel Close Position
 
 @side-panel-close-position-horizontal:                                          -(@side-panel-close-width / 2);
 @side-panel-close-position-vertical:                                            -(@side-panel-close-height / 2);
@@ -367,20 +290,10 @@ Side Panel Close Position
 @side-panel-close-position-horizontal-screen-large:                             -(@side-panel-close-width-screen-large / 2);
 @side-panel-close-position-vertical-screen-large:                               -(@side-panel-close-height-screen-large / 2);
 
+/*
+ * Side Panel Backdrop
+ */
 
-
-
-
-/* -----------------------------------------------------------------------------
---------------------------------------------------------------------------------
-Side Panel Backdrop
---------------------------------------------------------------------------------
------------------------------------------------------------------------------ */
-
-
-
-/* -----------------------------------------------------------------------------
-Side Panel Backdrop Styling
------------------------------------------------------------------------------ */
+// Side Panel Backdrop Styling
 
 @side-panel-backdrop-background-color:                                          hsla(hue(color(@canvas-pod-dark-background-color)), saturation(color(@canvas-pod-dark-background-color)), lightness(color(@canvas-pod-dark-background-color)), 0.8);
