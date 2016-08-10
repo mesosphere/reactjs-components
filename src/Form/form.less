@@ -117,7 +117,7 @@ base/forms.less
     .form-element-inline-icon {
       flex: 1 0 16px;
       display: inline-block;
-      fill: @form-control-default-border-color;
+      fill: @form-control-border-color;
       margin-left: @base-spacing-unit * 1/2;
       opacity: 0;
       transition: opacity 0.25s;
@@ -141,7 +141,7 @@ base/forms.less
   .form-row-edit {
 
     .form-element-inline {
-      border-bottom: 1px solid @form-control-default-border-color;
+      border-bottom: 1px solid @form-control-border-color;
       border-radius: 0;
     }
   }
@@ -169,7 +169,7 @@ base/forms.less
 
         & + .form-element-checkbox-decoy,
         & + .form-element-radio-button-decoy {
-          border: 1px solid @form-control-default-border-color;
+          border: 1px solid @form-control-border-color;
           display: inline-block;
           height: 16px;
           margin-top: -2px;
@@ -190,37 +190,37 @@ base/forms.less
         &:checked + .form-element-checkbox-decoy,
         &:checked + .form-element-radio-button-decoy ,
         &:indeterminate + .form-element-checkbox-decoy {
-          background: @form-control-default-focus-text-color;
-          border-color: @form-control-default-focus-text-color;
+          background: @form-control-focus-color;
+          border-color: @form-control-focus-color;
         }
 
         &:disabled + .form-element-checkbox-decoy,
         &:disabled + .form-element-radio-button-decoy {
-          background: #C5C5C5;
+          background: @form-control-disabled-color;
         }
       }
 
       &.inverse {
-        color: @form-label-default-inverse-color;
+        color: @label-inverse-color;
 
         input[type="checkbox"],
         input[type="radio"] {
 
           & + .form-element-checkbox-decoy,
           & + .form-element-radio-button-decoy {
-            border-color: @form-control-default-inverse-border-color;
+            border-color: @form-control-inverse-disabled-color;
           }
 
           &:checked + .form-element-checkbox-decoy,
           &:indeterminate + .form-element-checkbox-decoy,
           &:checked + .form-element-radio-button-decoy {
-            border-color: @form-control-default-focus-text-color;
+            border-color: @form-control-inverse-focus-color;
           }
 
           &:disabled + .form-element-checkbox-decoy,
           &:disabled + .form-element-radio-button-decoy {
-            background: @form-control-default-inverse-border-color;
-            border-color: @form-control-default-inverse-border-color;
+            background: @form-control-inverse-disabled-color;
+            border-color: @form-control-inverse-disabled-color;
           }
         }
       }
@@ -236,7 +236,7 @@ base/forms.less
         }
 
         &:disabled + .form-element-checkbox-decoy {
-          border-color: #C5C5C5;
+          border-color: @form-control-inverse-disabled-color;
         }
       }
     }
@@ -332,17 +332,17 @@ base/forms.less
 
 
 
-& when (@form-enabled) and (@screen-mini-enabled) {
+& when (@form-enabled) and (@layout-screen-small-enabled) {
 
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 
-  Screen Size: Mini (@screen-mini) and above
+  Screen Size: small (@screen-small) and above
 
   --------------------------------------------------------------------------------
   ----------------------------------------------------------------------------- */
 
-  @media (min-width: @screen-mini) {
+  @media (min-width: @layout-screen-small-min-width) {
 
     /* -----------------------------------------------------------------------------
     --------------------------------------------------------------------------------
@@ -371,17 +371,17 @@ base/forms.less
 
 
 
-& when (@form-enabled) and (@screen-small-enabled) {
+& when (@form-enabled) and (@layout-screen-medium-enabled) {
 
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 
-  Screen Size: Small (@screen-small) and above
+  Screen Size: medium (@layout-screen-medium-min-width) and above
 
   --------------------------------------------------------------------------------
   ----------------------------------------------------------------------------- */
 
-  @media (min-width: @screen-small) {
+  @media (min-width: @layout-screen-medium-min-width) {
 
     /* -----------------------------------------------------------------------------
     --------------------------------------------------------------------------------
@@ -400,48 +400,6 @@ base/forms.less
       }
 
     }
-
-  }
-
-}
-
-
-
-
-
-
-& when (@form-enabled) and (@screen-medium-enabled) {
-
-  /* -----------------------------------------------------------------------------
-  --------------------------------------------------------------------------------
-
-  Screen Size: Medium (@screen-medium) and above
-
-  --------------------------------------------------------------------------------
-  ----------------------------------------------------------------------------- */
-
-  @media (min-width: @screen-medium) {
-
-  }
-
-}
-
-
-
-
-
-
-& when (@form-enabled) and (@screen-large-enabled) {
-
-  /* -----------------------------------------------------------------------------
-  --------------------------------------------------------------------------------
-
-  Screen Size: Large (@screen-large) and above
-
-  --------------------------------------------------------------------------------
-  ----------------------------------------------------------------------------- */
-
-  @media (min-width: @screen-large) {
 
   }
 
