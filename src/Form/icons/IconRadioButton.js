@@ -7,12 +7,12 @@ class IconRadioButton extends React.Component {
     let iconClasses = classNames('icon-radio-button', className);
     let shadowClasses = classNames(
       'icon-radio-button-shadow',
-      {hidden: !checked},
+      {'hidden-up': !checked},
       shadowClassName
     );
     let radioDotClasses = classNames(
       'icon-radio-button-dot',
-      {hidden: !checked},
+      {'hidden-up': !checked},
       radioDotClassName
     );
 
