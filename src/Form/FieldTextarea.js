@@ -11,7 +11,9 @@ class FieldTextarea extends FieldInput {
   constructor() {
     super(...arguments);
 
-    this.state = {height: 0};
+    this.state = {height: this.props.minHeight};
+
+    console.log(this.props);
 
     this.updateTextareaHeight = Util.throttle(this.updateTextareaHeight, 100);
     this.handleContentEditableBlur = this.handleContentEditableBlur.bind(this);
@@ -19,10 +21,6 @@ class FieldTextarea extends FieldInput {
       this.handleContentEditableChange.bind(this);
     this.handleContentEditableFocus =
       this.handleContentEditableFocus.bind(this);
-  }
-
-  componentWillMount() {
-    this.setState({height: this.props.minHeight});
   }
 
   componentDidMount() {
