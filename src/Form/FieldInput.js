@@ -2,13 +2,14 @@ import classNames from 'classnames/dedupe';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import BindMixin from '../Mixin/BindMixin';
 import IconEdit from './icons/IconEdit';
 import KeyboardUtil from '../Util/KeyboardUtil';
 import Util from '../Util/Util';
 
 const EVENTS = ['blur', 'change', 'focus'];
 
-class FieldInput extends React.Component {
+class FieldInput extends Util.mixin(BindMixin) {
   shouldComponentUpdate(nextProps, nextState) {
     return !Util.isEqual(this.props, nextProps) || !Util.isEqual(this.state, nextState);
   }

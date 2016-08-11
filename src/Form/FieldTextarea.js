@@ -8,19 +8,19 @@ import IconEdit from './icons/IconEdit';
 import Util from '../Util/Util';
 
 class FieldTextarea extends FieldInput {
+  get methodsToBind() {
+    return [
+      'handleContentEditableBlur',
+      'handleContentEditableChange',
+      'handleContentEditableFocus'
+    ]
+  }
+
   constructor() {
     super(...arguments);
 
     this.state = {height: this.props.minHeight};
-
-    console.log(this.props);
-
     this.updateTextareaHeight = Util.throttle(this.updateTextareaHeight, 100);
-    this.handleContentEditableBlur = this.handleContentEditableBlur.bind(this);
-    this.handleContentEditableChange =
-      this.handleContentEditableChange.bind(this);
-    this.handleContentEditableFocus =
-      this.handleContentEditableFocus.bind(this);
   }
 
   componentDidMount() {
