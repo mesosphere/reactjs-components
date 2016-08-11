@@ -280,10 +280,35 @@ base/forms.less
   /* -----------------------------------------------------------------------------
   --------------------------------------------------------------------------------
 
-  Textarea Form Elements
+  "Textarea" Form Elements: A div with attribute contenteditable="true"
 
   --------------------------------------------------------------------------------
   ----------------------------------------------------------------------------- */
+
+  .content-editable-wrapper {
+    position: relative;
+  }
+
+  .content-editable {
+    height: auto;
+    left: 0;
+    max-height: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    white-space: pre-wrap;
+    width: 100%;
+    word-wrap: break-word;
+
+    // Remove any rich-text styling that might be introduced by a user pasting
+    // rich-text content or using rich-text keyboard shortcuts.
+    * {
+      color: inherit !important;
+      font: inherit !important;
+      text-decoration: inherit !important;
+      text-shadow: inherit !important;
+    }
+  }
 
   .form-group {
 
