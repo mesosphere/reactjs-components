@@ -10,7 +10,7 @@ import Util from '../Util/Util';
 const EVENTS = ['blur', 'change', 'focus'];
 
 class FieldInput extends Util.mixin(BindMixin) {
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return !Util.isEqual(this.props, nextProps);
   }
 
