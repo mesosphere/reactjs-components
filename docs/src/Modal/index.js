@@ -83,7 +83,6 @@ class ModalExample extends React.Component {
 import React from 'react';
 
 class ModalExample extends React.Component {
-
   constructor() {
     super();
     this.state = {};

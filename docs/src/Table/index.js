@@ -30,80 +30,21 @@ function getSortFunction(tieBreaker) {
 }
 
 let rows = [
-  {
-    name: 'Zach',
-    age: 11,
-    gender: 'Male',
-    location: 'SF, CA',
-    id: 'a'
-  },
-  {
-    name: 'Francis',
-    age: 34,
-    gender: 'Female',
-    location: 'Boston, MA',
-    id: 'b'
-  },
-  {
-    name: 'Sandy',
-    age: 68,
-    gender: 'Female',
-    location: 'Kalamazoo, MI',
-    id: 'c'
-  },
-  {
-    name: 'Jeffrey',
-    age: 21,
-    gender: 'Male',
-    id: 'd'
-  },
-  {
-    name: 'Louise',
-    age: 94,
-    gender: 'Female',
-    location: 'Boulder, CO',
-    id: 'e'
-  },
-  {
-    name: 'Nancy',
-    age: 28,
-    gender: 'Female',
-    location: 'Salt Lake, UT',
-    id: 'f'
-  },
-  {
-    name: 'Anna',
-    age: 63,
-    gender: 'Female',
-    location: 'Las Vegas, NV',
-    id: 'g'
-  },
-  {
-    name: 'Jay',
-    age: 35,
-    gender: 'Male',
-    location: 'Washington, DC',
-    id: 'h'
-  },
-  {
-    name: 'Bob',
-    age: 47,
-    gender: 'Male',
-    location: 'New Oleans, LA',
-    id: 'i'
-  },
-  {
-    name: 'Nick',
-    age: 51,
-    gender: 'Male',
-    location: 'Houston, TX',
-    id: 'j'
-  }
+  {name: 'Zach', age: 11, gender: 'Male', location: 'SF, CA', id: 'a'},
+  {name: 'Franco', age: 34, gender: 'Female', location: 'Boston, MA', id: 'b'},
+  {name: 'Sandy', age: 68, gender: 'Female', location: 'Roy, MI', id: 'c'},
+  {name: 'Jeffrey', age: 21, gender: 'Male', id: 'd'},
+  {name: 'Louise', age: 94, gender: 'Female', location: 'Yolo, CO', id: 'e'},
+  {name: 'Nancy', age: 28, gender: 'Female', location: 'Mory, UT', id: 'f'},
+  {name: 'Anna', age: 63, gender: 'Female', location: 'Vegas, NV', id: 'g'},
+  {name: 'Jay', age: 35, gender: 'Male', location: 'Washington, DC', id: 'h'},
+  {name: 'Bob', age: 47, gender: 'Male', location: 'New Oleans, LA', id: 'i'},
+  {name: 'Nick', age: 51, gender: 'Male', location: 'Houston, TX', id: 'j'}
 ];
 
 class TableExample extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super(...arguments);
 
     // Cache huge rows so we don't recreate the data every update.
     this.hugeRows = this.getManyRows();
