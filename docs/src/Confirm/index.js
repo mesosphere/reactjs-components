@@ -67,14 +67,17 @@ class ConfirmExample extends Util.mixin(BindMixin) {
 import React from 'react';
 
 class ConfirmExample extends React.Component {
-
   render() {
     return (
       <Confirm
-        open={this.state.openConfirm}
-        onClose={this.handleButtonCancel}
         leftButtonCallback={this.handleButtonCancel}
-        leftButtonCallback={this.handleButtonConfirm} />
+        rightButtonCallback={this.handleButtonConfirm}
+        open={this.state.openConfirm}
+        onClose={this.handleButtonCancel}>
+        <div className="container-pod">
+          Would you like to perform this action?
+        </div>
+      </Confirm>
     );
   }
 }

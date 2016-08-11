@@ -12,6 +12,7 @@ class ToolTipExample extends React.Component {
         This tooltip is not interactive.
       </p>
     );
+
     let interactiveTooltipContent = (
       <div>
         <p className="text-color-white small">
@@ -83,6 +84,7 @@ class FormExample extends React.Component {
         This tooltip is not interactive.
       </p>
     );
+
     let interactiveTooltipContent = (
       <div>
         <p className="text-color-white small">
@@ -126,7 +128,6 @@ class FormExample extends React.Component {
     );
   }
 }`}
-
             </pre>
           </div>
         </div>

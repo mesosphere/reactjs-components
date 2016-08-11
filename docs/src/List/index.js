@@ -183,7 +183,6 @@ class ListExample extends React.Component {
     return <List content={list} tag="ol" />
   }
 }`}
-
             </pre>
           </div>
         </div>

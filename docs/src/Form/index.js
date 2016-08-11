@@ -191,7 +191,6 @@ class FormExample extends React.Component {
 import React from 'react';
 
 class FormExample extends React.Component {
-
   getDefinition() {
     return [
       [
@@ -367,7 +366,6 @@ class FormExample extends React.Component {
     );
   }
 }`}
-
             </pre>
           </div>
         </div>
