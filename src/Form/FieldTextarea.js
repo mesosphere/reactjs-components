@@ -123,7 +123,7 @@ class FieldTextarea extends FieldInput {
   updateTextareaHeight(domElement) {
     let {minHeight, maxHeight, scrollHeightOffset} = this.props;
     let newHeight = minHeight;
-    let {offsetHeight, scrollHeight} = domElement;
+    let {scrollHeight} = domElement;
 
     if (scrollHeight > minHeight && scrollHeight < maxHeight) {
       newHeight = scrollHeight + scrollHeightOffset;
