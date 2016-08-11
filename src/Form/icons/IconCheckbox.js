@@ -7,11 +7,11 @@ class IconCheckbox extends React.Component {
     let iconClasses = classNames(className);
 
     let checkIconClasses = classNames('icon', {
-      hidden: !checked || indeterminate
+      'hidden-up': !checked || indeterminate
     });
 
     let indeterminateIconClasses = classNames('icon', {
-      hidden: !indeterminate
+      'hidden-up': !indeterminate
     });
 
     return (
