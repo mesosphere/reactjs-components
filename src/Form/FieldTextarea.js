@@ -38,6 +38,10 @@ class FieldTextarea extends FieldInput {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return !Util.isEqual(this.props, nextProps) || !Util.isEqual(this.state, nextState);
+  }
+
   handleContentEditableBlur(event) {
     let {props} = this;
     props.handleEvent('blur', props.name, event.target.innerText, event);
