@@ -125,9 +125,13 @@ class Form extends Util.mixin(BindMixin) {
 
     // If there is no change to the model, just return the old one
     let newModel = newState.model || this.state.model;
-    this.props.onChange(newModel, eventObj, ...rest);
+    let onChange = this.props.onChange.bind(this, newModel, eventObj, ...rest);
     if (Object.keys(newState).length) {
-      this.setState(newState);
+      // Make sure to call onChange on setState callback,
+      // so users can get updated model from triggerSubmit
+      this.setState(newState, onChange);
+    } else {
+      onChange();
     }
   }
 
