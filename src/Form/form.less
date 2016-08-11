@@ -299,6 +299,15 @@ base/forms.less
     white-space: pre-wrap;
     width: 100%;
     word-wrap: break-word;
+
+    // Remove any rich-text styling that might be introduced by a user pasting
+    // rich-text content or using rich-text keyboard shortcuts.
+    * {
+      color: inherit !important;
+      font: inherit !important;
+      text-decoration: inherit !important;
+      text-shadow: inherit !important;
+    }
   }
 
   .form-group {
