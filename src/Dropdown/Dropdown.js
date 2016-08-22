@@ -196,7 +196,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
       // If the user specified scrollContainerParentSelector, we check to see
       // if the parent scrolling element matches the specified parent selector.
-      if (scrollContainer != window && scrollContainerParentSelector != null
+      if (scrollContainer !== window && scrollContainerParentSelector != null
         && parentElement != null && parentElement[DOMUtil.matchesFn](
           scrollContainerParentSelector
         )) {
