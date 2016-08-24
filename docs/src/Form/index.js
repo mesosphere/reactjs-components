@@ -28,6 +28,7 @@ class FormExample extends React.Component {
       {
         fieldType: 'password',
         name: 'Password',
+        helpBlock: 'If you want to make your password strong you could use a password manager',
         required: true,
         showLabel: true,
         validation: function (value) {
@@ -213,6 +214,7 @@ class FormExample extends React.Component {
       {
         fieldType: 'password',
         name: 'Password',
+        helpBlock: 'If you want to make your password strong you could use a password manager',
         required: true,
         showLabel: true,
         validation: function (value) {

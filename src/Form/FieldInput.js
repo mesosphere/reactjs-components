@@ -100,6 +100,16 @@ class FieldInput extends Util.mixin(BindMixin) {
     return errorMsg;
   }
 
+  getHelpBlock() {
+    let {helpBlock, helpBlockClass} = this.props;
+
+    if (!helpBlock) {
+      return null;
+    }
+
+    return <span className={helpBlockClass}>{helpBlock}</span>;
+  }
+
   getLabel() {
     let {labelClass, name, showLabel} = this.props;
     let contents = name;
@@ -184,6 +194,7 @@ class FieldInput extends Util.mixin(BindMixin) {
         <div className={classes}>
           {this.getLabel()}
           {this.getInputElement(attributes)}
+          {this.getHelpBlock()}
           {this.getErrorMsg()}
         </div>
       </div>
@@ -222,6 +233,8 @@ FieldInput.propTypes = {
   handleEvent: React.PropTypes.func,
   // Optional label to add
   label: React.PropTypes.string,
+  // Optional hepl block
+  helpBlock: React.PropTypes.node,
   // Name of the field property
   // (usually passed down from form definition)
   name: React.PropTypes.string.isRequired,
