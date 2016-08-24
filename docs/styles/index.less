@@ -1,11 +1,65 @@
-@import "../../node_modules/canvas-ui/styles/canvas.less";
-@import "./component-documentation.less";
-@import "./example-block.less";
-@import "./page-content.less";
-@import "./header.less";
-@import "./page-header.less";
+/* -----------------------------------------------------------------------------
+Config
+----------------------------------------------------------------------------- */
 
-// Import all styles for all components
+@path-images:                                                                   "../images/";
+@path-fonts:                                                                    "../fonts/";
+@cache-clear:                                                                   `Math.floor((Math.random() * 1000000000) + 1)`;
+
+/* -----------------------------------------------------------------------------
+Canvas
+----------------------------------------------------------------------------- */
+
+@import "../../node_modules/cnvs/styles/canvas.less";
+
+/* -----------------------------------------------------------------------------
+Layout
+----------------------------------------------------------------------------- */
+
+@import "layout/foundation.less";
+@import "layout/sidebar.less";
+@import "layout/header.less";
+@import "layout/footer.less";
+@import "layout/navigation.less";
+@import "layout/page.less";
+@import "layout/page-header.less";
+@import "layout/page-navigation.less";
+@import "layout/page-content.less";
+
+/* -----------------------------------------------------------------------------
+Content
+----------------------------------------------------------------------------- */
+
+@import "content/code/prettyprint.less";
+@import "content/colors.less";
+@import "content/fonts/variables.less";
+@import "content/fonts/styles.less";
+@import "content/example-block/styles.less";
+
+/* -----------------------------------------------------------------------------
+Components
+----------------------------------------------------------------------------- */
+
+@import "components/example-blocks/styles.less";
+@import "components/fill/variables.less";
+@import "components/fill/styles.less";
+@import "components/layout-box/styles.less";
+@import "components/scrollbar.less";
+
+/* -----------------------------------------------------------------------------
+Views
+----------------------------------------------------------------------------- */
+
+@import "views/layout/container/styles.less";
+@import "views/layout/pod/styles.less";
+@import "views/layout/flex/styles.less";
+@import "views/layout/divider/styles.less";
+@import "views/layout/responsive-utilities/styles.less";
+
+/* -----------------------------------------------------------------------------
+ReactJS Components
+----------------------------------------------------------------------------- */
+
 @import (inline) "../../node_modules/gemini-scrollbar/gemini-scrollbar.css";
 @import "../../src/overrides/gemini-scrollbar.less";
 
