@@ -48,6 +48,11 @@ function eslintFn() {
 
 gulp.task('docs:eslint', eslintFn);
 
+gulp.task('docs:fonts', function () {
+  return gulp.src(config.files.docs.srcFonts)
+    .pipe(gulp.dest(config.dirs.docs.distFonts));
+});
+
 gulp.task('docs:html', function () {
   return gulp.src(config.files.docs.srcHTML)
     .pipe(gulp.dest(config.dirs.docs.dist))
@@ -154,6 +159,7 @@ gulp.task('docs:webpack', function (callback) {
 gulp.task('docs:default', [
   'docs:webpack',
   'docs:eslint',
+  'docs:fonts',
   'docs:replace-js-strings',
   'docs:less',
   'docs:html'
