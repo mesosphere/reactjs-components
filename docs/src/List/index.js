@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import CodeBlock from '../components/CodeBlock';
-import ComponentExample from '../components/ComponentExample';
-import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import List from '../../../src/List/List.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
@@ -100,13 +97,13 @@ class ListExample extends React.Component {
         <p className="lead flush-bottom">
           Create lists with custom elements and transitions.
         </p>
-        <div className="row">
+        <div className="row row-flex row-flex">
           <div className="column-12">
             <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/List/List.js)'} />
           </div>
         </div>
-        <ComponentExampleWrapper>
-          <ComponentExample>
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
             <div className="row row-flex">
               <div className="column-9">
                 <List
@@ -121,8 +118,9 @@ class ListExample extends React.Component {
                 </button>
               </div>
             </div>
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {List} from 'reactjs-components';
 import React from 'react';
 
@@ -185,11 +183,13 @@ class ListExample extends React.Component {
     return <List content={list} tag="ol" />
   }
 }`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+
+            </pre>
+          </div>
+        </div>
       </ComponentWrapper>
     );
   }
 }
 
-module.exports = ListExample;
+ReactDOM.render(<ListExample />, document.getElementById('list'));
