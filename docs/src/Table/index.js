@@ -3,9 +3,6 @@ import GeminiScrollbar from 'react-gemini-scrollbar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import CodeBlock from '../components/CodeBlock';
-import ComponentExample from '../components/ComponentExample';
-import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Table from '../../../src/Table/Table.js';
@@ -156,12 +153,10 @@ class TableExample extends React.Component {
       <ComponentWrapper title="Table" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">
         <p className="lead flush-bottom">Display data in a structured way. Handles extremely large amounts of data and only displays the rows needed (à la infinite scroll).</p>
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
-        <ComponentExampleWrapper>
-          <ComponentExample>
-            <h3>A Close Look At Table Columns</h3>
-            <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
-          </ComponentExample>
-          <CodeBlock>
+        <h3>A Close Look At Table Columns</h3>
+        <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
+        <div className="example-block">
+          <pre className="prettyprint linenums flush-bottom">
 {`getColumns() {
   // We want to pass an array of objects.
   // Each object should contain information about the settings for that column.
@@ -210,17 +205,18 @@ class TableExample extends React.Component {
   columns={this.getColumns()} />
 
 `}
-          </CodeBlock>
-        </ComponentExampleWrapper>
-        <ComponentExampleWrapper>
-          <ComponentExample>
+          </pre>
+        </div>
+        <div className="example-block">
+          <div className="example-block-content">
             <Table
               className="table flush-bottom"
               colGroup={this.getColGroup()}
               columns={this.getColumns()}
               data={this.getRows('large')} />
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
@@ -326,11 +322,12 @@ class TableExample extends React.Component {
     );
   }
 }`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+            </pre>
+          </div>
+        </div>
 
-        <ComponentExampleWrapper>
-          <ComponentExample>
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
             <div className="row row-flex">
               <div className="column-12">
                 <h4 className="flush-top">Infinite Scroll</h4>
@@ -351,8 +348,9 @@ class TableExample extends React.Component {
                 data={this.hugeRows}
                 containerSelector=".gm-scroll-view" />
             </GeminiScrollbar>
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Table} from 'reactjs-components';
 import React from 'react';
 
@@ -480,12 +478,13 @@ class InfiniteScrollExample extends React.Component {
     );
   }
 }`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+            </pre>
+          </div>
+        </div>
       </ComponentWrapper>
     );
   }
 
 }
 
-module.exports = TableExample;
+ReactDOM.render(<TableExample />, document.getElementById('table'));
