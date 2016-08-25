@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import CodeBlock from '../components/CodeBlock';
-import ComponentExample from '../components/ComponentExample';
-import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import Dropdown from '../../../src/Dropdown/Dropdown.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
@@ -289,8 +286,8 @@ class DropdownExample extends React.Component {
           functionality.
         </p>
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Dropdown/Dropdown.js)'} />
-        <ComponentExampleWrapper>
-          <ComponentExample>
+        <div className="example-block">
+          <div className="example-block-content">
             <div className="row">
               <div className="column-6">
                 <p>Here is a simple dropdown...</p>
@@ -299,7 +296,6 @@ class DropdownExample extends React.Component {
                   dropdownMenuListClassName="dropdown-menu-list"
                   items={dropdownItems}
                   initialID="bar"
-                  scrollContainer={this.props.scrollContainer}
                   transition={true}
                   wrapperClassName="dropdown" />
               </div>
@@ -310,13 +306,13 @@ class DropdownExample extends React.Component {
                   dropdownMenuListClassName="dropdown-menu-list"
                   items={manyDropdownItems}
                   initialID="foo"
-                  scrollContainer={this.props.scrollContainer}
                   transition={true}
                   wrapperClassName="dropdown" />
               </div>
             </div>
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Dropdown} from 'reactjs-components';
 import React from 'react';
 
@@ -352,11 +348,14 @@ class SimpleDropdownExample extends React.Component {
         wrapperClassName="dropdown" />
     );
   }
-}`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
-        <ComponentExampleWrapper>
-          <ComponentExample>
+}
+`}
+            </pre>
+          </div>
+        </div>
+
+        <div className="example-block">
+          <div className="example-block-content">
             <h4 className="flush-top">Callbacks</h4>
             <p>
               Use the <code>onItemSelection</code> attribute to add
@@ -369,11 +368,11 @@ class SimpleDropdownExample extends React.Component {
               items={dropdownItems}
               onItemSelection={this.onItemSelection}
               initialID="foo"
-              scrollContainer={this.props.scrollContainer}
               transition={true}
               wrapperClassName="dropdown" />
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Dropdown} from 'reactjs-components';
 import React from 'react';
 
@@ -424,12 +423,13 @@ class CallbackDropdownExample extends React.Component {
       </div>
     );
   }
-}`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+`}
+            </pre>
+          </div>
+        </div>
 
-        <ComponentExampleWrapper>
-          <ComponentExample>
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
             <h4 className="flush-top">Custom HTML elements</h4>
             <p>Use HTML to style dropdown elements.</p>
             <p>Here is a styled dropdown.</p>
@@ -438,11 +438,11 @@ class CallbackDropdownExample extends React.Component {
               dropdownMenuListClassName="dropdown-menu-list"
               items={styledItemsList}
               initialID="foo"
-              scrollContainer={this.props.scrollContainer}
               transition={true}
               wrapperClassName="dropdown" />
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Dropdown} from 'reactjs-components';
 import React from 'react';
 
@@ -510,12 +510,13 @@ class CustomHTMLDropdownExample extends React.Component {
         wrapperClassName="dropdown" />
     );
   }
-}`}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+`}
+            </pre>
+          </div>
+        </div>
       </ComponentWrapper>
     );
   }
 }
 
-module.exports = DropdownExample;
+ReactDOM.render(<DropdownExample />, document.getElementById('dropdown'));

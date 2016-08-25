@@ -398,7 +398,7 @@ ModalContents.defaultProps = {
 
   // Default classes.
   backdropClass: 'modal-backdrop',
-  bodyClass: 'modal-body',
+  bodyClass: 'modal-content',
   closeButtonClass: 'modal-close',
   closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
   closeTitleClass: 'modal-close-title',
