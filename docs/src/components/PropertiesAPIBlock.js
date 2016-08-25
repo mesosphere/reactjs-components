@@ -27,7 +27,7 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
 
   render() {
     let toggleClasses = classNames('h4 button button-link dropdown-toggle',
-      'example-block-toggle flush-bottom', {
+      'example-block-toggle flush', {
         open: this.state.open
       }, this.props.toggleClasses);
     let panelInnerClassNames = classNames('example-block', {
