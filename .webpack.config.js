@@ -3,7 +3,7 @@ var glob = require('glob');
 
 module.exports = {
   devtool: 'source-map',
-  entry: config.files.docs.srcJS,
+  entry: glob.sync(config.files.docs.srcJS),
   output: {filename: config.files.docs.distJS},
   module: {
     loaders: [{

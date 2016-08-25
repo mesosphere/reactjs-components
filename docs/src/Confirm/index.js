@@ -4,10 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import BindMixin from '../../../src/Mixin/BindMixin';
-import ComponentExample from '../components/ComponentExample';
-import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
-import CodeBlock from '../components/CodeBlock';
 import Confirm from '../../../src/Confirm/Confirm.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
 import Util from '../../../src/Util/Util';
@@ -48,8 +45,8 @@ class ConfirmExample extends Util.mixin(BindMixin) {
     return (
       <ComponentWrapper title="Confirm" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Confirm/Confirm.js">
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Confirm/Confirm.js)'} />
-        <ComponentExampleWrapper>
-          <ComponentExample>
+        <div className="example-block flush-bottom">
+          <div className="example-block-content">
             <button className="button button-inverse"
               onClick={this.handleOpenConfirm}>
               Here is a simple confirm
@@ -63,8 +60,9 @@ class ConfirmExample extends Util.mixin(BindMixin) {
                 Would you like to perform this action?
               </div>
             </Confirm>
-          </ComponentExample>
-          <CodeBlock>
+          </div>
+          <div className="example-block-footer example-block-footer-codeblock">
+            <pre className="prettyprint linenums flush-bottom">
 {`import {Confirm} from 'reactjs-components';
 import React from 'react';
 
@@ -84,11 +82,12 @@ class ConfirmExample extends React.Component {
   }
 }
 `}
-          </CodeBlock>
-        </ComponentExampleWrapper>
+            </pre>
+          </div>
+        </div>
       </ComponentWrapper>
     );
   }
 }
 
-module.exports = ConfirmExample;
+ReactDOM.render(<ConfirmExample />, document.getElementById('confirm'));
