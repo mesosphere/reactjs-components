@@ -97,7 +97,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
-      'form-row-element form-element-radio-button',
+      'radio-button form-element-radio-button',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
@@ -140,7 +140,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     let {columnWidth, formElementClass} = this.props;
 
     return classNames(
-      `form-row-element radio-button column-${columnWidth}`,
+      `form-row-element column-${columnWidth}`,
       formElementClass
     );
   }
