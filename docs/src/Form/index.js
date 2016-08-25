@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import CodeBlock from '../components/CodeBlock';
+import ComponentExample from '../components/ComponentExample';
+import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import Form from '../../../src/Form/Form.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
@@ -54,7 +57,6 @@ class FormExample extends React.Component {
       {
         fieldType: 'checkbox',
         name: 'single-checkbox',
-        checked: true,
         disabled: true,
         showLabel: 'Accept terms of service',
         required: true,
@@ -173,21 +175,12 @@ class FormExample extends React.Component {
   render() {
     return (
       <ComponentWrapper title="Form" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Form/Form.js">
-        <div className="row row-flex row-flex">
-          <div className="column-12">
-            <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} toggleClasses="flush-top" />
-          </div>
-        </div>
-        <div className="example-block flush-bottom">
-          <div className="example-block-content">
-            <div className="row row-flex">
-              <div className="column-9">
-                <Form definition={this.getDefinition()} />
-              </div>
-            </div>
-          </div>
-          <div className="example-block-footer example-block-footer-codeblock">
-            <pre className="prettyprint linenums flush-bottom">
+        <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} toggleClasses="flush-top" />
+        <ComponentExampleWrapper>
+          <ComponentExample>
+            <Form definition={this.getDefinition()} />
+          </ComponentExample>
+          <CodeBlock>
 {`import {Form} from 'reactjs-components';
 import React from 'react';
 
@@ -368,12 +361,11 @@ class FormExample extends React.Component {
     );
   }
 }`}
-            </pre>
-          </div>
-        </div>
+          </CodeBlock>
+        </ComponentExampleWrapper>
       </ComponentWrapper>
     );
   }
 }
 
-ReactDOM.render(<FormExample />, document.getElementById('form'));
+module.exports = FormExample;
