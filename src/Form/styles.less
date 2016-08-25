@@ -5,27 +5,20 @@
   .form-control-group {
 
     &.filter-input-text-group {
-
       width: auto;
 
       // Hide native clear button in IE10+
-
       ::-ms-clear {
-
         display: none;
-
       }
 
       .form-control-group-add-on-prepend {
 
         .icon {
-
           opacity: 0.2;
 
           &.active {
-
             opacity: 1;
-
           }
 
         }
@@ -35,28 +28,21 @@
       .form-control-group-add-on-append {
 
         &.hidden {
-
           display: table-cell !important;
           opacity: 0;
-
         }
 
         a {
 
           .icon {
-
             opacity: 0.2;
 
             &:hover {
-
               opacity: 0.6;
-
             }
 
             &:active {
-
               opacity: 1.0;
-
             }
 
           }
@@ -119,124 +105,125 @@
     }
   }
 
+  // TODO: Reduce the amount of CSS created here by using a generic classname
+  // for these common elements.
   /* Checkbox and Radio Button Form Elements */
   .checkbox,
   .radio-button {
+    position: relative;
+    padding-left: 0;
 
-    .form-element-checkbox,
-    .form-element-radio-button {
-      position: relative;
-      padding-left: 0;
+    &.inverse {
+      color: @label-inverse-color;
 
       input[type="checkbox"],
       input[type="radio"] {
-        left: 0;
-        opacity: 0;
-        position: absolute;
 
         & + .form-element-checkbox-decoy,
         & + .form-element-radio-button-decoy {
-          border: 1px solid @form-control-border-color;
-          display: inline-block;
-          height: 16px;
-          margin-top: -2px;
-          position: relative;
-          vertical-align: middle;
-          width: 16px;
-
-          svg {
-            display: block;
-          }
-
-          & + .form-element-checkbox-label,
-          & + .form-element-radio-button-label {
-            margin-left: @base-spacing-unit * 1/2;
-          }
+          border-color: @form-control-inverse-disabled-color;
         }
 
         &:checked + .form-element-checkbox-decoy,
-        &:checked + .form-element-radio-button-decoy ,
-        &:indeterminate + .form-element-checkbox-decoy {
-          background: @form-control-focus-color;
-          border-color: @form-control-focus-color;
+        &:indeterminate + .form-element-checkbox-decoy,
+        &:checked + .form-element-radio-button-decoy {
+          border-color: @form-control-inverse-focus-color;
         }
 
         &:disabled + .form-element-checkbox-decoy,
         &:disabled + .form-element-radio-button-decoy {
-          background: @form-control-disabled-color;
-        }
-      }
-
-      &.inverse {
-        color: @label-inverse-color;
-
-        input[type="checkbox"],
-        input[type="radio"] {
-
-          & + .form-element-checkbox-decoy,
-          & + .form-element-radio-button-decoy {
-            border-color: @form-control-inverse-disabled-color;
-          }
-
-          &:checked + .form-element-checkbox-decoy,
-          &:indeterminate + .form-element-checkbox-decoy,
-          &:checked + .form-element-radio-button-decoy {
-            border-color: @form-control-inverse-focus-color;
-          }
-
-          &:disabled + .form-element-checkbox-decoy,
-          &:disabled + .form-element-radio-button-decoy {
-            background: @form-control-inverse-disabled-color;
-            border-color: @form-control-inverse-disabled-color;
-          }
-        }
-      }
-    }
-
-    // Checkbox specific styles
-    .form-element-checkbox {
-
-      input[type="checkbox"] {
-
-        & + .form-element-checkbox-decoy {
-          border-radius: 3px;
-        }
-
-        &:disabled + .form-element-checkbox-decoy {
+          background: @form-control-inverse-disabled-color;
           border-color: @form-control-inverse-disabled-color;
         }
       }
     }
 
-    // Radio button specific styles
-    .form-element-radio-button {
+    input[type="checkbox"],
+    input[type="radio"] {
+      left: 0;
+      opacity: 0;
+      position: absolute;
 
-      input[type="radio"] {
-        & + .form-element-radio-button-decoy {
-          border-radius: 50%;
-          box-sizing: content-box;
+      & + .form-element-checkbox-decoy,
+      & + .form-element-radio-button-decoy {
+        border: 1px solid @form-control-border-color;
+        display: inline-block;
+        height: 16px;
+        margin-top: -2px;
+        position: relative;
+        vertical-align: middle;
+        width: 16px;
 
-          .icon-radio-button {
-            fill: currentColor;
+        svg {
+          display: block;
+        }
 
-            .icon-radio-button-dot {
-              color: @white;
-            }
+        & + .form-element-checkbox-label,
+        & + .form-element-radio-button-label {
+          margin-left: @base-spacing-unit * 1/2;
+        }
+      }
 
-            .icon-radio-button-shadow {
-              color: @black;
-            }
+      &:checked + .form-element-checkbox-decoy,
+      &:checked + .form-element-radio-button-decoy ,
+      &:indeterminate + .form-element-checkbox-decoy {
+        background: @form-control-focus-color;
+        border-color: @form-control-focus-color;
+      }
+
+      &:disabled {
+
+        & + .form-element-checkbox-decoy {
+
+          &,
+          & + .form-element-checkbox-label {
+            opacity: @form-control-disabled-opacity;
           }
         }
 
-        &:disabled + .form-element-radio-button-decoy {
-          border-color: color-lighten(#C5C5C5, -5);
+        & + .form-element-radio-button-decoy {
 
-          .icon-radio-button {
+          &,
+          & + .form-element-radio-button-label {
+            opacity: @form-control-disabled-opacity;
+          }
+        }
+      }
+    }
 
-            .icon-radio-button-shadow {
-              color: #C5C5C5;
-            }
+    input[type="checkbox"] {
+
+      & + .form-element-checkbox-decoy {
+        border-radius: 3px;
+      }
+
+    }
+
+    input[type="radio"] {
+      & + .form-element-radio-button-decoy {
+        border-radius: 50%;
+        box-sizing: content-box;
+
+        .icon-radio-button {
+          fill: currentColor;
+
+          .icon-radio-button-dot {
+            color: @white;
+          }
+
+          .icon-radio-button-shadow {
+            color: @black;
+          }
+        }
+      }
+
+      &:disabled + .form-element-radio-button-decoy {
+
+        .icon-radio-button {
+
+          // TODO: Figure out an appropriate variable for this element.
+          .icon-radio-button-shadow {
+            color: #C5C5C5;
           }
         }
       }
@@ -262,9 +249,7 @@
     .form-control-group {
 
       &.filter-input-text-group {
-
         width: 100px;
-
       }
 
     }
@@ -282,9 +267,7 @@
     .form-control-group {
 
       &.filter-input-text-group {
-
         width: 200px;
-
       }
 
     }
