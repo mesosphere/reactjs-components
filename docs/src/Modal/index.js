@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import CodeBlock from '../components/CodeBlock';
+import ComponentExample from '../components/ComponentExample';
+import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import Modal from '../../../src/Modal/Modal.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
@@ -41,8 +44,8 @@ class ModalExample extends React.Component {
           Style modals with optional header, footer, transition, and more.
         </p>
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Modal/ModalContents.js)'} />
-        <div className="example-block flush-bottom">
-          <div className="example-block-content">
+        <ComponentExampleWrapper>
+          <ComponentExample>
             <div className="row row-flex">
               <div className="column-12">
                 <p>Here is a modal with a title and footer.</p>
@@ -76,9 +79,8 @@ class ModalExample extends React.Component {
                 </Modal>
               </div>
             </div>
-          </div>
-          <div className="example-block-footer example-block-footer-codeblock">
-            <pre className="prettyprint linenums flush-bottom">
+          </ComponentExample>
+          <CodeBlock>
 {`import {Modal} from 'reactjs-components';
 import React from 'react';
 
@@ -133,14 +135,12 @@ class ModalExample extends React.Component {
       </div>
     )
   }
-}
-`}
-            </pre>
-          </div>
-        </div>
+}`}
+          </CodeBlock>
+        </ComponentExampleWrapper>
       </ComponentWrapper>
     );
   }
 }
 
-ReactDOM.render(<ModalExample />, document.getElementById('modal'));
+module.exports = ModalExample;
