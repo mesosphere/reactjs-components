@@ -244,9 +244,9 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     return (
       <div className={props.headerClass}>
         <div className={props.headerContainerClass}>
-          <h2 className={props.titleClass}>
+          <h5 className={props.titleClass}>
             {props.titleText}
-          </h2>
+          </h5>
           {props.subHeader}
         </div>
       </div>
@@ -313,17 +313,15 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     }
 
     return (
-      <div className={props.containerClass}>
-        <div ref="modal" className={props.modalClass}>
-          {this.getCloseButton()}
-          {this.getHeader()}
-          <div className={props.bodyClass} style={modalStyle}>
-            <div ref="innerContainer" className={props.innerBodyClass}>
-              {this.getModalContent(useScrollbar, contentHeight)}
-            </div>
+      <div ref="modal" className={props.modalClass}>
+        {this.getCloseButton()}
+        {this.getHeader()}
+        <div className={props.bodyClass} style={modalStyle}>
+          <div ref="innerContainer" className={props.innerBodyClass}>
+            {this.getModalContent(useScrollbar, contentHeight)}
           </div>
-          {this.getFooter()}
         </div>
+        {this.getFooter()}
       </div>
     );
   }
@@ -340,33 +338,31 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   render() {
-    let props = this.props;
+    let {props} = this;
+
+    let modalContent = null;
+
+    if (props.open) {
+      modalContent = (
+        <div className={props.modalWrapperClass}>
+          {this.getBackdrop()}
+          {this.getModal()}
+        </div>
+      );
+    }
 
     return (
-      <div className={props.modalWrapperClass}>
-        <ReactCSSTransitionGroup
-          transitionAppear={props.transitionAppear}
-          transitionEnter={props.transitionEnter}
-          transitionLeave={props.transitionLeave}
-          transitionName={props.transitionNameBackdrop}
-          transitionAppearTimeout={props.transitionAppearTimeoutBackdrop}
-          transitionEnterTimeout={props.transitionEnterTimeoutBackdrop}
-          transitionLeaveTimeout={props.transitionLeaveTimeoutBackdrop}
-          component="div">
-          {this.getBackdrop()}
-        </ReactCSSTransitionGroup>
-        <ReactCSSTransitionGroup
-          transitionAppear={props.transitionAppear}
-          transitionEnter={props.transitionEnter}
-          transitionLeave={props.transitionLeave}
-          transitionName={props.transitionNameModal}
-          transitionAppearTimeout={props.transitionAppearTimeoutModal}
-          transitionEnterTimeout={props.transitionEnterTimeoutModal}
-          transitionLeaveTimeout={props.transitionLeaveTimeoutModal}
-          component="div">
-          {this.getModal()}
-        </ReactCSSTransitionGroup>
-      </div>
+      <ReactCSSTransitionGroup
+        transitionAppear={props.transitionAppear}
+        transitionEnter={props.transitionEnter}
+        transitionLeave={props.transitionLeave}
+        transitionName={props.transitionNameModal}
+        transitionAppearTimeout={props.transitionAppearTimeoutModal}
+        transitionEnterTimeout={props.transitionEnterTimeoutModal}
+        transitionLeaveTimeout={props.transitionLeaveTimeoutModal}
+        component="div">
+        {modalContent}
+      </ReactCSSTransitionGroup>
     );
   }
 }
@@ -402,14 +398,13 @@ ModalContents.defaultProps = {
   closeButtonClass: 'modal-close',
   closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
   closeTitleClass: 'modal-close-title',
-  containerClass: 'modal-container',
   footerClass: 'modal-footer',
   footerContainerClass: 'container',
   headerClass: 'modal-header',
   headerContainerClass: 'container',
   modalClass: 'modal modal-large',
   scrollContainerClass: 'modal-content-inner',
-  titleClass: 'modal-header-title text-align-center flush-top flush-bottom'
+  titleClass: 'modal-header-title flush'
 };
 
 ModalContents.propTypes = {
@@ -464,7 +459,6 @@ ModalContents.propTypes = {
   closeButtonClass: PropTypes.string,
   closeIconClass: PropTypes.string,
   closeTitleClass: PropTypes.string,
-  containerClass: PropTypes.string,
   footerClass: PropTypes.string,
   footerContainerClass: PropTypes.string,
   headerClass: PropTypes.string,
