@@ -1,20 +1,14 @@
-/* -----------------------------------------------------------------------------
-Config
------------------------------------------------------------------------------ */
+/* Config */
 
 @path-images:                                                                   "../images/";
 @path-fonts:                                                                    "../fonts/";
 @cache-clear:                                                                   `Math.floor((Math.random() * 1000000000) + 1)`;
 
-/* -----------------------------------------------------------------------------
-Canvas
------------------------------------------------------------------------------ */
+/* Canvas */
 
 @import "../../node_modules/cnvs/styles/canvas.less";
 
-/* -----------------------------------------------------------------------------
-Layout
------------------------------------------------------------------------------ */
+/* Layout */
 
 @import "layout/foundation.less";
 @import "layout/sidebar.less";
@@ -22,26 +16,20 @@ Layout
 @import "layout/page.less";
 @import "layout/page-header.less";
 
-/* -----------------------------------------------------------------------------
-Content
------------------------------------------------------------------------------ */
+/* Content */
 
 @import "content/code/prettyprint.less";
 @import "content/fonts/variables.less";
 @import "content/fonts/styles.less";
 @import "content/example-block/styles.less";
 
-/* -----------------------------------------------------------------------------
-Components
------------------------------------------------------------------------------ */
+/* Components */
 
 @import "components/example-blocks/styles.less";
 @import "components/fill/variables.less";
 @import "components/fill/styles.less";
 
-/* -----------------------------------------------------------------------------
-ReactJS Components
------------------------------------------------------------------------------ */
+/* ReactJS Components */
 
 @import (inline) "../../node_modules/gemini-scrollbar/gemini-scrollbar.css";
 @import "../../src/overrides/gemini-scrollbar.less";
