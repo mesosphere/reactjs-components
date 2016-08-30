@@ -28,7 +28,7 @@ class FormExample extends React.Component {
       {
         fieldType: 'password',
         name: 'Password',
-        helpBlock: 'If you want to make your password strong you could use a password manager',
+        helpBlock: 'Setting helpBlock can be used to display helpful text',
         required: true,
         showLabel: true,
         validation: function (value) {
