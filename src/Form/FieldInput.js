@@ -237,7 +237,7 @@ FieldInput.propTypes = {
   handleEvent: React.PropTypes.func,
   // Optional label to add
   label: React.PropTypes.string,
-  // Optional hepl block
+  // Optional help block
   helpBlock: React.PropTypes.node,
   // Name of the field property
   // (usually passed down from form definition)
