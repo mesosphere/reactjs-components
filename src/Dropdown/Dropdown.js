@@ -333,11 +333,10 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
 
       // Render with Gemini scrollbar if the dropdown's height is constrainted.
       if (state.menuHeight >= state.maxDropdownHeight) {
-        // Remove 30 pixels from the dropdown height to account for offset
-        // positioning from the dropdown button.
-
         let height = 'auto';
 
+        // Remove 30 pixels from the dropdown height to account for offset
+        // positioning from the dropdown button.
         if (state.maxDropdownHeight && state.maxDropdownHeight > 30) {
           height = `${state.maxDropdownHeight - 30}px`
         }
