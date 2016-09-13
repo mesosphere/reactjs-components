@@ -33,11 +33,17 @@ class FormControl extends React.Component {
       columnWidth = definition.columnWidth;
     }
 
+    let key = definition.key;
+    // Fallback to using name, if no key provided
+    if (key == null) {
+      key = definition.name;
+    }
+
     return (
       <FieldTypeComponent
         {...Util.exclude(props, 'definition')}
-        {...Util.exclude(definition, 'value', 'fieldType')}
-        key={definition.name}
+        {...Util.exclude(definition, 'value', 'fieldType', 'key')}
+        key={key}
         startValue={props.currentValue[definition.name]}
         type={definition.fieldType}
         columnWidth={columnWidth} />
