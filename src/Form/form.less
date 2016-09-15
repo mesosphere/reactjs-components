@@ -303,10 +303,19 @@ base/forms.less
     // Remove any rich-text styling that might be introduced by a user pasting
     // rich-text content or using rich-text keyboard shortcuts.
     * {
+      background: none !important;
+      border: none !important;
       color: inherit !important;
       font: inherit !important;
+      margin: 0 !important;
+      padding: 0 !important;
       text-decoration: inherit !important;
       text-shadow: inherit !important;
+
+      &:before,
+      &:after {
+        display: none;
+      }
     }
   }
 
