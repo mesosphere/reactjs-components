@@ -5,74 +5,77 @@
   font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Consolas, monospace;
 
   .pln {
-    color: #333333;
+    color: #333;
   }
 
   @media screen {
+
     .str {
-      color: #dd1144;
+      color: #d14;
     }
 
     .kwd {
-      color: #333333;
+      color: #333;
     }
 
     .com {
-      color: #999988;
+      color: #998;
     }
 
     .typ {
-      color: #445588;
+      color: #458;
     }
 
     .lit {
-      color: #445588;
+      color: #458;
     }
 
     .pun {
-      color: #333333;
+      color: #333;
     }
 
     .opn {
-      color: #333333;
+      color: #333;
     }
 
     .clo {
-      color: #333333;
+      color: #333;
     }
 
     .tag {
-      color: navy;
+      color: #000080;
     }
 
     .atn {
-      color: teal;
+      color: #000080;
     }
 
     .atv {
-      color: #dd1144;
+      color: #d14;
     }
 
     .dec {
-      color: #333333;
+      color: #333;
     }
 
     .var {
-      color: teal;
+      color: #000080;
     }
 
     .fun {
-      color: #990000;
+      color: #900;
     }
   }
+
   @media print, projection {
+
     .str {
-      color: #006600;
+      color: #060;
     }
 
     .kwd {
       color: #006;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .com {
@@ -82,69 +85,46 @@
 
     .typ {
       color: #404;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .lit {
-      color: #004444;
+      color: #044;
     }
 
-    .pun, .opn, .clo {
-      color: #444400;
+    .pun,
+    .opn,
+    .clo {
+      color: #440;
     }
 
     .tag {
       color: #006;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     .atn {
-      color: #440044;
+      color: #404;
     }
 
     .atv {
-      color: #006600;
+      color: #060;
     }
   }
+
   /* Specify class=linenums on a pre to get line numbering */
   ol.linenums {
-    margin-top: 0;
     margin-bottom: 0;
+    margin-top: 0;
   }
-
-  /* IE indents via margin-left */
-  li.L0,
-  li.L1,
-  li.L2,
-  li.L3,
-  li.L4,
-  li.L5,
-  li.L6,
-  li.L7,
-  li.L8,
-  li.L9 {
-    /* */
-  }
-
-  /* Alternate shading for lines */
-  li.L1,
-  li.L3,
-  li.L5,
-  li.L7,
-  li.L9 {
-    /* */
-  }
-
 }
 
 /* Prettyprint (Inverse) */
-
 .prettyprint.code-block-inverse {
-
-    /*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
+  /*! Color themes for Google Code Prettify | MIT License | github.com/jmblog/color-themes-for-google-code-prettify */
   background: #1b1918;
-  font-family: Menlo, "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Consolas, monospace;
   border: 0 !important;
+  font-family: Menlo, 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Consolas, monospace;
 
   .pln {
     color: #f1efee;
@@ -152,9 +132,9 @@
 
   /* Specify class=linenums on a pre to get line numbering */
   ol.linenums {
-    margin-top: 0;
-    margin-bottom: 0;
     color: #766e6b;
+    margin-bottom: 0;
+    margin-top: 0;
   }
 
   li.L0,
@@ -167,27 +147,23 @@
   li.L7,
   li.L8,
   li.L9 {
-    padding-left: 1em;
     background-color: #1b1918;
     list-style-type: decimal;
+    padding-left: 1em;
   }
 
   @media screen {
-
     /* string content */
-
     .str {
       color: #7b9726;
     }
 
     /* keyword */
-
     .kwd {
       color: #6666ea;
     }
 
     /* comment */
-
     .com {
       color: #766e6b;
     }
@@ -199,64 +175,53 @@
     }
 
     /* literal value */
-
     .lit {
       color: #df5320;
     }
 
     /* punctuation */
-
     .pun {
       color: #f1efee;
     }
 
     /* lisp open bracket */
-
     .opn {
       color: #f1efee;
     }
 
     /* lisp close bracket */
-
     .clo {
       color: #f1efee;
     }
 
     /* markup tag name */
-
     .tag {
       color: #f22c40;
     }
 
     /* markup attribute name */
-
     .atn {
       color: #df5320;
     }
 
     /* markup attribute value */
-
     .atv {
       color: #3d97b8;
     }
 
     /* declaration */
-
     .dec {
       color: #df5320;
     }
 
     /* variable name */
-
     .var {
       color: #f22c40;
     }
 
     /* function name */
-
     .fun {
       color: #407ee7;
     }
   }
-
 }

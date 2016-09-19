@@ -1,51 +1,46 @@
 /* Config */
 
-@path-images:                                                                   "../images/";
-@path-fonts:                                                                    "../fonts/";
+@path-images:                                                                   '../images/';
+@path-fonts:                                                                    '../fonts/';
+
+// Disabling stylelint for the following Javascript.
+/* stylelint-disable */
 @cache-clear:                                                                   `Math.floor((Math.random() * 1000000000) + 1)`;
+/* stylelint-enable */
 
 /* Canvas */
-
-@import "../../node_modules/cnvs/styles/canvas.less";
+@import '../../node_modules/cnvs/styles/canvas.less';
 
 /* Layout */
-
-@import "layout/foundation.less";
-@import "layout/sidebar.less";
-@import "layout/navigation.less";
-@import "layout/page.less";
-@import "layout/page-header.less";
+@import 'layout/foundation.less';
+@import 'layout/sidebar.less';
+@import 'layout/navigation.less';
+@import 'layout/page.less';
+@import 'layout/page-header.less';
 
 /* Content */
-
-@import "content/code/prettyprint.less";
-@import "content/fonts/variables.less";
-@import "content/fonts/styles.less";
-@import "content/example-block/styles.less";
+@import 'content/code/prettyprint.less';
+@import 'content/fonts/variables.less';
+@import 'content/fonts/styles.less';
+@import 'content/example-block/styles.less';
 
 /* Components */
-
-@import "components/example-blocks/styles.less";
-@import "components/fill/variables.less";
-@import "components/fill/styles.less";
+@import 'components/fill/variables.less';
+@import 'components/fill/styles.less';
 
 /* ReactJS Components */
-
-@import (inline) "../../node_modules/gemini-scrollbar/gemini-scrollbar.css";
-@import "../../src/overrides/gemini-scrollbar.less";
-
-@import "../../src/Dropdown/styles.less";
-@import "../../src/Form/styles.less";
-@import "../../src/List/styles.less";
-@import "../../src/Modal/styles.less";
-@import "../../src/Table/styles.less";
-@import "../../src/Tooltip/styles.less";
-
-@import "../../src/index.less";
+@import (inline)'../../node_modules/gemini-scrollbar/gemini-scrollbar.css';
+@import '../../src/overrides/gemini-scrollbar.less';
+@import '../../src/Dropdown/styles.less';
+@import '../../src/Form/styles.less';
+@import '../../src/List/styles.less';
+@import '../../src/Modal/styles.less';
+@import '../../src/Table/styles.less';
+@import '../../src/Tooltip/styles.less';
+@import '../../src/index.less';
 
 /* -----------------------------------------------------------------------------
 Documentation-specific styles
 ----------------------------------------------------------------------------- */
-
-@import "../src/Dropdown/styles.less";
-@import "../src/Tooltip/styles.less";
+@import '../src/Dropdown/styles.less';
+@import '../src/Tooltip/styles.less';
