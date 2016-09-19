@@ -1,7 +1,7 @@
 // If you're including this file on its own, please
 // import these two files in your main less file:
-// * @import "../overrides/gemini-scrollbar.less";
-// * @import (inline) "../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css";
+// * @import '../overrides/gemini-scrollbar.less';
+// * @import (inline) '../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css';
 
 & when (@modal-enabled) {
 
@@ -10,7 +10,6 @@
     position: fixed;
     top: 50%;
     transform: translate(-50%, -50%);
-    transition: transform @modal-animation-duration @modal-animation-easing, opacity @modal-animation-duration @modal-animation-easing;`
   }
 
   .modal-backdrop {
@@ -26,7 +25,7 @@
 
     .modal {
       opacity: 0;
-      transform: translate(-50%, calc(-50% ~" - " @modal-animation-offset));
+      transform: translate(-50%, calc(-50% ~' - ' @modal-animation-offset));
     }
 
     .modal-backdrop {
@@ -46,9 +45,7 @@
         opacity: 1;
         transition: opacity @modal-animation-duration @modal-animation-easing;
       }
-
     }
-
   }
 
   .modal-leave {
@@ -66,17 +63,13 @@
 
       .modal {
         opacity: 0;
-        transform: translate(-50%, calc(-50% ~" - " @modal-animation-offset));
-        transition: transform @modal-animation-duration @modal-animation-easing, opacity @modal-animation-duration @modal-animation-easing;
+        transform: translate(-50%, calc(-50% ~' - ' @modal-animation-offset));
       }
 
       .modal-backdrop {
         opacity: 0;
         transition: opacity @modal-animation-duration @modal-animation-easing;
       }
-
     }
-
   }
-
 }

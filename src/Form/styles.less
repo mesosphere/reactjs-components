@@ -14,7 +14,6 @@
   }
 
   /* Form Control Group */
-
   .form-control-group {
 
     &.filter-input-text-group {
@@ -33,9 +32,7 @@
           &.active {
             opacity: 1;
           }
-
         }
-
       }
 
       .form-control-group-add-on-append {
@@ -55,21 +52,15 @@
             }
 
             &:active {
-              opacity: 1.0;
+              opacity: 1;
             }
-
           }
-
         }
-
       }
-
     }
-
   }
 
   /* Inline Form Elements */
-
   .form-element-inline {
     appearance: none;
     border: none;
@@ -80,16 +71,16 @@
 
     .form-element-inline-text {
       flex: 0 1 auto;
-      overflow: hidden;
       min-width: @base-spacing-unit;
+      overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
     .form-element-inline-icon {
-      flex: 1 0 16px;
       display: inline-block;
       fill: @form-control-border-color;
+      flex: 1 0 16px;
       margin-left: @base-spacing-unit * 1/2;
       opacity: 0;
       transition: opacity 0.25s;
@@ -120,17 +111,18 @@
 
   // TODO: Reduce the amount of CSS created here by using a generic classname
   // for these common elements.
+
   /* Checkbox and Radio Button Form Elements */
   .checkbox,
   .radio-button {
-    position: relative;
     padding-left: 0;
+    position: relative;
 
     &.inverse {
       color: @label-inverse-color;
 
-      input[type="checkbox"],
-      input[type="radio"] {
+      input[type='checkbox'],
+      input[type='radio'] {
 
         & + .form-element-checkbox-decoy,
         & + .form-element-radio-button-decoy {
@@ -151,8 +143,8 @@
       }
     }
 
-    input[type="checkbox"],
-    input[type="radio"] {
+    input[type='checkbox'],
+    input[type='radio'] {
       left: 0;
       opacity: 0;
       position: absolute;
@@ -178,7 +170,7 @@
       }
 
       &:checked + .form-element-checkbox-decoy,
-      &:checked + .form-element-radio-button-decoy ,
+      &:checked + .form-element-radio-button-decoy,
       &:indeterminate + .form-element-checkbox-decoy {
         background: @form-control-focus-color;
         border-color: @form-control-focus-color;
@@ -204,15 +196,15 @@
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
 
       & + .form-element-checkbox-decoy {
         border-radius: 3px;
       }
-
     }
 
-    input[type="radio"] {
+    input[type='radio'] {
+
       & + .form-element-radio-button-decoy {
         border-radius: 50%;
         box-sizing: content-box;
@@ -236,15 +228,14 @@
 
           // TODO: Figure out an appropriate variable for this element.
           .icon-radio-button-shadow {
-            color: #C5C5C5;
+            color: #c5c5c5;
           }
         }
       }
     }
   }
 
-  /* "Textarea" Form Elements: A div with attribute contenteditable="true" */
-
+  /* 'Textarea' Form Elements: A div with attribute contenteditable='true' */
   .content-editable-wrapper {
     position: relative;
   }
@@ -281,35 +272,25 @@
 & when (@form-enabled) and (@layout-screen-small-enabled) {
 
   @media (min-width: @layout-screen-small-min-width) {
-
     /* Form Control Group */
-
     .form-control-group {
 
       &.filter-input-text-group {
         width: 100px;
       }
-
     }
-
   }
-
 }
 
 & when (@form-enabled) and (@layout-screen-medium-enabled) {
 
   @media (min-width: @layout-screen-medium-min-width) {
-
     /* Form Control Group */
-
     .form-control-group {
 
       &.filter-input-text-group {
         width: 200px;
       }
-
     }
-
   }
-
 }
