@@ -1,36 +1,63 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import BindMixin from '../../../src/Mixin/BindMixin';
 import ComponentWrapper from '../components/ComponentWrapper';
 import Form from '../../../src/Form/Form.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
+import Util from '../../../src/Util/Util';
 
-class FormExample extends React.Component {
+class FormExample extends Util.mixin(BindMixin) {
+  get methodsToBind() {
+    return ['handleChange', 'handleSubmit'];
+  }
+
+  constructor() {
+    super(...arguments);
+    this.state = {definition: this.getDefinition()};
+  }
+
+  handleChange(model) {
+    let definition = this.getDefinition();
+    definition.forEach(function (field) {
+      if (field.name === model.name) {
+        // Transfer changes
+        Object.assign(field, model);
+      }
+    });
+
+    this.setState({definition});
+  }
+
+  handleSubmit(model) {
+    global.alert(`Model: ${JSON.stringify(model)}`);
+  }
+
   getDefinition() {
     return [
       [
         {
           fieldType: 'text',
-          name: 'description',
+          name: 'firstName',
           placeholder: 'First name',
           showError: 'Setting "showError" will make a field display an error',
           writeType: 'input'
         },
         {
           fieldType: 'text',
-          name: 'uid',
+          name: 'lastName',
           placeholder: 'Last name',
           required: true,
-          value: 'Last name',
+          value: '',
           writeType: 'input'
         }
       ],
       {
         fieldType: 'password',
-        name: 'Password',
         helpBlock: 'Setting helpBlock can be used to display helpful text',
+        name: 'Password',
         required: true,
-        showLabel: true,
+        showLabel: 'Password',
         validation: function (value) {
           return value && value.length > 8;
         },
@@ -39,9 +66,9 @@ class FormExample extends React.Component {
       },
       {
         fieldType: 'number',
-        name: 'Number',
+        name: 'number',
         required: false,
-        showLabel: true,
+        showLabel: 'Number',
         max: '10',
         min: '0',
         step: '1',
@@ -68,8 +95,7 @@ class FormExample extends React.Component {
       },
       {
         fieldType: 'select',
-        label: 'Level',
-        showLabel: true,
+        showLabel: 'Level',
         options: [
           {
             html: 'Senior',
@@ -182,7 +208,10 @@ class FormExample extends React.Component {
           <div className="example-block-content">
             <div className="row row-flex">
               <div className="column-9">
-                <Form definition={this.getDefinition()} />
+                <Form
+                  definition={this.state.definition}
+                  onChange={this.handleChange}
+                  onSubmit={this.handleSubmit} />
               </div>
             </div>
           </div>
