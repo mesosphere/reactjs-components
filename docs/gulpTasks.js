@@ -11,6 +11,7 @@ var minifyCSS = require('gulp-minify-css');
 var path = require('path');
 var replace = require('gulp-replace');
 var sourcemaps = require('gulp-sourcemaps');
+var stylelint = require('gulp-stylelint');
 var uglify = require('gulp-uglify');
 var webpack = require('webpack');
 
@@ -59,7 +60,7 @@ gulp.task('docs:html', function () {
     .on('end', browserSyncReload);
 });
 
-gulp.task('docs:less', function () {
+gulp.task('docs:less', ['docs:stylelint'], function () {
   return gulp.src(config.files.docs.srcCSS, {read: true}, {ignorePath: 'src'})
     .pipe(sourcemaps.init())
     .pipe(less({
@@ -92,6 +93,19 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
     .pipe(gulp.dest(config.dirs.docs.distJS));
 });
 
+
+gulp.task('docs:stylelint', function () {
+  return gulp.src([
+      config.dirs.docs.srcCSS + '/**/*.less',
+      config.dirs.docs.srcJS + '/**/*.less'
+    ])
+    .pipe(stylelint({
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
 function replaceJsStringsFn() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace(/PROPTYPES_BLOCK\((.*?)\)/g, function(match, srcPath) {
@@ -120,6 +134,7 @@ gulp.task(
 gulp.task('docs:watch', function () {
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
   gulp.watch([
+    config.dirs.docs.srcJS + '/**/*.less',
     config.dirs.docs.srcCSS + '/**/*.less',
     config.dirs.srcCSS + '/**/*.less'
   ], ['docs:less']);
