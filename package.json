@@ -49,6 +49,7 @@
     "gulp-minify-css": "1.2.3",
     "gulp-replace": "0.5.4",
     "gulp-sourcemaps": "1.6.0",
+    "gulp-stylelint": "3.2.0",
     "gulp-uglify": "1.5.2",
     "gulp-util": "3.0.7",
     "jest-cli": "0.8.2",
@@ -60,6 +61,8 @@
     "react-dom": "0.14.7",
     "react-gemini-scrollbar": "2.1.0",
     "source-map-loader": "0.1.5",
+    "stylelint-config-dcos": "0.0.1",
+    "stylelint-webpack-plugin": "0.3.1",
     "transform-loader": "0.2.3",
     "webpack": "1.12.13"
   },
@@ -78,8 +81,8 @@
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "npm-publish": "npm publish ./",
     "test": "jest",
-    "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm publish ./",
-    "release-beta": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && npm run dist-src && npm version prerelease",
+    "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src && npm publish ./",
+    "release-beta": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src && npm version prerelease",
     "postversion": "npm publish ./ --tag version-$npm_package_version"
   },
   "jest": {
