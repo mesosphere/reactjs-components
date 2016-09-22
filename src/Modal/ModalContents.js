@@ -385,14 +385,14 @@ ModalContents.defaultProps = {
 
   // Default classes.
   backdropClass: 'modal-backdrop',
-  bodyClass: 'modal-body',
+  bodyClass: 'modal-body-wrapper',
   closeButtonClass: 'modal-close',
   footerClass: 'modal-footer',
   footerContainerClass: 'container',
   headerClass: 'modal-header',
   headerContainerClass: 'container',
   modalClass: 'modal modal-large',
-  scrollContainerClass: 'modal-content-inner',
+  scrollContainerClass: 'modal-body',
   titleClass: 'modal-header-title flush'
 };
 
