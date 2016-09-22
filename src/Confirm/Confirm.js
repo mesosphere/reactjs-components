@@ -51,12 +51,8 @@ class Confirm extends React.Component {
         showCloseButton={false}
         showFooter={true}
         footer={this.getButtons()}
-        scrollContainerClass="modal-content-inner container container-pod
-          container-pod-short flush-bottom"
-        titleClass="modal-header-title text-align-center flush-top
-          flush-bottom"
-        {...props}
-        >
+        titleClass="modal-header-title text-align-center flush-top flush-bottom"
+        {...props}>
         {this.props.children}
       </Modal>
     );
