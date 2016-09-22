@@ -179,15 +179,15 @@ describe('ModalContents', function () {
   describe('#getCloseButton', function () {
     it('should not return a button if disabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents showCloseButton={false} />
+        <ModalContents />
       );
 
       expect(instance.getCloseButton()).toEqual(null);
     });
 
-    it('should return a button if enabled', function () {
+    it('should return a button if closeButton is provided', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents showCloseButton={true} />
+        <ModalContents closeButton={'Close'} />
       );
 
       var closeButton = instance.getCloseButton();
