@@ -187,7 +187,7 @@ describe('ModalContents', function () {
 
     it('should return a button if closeButton is provided', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents closeButton={'Close'} />
+        <ModalContents closeButton={<button>Close</button>} />
       );
 
       var closeButton = instance.getCloseButton();
