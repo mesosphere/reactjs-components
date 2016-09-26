@@ -11,22 +11,25 @@ import React, {PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
+import DOMUtil from '../Util/DOMUtil';
 import KeyDownMixin from '../Mixin/KeyDownMixin';
-import * as DOMUtil from '../Util/DOMUtil';
 import Util from '../Util/Util';
 
-const DEFAULT_HEIGHT = {
-  height: 'auto',
-  contentHeight: 'auto',
-  innerContentHeight: null
-};
-
 class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
+  constructor() {
+    super(...arguments);
+
+    this.state = {
+      height: null
+    };
+  }
+
   get methodsToBind() {
     return [
-      'handleWindowResize',
+      'calculateContentHeight',
+      'closeModal',
       'handleBackdropClick',
-      'closeModal'
+      'handleWindowResize'
     ];
   }
 
@@ -44,31 +47,36 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     super.componentDidUpdate(...arguments);
 
-    if (this.props.open) {
-      this.checkHeight();
-    } else if (!this.props.open && prevProps.open) {
-      this.resetHeight();
-      this.rerendered = false;
+    // If we don't already know the height of the content, we calculate it.
+    if (this.props.open && this.props.useGemini && this.state.height == null) {
+      window.requestAnimationFrame(this.calculateContentHeight);
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    // Reset the height of the content to null when the modal is closing so
+    // that the height will be recalculated next time it opens.
+    if (this.props.open && !nextProps.open) {
+      this.setState({height: null});
     }
   }
 
   componentWillMount() {
     super.componentWillMount(...arguments);
 
-    this.resetHeight();
     if (this.props.open) {
       document.body.classList.add('no-overflow');
     }
+
     window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentWillUnmount() {
     super.componentWillUnmount(...arguments);
 
-    this.resetHeight();
     document.body.classList.remove('no-overflow');
     window.removeEventListener('resize', this.handleWindowResize);
   }
@@ -80,140 +88,37 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   handleWindowResize() {
-    // Render the modal again if the window resizes because the height
-    // of the viewport may change and we need to adapt to that.
-    if (this.props.open) {
-      this.forceUpdate();
-    }
-  }
+    // Recalculate the height of the modal if it's open and using Gemini.
+    if (this.props.open && this.props.useGemini) {
+      let viewportHeight = DOMUtil.getViewportHeight();
 
-  resetHeight() {
-    this.heightInfo = Util.clone(DEFAULT_HEIGHT);
-  }
-
-  checkContentHeightChange(prevHeightInfo, heightInfo) {
-    let {contentHeight, height, maxHeight, innerContentHeight} = heightInfo;
-    let prevInnerContentHeight = prevHeightInfo.innerContentHeight;
-    let prevHeight = prevHeightInfo.height;
-    let prevContentHeight = prevHeightInfo.contentHeight;
-    let prevMaxHeight = prevHeightInfo.maxHeight;
-
-    // Default update height to whether there is some change in height
-    let update = prevHeight !== height || prevContentHeight !== contentHeight;
-
-    if (prevInnerContentHeight != null) {
-      // Make sure to update heightInfo with new height difference
-      let difference = innerContentHeight - prevInnerContentHeight;
-      if (difference !== 0 && height + difference < maxHeight) {
-        // Changes this.heightInfo as this is a reference
-        heightInfo.height += difference;
-        heightInfo.contentHeight += difference;
-        update = true;
+      // If the height of the viewport is getting shorter, or if it's growing
+      // while the height is currently constrained, then we reset the restrained
+      // height to null which will cause the height to be recalculated on the
+      // next render.
+      if (viewportHeight < this.lastViewportHeight
+        || (viewportHeight > this.lastViewportHeight
+          && this.state.height !== null)) {
+        this.setState({height: null});
       }
 
-      // Make sure to update heightInfo with new max height difference
-      let maxHeightDifference = maxHeight - prevMaxHeight;
-      if (maxHeightDifference > 0 &&
-        (heightInfo.contentHeight + difference < innerContentHeight)) {
-        // Changes this.heightInfo as this is a reference
-        heightInfo.height += maxHeightDifference;
-        heightInfo.contentHeight += maxHeightDifference;
-        update = true;
-      }
-
-    }
-
-    if (update) {
-      this.forceUpdate();
+      this.lastViewportHeight = viewportHeight;
     }
   }
 
-  checkHeight() {
-    let prevHeightInfo = this.heightInfo;
+  calculateContentHeight() {
+    let innerContentHeight = this.refs.innerContent
+      .getBoundingClientRect().height;
+    let innerContentContainerHeight = this.refs.innerContentContainer
+      .getBoundingClientRect().height;
 
-    // Calculate height and call a render on first render cycle
-    this.heightInfo = this.calculateModalHeight();
-    this.checkContentHeightChange(prevHeightInfo, this.heightInfo);
-
-    // This only occurs on first render
-    if (!this.rerendered) {
-      this.rerendered = true;
-      this.forceUpdate();
+    if (innerContentHeight > innerContentContainerHeight) {
+      this.setState({height: innerContentContainerHeight});
     }
   }
 
   closeModal() {
     this.props.onClose();
-  }
-
-  getInnerContentHeight() {
-    if (!this.refs.innerContent) {
-      return null;
-    }
-
-    return DOMUtil.getComputedDimensions(this.refs.innerContent).height;
-  }
-
-  getInnerContainerHeightInfo() {
-    let innerContainer = this.refs.innerContainer;
-    let originalHeight = innerContainer.offsetHeight;
-    let totalContentHeight = this.refs.modal.offsetHeight;
-
-    // Height without padding, margin, border.
-    let contentHeight = DOMUtil.getComputedDimensions(innerContainer).height;
-
-    // Height of padding, margin, border.
-    let outerHeight = originalHeight - contentHeight;
-
-    let innerContentHeight = this.getInnerContentHeight();
-
-    // Modal cannot be bigger than this height. Add 10 for the gemini
-    // horizontal scrollbar.
-    let maxHeight = Math.ceil(
-      window.innerHeight * this.props.maxHeightPercentage
-    ) + 10;
-
-    // We minus the maxHeight with the outerHeight because it will
-    // not show the content correctly due to 'box-sizing: border-box'.
-    if (contentHeight > maxHeight) {
-      contentHeight = maxHeight;
-    }
-
-    return {
-      contentHeight,
-      innerContentHeight,
-      maxHeight,
-      originalHeight,
-      outerHeight,
-      totalContentHeight
-    };
-  }
-
-  calculateModalHeight() {
-    let height = 0;
-    let {
-      contentHeight,
-      innerContentHeight,
-      maxHeight,
-      originalHeight,
-      outerHeight,
-      totalContentHeight
-    } = this.getInnerContainerHeightInfo();
-
-    if (totalContentHeight > maxHeight) {
-      height = maxHeight - (totalContentHeight - originalHeight);
-      contentHeight = height - outerHeight;
-    } else {
-      height = originalHeight;
-    }
-
-    // Default to auto height because we don't want height to be 0. This may
-    // happen when you close a modal and there is no content.
-    if (height == null || height <= 0) {
-      return Util.clone(DEFAULT_HEIGHT);
-    }
-
-    return {height, contentHeight, innerContentHeight, maxHeight};
   }
 
   getCloseButton() {
@@ -235,12 +140,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
     return (
       <div className={props.headerClass}>
-        <div className={props.headerContainerClass}>
-          <h5 className={props.titleClass}>
-            {props.titleText}
-          </h5>
-          {props.subHeader}
-        </div>
+        {props.header}
+        {props.subHeader}
       </div>
     );
   }
@@ -253,34 +154,34 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
     return (
       <div className={props.footerClass}>
-        <div className={props.footerContainerClass}>
-          {props.footer}
-        </div>
+        {props.footer}
       </div>
     );
   }
 
-  getModalContent(useScrollbar, contentHeight) {
-    if (!useScrollbar) {
-      return (
-        <div className={this.props.scrollContainerClass}>
-          {this.props.children}
-        </div>
-      );
+  getModalContent(useGemini) {
+    let modalContent = (
+      <div className={this.props.scrollContainerClass} ref="innerContent">
+        {this.props.children}
+      </div>
+    );
+
+    // If we aren't rendering with Gemini, or we don't know the height of the
+    // modal's content, then we render without Gemini.
+    if (!useGemini || this.state.height == null) {
+      return modalContent;
     }
 
     let geminiContainerStyle = {
-      height: contentHeight
+      height: this.state.height
     };
 
     return (
       <GeminiScrollbar
-        autoshow={true}
+        autoshow={false}
         className="container-scrollable"
         style={geminiContainerStyle}>
-        <div className={this.props.scrollContainerClass} ref="innerContent">
-          {this.props.children}
-        </div>
+        {modalContent}
       </GeminiScrollbar>
     );
   }
@@ -291,27 +192,19 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       return null;
     }
 
-    let calculatedHeight = this.heightInfo;
-    let contentHeight = calculatedHeight.contentHeight;
-
     let modalStyle = null;
-    if (this.props.dynamicHeight) {
-      modalStyle = {height: calculatedHeight.height};
-    }
-
-    let useScrollbar = false;
-    if (this.props.useGemini && calculatedHeight.height !== 'auto') {
-      useScrollbar = true;
+    if (this.state.height != null) {
+      modalStyle = {flexBasis: this.state.height};
     }
 
     return (
       <div ref="modal" className={props.modalClass}>
         {this.getCloseButton()}
         {this.getHeader()}
-        <div className={props.bodyClass} style={modalStyle}>
-          <div ref="innerContainer" className={props.innerBodyClass}>
-            {this.getModalContent(useScrollbar, contentHeight)}
-          </div>
+        <div className={props.bodyClass}
+          style={modalStyle}
+          ref="innerContentContainer">
+          {this.getModalContent(props.useGemini)}
         </div>
         {this.getFooter()}
       </div>
@@ -361,19 +254,13 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
 ModalContents.defaultProps = {
   closeByBackdropClick: true,
-  dynamicHeight: true,
   footer: null,
-  maxHeightPercentage: 0.6,
+  header: null,
   onClose: () => {},
   open: false,
   showHeader: false,
   showFooter: false,
   subHeader: null,
-  titleText: '',
-  transitionNameBackdrop: 'modal-backdrop',
-  transitionAppearTimeoutBackdrop: 300,
-  transitionEnterTimeoutBackdrop: 300,
-  transitionLeaveTimeoutBackdrop: 300,
   transitionNameModal: 'modal',
   transitionAppearTimeoutModal: 300,
   transitionEnterTimeoutModal: 300,
@@ -388,12 +275,9 @@ ModalContents.defaultProps = {
   bodyClass: 'modal-body-wrapper',
   closeButtonClass: 'modal-close',
   footerClass: 'modal-footer',
-  footerContainerClass: 'container',
   headerClass: 'modal-header',
-  headerContainerClass: 'container',
   modalClass: 'modal modal-large',
-  scrollContainerClass: 'modal-body',
-  titleClass: 'modal-header-title flush'
+  scrollContainerClass: 'modal-body'
 };
 
 ModalContents.propTypes = {
@@ -403,11 +287,10 @@ ModalContents.propTypes = {
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
   // Allow resize of modal to fit screen. Defaults to true.
-  dynamicHeight: PropTypes.bool,
   // Optional footer
   footer: PropTypes.object,
-  // Maximum percent of the viewport the modal can be. Defaults to 0.5.
-  maxHeightPercentage: PropTypes.number,
+  // Optional header.
+  header: PropTypes.node,
   // Optional callback function exected when modal is closed.
   onClose: PropTypes.func,
   // True if modal is open, false otherwise.
@@ -418,18 +301,7 @@ ModalContents.propTypes = {
   showFooter: PropTypes.bool,
   // Optional subheader.
   subHeader: PropTypes.node,
-  // Optional title.
-  titleText: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.node
-  ]),
-  // Optional enter and leave transition name for backdrop
-  transitionNameBackdrop: PropTypes.string,
   // Optional enter and leave transition name for modal
-  // Transition lengths, must be non-zero
-  transitionAppearTimeoutBackdrop: PropTypes.number,
-  transitionEnterTimeoutBackdrop: PropTypes.number,
-  transitionLeaveTimeoutBackdrop: PropTypes.number,
   transitionNameModal: PropTypes.string,
   // Transition lengths, must be non-zero
   transitionAppearTimeoutModal: PropTypes.number,
@@ -447,14 +319,10 @@ ModalContents.propTypes = {
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
   footerClass: PropTypes.string,
-  footerContainerClass: PropTypes.string,
   headerClass: PropTypes.string,
-  headerContainerClass: PropTypes.string,
-  innerBodyClass: PropTypes.string,
   modalClass: PropTypes.string,
   modalWrapperClass: PropTypes.string,
-  scrollContainerClass: PropTypes.string,
-  titleClass: PropTypes.string
+  scrollContainerClass: PropTypes.string
 };
 
 module.exports = ModalContents;
