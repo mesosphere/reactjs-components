@@ -220,11 +220,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     let props = this.props;
 
     if (props.closeButton) {
-      return (
-        <button className={props.closeButtonClass} onClick={this.closeModal}>
-          {props.closeButton}
-        </button>
-      );
+      return props.closeButton;
     }
 
     return null;
@@ -402,7 +398,7 @@ ModalContents.defaultProps = {
 
 ModalContents.propTypes = {
   children: PropTypes.node,
-  // Appends a close button to the modal if provided.
+  // Appends whatever value is provided as a close button.
   closeButton: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
