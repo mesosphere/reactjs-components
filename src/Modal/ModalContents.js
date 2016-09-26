@@ -218,20 +218,12 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
   getCloseButton() {
     let props = this.props;
-    if (!props.showCloseButton) {
-      return null;
+
+    if (props.closeButton) {
+      return props.closeButton;
     }
 
-    return (
-      <a
-        className={props.closeButtonClass}
-        onClick={this.closeModal}>
-        <span className={props.closeTitleClass}>
-          Close
-        </span>
-        <i className={props.closeIconClass}></i>
-      </a>
-    );
+    return null;
   }
 
   getHeader() {
@@ -374,7 +366,6 @@ ModalContents.defaultProps = {
   maxHeightPercentage: 0.6,
   onClose: () => {},
   open: false,
-  showCloseButton: false,
   showHeader: false,
   showFooter: false,
   subHeader: null,
@@ -396,8 +387,6 @@ ModalContents.defaultProps = {
   backdropClass: 'modal-backdrop',
   bodyClass: 'modal-body',
   closeButtonClass: 'modal-close',
-  closeIconClass: 'modal-close-icon icon icon-mini icon-mini-white icon-close',
-  closeTitleClass: 'modal-close-title',
   footerClass: 'modal-footer',
   footerContainerClass: 'container',
   headerClass: 'modal-header',
@@ -409,6 +398,8 @@ ModalContents.defaultProps = {
 
 ModalContents.propTypes = {
   children: PropTypes.node,
+  // Appends whatever value is provided as a close button.
+  closeButton: PropTypes.node,
   // Allow closing of modal when click happens outside modal. Defaults to true.
   closeByBackdropClick: PropTypes.bool,
   // Allow resize of modal to fit screen. Defaults to true.
@@ -421,8 +412,6 @@ ModalContents.propTypes = {
   onClose: PropTypes.func,
   // True if modal is open, false otherwise.
   open: PropTypes.bool,
-  // Set true to show explicit close button. Defaults to false.
-  showCloseButton: PropTypes.bool,
   // Set true to show header. Defaults to false.
   showHeader: PropTypes.bool,
   // Set true to show footer. Defaults to false.
@@ -457,8 +446,6 @@ ModalContents.propTypes = {
   backdropClass: PropTypes.string,
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
-  closeIconClass: PropTypes.string,
-  closeTitleClass: PropTypes.string,
   footerClass: PropTypes.string,
   footerContainerClass: PropTypes.string,
   headerClass: PropTypes.string,
