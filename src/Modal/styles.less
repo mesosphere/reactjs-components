@@ -10,15 +10,7 @@
     position: fixed;
     top: 50%;
     transform: translate(-50%, -50%);
-
-    .modal-body {
-      padding: 0;
-    }
-
-  }
-
-  .modal-content-inner {
-    padding: @modal-body-padding-top @modal-body-padding-right @modal-body-padding-bottom @modal-body-padding-left;
+    transition: transform @modal-animation-duration @modal-animation-easing, opacity @modal-animation-duration @modal-animation-easing;`
   }
 
   .modal-backdrop {
@@ -83,54 +75,6 @@
         transition: opacity @modal-animation-duration @modal-animation-easing;
       }
 
-    }
-
-  }
-
-}
-
-& when (@modal-enabled) and (@layout-screen-small-enabled) {
-
-  @media (min-width: @layout-screen-small-min-width) {
-
-    .modal-content-inner {
-      padding: @modal-body-padding-top-screen-small @modal-body-padding-right-screen-small @modal-body-padding-bottom-screen-small @modal-body-padding-left-screen-small;
-    }
-
-  }
-
-}
-
-& when (@modal-enabled) and (@layout-screen-medium-enabled) {
-
-  @media (min-width: @layout-screen-medium-min-width) {
-
-    .modal-content-inner {
-      padding: @modal-body-padding-top-screen-medium @modal-body-padding-right-screen-medium @modal-body-padding-bottom-screen-medium @modal-body-padding-left-screen-medium;
-    }
-
-  }
-
-}
-
-& when (@modal-enabled) and (@layout-screen-large-enabled) {
-
-  @media (min-width: @layout-screen-large-min-width) {
-
-    .modal-content-inner {
-      padding: @modal-body-padding-top-screen-large @modal-body-padding-right-screen-large @modal-body-padding-bottom-screen-large @modal-body-padding-left-screen-large;
-    }
-
-  }
-
-}
-
-& when (@modal-enabled) and (@layout-screen-jumbo-enabled) {
-
-  @media (min-width: @layout-screen-jumbo-min-width) {
-
-    .modal-content-inner {
-      padding: @modal-body-padding-top-screen-jumbo @modal-body-padding-right-screen-jumbo @modal-body-padding-bottom-screen-jumbo @modal-body-padding-left-screen-jumbo;
     }
 
   }
