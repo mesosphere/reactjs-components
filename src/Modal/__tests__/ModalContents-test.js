@@ -41,34 +41,6 @@ describe('ModalContents', function () {
       var modal = instance.getModal();
       expect(TestUtils.isElement(modal)).toEqual(true);
     });
-
-    it('should instruct #getModalContent not to render with scrollbar if useGemini is false',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            open={true}
-            useGemini={false} />
-        );
-        instance.getModalContent = jasmine.createSpy();
-        instance.getModal();
-
-        expect(instance.getModalContent.mostRecentCall.args[0]).toEqual(false);
-      }
-    );
-
-    it('should instruct #getModalContent to render with scrollbar if useGemini is true',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            open={true}
-            useGemini={true} />
-        );
-        instance.getModalContent = jasmine.createSpy();
-        instance.getModal();
-
-        expect(instance.getModalContent).toHaveBeenCalledWith(true);
-      }
-    );
   });
 
   describe('#onClose', function () {

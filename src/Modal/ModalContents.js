@@ -52,7 +52,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
     // If we don't already know the height of the content, we calculate it.
     if (this.props.open && this.props.useGemini && this.state.height == null) {
-      window.requestAnimationFrame(this.calculateContentHeight);
+      global.requestAnimationFrame(this.calculateContentHeight);
     }
   }
 
@@ -88,8 +88,10 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   handleWindowResize() {
+    let {props, state} = this;
+
     // Recalculate the height of the modal if it's open and using Gemini.
-    if (this.props.open && this.props.useGemini) {
+    if (props.open && props.useGemini) {
       let viewportHeight = DOMUtil.getViewportHeight();
 
       // If the height of the viewport is getting shorter, or if it's growing
@@ -98,7 +100,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       // next render.
       if (viewportHeight < this.lastViewportHeight
         || (viewportHeight > this.lastViewportHeight
-          && this.state.height !== null)) {
+          && state.height !== null)) {
         this.setState({height: null});
       }
 
@@ -122,7 +124,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   getCloseButton() {
-    let props = this.props;
+    let {props} = this;
 
     if (props.closeButton) {
       return props.closeButton;
@@ -132,7 +134,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   getHeader() {
-    let props = this.props;
+    let {props} = this;
 
     if (props.showHeader === false) {
       return null;
@@ -147,7 +149,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   getFooter() {
-    let props = this.props;
+    let {props} = this;
+
     if (props.showFooter === false) {
       return null;
     }
@@ -159,21 +162,23 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     );
   }
 
-  getModalContent(useGemini) {
+  getModalContent() {
+    let {props, state} = this;
+
     let modalContent = (
-      <div className={this.props.scrollContainerClass} ref="innerContent">
-        {this.props.children}
+      <div className={props.scrollContainerClass} ref="innerContent">
+        {props.children}
       </div>
     );
 
     // If we aren't rendering with Gemini, or we don't know the height of the
     // modal's content, then we render without Gemini.
-    if (!useGemini || this.state.height == null) {
+    if (!props.useGemini || state.height == null) {
       return modalContent;
     }
 
     let geminiContainerStyle = {
-      height: this.state.height
+      height: state.height
     };
 
     return (
@@ -187,14 +192,15 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   getModal() {
-    let props = this.props;
+    let {props, state} = this;
+    let modalStyle = null;
+
     if (!props.open) {
       return null;
     }
 
-    let modalStyle = null;
-    if (this.state.height != null) {
-      modalStyle = {flexBasis: this.state.height};
+    if (state.height != null) {
+      modalStyle = {flexBasis: state.height};
     }
 
     return (
@@ -204,7 +210,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
         <div className={props.bodyClass}
           style={modalStyle}
           ref="innerContentContainer">
-          {this.getModalContent(props.useGemini)}
+          {this.getModalContent()}
         </div>
         {this.getFooter()}
       </div>
@@ -212,7 +218,8 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   }
 
   getBackdrop() {
-    let props = this.props;
+    let {props} = this;
+
     if (!props.open) {
       return null;
     }
@@ -224,7 +231,6 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
   render() {
     let {props} = this;
-
     let modalContent = null;
 
     if (props.open) {
