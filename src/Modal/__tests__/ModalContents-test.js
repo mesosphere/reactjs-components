@@ -10,12 +10,6 @@ jest.dontMock('../ModalContents');
 var DOMUtil = require('../../Util/DOMUtil');
 var ModalContents = require('../ModalContents');
 
-// We need to add requestAnimationFrame for the component.
-window.requestAnimationFrame = function (func) {
-  var args = Array.prototype.slice.call(arguments).slice(1);
-  return func.apply(this, args);
-};
-
 describe('ModalContents', function () {
 
   beforeEach(function () {
