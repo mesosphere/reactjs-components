@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import BindMixin from '../../../src/Mixin/BindMixin';
 import CodeBlock from '../components/CodeBlock';
 import ComponentExample from '../components/ComponentExample';
 import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
