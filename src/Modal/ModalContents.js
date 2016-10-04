@@ -90,28 +90,31 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
   handleWindowResize() {
     let {props, state} = this;
 
-    // Recalculate the height of the modal if it's open and using Gemini.
-    if (props.open && props.useGemini) {
-      let viewportHeight = DOMUtil.getViewportHeight();
-
-      // If the height of the viewport is getting shorter, or if it's growing
-      // while the height is currently constrained, then we reset the restrained
-      // height to null which will cause the height to be recalculated on the
-      // next render.
-      if (viewportHeight < this.lastViewportHeight
-        || (viewportHeight > this.lastViewportHeight
-          && state.height !== null)) {
-        this.setState({height: null});
-      }
-
-      this.lastViewportHeight = viewportHeight;
+    // Return early if the modal is closed or not using Gemini.
+    if (!props.open || !props.useGemini) {
+      return;
     }
+
+    let viewportHeight = DOMUtil.getViewportHeight();
+
+    // If the height of the viewport is getting shorter, or if it's growing
+    // while the height is currently constrained, then we reset the restrained
+    // height to null which will cause the height to be recalculated on the
+    // next render.
+    if (viewportHeight < this.lastViewportHeight
+      || (viewportHeight > this.lastViewportHeight
+        && state.height !== null)) {
+      this.setState({height: null});
+    }
+
+    this.lastViewportHeight = viewportHeight;
   }
 
   calculateContentHeight() {
-    let innerContentHeight = this.refs.innerContent
-      .getBoundingClientRect().height;
-    let innerContentContainerHeight = this.refs.innerContentContainer
+    let {innerContent, innerContentContainer} = this.refs;
+
+    let innerContentHeight = innerContent.getBoundingClientRect().height;
+    let innerContentContainerHeight = innerContentContainer
       .getBoundingClientRect().height;
 
     if (innerContentHeight > innerContentContainerHeight) {
