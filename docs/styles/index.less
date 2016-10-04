@@ -1,22 +1,46 @@
-@import "../../node_modules/canvas-ui/styles/canvas.less";
-@import "./component-documentation.less";
-@import "./example-block.less";
-@import "./page-content.less";
-@import "./header.less";
-@import "./page-header.less";
+/* Config */
 
-// Import all styles for all components
-@import (inline) "../../node_modules/gemini-scrollbar/gemini-scrollbar.css";
-@import "../../src/overrides/gemini-scrollbar.less";
+@path-images:                                                                   '../images/';
+@path-fonts:                                                                    '../fonts/';
 
-@import "../../src/Dropdown/dropdown.less";
-@import "../../src/Form/form.less";
-@import "../../src/List/list.less";
-@import "../../src/Modal/modal.less";
-@import "../../src/SidePanel/side-panel.less";
-@import "../../src/Table/table.less";
-@import "../../src/Tooltip/tooltip.less";
-@import "../../src/Util/global.less";
+// Disabling stylelint for the following Javascript.
+/* stylelint-disable */
+@cache-clear:                                                                   `Math.floor((Math.random() * 1000000000) + 1)`;
+/* stylelint-enable */
 
-// Import docs less files
-@import "../src/Dropdown/index.less";
+/* Canvas */
+@import '../../node_modules/cnvs/styles/canvas.less';
+
+/* Layout */
+@import 'layout/foundation.less';
+@import 'layout/sidebar.less';
+@import 'layout/navigation.less';
+@import 'layout/page.less';
+@import 'layout/page-header.less';
+
+/* Content */
+@import 'content/code/prettyprint.less';
+@import 'content/fonts/variables.less';
+@import 'content/fonts/styles.less';
+@import 'content/example-block/styles.less';
+
+/* Components */
+@import 'components/fill/variables.less';
+@import 'components/fill/styles.less';
+
+/* ReactJS Components */
+@import (inline)'../../node_modules/gemini-scrollbar/gemini-scrollbar.css';
+@import '../../src/overrides/gemini-scrollbar.less';
+@import '../../src/Dropdown/styles.less';
+@import '../../src/Form/styles.less';
+@import '../../src/List/styles.less';
+@import '../../src/Modal/styles.less';
+@import '../../src/Table/styles.less';
+@import '../../src/Tooltip/styles.less';
+@import '../../src/index.less';
+
+/* -----------------------------------------------------------------------------
+Documentation-specific styles
+----------------------------------------------------------------------------- */
+@import '../src/Dropdown/styles.less';
+@import '../src/Tooltip/styles.less';

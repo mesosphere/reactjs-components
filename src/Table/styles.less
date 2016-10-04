@@ -1,0 +1,74 @@
+// If you're including this file manually please
+// import these two files in your main less file:
+// * @import "../overrides/gemini-scrollbar.less";
+// * @import (inline) "../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css";
+
+.table {
+
+  th {
+    outline: none;
+    user-select: none;
+  }
+}
+
+.caret {
+  border-left: 0.3em solid transparent;
+  border-right: 0.3em solid transparent;
+  border-top: 0.45em solid fade(@neutral, 50%);
+  display: inline-block;
+  margin-left: 0.5em;
+  opacity: 0;
+  vertical-align: middle;
+  visibility: hidden;
+
+  .inverse & {
+    border-top: 0.45em solid fade(@white, 50%);
+  }
+
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &--asc {
+    transform: rotate(180deg);
+  }
+
+  &--desc {
+    transform: rotate(0);
+  }
+}
+
+@keyframes table-fade-in-left {
+
+  0% {
+    opacity: 0;
+    transform: translateX(-2em);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes table-fade-out-right {
+
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(2em);
+  }
+}
+
+.table-row-enter {
+  animation: table-fade-in-left 0.5s;
+}
+
+.table-row-leave {
+  animation: table-fade-out-right 0.5s;
+}

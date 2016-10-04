@@ -77,7 +77,7 @@ class FieldCheckbox extends FieldRadioButton {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
-      'form-row-element form-element-checkbox',
+      'checkbox form-element-checkbox',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
@@ -102,7 +102,7 @@ class FieldCheckbox extends FieldRadioButton {
     let {columnWidth, formElementClass} = this.props;
 
     return classNames(
-      `form-row-element checkbox column-${columnWidth}`,
+      `form-row-element column-${columnWidth}`,
       formElementClass
     );
   }

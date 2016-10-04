@@ -4,9 +4,10 @@ var React = require('react');
 import ReactDOM from 'react-dom';
 var TestUtils = require('react-addons-test-utils');
 
-jest.dontMock('../ModalContents');
 jest.dontMock('../../Util/DOMUtil');
+jest.dontMock('../ModalContents');
 
+var DOMUtil = require('../../Util/DOMUtil');
 var ModalContents = require('../ModalContents');
 
 describe('ModalContents', function () {
@@ -34,69 +35,6 @@ describe('ModalContents', function () {
       var modal = instance.getModal();
       expect(TestUtils.isElement(modal)).toEqual(true);
     });
-
-    it('should not call for scrollbar when useGemini prop set to false',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            open={true}
-            useGemini={false} />
-        );
-        instance.getModalContent = jasmine.createSpy();
-        instance.getModal();
-
-        expect(instance.getModalContent.mostRecentCall.args[0]).toEqual(false);
-      }
-    );
-
-    it('should use scrollbar if scrollbar enabled and height not auto',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            open={true}
-            useGemini={true} />
-        );
-        instance.getModalContent = jasmine.createSpy();
-        instance.heightInfo.height = '63px';
-        instance.getModal();
-
-        expect(instance.getModalContent).toHaveBeenCalledWith(true, 'auto');
-      }
-    );
-
-    it('should not use scrollbar if height is auto, even if scrollbar enabled',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            open={true}
-            useGemini={true} />
-        );
-        instance.getModalContent = jasmine.createSpy();
-        instance.heightInfo.height = 'auto';
-        instance.getModal();
-
-        expect(instance.getModalContent).toHaveBeenCalledWith(false, 'auto');
-      }
-    );
-
-    it('should dynamically set height if dynamicHeight prop is true',
-      function () {
-        ModalContents.prototype.resetHeight = function () {
-          this.heightInfo = {height: 63};
-        };
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents
-            bodyClass={'target'}
-            open={true}
-            dynamicHeight={true} />
-        );
-        var modal = TestUtils.findRenderedDOMComponentWithClass(
-          instance, 'target'
-        );
-
-        expect(modal.style.height).toEqual('63px');
-      }
-    );
   });
 
   describe('#onClose', function () {
@@ -179,15 +117,15 @@ describe('ModalContents', function () {
   describe('#getCloseButton', function () {
     it('should not return a button if disabled', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents showCloseButton={false} />
+        <ModalContents />
       );
 
       expect(instance.getCloseButton()).toEqual(null);
     });
 
-    it('should return a button if enabled', function () {
+    it('should return a button if closeButton is provided', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents showCloseButton={true} />
+        <ModalContents closeButton={<button>Close</button>} />
       );
 
       var closeButton = instance.getCloseButton();
@@ -196,117 +134,102 @@ describe('ModalContents', function () {
   });
 
   describe('#handleWindowResize', function () {
-    it('should call forceUpdate on resize', function () {
+    beforeEach(function () {
+      var getVeiwportHeightCalls = 0;
+      var viewportHeightValues = [100, 99, 101, 102];
+
+      this.getViewportHeight = DOMUtil.getViewportHeight;
+
+      DOMUtil.getViewportHeight = function () {
+        return viewportHeightValues[getVeiwportHeightCalls++];
+      };
+    });
+
+    afterEach(function () {
+      DOMUtil.getViewportHeight = this.getViewportHeight;
+    });
+
+    it('should store the last viewport height on the instance', function () {
       var instance = TestUtils.renderIntoDocument(
-        <ModalContents open={true} />
+        <ModalContents open={true} useGemini={true} />
       );
 
-      instance.forceUpdate = jasmine.createSpy();
       instance.handleWindowResize();
-      expect(instance.forceUpdate).toHaveBeenCalled();
-    });
-  });
 
-  describe('#calculateModalHeight', function () {
-    beforeEach(function () {
-      this.instance = TestUtils.renderIntoDocument(
-        <ModalContents open={true} />
-      );
-
-      // Mock height calculation
-      this.mockHeight = {};
-      this.instance.getInnerContainerHeightInfo = function () {
-        return this.mockHeight;
-      }.bind(this);
+      expect(instance.lastViewportHeight).toEqual(100);
     });
 
-    it('should default to auto height on invalid input', function () {
-      var calculatedHeight = this.instance.calculateModalHeight();
-      expect(calculatedHeight.height).toEqual('auto');
-    });
-
-    it('should default to auto contentHeight on invalid input', function () {
-      var calculatedHeight = this.instance.calculateModalHeight();
-      expect(calculatedHeight.contentHeight).toEqual('auto');
-    });
-
-    it('should not give a height that is bigger than maxHeight', function () {
-      this.mockHeight = {
-        innerHeight: 500,
-        originalHeight: 600,
-        outerHeight: 100,
-        maxHeight: 500,
-        totalContentHeight: 800
-      };
-
-      var calculatedHeight = this.instance.calculateModalHeight();
-      var headerAndFooterHeight =
-        this.mockHeight.totalContentHeight - this.mockHeight.originalHeight;
-
-      expect(calculatedHeight.height)
-        .toEqual(this.mockHeight.maxHeight - headerAndFooterHeight);
-
-      expect(calculatedHeight.contentHeight)
-        .toEqual(calculatedHeight.height - this.mockHeight.outerHeight);
-    });
-
-    it('should return originalHeight if smaller than maxHeight', function () {
-      this.mockHeight = {
-        innerHeight: 500,
-        originalHeight: 600,
-        outerHeight: 100,
-        maxHeight: 1000,
-        totalContentHeight: 800
-      };
-
-      var calculatedHeight = this.instance.calculateModalHeight();
-
-      expect(calculatedHeight.height).toEqual(this.mockHeight.originalHeight);
-      expect(calculatedHeight.innerHeight).toEqual(this.mockHeight.contentHeight);
-    });
-  });
-
-  describe('#checkContentHeightChange', function () {
-    beforeEach(function () {
-      this.instance = TestUtils.renderIntoDocument(
-        <ModalContents open={true} />
-      );
-    });
-
-    it('should update the heightInfo with the difference between content',
+    it('should reset the height stored in state to null when the viewport ' +
+      'height is shrinking',
       function () {
-        var prevHeightInfo = {innerContentHeight: 200};
-        var heightInfo = {
-          innerContentHeight: 300,
-          contentHeight: 400,
-          height: 500,
-          maxHeight: 1000
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents open={true} useGemini={true} />
+        );
+
+        instance.state.height = 300;
+
+        // The first call returns 100.
+        instance.handleWindowResize();
+        expect(instance.state.height).toEqual(300);
+
+        // The second call returns 99, so the viewport is shrinking and
+        // state.height should be reset to null.
+        instance.handleWindowResize();
+
+        expect(instance.lastViewportHeight).toEqual(99);
+        expect(instance.state.height).toEqual(null);
+      });
+
+    it('should reset the height stored in state to null when the viewport ' +
+      'height is growing and state.height has previously been calculated',
+      function () {
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents open={true} useGemini={true} />
+        );
+
+        // The first call returns 100.
+        instance.handleWindowResize();
+        expect(instance.state.height).toEqual(null);
+        // The second call returns 99, so the viewport is shrinking and
+        // state.height should be reset to null.
+        instance.handleWindowResize();
+        expect(instance.state.height).toEqual(null);
+        // The third call returns 101, so the viewport height is growing, but
+        // state.height should already be null.
+        instance.handleWindowResize();
+        expect(instance.state.height).toEqual(null);
+        expect(instance.lastViewportHeight).toEqual(101);
+        // We explicitly set state to 300 so that the next resize handler call
+        // will trigger setState.
+        instance.state.height = 300;
+        // The fourth call returns 102, so the viewport height is growing, and
+        // state.height is not null, so the fourth call should trigger a setState
+        // with the height as null.
+        instance.handleWindowResize();
+        expect(instance.state.height).toEqual(null);
+      });
+  });
+
+  describe('#calculateContentHeight', function () {
+    it('sets state.height to the height of the innerContentContainer if ' +
+      'innerContentHeight is larger than innerContentContainerHeight',
+      function () {
+        var instance = TestUtils.renderIntoDocument(
+          <ModalContents open={true} useGemini={true} />
+        );
+
+        instance.refs.innerContent.getBoundingClientRect = function () {
+          return {height: 400};
         };
 
-        this.instance.checkContentHeightChange(prevHeightInfo, heightInfo);
+        instance.refs.innerContentContainer.getBoundingClientRect = function () {
+          return {height: 200};
+        };
 
-        // Adds the difference between the innerContentHeights to contentHeight
-        // and height.
-        expect(heightInfo.contentHeight).toEqual(500);
-        expect(heightInfo.height).toEqual(600);
-      }
-    );
+        instance.calculateContentHeight();
 
-    it('should update the heightInfo if maxHeight gets bigger', function () {
-      var prevHeightInfo = {innerContentHeight: 600, maxHeight: 400};
-      var heightInfo = {
-        innerContentHeight: 600,
-        maxHeight: 500,
-        contentHeight: 350,
-        height: 400
-      };
-
-      this.instance.checkContentHeightChange(prevHeightInfo, heightInfo);
-
-      // Adds the difference between the maxHeights to contentHeight and height.
-      expect(heightInfo.contentHeight).toEqual(450);
-      expect(heightInfo.height).toEqual(500);
-    });
+        expect(instance.state.height).toEqual(200);
+      });
   });
 
   describe('overflow hidden on body', function () {
@@ -352,7 +275,8 @@ describe('ModalContents', function () {
       ReactDOM.render(<ModalContents open={true} />, this.node);
       ReactDOM.render(<div />, this.node);
 
-      expect(document.body.classList.remove).toHaveBeenCalledWith('no-overflow');
+      expect(document.body.classList.remove)
+        .toHaveBeenCalledWith('no-overflow');
     });
   });
 });

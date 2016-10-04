@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import CodeBlock from '../components/CodeBlock';
+import ComponentExample from '../components/ComponentExample';
+import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
 import ComponentWrapper from '../components/ComponentWrapper';
 import Modal from '../../../src/Modal/Modal.js';
 import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
@@ -41,8 +44,8 @@ class ModalExample extends React.Component {
           Style modals with optional header, footer, transition, and more.
         </p>
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Modal/ModalContents.js)'} />
-        <div className="example-block flush-bottom">
-          <div className="example-block-content">
+        <ComponentExampleWrapper>
+          <ComponentExample>
             <div className="row row-flex">
               <div className="column-12">
                 <p>Here is a modal with a title and footer.</p>
@@ -50,12 +53,13 @@ class ModalExample extends React.Component {
                   onClick={this.handleModalOpen}>
                   Open Modal
                 </button>
-                <Modal open={this.state.open}
+                <Modal
                   footer={this.getModalFooter()}
-                  showHeader={true}
+                  header={<h5 className="modal-header-title flush">Modal Header</h5>}
                   onClose={this.handleModalClose}
-                  size="large"
-                  titleText="Modal">
+                  open={this.state.open}
+                  showFooter={true}
+                  showHeader={true}>
                   <div>
                     <div className="container-pod">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nisl dolor, finibus vel egestas et, scelerisque placerat quam.Etiam purus mauris, tempor vel lorem vitae, finibus semper tortor. Nulla nisi nisl, tempus vitae risus ut, gravida elementum purus.Cras scelerisque quis velit at aliquet. Aenean congue faucibus magna nec pellentesque. Nulla facilisi. Etiam feugiat consequat metus,eget consectetur erat sollicitudin in. Maecenas posuere lorem lorem, eu porttitor leo fermentum at. Phasellus volutpat,neque at faucibus dapibus, odio quam molestie lorem, vel gravida lectus diam sit amet neque. Cras ultricies auctor diam,a varius massa eleifend quis. Nulla nec rhoncus odio
@@ -76,9 +80,8 @@ class ModalExample extends React.Component {
                 </Modal>
               </div>
             </div>
-          </div>
-          <div className="example-block-footer example-block-footer-codeblock">
-            <pre className="prettyprint linenums flush-bottom">
+          </ComponentExample>
+          <CodeBlock>
 {`import {Modal} from 'reactjs-components';
 import React from 'react';
 
@@ -125,7 +128,7 @@ class ModalExample extends React.Component {
           showFooter={true}
           onClose={this.handleModalClose}
           size="large"
-          titleText="Modal">
+          header={<h5 className="modal-header-title flush">Modal</h5>}>
           <div>
             Words words words
           </div>
@@ -133,14 +136,12 @@ class ModalExample extends React.Component {
       </div>
     )
   }
-}
-`}
-            </pre>
-          </div>
-        </div>
+}`}
+          </CodeBlock>
+        </ComponentExampleWrapper>
       </ComponentWrapper>
     );
   }
 }
 
-ReactDOM.render(<ModalExample />, document.getElementById('modal'));
+module.exports = ModalExample;

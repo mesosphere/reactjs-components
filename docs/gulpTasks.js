@@ -11,6 +11,7 @@ var minifyCSS = require('gulp-minify-css');
 var path = require('path');
 var replace = require('gulp-replace');
 var sourcemaps = require('gulp-sourcemaps');
+var stylelint = require('gulp-stylelint');
 var uglify = require('gulp-uglify');
 var webpack = require('webpack');
 
@@ -48,13 +49,18 @@ function eslintFn() {
 
 gulp.task('docs:eslint', eslintFn);
 
+gulp.task('docs:fonts', function () {
+  return gulp.src(config.files.docs.srcFonts)
+    .pipe(gulp.dest(config.dirs.docs.distFonts));
+});
+
 gulp.task('docs:html', function () {
   return gulp.src(config.files.docs.srcHTML)
     .pipe(gulp.dest(config.dirs.docs.dist))
     .on('end', browserSyncReload);
 });
 
-gulp.task('docs:less', function () {
+gulp.task('docs:less', ['docs:stylelint'], function () {
   return gulp.src(config.files.docs.srcCSS, {read: true}, {ignorePath: 'src'})
     .pipe(sourcemaps.init())
     .pipe(less({
@@ -87,6 +93,19 @@ gulp.task('docs:minify-js', ['docs:replace-js-strings'], function () {
     .pipe(gulp.dest(config.dirs.docs.distJS));
 });
 
+
+gulp.task('docs:stylelint', function () {
+  return gulp.src([
+      config.dirs.docs.srcCSS + '/**/*.less',
+      config.dirs.docs.srcJS + '/**/*.less'
+    ])
+    .pipe(stylelint({
+      reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
 function replaceJsStringsFn() {
   return gulp.src(config.files.docs.distJS)
     .pipe(replace(/PROPTYPES_BLOCK\((.*?)\)/g, function(match, srcPath) {
@@ -115,6 +134,7 @@ gulp.task(
 gulp.task('docs:watch', function () {
   gulp.watch(config.files.docs.srcHTML, ['docs:html']);
   gulp.watch([
+    config.dirs.docs.srcJS + '/**/*.less',
     config.dirs.docs.srcCSS + '/**/*.less',
     config.dirs.srcCSS + '/**/*.less'
   ], ['docs:less']);
@@ -154,6 +174,7 @@ gulp.task('docs:webpack', function (callback) {
 gulp.task('docs:default', [
   'docs:webpack',
   'docs:eslint',
+  'docs:fonts',
   'docs:replace-js-strings',
   'docs:less',
   'docs:html'

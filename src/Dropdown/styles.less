@@ -1,0 +1,196 @@
+@keyframes dropdown-down-enter {
+
+  0% {
+    transform: translateY(-30px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-down-leave {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-30px);
+  }
+}
+
+@keyframes dropdown-up-enter {
+
+  0% {
+    transform: translateY(30px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdown-up-leave {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(30px);
+  }
+}
+
+@keyframes dropdown-fade-in {
+
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes dropdown-fade-out {
+
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.dropdown {
+  display: inline-block;
+  outline: none;
+
+  &.open {
+
+    .dropdown-toggle {
+      z-index: 4;
+    }
+
+    .dropdown-menu {
+      z-index: 3;
+
+      &.inverse {
+
+        li {
+
+          &.is-selectable {
+            color: #fff;
+
+            &:hover {
+              background: #51596a;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.dropdown-toggle {
+  position: relatlive;
+  z-index: 2;
+
+  &:after {
+
+    .open & {
+      // translate hack activates gpu to prevent jerky animation bug
+      transform: rotate(180deg) translate3d(0, 0, 0);
+    }
+  }
+}
+
+.dropdown-menu {
+  // This can be removed when Canvas is updated to toggle visibility: visible
+  display: block !important;
+  position: fixed;
+  z-index: 1;
+
+  &.up {
+    bottom: 100%;
+    margin-bottom: 5px;
+    top: auto;
+    transform-origin: bottom center;
+  }
+
+  &.down {
+    bottom: auto;
+    margin-top: 5px;
+    top: 100%;
+    transform-origin: top center;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  .small {
+    font-size: 1em;
+  }
+}
+
+.dropdown-menu-concealer {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.dropdown-menu-down-enter {
+  animation: dropdown-fade-in 250ms both, dropdown-down-enter 250ms both;
+}
+
+.dropdown-menu-down-leave {
+  animation: dropdown-fade-out 250ms both, dropdown-down-leave 250ms both;
+  z-index: 3;
+}
+
+.dropdown-menu-up-enter {
+  animation: dropdown-fade-in 250ms both, dropdown-up-enter 250ms both;
+}
+
+.dropdown-menu-up-leave {
+  animation: dropdown-fade-out 250ms both, dropdown-up-leave 250ms both;
+  z-index: 3;
+}
+
+.dropdown-menu-list {
+
+  ul {
+    margin-bottom: 0;
+  }
+
+  li {
+    cursor: default;
+
+    &.is-selectable {
+      cursor: pointer;
+
+      &:hover {
+        background: #f5f5f6;
+      }
+    }
+
+    &.dropdown-menu-header {
+      color: #adb0b8;
+      font-size: 10px;
+      font-weight: 400;
+      margin: 14px 0 3px;
+      padding-bottom: 0;
+      padding-top: 0;
+      text-transform: uppercase;
+    }
+
+    &.dropdown-menu-divider {
+      background: #ebebed;
+      height: 1px;
+      margin: 9px 0;
+      padding: 0;
+    }
+  }
+}
