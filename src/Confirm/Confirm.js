@@ -51,7 +51,6 @@ class Confirm extends React.Component {
         showCloseButton={false}
         showFooter={true}
         footer={this.getButtons()}
-        titleClass="modal-header-title text-align-center flush-top flush-bottom"
         {...props}>
         {this.props.children}
       </Modal>
