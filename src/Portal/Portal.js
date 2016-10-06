@@ -18,7 +18,13 @@ class Portal extends React.Component {
   }
 
   renderChildren(props) {
-    ReactDOM.render(props.children, this.nodeEl);
+    let {children} = props;
+
+    if (children == null) {
+      children = <div />;
+    }
+
+    ReactDOM.render(children, this.nodeEl, this.props.onRender);
   }
 
   render() {
@@ -27,7 +33,8 @@ class Portal extends React.Component {
 }
 
 Portal.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node,
+  onRender: PropTypes.func
 };
 
 module.exports = Portal;
