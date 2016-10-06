@@ -110,8 +110,6 @@
 .dropdown-menu {
   // This can be removed when Canvas is updated to toggle visibility: visible
   display: block !important;
-  padding-bottom: 0;
-  padding-top: 0;
   position: fixed;
   z-index: 1;
 
@@ -138,18 +136,12 @@
   }
 }
 
-.dropdown-menu-items {
-  padding-bottom: 0.5rem;
-  padding-top: 0.5rem;
-}
-
 .dropdown-menu-concealer {
-  pointer-events: none;
+  opacity: 0;
   visibility: hidden;
 }
 
-.dropdown-menu-down-enter,
-.dropdown-menu-down-enter-active {
+.dropdown-menu-down-enter {
   animation: dropdown-fade-in 250ms both, dropdown-down-enter 250ms both;
 }
 
