@@ -3,6 +3,7 @@ var Dropdown = require('./lib/Dropdown/Dropdown');
 var Form = require('./lib/Form/Form');
 var List = require('./lib/List/List');
 var Modal = require('./lib/Modal/Modal');
+var Portal = require('./lib/Portal/Portal');
 var Table = require('./lib/Table/Table');
 var Tooltip = require('./lib/Tooltip/Tooltip');
 
@@ -12,6 +13,7 @@ module.exports = {
   Form: Form,
   List: List,
   Modal: Modal,
+  Portal: Portal,
   Table: Table,
   Tooltip: Tooltip
 };
