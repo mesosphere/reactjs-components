@@ -11,6 +11,7 @@ import Portal from '../Portal/Portal.js';
 import Util from '../Util/Util';
 
 class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
+
   get methodsToBind() {
     return [
       'closeDropdown',
@@ -34,7 +35,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
       maxDropdownHeight: null,
       menuDirection: 'down',
       menuHeight: null,
-      menuPosition: null,
+      menuPositionStyle: null,
       isOpen: false,
       renderHidden: false,
       selectedID: null
@@ -65,10 +66,80 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
+  handleExternalClick() {
+    if (this.state.isOpen) {
+      this.setState({
+        isOpen: false
+      });
+    }
+  }
+
+  handleItemClick(item) {
+    let props = this.props;
+    props.onItemSelection(item);
+
+    let newState = {isOpen: false};
+    // Only set the selectedID if persistentID is not set
+    if (!props.persistentID) {
+      newState.selectedID = item.id;
+    }
+
+    this.setState(newState);
+    this.removeBlurTimeout();
+  }
+
+  handleWrapperBlur() {
+    this.removeBlurTimeout();
+
+    this.currentBlurTimeout = setTimeout(() => {
+      this.closeDropdown();
+    }, 150);
+
+    // We need to remove focus from the button to avoid this event firing again
+    // when we open the dropdown
+    global.focus();
+  }
+
+  handleMenuToggle(e) {
+    e.stopPropagation();
+
+    if (this.state.isOpen) {
+      this.closeDropdown();
+    } else {
+      this.openDropdown();
+    }
+
+    this.removeBlurTimeout();
+  }
+
+  handleMenuRender() {
+    // If the menu is hidden while rendering, then we need to calculate its
+    // optimal location and then un-hide it.
+    if (this.state.renderHidden) {
+      this.determineOptimalMenuLocation();
+    }
+  }
+
+  addScrollListener() {
+    this.container.addEventListener('scroll', this.closeDropdown);
+  }
+
+  removeScrollListener() {
+    if (this.container) {
+      this.container.removeEventListener('scroll', this.closeDropdown);
+    }
+  }
+
+  removeBlurTimeout() {
+    if (this.currentBlurTimeout) {
+      global.clearTimeout(this.currentBlurTimeout);
+    }
+  }
+
   determineOptimalMenuLocation() {
     let height = null;
-    let direction = this.state.menuDirection;
-    let position = {};
+    let menuDirection = this.state.menuDirection;
+    let menuPositionStyle = {};
     let spaceAroundDropdownButton = DOMUtil
       .getNodeClearance(this.refs.dropdownWrapper);
     let menuHeight = this.state.menuHeight
@@ -87,24 +158,24 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     if ((isMenuTallerThanBottom && isMenuShorterThanTop) ||
       (isMenuTallerThanBottom && isMenuTallerThanTop
         && isTopTallerThanBottom)) {
-      direction = 'up';
-      position.bottom = spaceAroundDropdownButton.bottom
+      menuDirection = 'up';
+      menuPositionStyle.bottom = spaceAroundDropdownButton.bottom
         + spaceAroundDropdownButton.boundingRect.height;
       height = spaceAroundDropdownButton.top;
     } else {
-      direction = 'down';
-      position.top = spaceAroundDropdownButton.top
+      menuDirection = 'down';
+      menuPositionStyle.top = spaceAroundDropdownButton.top
         + spaceAroundDropdownButton.boundingRect.height;
       height = spaceAroundDropdownButton.bottom;
     }
 
     if (this.props.matchButtonWidth) {
-      position.left = spaceAroundDropdownButton.left;
-      position.right = spaceAroundDropdownButton.right;
+      menuPositionStyle.left = spaceAroundDropdownButton.left;
+      menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else if (this.props.anchorRight) {
-      position.right = spaceAroundDropdownButton.right;
+      menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else {
-      position.left = spaceAroundDropdownButton.left;
+      menuPositionStyle.left = spaceAroundDropdownButton.left;
     }
 
     // We assume that 125 pixels is the smallest height we should render.
@@ -113,24 +184,34 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     }
 
     this.setState({
-      menuDirection: direction,
+      menuDirection,
       maxDropdownHeight: height,
       menuHeight,
-      menuPosition: position,
+      menuPositionStyle,
       renderHidden: false
     });
   }
 
-  handleMenuRender() {
-    // If the menu is hidden while rendering, then we need to calculate its
-    // optimal location and then un-hide it.
-    if (this.state.renderHidden) {
-      this.determineOptimalMenuLocation();
-    }
-  }
+  openDropdown() {
+    let state = Object.assign({}, this.state);
 
-  addScrollListener() {
-    this.container.addEventListener('scroll', this.closeDropdown);
+    state.isOpen = true;
+    state.renderHidden = true;
+
+    // If we don't already know the menu height, we need to set the menu
+    // position to a default state to trigger its recalculation on the next
+    // render.
+    if (this.state.menuHeight == null) {
+      let buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
+
+      state.menuDirection = 'down';
+      state.menuPositionStyle = {
+        top: buttonPosition.top + buttonPosition.height,
+        left: buttonPosition.left
+      };
+    }
+
+    this.setState(state);
   }
 
   closeDropdown() {
@@ -205,86 +286,6 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     return this.props.persistentID || this.state.selectedID;
   }
 
-  removeScrollListener() {
-    if (this.container) {
-      this.container.removeEventListener('scroll', this.closeDropdown);
-    }
-  }
-
-  removeBlurTimeout() {
-    if (this.currentBlurTimeout) {
-      global.clearTimeout(this.currentBlurTimeout);
-    }
-  }
-
-  handleExternalClick() {
-    if (this.state.isOpen) {
-      this.setState({
-        isOpen: false
-      });
-    }
-  }
-
-  handleItemClick(item) {
-    let props = this.props;
-    props.onItemSelection(item);
-
-    let newState = {isOpen: false};
-    // Only set the selectedID if persistentID is not set
-    if (!props.persistentID) {
-      newState.selectedID = item.id;
-    }
-
-    this.setState(newState);
-    this.removeBlurTimeout();
-  }
-
-  handleWrapperBlur() {
-    this.removeBlurTimeout();
-
-    this.currentBlurTimeout = setTimeout(() => {
-      this.closeDropdown();
-    }, 150);
-
-    // We need to remove focus from the button to avoid this event firing again
-    // when we open the dropdown
-    global.focus();
-  }
-
-  handleMenuToggle(e) {
-    e.stopPropagation();
-
-    if (this.state.isOpen) {
-      this.closeDropdown();
-    } else {
-      this.openDropdown();
-    }
-
-    this.removeBlurTimeout();
-  }
-
-  openDropdown() {
-    let state = Object.assign({}, this.state);
-
-    state.isOpen = true;
-    state.renderHidden = true;
-
-    // If we don't already know the menu height, we need to set the menu
-    // position to a default sate to trigger its recalculation on the next
-    // render.
-    if (this.state.menuHeight == null) {
-      let buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
-
-      state.menuDirection = 'down';
-      state.menuPosition = {
-        top: buttonPosition.top + buttonPosition.height,
-        left: buttonPosition.left
-      };
-    }
-
-    this.setState(state);
-  }
-
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
@@ -350,7 +351,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
           className={dropdownMenuClassSet}
           role="menu"
           ref="dropdownMenu"
-          style={state.menuPosition}>
+          style={state.menuPositionStyle}>
           <div className={props.dropdownMenuListClassName}>
             {dropdownMenuItems}
           </div>
