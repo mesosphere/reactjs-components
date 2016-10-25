@@ -289,7 +289,7 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
     let {props, state} = this;
-    let dropdownMenu = null;
+    let dropdownMenu = <div key="placeholder-element" />;
     let dropdownMenuClassSet = classNames(
       state.menuDirection,
       props.dropdownMenuClassName
