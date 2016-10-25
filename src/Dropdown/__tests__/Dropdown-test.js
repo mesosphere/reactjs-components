@@ -29,14 +29,20 @@ describe('Dropdown', function () {
     );
   });
 
+  afterEach(function () {
+    Array.prototype.slice.call(document.body.children).forEach(
+      function (node) {
+        document.body.removeChild(node);
+      }
+    );
+  });
+
   it('should display a dropdown menu when the button is clicked', function () {
     // Click on the dropdown button to open the menu
     TestUtils.Simulate.click(this.instance.refs.button);
     // Find the dropdown menu in the DOM
-    var dropdownMenu = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'dropdown-menu'
-    );
-    expect(dropdownMenu.length).toEqual(1);
+    var dropdownMenu = document.body.querySelectorAll('.dropdown-menu');
+    expect(Array.prototype.slice.call(dropdownMenu).length).toEqual(1);
   });
 
   it('should remove the dropdown menu when it loses focus', function () {
@@ -64,9 +70,7 @@ describe('Dropdown', function () {
     // Click on the dropdown button to open the menu
     TestUtils.Simulate.click(this.instance.refs.button);
     // Find the selectable menu items
-    var selectableElements = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'is-selectable'
-    );
+    var selectableElements = document.body.querySelectorAll('.dropdown-menu .is-selectable');
     // Click on the first menu item returned, which we know to be selectable
     TestUtils.Simulate.click(selectableElements[0]);
     expect(this.callback).toHaveBeenCalled();
@@ -76,9 +80,7 @@ describe('Dropdown', function () {
     // Click on the dropdown button to open the menu
     TestUtils.Simulate.click(this.instance.refs.button);
     // Find the selectable menu items
-    var selectableElements = TestUtils.scryRenderedDOMComponentsWithClass(
-      this.instance, 'is-selectable'
-    );
+    var selectableElements = document.body.querySelectorAll('.dropdown-menu .is-selectable');
     // Click on the second menu item returned, which we know to be "Baz"
     TestUtils.Simulate.click(selectableElements[1]);
     var buttonText = ReactDOM.findDOMNode(this.instance.refs.button).textContent;
