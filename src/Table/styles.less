@@ -15,19 +15,16 @@
   border-left: 0.3em solid transparent;
   border-right: 0.3em solid transparent;
   border-top: 0.45em solid fade(@neutral, 50%);
-  display: inline-block;
+  display: none;
   margin-left: 0.5em;
-  opacity: 0;
   vertical-align: middle;
-  visibility: hidden;
 
   .inverse & {
     border-top: 0.45em solid fade(@white, 50%);
   }
 
   &--visible {
-    opacity: 1;
-    visibility: visible;
+    display: inline-block;
   }
 
   &--asc {
