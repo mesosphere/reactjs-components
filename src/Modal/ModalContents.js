@@ -1,3 +1,4 @@
+import classNames from 'classnames/dedupe';
 import GeminiScrollbar from 'react-gemini-scrollbar';
 /* eslint-disable no-unused-vars */
 import React, {PropTypes} from 'react';
@@ -238,7 +239,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
 
     if (props.open) {
       modalContent = (
-        <div className={props.modalWrapperClass}>
+        <div className={classNames('modal-wrapper', props.modalWrapperClass)}>
           {this.getBackdrop()}
           {this.getModal()}
         </div>
@@ -286,7 +287,6 @@ ModalContents.defaultProps = {
   footerClass: 'modal-footer',
   headerClass: 'modal-header',
   modalClass: 'modal modal-large',
-  modalWrapperClass: 'modal-wrapper',
   scrollContainerClass: 'modal-body'
 };
 
