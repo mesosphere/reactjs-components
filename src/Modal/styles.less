@@ -4,12 +4,17 @@
 // * @import (inline) '../../react-gemini-scrollbar/node_modules/gemini-scrollbar/gemini-scrollbar.css';
 
 & when (@modal-enabled) {
+  .modal-wrapper {
+    position: fixed;
+    z-index: @z-index-modal;
+  }
 
   .modal {
     left: 50%;
     position: fixed;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: auto;
   }
 
   .modal-body-wrapper {
@@ -32,6 +37,7 @@
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: auto;
   }
 
   .modal-enter,

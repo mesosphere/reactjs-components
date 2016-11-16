@@ -286,6 +286,7 @@ ModalContents.defaultProps = {
   footerClass: 'modal-footer',
   headerClass: 'modal-header',
   modalClass: 'modal modal-large',
+  modalWrapperClass: 'modal-wrapper',
   scrollContainerClass: 'modal-body'
 };
 
