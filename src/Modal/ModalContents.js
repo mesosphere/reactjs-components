@@ -181,6 +181,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       return modalContent;
     }
 
+    let geminiClasses = classNames('container-scrollable', props.geminiClass);
     let geminiContainerStyle = {
       height: state.height
     };
@@ -188,7 +189,7 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     return (
       <GeminiScrollbar
         autoshow={false}
-        className="container-scrollable"
+        className={geminiClasses}
         style={geminiContainerStyle}>
         {modalContent}
       </GeminiScrollbar>
@@ -329,6 +330,11 @@ ModalContents.propTypes = {
   bodyClass: PropTypes.string,
   closeButtonClass: PropTypes.string,
   footerClass: PropTypes.string,
+  geminiClass: PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.object,
+    React.PropTypes.string
+  ]),
   headerClass: PropTypes.string,
   modalClass: PropTypes.string,
   modalWrapperClass: PropTypes.string,
