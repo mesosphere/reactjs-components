@@ -175,16 +175,20 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       </div>
     );
 
-    // If we aren't rendering with Gemini, or we don't know the height of the
-    // modal's content, then we render without Gemini.
-    if (!props.useGemini || state.height == null) {
+    // If the consume disables gemini or we don't know the height, then we
+    // don't render with Gemini, unless the consumer is using specifying a
+    // custom height.
+    if ((!props.useGemini || state.height == null)
+      && props.modalHeight == null) {
       return modalContent;
     }
 
     let geminiClasses = classNames('container-scrollable', props.geminiClass);
-    let geminiContainerStyle = {
-      height: state.height
-    };
+    let geminiContainerStyle = {height: state.height};
+
+    if (props.modalHeight) {
+      geminiContainerStyle.height = props.modalHeight;
+    }
 
     return (
       <GeminiScrollbar
@@ -302,6 +306,8 @@ ModalContents.propTypes = {
   footer: PropTypes.object,
   // Optional header.
   header: PropTypes.node,
+  // Specify a custom modal height.
+  modalHeight: PropTypes.string,
   // Optional callback function exected when modal is closed.
   onClose: PropTypes.func,
   // True if modal is open, false otherwise.
