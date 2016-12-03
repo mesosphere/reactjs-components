@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import FieldRadioButton from './FieldRadioButton';
-import IconCheckbox from './icons/IconCheckbox';
 import Util from '../Util/Util';
 
 class FieldCheckbox extends FieldRadioButton {
@@ -77,10 +76,15 @@ class FieldCheckbox extends FieldRadioButton {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
-      'checkbox form-element-checkbox',
+      'form-control-toggle form-control-toggle-custom',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
+    );
+
+    let indicatorClasses = classNames(
+      'form-control-toggle-indicator',
+      attributes.indicatorClass
     );
 
     return (
@@ -90,9 +94,7 @@ class FieldCheckbox extends FieldRadioButton {
           ref={attributes.name}
           type="checkbox"
           {...attributes} />
-        <span className="form-element-checkbox-decoy">
-          <IconCheckbox labelClass={labelClass} {...attributes} />
-        </span>
+        <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
       </label>
     );

@@ -2,7 +2,6 @@ import classNames from 'classnames/dedupe';
 import React from 'react';
 
 import BindMixin from '../Mixin/BindMixin';
-import IconRadioButton from './icons/IconRadioButton';
 import Util from '../Util/Util';
 
 class FieldRadioButton extends Util.mixin(BindMixin) {
@@ -97,10 +96,15 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
   getItem(eventName, labelClass, attributes, index) {
     let labelClasses = classNames(
-      'radio-button form-element-radio-button',
+      'form-control-toggle form-control-toggle-custom',
       labelClass,
       {mute: attributes.disabled},
       attributes.labelClass
+    );
+
+    let indicatorClasses = classNames(
+      'form-control-toggle-indicator',
+      attributes.indicatorClass
     );
 
     return (
@@ -109,9 +113,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           type="radio"
           {...attributes} />
-        <span className="form-element-radio-button-decoy">
-          <IconRadioButton labelClass={labelClass} {...attributes} />
-        </span>
+        <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
       </label>
     );

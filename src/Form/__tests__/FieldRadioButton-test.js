@@ -1,12 +1,10 @@
 jest.dontMock('../FieldRadioButton');
-jest.dontMock('../icons/IconRadioButton');
 
 /* eslint-disable no-unused-vars */
 var React = require('react');
 /* eslint-enable no-unused-vars */
 var TestUtils = require('react-addons-test-utils');
 
-var IconRadioButton = require('../icons/IconRadioButton');
 var FieldRadioButton = require('../FieldRadioButton');
 
 describe('FieldRadioButton', function () {
@@ -116,9 +114,9 @@ describe('FieldRadioButton', function () {
           ]}
           labelClass="foo" />
       );
-      this.children = TestUtils.scryRenderedComponentsWithType(
+      this.children = TestUtils.scryRenderedDOMComponentsWithTag(
         this.instance,
-        IconRadioButton
+        'label'
       );
 
       this.inputChildren = TestUtils.scryRenderedDOMComponentsWithTag(
@@ -137,20 +135,13 @@ describe('FieldRadioButton', function () {
       expect(instance.getItems()).toEqual([]);
     });
 
-    it('should return an instance of IconRadioButton', function () {
-      expect(TestUtils.isCompositeComponentWithType(
-        this.children[0],
-        IconRadioButton
-      )).toEqual(true);
-    });
-
     it('should display items pass in from startValue', function () {
       expect(this.children.length).toEqual(3);
     });
 
     it('should display parent labelClass on all items', function () {
       for (var i = 0; i < this.children.length; i++) {
-        expect(this.children[i].props.labelClass).toEqual('foo');
+        expect(this.children[i].className).toContain('foo');
       }
     });
 
@@ -165,12 +156,12 @@ describe('FieldRadioButton', function () {
           ]}
           labelClass="foo" />
       );
-      var children = TestUtils.scryRenderedComponentsWithType(
+      var children = TestUtils.scryRenderedDOMComponentsWithTag(
         instance,
-        IconRadioButton
+        'label'
       );
 
-      expect(children[1].props.labelClass).toEqual('bar');
+      expect(children[1].className).toContain('bar');
     });
 
     it('should call handler with \'multipleChange\' for items', function () {
@@ -205,9 +196,9 @@ describe('FieldRadioButton', function () {
     });
 
     it('should display the checked of each item', function () {
-      expect(this.children[0].props.checked).toEqual(undefined);
-      expect(this.children[1].props.checked).toEqual(true);
-      expect(this.children[2].props.checked).toEqual(false);
+      expect(this.inputChildren[0].checked).toEqual(false);
+      expect(this.inputChildren[1].checked).toEqual(true);
+      expect(this.inputChildren[2].checked).toEqual(false);
     });
 
     it('should change value of other checked items to false', function () {
