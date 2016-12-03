@@ -109,132 +109,6 @@
     }
   }
 
-  // TODO: Reduce the amount of CSS created here by using a generic classname
-  // for these common elements.
-
-  /* Checkbox and Radio Button Form Elements */
-  .checkbox,
-  .radio-button {
-    padding-left: 0;
-    position: relative;
-
-    &.inverse {
-      color: @label-inverse-color;
-
-      input[type='checkbox'],
-      input[type='radio'] {
-
-        & + .form-element-checkbox-decoy,
-        & + .form-element-radio-button-decoy {
-          border-color: @form-control-inverse-disabled-color;
-        }
-
-        &:checked + .form-element-checkbox-decoy,
-        &:indeterminate + .form-element-checkbox-decoy,
-        &:checked + .form-element-radio-button-decoy {
-          border-color: @form-control-inverse-focus-color;
-        }
-
-        &:disabled + .form-element-checkbox-decoy,
-        &:disabled + .form-element-radio-button-decoy {
-          background: @form-control-inverse-disabled-color;
-          border-color: @form-control-inverse-disabled-color;
-        }
-      }
-    }
-
-    input[type='checkbox'],
-    input[type='radio'] {
-      left: 0;
-      opacity: 0;
-      position: absolute;
-
-      & + .form-element-checkbox-decoy,
-      & + .form-element-radio-button-decoy {
-        border: 1px solid @form-control-border-color;
-        display: inline-block;
-        height: 16px;
-        margin-top: -2px;
-        position: relative;
-        vertical-align: middle;
-        width: 16px;
-
-        svg {
-          display: block;
-        }
-
-        & + .form-element-checkbox-label,
-        & + .form-element-radio-button-label {
-          margin-left: @base-spacing-unit * 1/2;
-        }
-      }
-
-      &:checked + .form-element-checkbox-decoy,
-      &:checked + .form-element-radio-button-decoy,
-      &:indeterminate + .form-element-checkbox-decoy {
-        background: @form-control-focus-color;
-        border-color: @form-control-focus-color;
-      }
-
-      &:disabled {
-
-        & + .form-element-checkbox-decoy {
-
-          &,
-          & + .form-element-checkbox-label {
-            opacity: @form-control-disabled-opacity;
-          }
-        }
-
-        & + .form-element-radio-button-decoy {
-
-          &,
-          & + .form-element-radio-button-label {
-            opacity: @form-control-disabled-opacity;
-          }
-        }
-      }
-    }
-
-    input[type='checkbox'] {
-
-      & + .form-element-checkbox-decoy {
-        border-radius: 3px;
-      }
-    }
-
-    input[type='radio'] {
-
-      & + .form-element-radio-button-decoy {
-        border-radius: 50%;
-        box-sizing: content-box;
-
-        .icon-radio-button {
-          fill: currentColor;
-
-          .icon-radio-button-dot {
-            color: @white;
-          }
-
-          .icon-radio-button-shadow {
-            color: @black;
-          }
-        }
-      }
-
-      &:disabled + .form-element-radio-button-decoy {
-
-        .icon-radio-button {
-
-          // TODO: Figure out an appropriate variable for this element.
-          .icon-radio-button-shadow {
-            color: #c5c5c5;
-          }
-        }
-      }
-    }
-  }
-
   /* 'Textarea' Form Elements: A div with attribute contenteditable='true' */
   .content-editable-wrapper {
     position: relative;
@@ -280,6 +154,10 @@
       resize: none;
     }
   }
+
+  .form-control-toggle-custom {
+    min-height: @toggle-custom-height;
+  }
 }
 
 & when (@form-enabled) and (@layout-screen-small-enabled) {
@@ -304,6 +182,16 @@
       &.filter-input-text-group {
         width: 200px;
       }
+    }
+  }
+}
+
+& when (@form-enabled) and (@layout-screen-large-enabled) {
+
+  @media (min-width: @layout-screen-large-min-width) {
+
+    .form-control-toggle-custom {
+      min-height: @toggle-custom-height-screen-large;
     }
   }
 }
