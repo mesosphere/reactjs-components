@@ -67,7 +67,7 @@
     "webpack": "1.12.13"
   },
   "peerDependencies": {
-    "cnvs": "~1.1.4",
+    "cnvs": "~1.1.x",
     "react": "~0.14.x",
     "react-addons-css-transition-group": "~0.14.x",
     "react-dom": "~0.14.x",
