@@ -13,10 +13,10 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
-import KeyDownMixin from '../Mixin/KeyDownMixin';
+import Keycodes from '../constants/Keycodes';
 import Util from '../Util/Util';
 
-class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
+class ModalContents extends Util.mixin(BindMixin) {
   constructor() {
     super(...arguments);
 
@@ -30,15 +30,11 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
       'calculateContentHeight',
       'closeModal',
       'handleBackdropClick',
+      'handleKeyDown',
       'handleWindowResize'
     ];
   }
 
-  get keysToBind() {
-    return {
-      esc: this.closeModal
-    };
-  }
 
   componentWillReceiveProps(nextProps) {
     super.componentWillReceiveProps(...arguments);
@@ -62,6 +58,11 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     // that the height will be recalculated next time it opens.
     if (this.props.open && !nextProps.open) {
       this.setState({height: null});
+      this.removeKeydownListener();
+    }
+
+    if (!this.props.open && nextProps.open) {
+      this.addKeydownListener();
     }
   }
 
@@ -88,6 +89,12 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
+  handleKeyDown(event) {
+    if (event.keyCode === Keycodes.esc) {
+      this.closeModal();
+    }
+  }
+
   handleWindowResize() {
     let {props, state} = this;
 
@@ -109,6 +116,14 @@ class ModalContents extends Util.mixin(BindMixin, KeyDownMixin) {
     }
 
     this.lastViewportHeight = viewportHeight;
+  }
+
+  addKeydownListener() {
+    global.document.body.addEventListener('keydown', this.handleKeyDown);
+  }
+
+  removeKeydownListener() {
+    global.document.body.removeEventListener('keydown', this.handleKeyDown);
   }
 
   calculateContentHeight() {

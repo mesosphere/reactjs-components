@@ -6,26 +6,21 @@ import ReactDOM from 'react-dom';
 
 import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
-import KeyDownMixin from '../Mixin/KeyDownMixin';
+import Keycodes from '../constants/Keycodes';
 import Portal from '../Portal/Portal.js';
 import Util from '../Util/Util';
 
-class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
+class Dropdown extends Util.mixin(BindMixin) {
 
   get methodsToBind() {
     return [
       'closeDropdown',
       'handleMenuToggle',
       'handleExternalClick',
+      'handleKeyDown',
       'handleMenuRender',
       'handleWrapperBlur'
     ];
-  }
-
-  get keysToBind() {
-    return {
-      esc: this.handleExternalClick
-    };
   }
 
   constructor() {
@@ -59,18 +54,22 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     // If the open state changed, add or remove listener as needed.
     if (nextState.isOpen !== this.state.isOpen) {
       if (nextState.isOpen) {
+        this.addKeydownListener();
         this.addScrollListener();
       } else {
+        this.removeKeydownListener();
         this.removeScrollListener();
       }
     }
   }
 
   handleExternalClick() {
-    if (this.state.isOpen) {
-      this.setState({
-        isOpen: false
-      });
+    this.closeDropdown();
+  }
+
+  handleKeyDown(event) {
+    if (event.keyCode === Keycodes.esc) {
+      this.closeDropdown();
     }
   }
 
@@ -120,8 +119,16 @@ class Dropdown extends Util.mixin(BindMixin, KeyDownMixin) {
     }
   }
 
+  addKeydownListener() {
+    global.document.body.addEventListener('keydown', this.handleKeyDown);
+  }
+
   addScrollListener() {
     this.container.addEventListener('scroll', this.closeDropdown);
+  }
+
+  removeKeydownListener() {
+    global.document.body.removeEventListener('keydown', this.handleKeyDown);
   }
 
   removeScrollListener() {
