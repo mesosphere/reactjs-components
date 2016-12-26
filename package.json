@@ -35,7 +35,7 @@
     "babel-preset-react": "6.5.0",
     "babel-runtime": "6.5.0",
     "browser-sync": "2.11.1",
-    "cnvs": "1.1.4",
+    "cnvs": "1.1.5",
     "envify": "3.4.0",
     "eslint": "2.2.0",
     "eslint-plugin-react": "4.0.0",
