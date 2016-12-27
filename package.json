@@ -35,7 +35,7 @@
     "babel-preset-react": "6.5.0",
     "babel-runtime": "6.5.0",
     "browser-sync": "2.11.1",
-    "cnvs": "1.1.3",
+    "cnvs": "1.1.4",
     "envify": "3.4.0",
     "eslint": "2.2.0",
     "eslint-plugin-react": "4.0.0",
@@ -67,7 +67,7 @@
     "webpack": "1.12.13"
   },
   "peerDependencies": {
-    "cnvs": "1.1.3",
+    "cnvs": "~1.1.x",
     "react": "~0.14.x",
     "react-addons-css-transition-group": "~0.14.x",
     "react-dom": "~0.14.x",
