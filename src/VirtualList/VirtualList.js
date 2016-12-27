@@ -49,7 +49,8 @@ class VirtualList extends Util.mixin(BindMixin) {
     let state = this.getVirtualState(props);
 
     this.setState(state);
-    props.container.addEventListener('scroll', this.onScroll);
+    // Make sure to bubble scroll event, if there are are other listeners
+    props.container.addEventListener('scroll', this.onScroll, true);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,7 +58,8 @@ class VirtualList extends Util.mixin(BindMixin) {
 
     if (this.props.container !== nextProps.container) {
       this.props.container.removeEventListener('scroll', this.onScroll);
-      nextProps.container.addEventListener('scroll', this.onScroll);
+      // Make sure to bubble scroll event, if there are are other listeners
+      nextProps.container.addEventListener('scroll', this.onScroll, true);
     }
 
     let state = this.getVirtualState(nextProps);
