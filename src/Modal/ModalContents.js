@@ -35,7 +35,6 @@ class ModalContents extends Util.mixin(BindMixin) {
     ];
   }
 
-
   componentWillReceiveProps(nextProps) {
     super.componentWillReceiveProps(...arguments);
 
