@@ -311,9 +311,9 @@ class Form extends Util.mixin(BindMixin) {
     let {props, state} = this;
     let classes = {
       formGroupClass: 'form-group',
-      formGroupErrorClass: 'form-group-error',
+      formGroupErrorClass: 'form-group-danger',
       formRowClass: 'row',
-      helpBlockClass: 'form-help-block',
+      helpBlockClass: 'form-control-feedback',
       inlineIconClass: 'form-element-inline-icon',
       inlineTextClass: 'form-element-inline-text',
       inputClass: 'form-control',
