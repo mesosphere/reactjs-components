@@ -204,7 +204,7 @@ class FormExample extends Util.mixin(BindMixin) {
         <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Form/Form.js)'} toggleClasses="flush-top" />
         <ComponentExampleWrapper>
           <ComponentExample>
-            <Form definition={this.getDefinition()} />
+            <Form definition={this.getDefinition()} onChange={this.handleChange} />
           </ComponentExample>
           <CodeBlock>
 {`import {Form} from 'reactjs-components';
