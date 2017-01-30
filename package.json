@@ -8,8 +8,8 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "^4.x.x",
-    "npm": "^3.x.x"
+    "node": "4.4.x",
+    "npm": "3.9.x"
   },
   "repository": {
     "type": "git",
@@ -35,7 +35,7 @@
     "babel-preset-react": "6.5.0",
     "babel-runtime": "6.5.0",
     "browser-sync": "2.11.1",
-    "cnvs": "1.1.6",
+    "cnvs": "1.1.x",
     "envify": "3.4.0",
     "eslint": "2.2.0",
     "eslint-plugin-react": "4.0.0",
@@ -55,11 +55,11 @@
     "jest-cli": "0.8.2",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
-    "react": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-addons-test-utils": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-dom": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-gemini-scrollbar": "2.1.5",
+    "react": "0.14.x || 15.0.x || 15.4.x",
+    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
+    "react-addons-test-utils": "0.14.x || 15.0.x || 15.4.x",
+    "react-dom": "0.14.x || 15.0.x || 15.4.x",
+    "react-gemini-scrollbar": "2.1.x",
     "source-map-loader": "0.1.5",
     "stylelint-config-dcos": "0.0.2",
     "stylelint-webpack-plugin": "0.5.1",
@@ -67,10 +67,10 @@
     "webpack": "1.13.2"
   },
   "peerDependencies": {
-    "cnvs": "~1.1.x",
-    "react": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-addons-css-transition-group": "^0.14.0 || ^15.0.0-0 || ^15.4.0-0",
-    "react-gemini-scrollbar": "~2.1.x"
+    "cnvs": "1.1.x",
+    "react": "0.14.x || 15.0.x || 15.4.x",
+    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
+    "react-gemini-scrollbar": "2.1.x"
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
