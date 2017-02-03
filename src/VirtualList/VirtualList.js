@@ -4,7 +4,6 @@
  */
 
 /* eslint react/no-did-mount-set-state: 0 */
-import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -15,47 +14,27 @@ let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
 
-class VirtualList extends Util.mixin(BindMixin) {
-  get methodsToBind() {
-    return ['onScroll'];
-  }
-
+class VirtualList extends React.Component {
   constructor() {
     super(...arguments);
 
-    this.state = {
-      bufferEnd: 0,
-      bufferStart: 0,
-      items: []
-    };
-  }
-
-  componentWillMount() {
-    super.componentWillMount(...arguments);
+    this.state = this.getVirtualState(this.props);
 
     // Replace onScroll by debouncing
     if (this.props.scrollDelay > 0) {
-      this.onScroll = Util.throttle(this.onScroll, this.props.scrollDelay);
+      this.onScroll = Util.throttle(
+        this.onScroll.bind(this),
+        this.props.scrollDelay
+      );
     }
-
-    let state = this.getVirtualState(this.props);
-    this.setState(state);
   }
 
   componentDidMount() {
-    super.componentDidMount(...arguments);
-
-    let props = this.props;
-    let state = this.getVirtualState(props);
-
-    this.setState(state);
     // Make sure to bubble scroll event, if there are are other listeners
-    props.container.addEventListener('scroll', this.onScroll, true);
+    this.props.container.addEventListener('scroll', this.onScroll, true);
   }
 
   componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(...arguments);
-
     if (this.props.container !== nextProps.container) {
       this.props.container.removeEventListener('scroll', this.onScroll);
       // Make sure to bubble scroll event, if there are are other listeners
@@ -67,8 +46,6 @@ class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount(...arguments);
-
     let props = this.props;
     props.container.removeEventListener('scroll', this.onScroll);
   }
