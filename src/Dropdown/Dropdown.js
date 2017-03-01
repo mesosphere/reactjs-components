@@ -168,9 +168,11 @@ class Dropdown extends Util.mixin(BindMixin) {
       menuDirection = 'up';
       menuPositionStyle.bottom = spaceAroundDropdownButton.bottom
         + spaceAroundDropdownButton.boundingRect.height;
+      menuPositionStyle.top = 'auto';
       height = spaceAroundDropdownButton.top;
     } else {
       menuDirection = 'down';
+      menuPositionStyle.bottom = 'auto';
       menuPositionStyle.top = spaceAroundDropdownButton.top
         + spaceAroundDropdownButton.boundingRect.height;
       height = spaceAroundDropdownButton.bottom;
@@ -180,9 +182,11 @@ class Dropdown extends Util.mixin(BindMixin) {
       menuPositionStyle.left = spaceAroundDropdownButton.left;
       menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else if (this.props.anchorRight) {
+      menuPositionStyle.left = 'auto';
       menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else {
       menuPositionStyle.left = spaceAroundDropdownButton.left;
+      menuPositionStyle.right = 'auto';
     }
 
     // We assume that 125 pixels is the smallest height we should render.
