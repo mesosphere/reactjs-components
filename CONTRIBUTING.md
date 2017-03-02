@@ -36,37 +36,15 @@ If you want to add a new npm package to `node_modules`:
         npm install [your package] --save-dev
     will add it to devDependencies.
 
-2. Create a synced npm-shrinkwrap.json with devDependencies included
-
-        npm run shrinkwrap
-
 3. Commit to repository
 
-## Creating a new version
-
-1. Change the version within `package.json`
-
-2. Create a synced npm-shrinkwrap.json with devDependencies included
-
-        npm run shrinkwrap
-
-3. Commit to repository and make a PR
-
-4. After PR is merged, the merger will create tags and publish the module
-
-### Creating a tag and publishing
+### Publishing a new Release
 
 1. Make sure you are on `master` branch and have pulled the latest changes.
 
-2. Create the tag ([here's a guide](https://git-scm.com/book/en/v2/Git-Basics-Tagging#Annotated-Tags)).
+2. Now do the release (there is an npm command for this):
 
-3. Push the new tag to github:
-
-        git push --tags
-
-4. Now do the release (there is an npm command for this):
-
-        npm run release
+        npm run release:[<newversion> | major | minor | patch | premajor | preminor | prepatch]
 
 After this you can pull down the latest module version from npm.
 
@@ -74,9 +52,12 @@ After this you can pull down the latest module version from npm.
 
 1. Make sure you are on `master` branch and have pulled the latest changes.
 
-2. Run the `release-beta` NPM script:
+2. Run the `release:beta` NPM script:
 
-        npm run release-beta
+        npm run release:prerelease
+  or
+
+        npm run release:beta
 
 ## Making a PR
 
