@@ -24,6 +24,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   constructor() {
     super(...arguments);
 
+    this.lastConstrainedHeight = null;
     this.state = {
       height: null
     };
@@ -164,6 +165,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     const maxModalHeight = (
       this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE
     );
+
     const totalModalContentHeight = (
       innerContentHeight + headerHeight + footerHeight
     );
@@ -176,12 +178,23 @@ class ModalContents extends Util.mixin(BindMixin) {
     // When the modal's content is too large to fit on the screen, then we need
     // to explicitly set the body's height to its exact pixel value and the
     // modal's height to `100%`.
-    if (totalModalContentHeight >= maxModalHeight) {
+    const shouldConstrainHeight = totalModalContentHeight >= maxModalHeight
+      || this.lastViewportHeight < this.lastConstrainedHeight;
+
+    if (shouldConstrainHeight) {
       const availableContentHeight = modalHeight - headerHeight - footerHeight;
       nextInnerContentContainerHeight = `${availableContentHeight}px`;
       nextModalHeight = '100%';
 
-      if (this.props.useGemini && this.state.height !== availableContentHeight) {
+      // We need to keep track of the largest viewport height that results in a
+      // constrained modal.
+      if (this.lastConstrainedHeight == null
+        || this.lastViewportHeight > this.lastConstrainedHeight) {
+        this.lastConstrainedHeight = this.lastViewportHeight;
+      }
+
+      if (this.props.useGemini
+        && this.state.height !== availableContentHeight) {
         this.setState({height: availableContentHeight});
       }
     }
