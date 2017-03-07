@@ -14,6 +14,8 @@ let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
 
+const USE_SCROLL_EVENT_CAPTURE = true;
+
 class VirtualList extends React.Component {
   constructor() {
     super(...arguments);
@@ -31,14 +33,20 @@ class VirtualList extends React.Component {
 
   componentDidMount() {
     // Make sure to bubble scroll event, if there are are other listeners
-    this.props.container.addEventListener('scroll', this.onScroll, true);
+    this.props.container.addEventListener(
+      'scroll', this.onScroll, USE_SCROLL_EVENT_CAPTURE
+    );
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.container !== nextProps.container) {
-      this.props.container.removeEventListener('scroll', this.onScroll);
+      this.props.container.removeEventListener(
+        'scroll', this.onScroll, USE_SCROLL_EVENT_CAPTURE
+      );
       // Make sure to bubble scroll event, if there are are other listeners
-      nextProps.container.addEventListener('scroll', this.onScroll, true);
+      nextProps.container.addEventListener(
+        'scroll', this.onScroll, USE_SCROLL_EVENT_CAPTURE
+      );
     }
 
     let state = this.getVirtualState(nextProps);
@@ -47,7 +55,9 @@ class VirtualList extends React.Component {
 
   componentWillUnmount() {
     let props = this.props;
-    props.container.removeEventListener('scroll', this.onScroll);
+    props.container.removeEventListener(
+      'scroll', this.onScroll, USE_SCROLL_EVENT_CAPTURE
+    );
   }
 
   onScroll() {
