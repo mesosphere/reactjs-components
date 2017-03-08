@@ -1,6 +1,6 @@
 {
   "name": "reactjs-components",
-  "version": "0.16.0-beta.9",
+  "version": "0.16.0-beta.12",
   "description": "React UI Components by Mesosphere",
   "author": {
     "name": "Mesosphere Frontend Team",
@@ -79,11 +79,18 @@
     "predist-src": "rm -rf ./lib",
     "dist-src": "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
-    "npm-publish": "npm publish ./",
     "test": "jest",
-    "release": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src && npm publish ./",
-    "release-beta": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src && npm version prerelease",
-    "postversion": "npm publish ./ --tag version-$npm_package_version"
+    "release": "npm version -m 'Version %s'",
+    "release:major": "npm run release -- major",
+    "release:minor": "npm run release -- minor",
+    "release:patch": "npm run release -- patch",
+    "release:premajor": "npm run release -- premajor",
+    "release:preminor": "npm run release -- preminor",
+    "release:prepatch": "npm run release -- prepatch",
+    "release:prerelease": "npm run release -- prerelease",
+    "release:beta": "npm run release -- prerelease",
+    "preversion": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src",
+    "postversion": "git push && git push --tags && npm publish ./ --tag version-$npm_package_version && echo \"Successfully released $npm_package_version\""
   },
   "jest": {
     "globals": {
