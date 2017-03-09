@@ -16,10 +16,15 @@ import DOMUtil from '../Util/DOMUtil';
 import Keycodes from '../constants/Keycodes';
 import Util from '../Util/Util';
 
+// This value is used to designate "off-limits" vertical space, so that the
+// modal never comes into contact with the edge of the viewport.
+const MODAL_VERTICAL_INSET_DISTANCE = 48;
+
 class ModalContents extends Util.mixin(BindMixin) {
   constructor() {
     super(...arguments);
 
+    this.lastConstrainedHeight = null;
     this.state = {
       height: null
     };
@@ -47,7 +52,8 @@ class ModalContents extends Util.mixin(BindMixin) {
     super.componentDidUpdate(...arguments);
 
     // If we don't already know the height of the content, we calculate it.
-    if (this.props.open && this.props.useGemini && this.state.height == null) {
+    if (this.props.open) {
+      this.lastViewportHeight = Math.ceil(DOMUtil.getViewportHeight());
       global.requestAnimationFrame(this.calculateContentHeight);
     }
   }
@@ -98,11 +104,11 @@ class ModalContents extends Util.mixin(BindMixin) {
     let {props, state} = this;
 
     // Return early if the modal is closed or not using Gemini.
-    if (!props.open || !props.useGemini) {
+    if (!props.open) {
       return;
     }
 
-    let viewportHeight = DOMUtil.getViewportHeight();
+    let viewportHeight = Math.ceil(DOMUtil.getViewportHeight());
 
     // If the height of the viewport is getting shorter, or if it's growing
     // while the height is currently constrained, then we reset the restrained
@@ -115,6 +121,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     this.lastViewportHeight = viewportHeight;
+    global.requestAnimationFrame(this.calculateContentHeight);
   }
 
   addKeydownListener() {
@@ -126,15 +133,76 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   calculateContentHeight() {
-    let {innerContent, innerContentContainer} = this.refs;
-
-    let innerContentHeight = innerContent.getBoundingClientRect().height;
-    let innerContentContainerHeight = innerContentContainer
-      .getBoundingClientRect().height;
-
-    if (innerContentHeight > innerContentContainerHeight) {
-      this.setState({height: innerContentContainerHeight});
+    // A full screen modal doesn't need to restrict its height.
+    if (this.props.isFullScreen) {
+      return;
     }
+
+    const {
+      footer,
+      gemini,
+      header,
+      modal,
+      innerContent,
+      innerContentContainer
+    } = this.refs;
+
+    let headerHeight = 0;
+    let footerHeight = 0;
+
+    if (header != null) {
+      headerHeight = Math.ceil(header.getBoundingClientRect().height);
+    }
+
+    if (footer != null) {
+      footerHeight = Math.ceil(footer.getBoundingClientRect().height);
+    }
+
+    const modalHeight = Math.ceil(modal.getBoundingClientRect().height);
+    const innerContentHeight = Math.ceil(
+      innerContent.getBoundingClientRect().height
+    );
+    const maxModalHeight = (
+      this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE
+    );
+
+    const totalModalContentHeight = (
+      innerContentHeight + headerHeight + footerHeight
+    );
+
+    // When the modal's content fits on the screen, both the modal and body
+    // height can be set to `auto` (default).
+    let nextInnerContentContainerHeight = 'auto';
+    let nextModalHeight = 'auto';
+
+    // When the modal's content is too large to fit on the screen, then we need
+    // to explicitly set the body's height to its exact pixel value and the
+    // modal's height to `100%`.
+    const shouldConstrainHeight = totalModalContentHeight >= maxModalHeight
+      || this.lastViewportHeight < this.lastConstrainedHeight;
+
+    if (shouldConstrainHeight) {
+      const availableContentHeight = modalHeight - headerHeight - footerHeight;
+      nextInnerContentContainerHeight = `${availableContentHeight}px`;
+      nextModalHeight = '100%';
+
+      // We need to keep track of the largest viewport height that results in a
+      // constrained modal.
+      if (this.lastConstrainedHeight == null
+        || this.lastViewportHeight > this.lastConstrainedHeight) {
+        this.lastConstrainedHeight = this.lastViewportHeight;
+      }
+
+      if (this.props.useGemini
+        && this.state.height !== availableContentHeight) {
+        this.setState({height: availableContentHeight});
+      }
+    }
+
+    innerContentContainer.style.height = nextInnerContentContainerHeight;
+    modal.style.height = nextModalHeight;
+
+    this.triggerGeminiUpdate();
   }
 
   closeModal() {
@@ -159,7 +227,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div className={props.headerClass}>
+      <div className={props.headerClass} ref="header">
         {props.header}
         {props.subHeader}
       </div>
@@ -174,7 +242,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div className={props.footerClass}>
+      <div className={props.footerClass} ref="footer">
         {props.footer}
       </div>
     );
@@ -208,6 +276,7 @@ class ModalContents extends Util.mixin(BindMixin) {
       <GeminiScrollbar
         autoshow={false}
         className={geminiClasses}
+        ref="gemini"
         style={geminiContainerStyle}>
         {modalContent}
       </GeminiScrollbar>
@@ -216,14 +285,14 @@ class ModalContents extends Util.mixin(BindMixin) {
 
   getModal() {
     let {props, state} = this;
-    let modalStyle = null;
+    let modalBodyStyle = {};
 
     if (!props.open) {
       return null;
     }
 
     if (state.height != null) {
-      modalStyle = {flexBasis: state.height};
+      modalBodyStyle.height = state.height;
     }
 
     return (
@@ -231,7 +300,7 @@ class ModalContents extends Util.mixin(BindMixin) {
         {this.getCloseButton()}
         {this.getHeader()}
         <div className={props.bodyClass}
-          style={modalStyle}
+          style={modalBodyStyle}
           ref="innerContentContainer">
           {this.getModalContent()}
         </div>
@@ -250,6 +319,14 @@ class ModalContents extends Util.mixin(BindMixin) {
     return (
       <div className={props.backdropClass} onClick={this.handleBackdropClick} />
     );
+  }
+
+  triggerGeminiUpdate() {
+    const {gemini} = this.refs;
+
+    if (gemini != null && gemini.scrollbar != null) {
+      gemini.scrollbar.update();
+    }
   }
 
   render() {
@@ -285,6 +362,7 @@ ModalContents.defaultProps = {
   closeByBackdropClick: true,
   footer: null,
   header: null,
+  isFullScreen: false,
   onClose: () => {},
   open: false,
   showHeader: false,
@@ -320,6 +398,8 @@ ModalContents.propTypes = {
   footer: PropTypes.object,
   // Optional header.
   header: PropTypes.node,
+  // Optionally set full screen modal to avoid content height restrictions.
+  isFullScreen: PropTypes.bool,
   // Specify a custom modal height.
   modalHeight: PropTypes.string,
   // Optional callback function exected when modal is closed.

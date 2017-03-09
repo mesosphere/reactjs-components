@@ -162,8 +162,14 @@ describe('ModalContents', function () {
     it('should reset the height stored in state to null when the viewport ' +
       'height is shrinking',
       function () {
+        var node = document.createElement('div');
         var instance = TestUtils.renderIntoDocument(
           <ModalContents open={true} useGemini={true} />
+        );
+
+        ReactDOM.render(
+          <ModalContents open={true} useGemini={true} />,
+          node
         );
 
         instance.state.height = 300;
@@ -178,57 +184,6 @@ describe('ModalContents', function () {
 
         expect(instance.lastViewportHeight).toEqual(99);
         expect(instance.state.height).toEqual(null);
-      });
-
-    it('should reset the height stored in state to null when the viewport ' +
-      'height is growing and state.height has previously been calculated',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents open={true} useGemini={true} />
-        );
-
-        // The first call returns 100.
-        instance.handleWindowResize();
-        expect(instance.state.height).toEqual(null);
-        // The second call returns 99, so the viewport is shrinking and
-        // state.height should be reset to null.
-        instance.handleWindowResize();
-        expect(instance.state.height).toEqual(null);
-        // The third call returns 101, so the viewport height is growing, but
-        // state.height should already be null.
-        instance.handleWindowResize();
-        expect(instance.state.height).toEqual(null);
-        expect(instance.lastViewportHeight).toEqual(101);
-        // We explicitly set state to 300 so that the next resize handler call
-        // will trigger setState.
-        instance.state.height = 300;
-        // The fourth call returns 102, so the viewport height is growing, and
-        // state.height is not null, so the fourth call should trigger a setState
-        // with the height as null.
-        instance.handleWindowResize();
-        expect(instance.state.height).toEqual(null);
-      });
-  });
-
-  describe('#calculateContentHeight', function () {
-    it('sets state.height to the height of the innerContentContainer if ' +
-      'innerContentHeight is larger than innerContentContainerHeight',
-      function () {
-        var instance = TestUtils.renderIntoDocument(
-          <ModalContents open={true} useGemini={true} />
-        );
-
-        instance.refs.innerContent.getBoundingClientRect = function () {
-          return {height: 400};
-        };
-
-        instance.refs.innerContentContainer.getBoundingClientRect = function () {
-          return {height: 200};
-        };
-
-        instance.calculateContentHeight();
-
-        expect(instance.state.height).toEqual(200);
       });
   });
 
