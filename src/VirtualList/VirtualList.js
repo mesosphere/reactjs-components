@@ -31,14 +31,14 @@ class VirtualList extends React.Component {
 
   componentDidMount() {
     // Make sure to bubble scroll event, if there are are other listeners
-    this.props.container.addEventListener('scroll', this.onScroll, true);
+    this.props.container.addEventListener('scroll', this.onScroll);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.container !== nextProps.container) {
       this.props.container.removeEventListener('scroll', this.onScroll);
       // Make sure to bubble scroll event, if there are are other listeners
-      nextProps.container.addEventListener('scroll', this.onScroll, true);
+      nextProps.container.addEventListener('scroll', this.onScroll);
     }
 
     let state = this.getVirtualState(nextProps);
