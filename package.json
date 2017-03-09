@@ -90,7 +90,7 @@
     "release:prerelease": "npm run release -- prerelease",
     "release:beta": "npm run release -- prerelease",
     "preversion": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src",
-    "postversion": "git push && git push --tags && npm publish ./ --tag version-$npm_package_version && echo \"Successfully released $npm_package_version\""
+    "postversion": "git push --tags && npm publish ./ --tag version-$npm_package_version && git push && echo \"Successfully released $npm_package_version\""
   },
   "jest": {
     "globals": {
