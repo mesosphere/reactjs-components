@@ -3,8 +3,16 @@ node_js:
   - "4.4"
 before_install:
   - npm install -g npm@3.9
+install:
+  - npm install
+  - npm install react@$REACT_VERSION react-addons-css-transition-group@$REACT_VERSION react-addons-test-utils@$REACT_VERSION react-dom@$REACT_VERSION
 env:
-  - CXX=g++-4.8
+  global:
+    - CXX=g++-4.8
+  matrix:
+    - REACT_VERSION=0.14
+    - REACT_VERSION=15.0
+    - REACT_VERSION=15.4
 addons:
   apt:
     sources:
