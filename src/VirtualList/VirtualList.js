@@ -33,15 +33,17 @@ class VirtualList extends React.Component {
   }
 
   componentDidMount() {
-    // Make sure to bubble scroll event, if there are are other listeners
-    this.props.container.addEventListener('scroll', this.onScroll);
+    // Make sure to trigger this scroll event and make necessary adjustments
+    // before (useCapture = true) any other scroll event is handled
+    this.props.container.addEventListener('scroll', this.onScroll, true);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.container !== nextProps.container) {
-      this.props.container.removeEventListener('scroll', this.onScroll);
-      // Make sure to bubble scroll event, if there are are other listeners
-      nextProps.container.addEventListener('scroll', this.onScroll);
+      this.props.container.removeEventListener('scroll', this.onScroll, true);
+      // Make sure to trigger this scroll event and make necessary adjustments
+      // before (useCapture = true) any other scroll event is handled
+      nextProps.container.addEventListener('scroll', this.onScroll, true);
     }
 
     let state = this.getVirtualState(nextProps);
@@ -50,7 +52,7 @@ class VirtualList extends React.Component {
 
   componentWillUnmount() {
     let props = this.props;
-    props.container.removeEventListener('scroll', this.onScroll);
+    props.container.removeEventListener('scroll', this.onScroll, true);
   }
 
   onScroll() {
