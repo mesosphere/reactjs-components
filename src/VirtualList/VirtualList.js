@@ -20,11 +20,14 @@ class VirtualList extends React.Component {
 
     this.state = this.getVirtualState(this.props);
 
-    // Replace onScroll by debouncing
+    // Replace onScroll by throttling
     if (this.props.scrollDelay > 0) {
       this.onScroll = Util.throttle(
         this.onScroll.bind(this),
-        this.props.scrollDelay
+        this.props.scrollDelay,
+        // Fire on both leading and trailing edge to minize flash of
+        // un-rendered items
+        {leading: true, trailing: true}
       );
     }
   }

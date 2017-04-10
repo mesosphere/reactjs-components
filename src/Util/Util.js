@@ -566,25 +566,72 @@ const Util = {
   },
 
   /**
+   * Underscore.js 1.8.3. For more information,
+   * see http://underscorejs.org/docs/underscore.html#section-82
    * @param {Function} func A callback function to be called
    * @param {Number} wait How long to wait
-   * @returns {Function} A function, that, as long as it continues to be
-   * invoked, will not be triggered. The function will be called
-   * after it stops being called for N milliseconds.
+   * @param {Object} [options]
+   * @param {Object} [options.leading = false] Run function execution on the
+   * leading edge of, i.e. before, each wait:
+   * | wait | wait | wait |
+   *  ^      ^      ^
+   * @param {Object} [options.trailing = true] Run function execution on the
+   * trailing edge of, i.e. after, each wait:
+   * | wait | wait | wait |
+   *       ^      ^      ^
+   * @returns {Function} A function, that, when invoked, will only be triggered
+   * at most once during a given window of time. Normally, the throttled
+   * function will run as much as it can, without ever going more than once per
+   * wait duration; but if you’d like to disable the execution on the leading
+   * edge, pass {leading: false}. To disable execution on the trailing edge,
+   * ditto.
    */
-  throttle(func, wait) {
-    let canCall = true;
+  throttle(func, wait, options) {
+    let context;
+    let args;
+    let result;
+    let timeout = null;
+    let previous = 0;
+    if (!options) {
+      options = {};
+    }
 
-    let resetCall = function () {
-      canCall = true;
+    const later = function () {
+      previous = Date.now();
+      if (options.leading === false) {
+        previous = 0;
+      }
+      timeout = null;
+      result = func.apply(context, args);
+      if (!timeout) {
+        context = args = null;
+      }
     };
 
     return function () {
-      if (canCall) {
-        setTimeout(resetCall, wait);
-        canCall = false;
-        func.apply(this, arguments);
+      const now = Date.now();
+      if (!previous && options.leading === false) {
+        previous = now;
       }
+      const remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0 || remaining > wait) {
+        if (timeout) {
+          clearTimeout(timeout);
+          timeout = null;
+        }
+        previous = now;
+        result = func.apply(context, args);
+        if (!timeout) {
+          context = null;
+          args = null;
+        }
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+
+      return result;
     };
   },
 

@@ -127,7 +127,10 @@ describe('Util', function () {
       setTimeout(throttled, 200);
       jest.runAllTimers();
 
-      expect(func.mock.calls.length).toBe(2);
+      // The calls should be trhee because #throttle will remember if it
+      // was called during the wait and will invoke itself immediately once the
+      // wait is over + an extra after wait is over
+      expect(func.mock.calls.length).toBe(3);
     });
   });
 
