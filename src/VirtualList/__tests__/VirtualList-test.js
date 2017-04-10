@@ -3,7 +3,12 @@ jest.dontMock('../../Util/Util');
 jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('../../Mixin/BindMixin');
 
-var VirtualList = require('../VirtualList');
+/* eslint-disable no-unused-vars */
+const React = require('react');
+/* eslint-enable no-unused-vars */
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+const VirtualList = require('../VirtualList');
 
 describe('VirtualList', function () {
 
@@ -229,5 +234,17 @@ describe('VirtualList', function () {
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(14);
     });
+
+    it('renders only required items', function () {
+      var renderItemSpy = jasmine.createSpy('renderItemSpy');
+      VirtualList.getItemsToRender(
+        {itemHeight: 20, renderItem: renderItemSpy},
+        {items: Array.from({length: 2}), bufferStart: 2 * 20}
+      );
+
+      expect(renderItemSpy.callCount).toBe(2);
+      expect(renderItemSpy.argsForCall).toEqual([[undefined, 2], [undefined, 3]]);
+    });
+
   });
 });

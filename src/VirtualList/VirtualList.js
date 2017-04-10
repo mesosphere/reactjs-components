@@ -169,7 +169,7 @@ class VirtualList extends Util.mixin(BindMixin) {
     return (
       <props.tagName ref="list" {...props}>
         {props.renderBufferItem(topStyles)}
-        {state.items.map(props.renderItem)}
+        {VirtualList.getItemsToRender(props, state)}
         {props.renderBufferItem(bottomStyles)}
       </props.tagName>
     );
@@ -239,6 +239,16 @@ VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
   };
 
   return result;
+};
+
+VirtualList.getItemsToRender = function (props, state) {
+  return state.items.map(function (item, index) {
+    return props.renderItem(
+      item,
+      // Start from number of buffered items
+      (state.bufferStart/props.itemHeight) + index
+    );
+  });
 };
 
 VirtualList.defaultProps = {
