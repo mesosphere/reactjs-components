@@ -103,37 +103,6 @@ describe('Util', function () {
     });
   });
 
-  describe('#throttle', function () {
-    beforeEach(function () {
-      this.func = jest.genMockFunction();
-      this.throttled = Util.throttle(this.func, 200);
-    });
-
-    it('only calls once if called before the wait is finished', function () {
-      this.throttled();
-      this.throttled();
-      this.throttled();
-      this.throttled();
-      expect(this.func.mock.calls.length).toBe(1);
-    });
-
-    it('calls the function if called after the wait', function () {
-      var throttled = this.throttled;
-      var func = this.func;
-
-      throttled();
-      throttled();
-      throttled();
-      setTimeout(throttled, 200);
-      jest.runAllTimers();
-
-      // The calls should be trhee because #throttle will remember if it
-      // was called during the wait and will invoke itself immediately once the
-      // wait is over + an extra after wait is over
-      expect(func.mock.calls.length).toBe(3);
-    });
-  });
-
   describe('#capitalize', function () {
 
     it('capitalizes the string correctly', function () {

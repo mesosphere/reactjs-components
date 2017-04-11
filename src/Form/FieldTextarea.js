@@ -2,6 +2,7 @@ import classNames from 'classnames/dedupe';
 /* eslint-disable no-unused-vars */
 import React from 'react';
 /* eslint-enable no-unused-vars */
+import throttle from 'lodash.throttle';
 
 import FieldInput from './FieldInput';
 import IconEdit from './icons/IconEdit';
@@ -20,7 +21,7 @@ class FieldTextarea extends FieldInput {
     super(...arguments);
 
     this.state = {height: this.props.minHeight};
-    this.updateTextareaHeight = Util.throttle(this.updateTextareaHeight, 100);
+    this.updateTextareaHeight = throttle(this.updateTextareaHeight, 100);
   }
 
   componentDidMount() {
