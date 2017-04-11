@@ -8,7 +8,7 @@ import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Util from '../Util/Util';
+import throttle from 'lodash.throttle';
 
 let mathMax = Math.max;
 let mathMin = Math.min;
@@ -35,7 +35,7 @@ class VirtualList extends Util.mixin(BindMixin) {
 
     // Replace onScroll by throttling
     if (this.props.scrollDelay > 0) {
-      this.onScroll = Util.throttle(
+      this.onScroll = throttle(
         this.onScroll.bind(this),
         this.props.scrollDelay,
         // Fire on both leading and trailing edge to minize flash of
