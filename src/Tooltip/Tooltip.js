@@ -24,7 +24,6 @@ class Tooltip extends Util.mixin(BindMixin) {
 
   constructor() {
     super(...arguments);
-    this.container = null;
     this.state = {isOpen: false, wasTriggeredClose: false};
   }
 
@@ -70,16 +69,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   addScrollListener() {
-    if (!this.container) {
-      if (typeof this.props.scrollContainer === 'string') {
-        this.container = DOMUtil.closest(ReactDOM.findDOMNode(this),
-          this.props.scrollContainer) || window;
-      } else {
-        this.container = this.props.scrollContainer;
-      }
-    }
-
-    this.container.addEventListener('scroll', this.dismissTooltip);
+    global.addEventListener('scroll', this.dismissTooltip, true);
   }
 
   dismissTooltip(options = {}) {
@@ -165,9 +155,7 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   removeScrollListener() {
-    if (this.container) {
-      this.container.removeEventListener('scroll', this.dismissTooltip);
-    }
+    global.removeEventListener('scroll', this.dismissTooltip, true);
   }
 
   triggerClose() {
@@ -266,7 +254,6 @@ Tooltip.defaultProps = {
   elementTag: 'div',
   interactive: false,
   position: 'top',
-  scrollContainer: window,
   stayOpen: false,
   suppress: false,
   wrapperClassName: 'tooltip-wrapper text-align-center',
@@ -294,10 +281,6 @@ Tooltip.propTypes = {
     React.PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
   position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
-  // The nearest scrolling DOMNode that contains the tooltip. Default is window.
-  // Also accepts a string, which will be treated as a selector for the node.
-  scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
-    React.PropTypes.string]),
   // Keeps a tooltip open after it's triggered. Defaults to false.
   stayOpen: React.PropTypes.bool,
   // Prevents a tooltip from being displayed. Defaults to false.
