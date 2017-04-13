@@ -3,16 +3,23 @@
  * https://github.com/developerdizzle/react-virtual-list
  */
 
-/* eslint react/no-did-mount-set-state: 0 */
 import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Util from '../Util/Util';
+import throttle from 'lodash.throttle';
 
 let mathMax = Math.max;
 let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
+const METHODS_TO_BIND = [
+  'onScroll',
+  'getBox',
+  'getItems',
+  'getItemsToRender',
+  'getVirtualState',
+  'visibleItems'
+];
 
 class VirtualList extends React.Component {
   constructor() {
@@ -20,25 +27,34 @@ class VirtualList extends React.Component {
 
     this.state = this.getVirtualState(this.props);
 
-    // Replace onScroll by debouncing
+    // Replace onScroll by throttling
     if (this.props.scrollDelay > 0) {
-      this.onScroll = Util.throttle(
-        this.onScroll.bind(this),
-        this.props.scrollDelay
+      this.onScroll = throttle(
+        this.onScroll,
+        this.props.scrollDelay,
+        // Fire on both leading and trailing edge to minize flash of
+        // un-rendered items
+        {leading: true, trailing: true}
       );
     }
+
+    METHODS_TO_BIND.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
   }
 
   componentDidMount() {
-    // Make sure to bubble scroll event, if there are are other listeners
-    this.props.container.addEventListener('scroll', this.onScroll);
+    // Make sure to trigger this scroll event and make necessary adjustments
+    // before (useCapture = true) any other scroll event is handled
+    this.props.container.addEventListener('scroll', this.onScroll, true);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.container !== nextProps.container) {
-      this.props.container.removeEventListener('scroll', this.onScroll);
-      // Make sure to bubble scroll event, if there are are other listeners
-      nextProps.container.addEventListener('scroll', this.onScroll);
+      this.props.container.removeEventListener('scroll', this.onScroll, true);
+      // Make sure to trigger this scroll event and make necessary adjustments
+      // before (useCapture = true) any other scroll event is handled
+      nextProps.container.addEventListener('scroll', this.onScroll, true);
     }
 
     let state = this.getVirtualState(nextProps);
@@ -47,12 +63,86 @@ class VirtualList extends React.Component {
 
   componentWillUnmount() {
     let props = this.props;
-    props.container.removeEventListener('scroll', this.onScroll);
+    props.container.removeEventListener('scroll', this.onScroll, true);
   }
 
   onScroll() {
     let state = this.getVirtualState(this.props);
     this.setState(state);
+  }
+
+  getBox(view, list) {
+    list.height = list.height || list.bottom - list.top;
+
+    return {
+      top: mathMax(0, mathMin(view.top - list.top)),
+      bottom: mathMax(0, mathMin(list.height, view.bottom - list.top))
+    };
+  }
+
+  getItems(viewTop, viewHeight, listTop, itemHeight,
+    itemCount, itemBuffer) {
+    if (itemCount === 0 || itemHeight === 0) {
+      return {
+        firstItemIndex: 0,
+        lastItemIndex: 0
+      };
+    }
+
+    let listHeight = itemHeight * itemCount;
+
+    let listBox = {
+      top: listTop,
+      height: listHeight,
+      bottom: listTop + listHeight
+    };
+
+    let bufferHeight = itemBuffer * itemHeight;
+    viewTop -= bufferHeight;
+    viewHeight += bufferHeight * 2;
+
+    let viewBox = {
+      top: viewTop,
+      bottom: viewTop + viewHeight
+    };
+
+    // List is below viewport
+    if (viewBox.bottom < listBox.top) {
+      return {
+        firstItemIndex: 0,
+        lastItemIndex: (viewHeight / itemHeight) + itemBuffer
+      };
+    }
+
+    // List is above viewport
+    if (viewBox.top > listBox.bottom) {
+      return {
+        firstItemIndex: 0,
+        lastItemIndex: (viewHeight / itemHeight) + itemBuffer
+      };
+    }
+
+    let listViewBox = this.getBox(viewBox, listBox);
+
+    let firstItemIndex = mathMax(0, mathFloor(listViewBox.top / itemHeight));
+    let lastItemIndex = mathCeil(listViewBox.bottom / itemHeight) - 1;
+
+    let result = {
+      firstItemIndex: firstItemIndex,
+      lastItemIndex: lastItemIndex
+    };
+
+    return result;
+  }
+
+  getItemsToRender(props, state) {
+    return state.items.map(function (item, index) {
+      return props.renderItem(
+        item,
+        // Start from number of buffered items
+        (state.bufferStart/props.itemHeight) + index
+      );
+    });
   }
 
   getVirtualState(props) {
@@ -91,7 +181,7 @@ class VirtualList extends React.Component {
       viewTop -= elementTop;
     }
 
-    let renderStats = VirtualList.getItems(
+    let renderStats = this.getItems(
       viewTop,
       viewHeight,
       0,
@@ -138,77 +228,13 @@ class VirtualList extends React.Component {
     return (
       <props.tagName ref="list" {...props}>
         {props.renderBufferItem(topStyles)}
-        {state.items.map(props.renderItem)}
+        {this.getItemsToRender(props, state)}
         {props.renderBufferItem(bottomStyles)}
       </props.tagName>
     );
   }
 
 }
-
-VirtualList.getBox = function (view, list) {
-  list.height = list.height || list.bottom - list.top;
-
-  return {
-    top: mathMax(0, mathMin(view.top - list.top)),
-    bottom: mathMax(0, mathMin(list.height, view.bottom - list.top))
-  };
-};
-
-VirtualList.getItems = function (viewTop, viewHeight, listTop, itemHeight,
-  itemCount, itemBuffer) {
-  if (itemCount === 0 || itemHeight === 0) {
-    return {
-      firstItemIndex: 0,
-      lastItemIndex: 0
-    };
-  }
-
-  let listHeight = itemHeight * itemCount;
-
-  let listBox = {
-    top: listTop,
-    height: listHeight,
-    bottom: listTop + listHeight
-  };
-
-  let bufferHeight = itemBuffer * itemHeight;
-  viewTop -= bufferHeight;
-  viewHeight += bufferHeight * 2;
-
-  let viewBox = {
-    top: viewTop,
-    bottom: viewTop + viewHeight
-  };
-
-  // List is below viewport
-  if (viewBox.bottom < listBox.top) {
-    return {
-      firstItemIndex: 0,
-      lastItemIndex: (viewHeight / itemHeight) + itemBuffer
-    };
-  }
-
-  // List is above viewport
-  if (viewBox.top > listBox.bottom) {
-    return {
-      firstItemIndex: 0,
-      lastItemIndex: (viewHeight / itemHeight) + itemBuffer
-    };
-  }
-
-  let listViewBox = VirtualList.getBox(viewBox, listBox);
-
-  let firstItemIndex = mathMax(0, mathFloor(listViewBox.top / itemHeight));
-  let lastItemIndex = mathCeil(listViewBox.bottom / itemHeight) - 1;
-
-  let result = {
-    firstItemIndex: firstItemIndex,
-    lastItemIndex: lastItemIndex
-  };
-
-  return result;
-};
 
 VirtualList.defaultProps = {
   container: typeof window !== 'undefined' ? window : undefined,
@@ -230,8 +256,12 @@ VirtualList.propTypes = {
   // If you want to tweak performance, we suggest you memoize the results
   renderItem: React.PropTypes.func.isRequired,
 
+  // This function should return an item buffer view, the data model and the
+  // index is passed to the function.
+  renderBufferItem: React.PropTypes.func.isRequired,
+
   // Optional item that the items should be rendered within. Defaults to window
-  container: React.PropTypes.object.isRequired,
+  container: React.PropTypes.object,
 
   // Optional Specify which tag the container should render
   tagName: React.PropTypes.string,

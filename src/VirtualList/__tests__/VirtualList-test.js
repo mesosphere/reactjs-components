@@ -3,9 +3,30 @@ jest.dontMock('../../Util/Util');
 jest.dontMock('../../Util/DOMUtil');
 jest.dontMock('../../Mixin/BindMixin');
 
-var VirtualList = require('../VirtualList');
+/* eslint-disable no-unused-vars */
+const React = require('react');
+/* eslint-enable no-unused-vars */
+const ReactDOM = require('react-dom');
+const TestUtils = require('react-addons-test-utils');
+const VirtualList = require('../VirtualList');
 
 describe('VirtualList', function () {
+
+  beforeEach(function () {
+    this.container = global.document.createElement('div');
+    this.instance = ReactDOM.render(
+      <VirtualList
+        items={[]}
+        itemHeight={10}
+        renderItem={function () {}}
+        renderBufferItem={function () {}} />,
+      this.container
+    );
+  });
+
+  afterEach(function () {
+    ReactDOM.unmountComponentAtNode(this.container);
+  });
 
   describe('#getBox box that defines the visible part of the list', function () {
     it('matches the viewport when starting at 0 and filling the viewport', function () {
@@ -19,7 +40,7 @@ describe('VirtualList', function () {
         bottom: view.bottom
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(1000);
@@ -36,7 +57,7 @@ describe('VirtualList', function () {
         bottom: 2000
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(1000);
@@ -53,7 +74,7 @@ describe('VirtualList', function () {
         bottom: 500
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(500);
@@ -70,7 +91,7 @@ describe('VirtualList', function () {
         bottom: 1500
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(500);
@@ -87,7 +108,7 @@ describe('VirtualList', function () {
         bottom: 1000
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(500);
       expect(box.bottom).toBe(1000);
@@ -104,7 +125,7 @@ describe('VirtualList', function () {
         bottom: 3000
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(1000);
       expect(box.bottom).toBe(2000);
@@ -121,7 +142,7 @@ describe('VirtualList', function () {
         bottom: 1500
       };
 
-      var box = VirtualList.getBox(view, list);
+      var box = this.instance.getBox(view, list);
 
       expect(box.top).toBe(0);
       expect(box.bottom).toBe(1000);
@@ -137,7 +158,7 @@ describe('VirtualList', function () {
       var windowScrollY = 0;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(4);
@@ -147,7 +168,7 @@ describe('VirtualList', function () {
       var windowScrollY = 3000;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(15);
       expect(result.lastItemIndex).toBe(19);
@@ -157,7 +178,7 @@ describe('VirtualList', function () {
       var windowScrollY = 100;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(5);
@@ -167,7 +188,7 @@ describe('VirtualList', function () {
       var windowScrollY = 0;
       var offsetTop = viewport / 2;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(2);
@@ -177,7 +198,7 @@ describe('VirtualList', function () {
       var windowScrollY = 3500;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 0);
 
       expect(result.firstItemIndex).toBe(17);
       expect(result.lastItemIndex).toBe(19);
@@ -187,7 +208,7 @@ describe('VirtualList', function () {
       var windowScrollY = 0;
       var offsetTop = 100;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, 4, 0);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, 4, 0);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(3);
@@ -197,7 +218,7 @@ describe('VirtualList', function () {
       var windowScrollY = 0;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(9);
@@ -207,7 +228,7 @@ describe('VirtualList', function () {
       var windowScrollY = 0;
       var offsetTop = 1000;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(4);
@@ -217,17 +238,29 @@ describe('VirtualList', function () {
       var windowScrollY = 4000;
       var offsetTop = 0;
 
-      var result = VirtualList.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
+      var result = this.instance.getItems(windowScrollY, viewport, offsetTop, itemHeight, itemCount, 5);
 
       expect(result.firstItemIndex).toBe(15);
       expect(result.lastItemIndex).toBe(19);
     });
 
     it('shows items before and after the viewport, in the buffer', function () {
-      var result = VirtualList.getItems(1000, viewport, 0, itemHeight, itemCount, 5);
+      var result = this.instance.getItems(1000, viewport, 0, itemHeight, itemCount, 5);
 
       expect(result.firstItemIndex).toBe(0);
       expect(result.lastItemIndex).toBe(14);
     });
+
+    it('renders only required items', function () {
+      var renderItemSpy = jasmine.createSpy('renderItemSpy');
+      this.instance.getItemsToRender(
+        {itemHeight: 20, renderItem: renderItemSpy},
+        {items: Array.from({length: 2}), bufferStart: 2 * 20}
+      );
+
+      expect(renderItemSpy.callCount).toBe(2);
+      expect(renderItemSpy.argsForCall).toEqual([[undefined, 2], [undefined, 3]]);
+    });
+
   });
 });
