@@ -3,50 +3,34 @@
  * https://github.com/developerdizzle/react-virtual-list
  */
 
-/* eslint react/no-did-mount-set-state: 0 */
-import BindMixin from '../Mixin/BindMixin';
 import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import throttle from 'lodash.throttle';
 
-import BindMixin from '../Mixin/BindMixin';
-import Util from '../Util/Util';
-
 let mathMax = Math.max;
 let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
+const METHODS_TO_BIND = [
+  'onScroll',
+  'getBox',
+  'getItems',
+  'getItemsToRender',
+  'getVirtualState',
+  'visibleItems'
+];
 
-class VirtualList extends Util.mixin(BindMixin) {
-  get methodsToBind() {
-    return [
-      'onScroll',
-      'getBox',
-      'getItems',
-      'getItemsToRender',
-      'getVirtualState',
-      'visibleItems'
-    ]
-  }
-
+class VirtualList extends React.Component {
   constructor() {
     super(...arguments);
 
-    this.state = {
-      bufferEnd: 0,
-      bufferStart: 0,
-      items: []
-    };
-  }
-
-  componentWillMount() {
-    super.componentWillMount(...arguments);
+    this.state = this.getVirtualState(this.props);
 
     // Replace onScroll by throttling
     if (this.props.scrollDelay > 0) {
       this.onScroll = throttle(
-        this.onScroll.bind(this),
+        this.onScroll,
         this.props.scrollDelay,
         // Fire on both leading and trailing edge to minize flash of
         // un-rendered items
@@ -54,25 +38,18 @@ class VirtualList extends Util.mixin(BindMixin) {
       );
     }
 
-    let state = this.getVirtualState(this.props);
-    this.setState(state);
+    METHODS_TO_BIND.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
   }
 
   componentDidMount() {
-    super.componentDidMount(...arguments);
-
-    let props = this.props;
-    let state = this.getVirtualState(props);
-
-    this.setState(state);
     // Make sure to trigger this scroll event and make necessary adjustments
     // before (useCapture = true) any other scroll event is handled
     this.props.container.addEventListener('scroll', this.onScroll, true);
   }
 
   componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(...arguments);
-
     if (this.props.container !== nextProps.container) {
       this.props.container.removeEventListener('scroll', this.onScroll, true);
       // Make sure to trigger this scroll event and make necessary adjustments
@@ -85,8 +62,6 @@ class VirtualList extends Util.mixin(BindMixin) {
   }
 
   componentWillUnmount() {
-    super.componentWillUnmount(...arguments);
-
     let props = this.props;
     props.container.removeEventListener('scroll', this.onScroll, true);
   }
