@@ -3,32 +3,25 @@
  * https://github.com/developerdizzle/react-virtual-list
  */
 
-/* eslint react/no-did-mount-set-state: 0 */
 import DOMUtil from '../Util/DOMUtil';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import throttle from 'lodash.throttle';
 
-import BindMixin from '../Mixin/BindMixin';
-import Util from '../Util/Util';
-
 let mathMax = Math.max;
 let mathMin = Math.min;
 let mathFloor = Math.floor;
 let mathCeil = Math.ceil;
+const METHODS_TO_BIND = [
+  'onScroll',
+  'getBox',
+  'getItems',
+  'getItemsToRender',
+  'getVirtualState',
+  'visibleItems'
+];
 
-class VirtualList extends Util.mixin(BindMixin) {
-  get methodsToBind() {
-    return [
-      'onScroll',
-      'getBox',
-      'getItems',
-      'getItemsToRender',
-      'getVirtualState',
-      'visibleItems'
-    ]
-  }
-
+class VirtualList extends React.Component {
   constructor() {
     super(...arguments);
 
@@ -37,13 +30,17 @@ class VirtualList extends Util.mixin(BindMixin) {
     // Replace onScroll by throttling
     if (this.props.scrollDelay > 0) {
       this.onScroll = throttle(
-        this.onScroll.bind(this),
+        this.onScroll,
         this.props.scrollDelay,
         // Fire on both leading and trailing edge to minize flash of
         // un-rendered items
         {leading: true, trailing: true}
       );
     }
+
+    METHODS_TO_BIND.forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
   }
 
   componentDidMount() {
