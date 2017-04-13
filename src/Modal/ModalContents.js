@@ -140,7 +140,6 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     const {
       footer,
-      gemini,
       header,
       modal,
       innerContent,
