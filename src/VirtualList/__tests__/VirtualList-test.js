@@ -1,13 +1,11 @@
 jest.dontMock('../VirtualList');
 jest.dontMock('../../Util/Util');
 jest.dontMock('../../Util/DOMUtil');
-jest.dontMock('../../Mixin/BindMixin');
 
 /* eslint-disable no-unused-vars */
 const React = require('react');
 /* eslint-enable no-unused-vars */
 const ReactDOM = require('react-dom');
-const TestUtils = require('react-addons-test-utils');
 const VirtualList = require('../VirtualList');
 
 describe('VirtualList', function () {
