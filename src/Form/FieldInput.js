@@ -18,7 +18,9 @@ class FieldInput extends Util.mixin(BindMixin) {
     let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
 
     if (this.isEditing() && inputElement !== global.document.activeElement) {
+      var valueLength = inputElement.value.length;
       inputElement.focus();
+      inputElement.setSelectionRange(valueLength, valueLength);
     }
   }
 
