@@ -565,29 +565,6 @@ const Util = {
     return a.length !== b.length;
   },
 
-  /**
-   * @param {Function} func A callback function to be called
-   * @param {Number} wait How long to wait
-   * @returns {Function} A function, that, as long as it continues to be
-   * invoked, will not be triggered. The function will be called
-   * after it stops being called for N milliseconds.
-   */
-  throttle(func, wait) {
-    let canCall = true;
-
-    let resetCall = function () {
-      canCall = true;
-    };
-
-    return function () {
-      if (canCall) {
-        setTimeout(resetCall, wait);
-        canCall = false;
-        func.apply(this, arguments);
-      }
-    };
-  },
-
   capitalize: function (string) {
     if (typeof string !== 'string') {
       return null;
