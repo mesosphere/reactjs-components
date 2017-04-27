@@ -1,8 +1,8 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
+import classNames from "classnames/dedupe";
+import React from "react";
 
-import Dropdown from '../Dropdown/Dropdown';
-import Util from '../Util/Util';
+import Dropdown from "../Dropdown/Dropdown";
+import Util from "../Util/Util";
 
 class FieldSelect extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -11,7 +11,7 @@ class FieldSelect extends React.Component {
 
   handleChange(selectedValue, event) {
     this.props.handleEvent(
-      'change',
+      "change",
       this.props.name,
       selectedValue.id,
       event,
@@ -20,25 +20,26 @@ class FieldSelect extends React.Component {
   }
 
   hasError() {
-    let {props} = this;
-    let validationError = props.validationError;
+    const { props } = this;
+    const validationError = props.validationError;
+
     return !!(validationError && validationError[props.name]);
   }
 
   getDropDown(dropdownItems) {
-    let {startValue, persistentID} = this.props;
+    let { startValue, persistentID } = this.props;
 
     let classes = {
-      buttonClassName: 'button dropdown-toggle',
-      dropdownMenuClassName: 'dropdown-menu',
-      dropdownMenuListClassName: 'dropdown-menu-list',
-      wrapperClassName: 'dropdown'
+      buttonClassName: "button dropdown-toggle",
+      dropdownMenuClassName: "dropdown-menu",
+      dropdownMenuListClassName: "dropdown-menu-list",
+      wrapperClassName: "dropdown"
     };
 
-    let propagatedProps = Util.exclude(this.props, [
+    const propagatedProps = Util.exclude(this.props, [
       ...Object.keys(classes),
-      'persistentID',
-      'startValue'
+      "persistentID",
+      "startValue"
     ]);
 
     classes = Object.keys(classes).reduce((classSet, className) => {
@@ -54,10 +55,10 @@ class FieldSelect extends React.Component {
       startValue = dropdownItems[0];
     }
 
-    if (typeof startValue === 'string') {
+    if (typeof startValue === "string") {
       // Try to find id in dropdown items
-      let existingOption = dropdownItems.reduce(function (memo, option) {
-        if (typeof option === 'object') {
+      const existingOption = dropdownItems.reduce(function(memo, option) {
+        if (typeof option === "object") {
           if (option.id === startValue) {
             memo = option;
           }
@@ -84,13 +85,14 @@ class FieldSelect extends React.Component {
         items={dropdownItems}
         onItemSelection={this.handleChange.bind(this)}
         persistentID={persistentID}
-        transition={true} />
+        transition={true}
+      />
     );
   }
 
   getErrorMsg() {
     let errorMsg = null;
-    let {props} = this;
+    const { props } = this;
 
     if (this.hasError()) {
       errorMsg = (
@@ -104,33 +106,34 @@ class FieldSelect extends React.Component {
   }
 
   getLabel() {
-    let {label, showLabel} = this.props;
+    let { label, showLabel } = this.props;
 
     if (!showLabel) {
       return null;
     }
 
-    if (typeof showLabel === 'string') {
+    if (typeof showLabel === "string") {
       label = showLabel;
     }
 
-    if (typeof showLabel !== 'string' && showLabel !== true) {
+    if (typeof showLabel !== "string" && showLabel !== true) {
       return showLabel;
     }
 
-    return (
-      <label>{label}</label>
-    );
+    return <label>{label}</label>;
   }
 
   render() {
     let {
-      columnWidth, formGroupClass, formElementClass, formGroupErrorClass,
+      columnWidth,
+      formGroupClass,
+      formElementClass,
+      formGroupErrorClass,
       options
     } = this.props;
 
-    options = options.map(function (option) {
-      if (typeof option === 'string') {
+    options = options.map(function(option) {
+      if (typeof option === "string") {
         return {
           html: option,
           id: option
@@ -140,13 +143,13 @@ class FieldSelect extends React.Component {
       return option;
     });
 
-    let classes = classNames(
-      {[formGroupErrorClass]: this.hasError()},
+    const classes = classNames(
+      { [formGroupErrorClass]: this.hasError() },
       formGroupClass
     );
 
-    let rowClass = classNames(
-      'form-row-element',
+    const rowClass = classNames(
+      "form-row-element",
       `column-${columnWidth}`,
       formElementClass
     );
@@ -165,10 +168,10 @@ class FieldSelect extends React.Component {
 
 FieldSelect.defaultProps = {
   columnWidth: 12,
-  handleEvent: function () {}
+  handleEvent() {}
 };
 
-let classPropType = React.PropTypes.oneOfType([
+const classPropType = React.PropTypes.oneOfType([
   React.PropTypes.array,
   React.PropTypes.object,
   React.PropTypes.string

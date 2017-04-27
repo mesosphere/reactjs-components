@@ -1,13 +1,13 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import classNames from "classnames/dedupe";
+import React from "react";
+import ReactDOM from "react-dom";
 
-import BindMixin from '../Mixin/BindMixin';
-import IconEdit from './icons/IconEdit';
-import KeyboardUtil from '../Util/KeyboardUtil';
-import Util from '../Util/Util';
+import BindMixin from "../Mixin/BindMixin";
+import IconEdit from "./icons/IconEdit";
+import KeyboardUtil from "../Util/KeyboardUtil";
+import Util from "../Util/Util";
 
-const EVENTS = ['blur', 'change', 'focus'];
+const EVENTS = ["blur", "change", "focus"];
 
 class FieldInput extends Util.mixin(BindMixin) {
   shouldComponentUpdate(nextProps) {
@@ -15,7 +15,7 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   componentDidUpdate() {
-    let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
+    const inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
 
     if (this.isEditing() && inputElement !== global.document.activeElement) {
       inputElement.focus();
@@ -23,12 +23,14 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
-    let inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
-    if (inputElement != null &&
-        inputElement.type === 'text' &&
-        this.props.focused) {
+    const inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
+    if (
+      inputElement != null &&
+      inputElement.type === "text" &&
+      this.props.focused
+    ) {
       // Don't interfere with existing transitions
-      setTimeout(function () {
+      setTimeout(function() {
         var valueLength = inputElement.value.length;
         inputElement.focus();
         inputElement.setSelectionRange(valueLength, valueLength);
@@ -37,8 +39,8 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   bindEvents(attributes) {
-    EVENTS.forEach((event) => {
-      let htmlEvent = `on${Util.capitalize(event)}`;
+    EVENTS.forEach(event => {
+      const htmlEvent = `on${Util.capitalize(event)}`;
       attributes[htmlEvent] = this.handleEvent.bind(this, event);
     });
 
@@ -46,15 +48,15 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   handleEvent(event, eventObj) {
-    let {props} = this;
+    const { props } = this;
     props.handleEvent(event, props.name, eventObj.target.value, eventObj);
   }
 
   handleKeyDown(event) {
-    let {props, refs} = this;
+    const { props, refs } = this;
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
-      if (props.writeType === 'input') {
+      if (props.writeType === "input") {
         props.handleSubmit();
       }
 
@@ -63,15 +65,16 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   hasError() {
-    let {props} = this;
-    let validationError = props.validationError;
+    const { props } = this;
+    const validationError = props.validationError;
+
     return !!(validationError && validationError[props.name]);
   }
 
   isEditing() {
-    let {props} = this;
-    return props.editing === props.name
-      && props.writeType === 'edit';
+    const { props } = this;
+
+    return props.editing === props.name && props.writeType === "edit";
   }
 
   getRowClass(props) {
@@ -79,15 +82,16 @@ class FieldInput extends Util.mixin(BindMixin) {
       `form-row-element column-${props.columnWidth}`,
       props.formElementClass,
       {
-        'form-row-edit': this.isEditing(),
-        'form-row-input': props.writeType === 'input',
-        'form-row-read': !this.isEditing() && props.writeType === 'edit'
-      });
+        "form-row-edit": this.isEditing(),
+        "form-row-input": props.writeType === "input",
+        "form-row-read": !this.isEditing() && props.writeType === "edit"
+      }
+    );
   }
 
   getErrorMsg() {
     let errorMsg = null;
-    let {props} = this;
+    const { props } = this;
 
     if (this.hasError()) {
       errorMsg = (
@@ -101,7 +105,7 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   getHelpBlock() {
-    let {helpBlock, helpBlockClass} = this.props;
+    const { helpBlock, helpBlockClass } = this.props;
 
     if (!helpBlock) {
       return null;
@@ -115,28 +119,26 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   getLabel() {
-    let {labelClass, name, showLabel} = this.props;
+    const { labelClass, name, showLabel } = this.props;
     let contents = name;
 
     if (!showLabel) {
       return null;
     }
 
-    if (typeof showLabel === 'string') {
+    if (typeof showLabel === "string") {
       contents = showLabel;
     }
 
-    if (typeof showLabel !== 'string' && showLabel !== true) {
+    if (typeof showLabel !== "string" && showLabel !== true) {
       return showLabel;
     }
 
-    return (
-      <label className={classNames(labelClass)}>{contents}</label>
-    );
+    return <label className={classNames(labelClass)}>{contents}</label>;
   }
 
   getInputElement(attributes) {
-    let {
+    const {
       inlineIconClass,
       inlineTextClass,
       inputClass,
@@ -147,17 +149,18 @@ class FieldInput extends Util.mixin(BindMixin) {
     } = this.props;
     let inputContent = null;
 
-    let classes = classNames(inputClass, sharedClass);
+    const classes = classNames(inputClass, sharedClass);
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || writeType === 'input') {
+    if (this.isEditing() || writeType === "input") {
       inputContent = (
         <input
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
           {...attributes}
-          value={attributes.startValue} />
+          value={attributes.startValue}
+        />
       );
     } else {
       inputContent = (
@@ -165,7 +168,8 @@ class FieldInput extends Util.mixin(BindMixin) {
           ref="inputElement"
           {...attributes}
           className={classes}
-          onClick={attributes.onFocus}>
+          onClick={attributes.onFocus}
+        >
           <span className={classNames(inlineTextClass)}>
             {value || attributes.startValue}
           </span>
@@ -184,12 +188,12 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {props} = this;
+    const { props } = this;
 
-    let attributes = Util.exclude(props, 'onChange', 'value');
+    const attributes = Util.exclude(props, "onChange", "value");
 
-    let classes = classNames(
-      {[props.formGroupErrorClass]: this.hasError()},
+    const classes = classNames(
+      { [props.formGroupErrorClass]: this.hasError() },
       props.formGroupClass
     );
 
@@ -208,12 +212,12 @@ class FieldInput extends Util.mixin(BindMixin) {
 
 FieldInput.defaultProps = {
   columnWidth: 12,
-  handleEvent: function () {},
-  value: '',
-  writeType: 'input'
+  handleEvent() {},
+  value: "",
+  writeType: "input"
 };
 
-let classPropType = React.PropTypes.oneOfType([
+const classPropType = React.PropTypes.oneOfType([
   React.PropTypes.array,
   React.PropTypes.object,
   React.PropTypes.string

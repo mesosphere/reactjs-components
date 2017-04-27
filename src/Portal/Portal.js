@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
+import React, { PropTypes } from "react";
+import ReactDOM from "react-dom";
 
 class Portal extends React.Component {
   componentDidMount() {
-    this.nodeEl = document.createElement('div');
+    this.nodeEl = document.createElement("div");
     document.body.appendChild(this.nodeEl);
     this.renderChildren(this.props);
   }

@@ -1,7 +1,7 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
+import classNames from "classnames/dedupe";
+import React from "react";
 
-import Util from '../Util/Util';
+import Util from "../Util/Util";
 
 class FieldSubmit extends React.Component {
   shouldComponentUpdate(nextProps) {
@@ -9,12 +9,16 @@ class FieldSubmit extends React.Component {
   }
 
   render() {
-    let {
-      buttonClass, columnWidth, buttonText, formGroupClass, handleSubmit,
+    const {
+      buttonClass,
+      columnWidth,
+      buttonText,
+      formGroupClass,
+      handleSubmit,
       formElementClass
     } = this.props;
 
-    let rowClass = classNames(
+    const rowClass = classNames(
       `form-row-element column-${columnWidth}`,
       formElementClass
     );
@@ -22,23 +26,21 @@ class FieldSubmit extends React.Component {
     return (
       <div className={rowClass}>
         <div className={classNames(formGroupClass)}>
-          <div className={classNames(buttonClass)}
-            onClick={handleSubmit}>
+          <div className={classNames(buttonClass)} onClick={handleSubmit}>
             {buttonText}
           </div>
         </div>
       </div>
     );
   }
-
 }
 
 FieldSubmit.defaultProps = {
-  buttonText: 'Submit',
-  handleSubmit: function () {}
+  buttonText: "Submit",
+  handleSubmit() {}
 };
 
-let classPropType = React.PropTypes.oneOfType([
+const classPropType = React.PropTypes.oneOfType([
   React.PropTypes.array,
   React.PropTypes.object,
   React.PropTypes.string

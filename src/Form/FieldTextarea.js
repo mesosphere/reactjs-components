@@ -1,33 +1,33 @@
-import classNames from 'classnames/dedupe';
+import classNames from "classnames/dedupe";
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React from "react";
 /* eslint-enable no-unused-vars */
-import throttle from 'lodash.throttle';
+import throttle from "lodash.throttle";
 
-import FieldInput from './FieldInput';
-import IconEdit from './icons/IconEdit';
-import Util from '../Util/Util';
+import FieldInput from "./FieldInput";
+import IconEdit from "./icons/IconEdit";
+import Util from "../Util/Util";
 
 class FieldTextarea extends FieldInput {
   get methodsToBind() {
     return [
-      'handleContentEditableBlur',
-      'handleContentEditableChange',
-      'handleContentEditableFocus'
-    ]
+      "handleContentEditableBlur",
+      "handleContentEditableChange",
+      "handleContentEditableFocus"
+    ];
   }
 
   constructor() {
     super(...arguments);
 
-    this.state = {height: this.props.minHeight};
+    this.state = { height: this.props.minHeight };
     this.updateTextareaHeight = throttle(this.updateTextareaHeight, 100);
   }
 
   componentDidMount() {
     super.componentDidMount(...arguments);
 
-    if (this.isEditing() || this.props.writeType === 'input') {
+    if (this.isEditing() || this.props.writeType === "input") {
       this.updateTextareaHeight(this.refs.inputElement);
 
       // React throws a warning if children are specified in an element with
@@ -40,28 +40,31 @@ class FieldTextarea extends FieldInput {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !Util.isEqual(this.props, nextProps) || !Util.isEqual(this.state, nextState);
+    return (
+      !Util.isEqual(this.props, nextProps) ||
+      !Util.isEqual(this.state, nextState)
+    );
   }
 
   handleContentEditableBlur(event) {
-    let {props} = this;
-    props.handleEvent('blur', props.name, event.target.innerText, event);
+    const { props } = this;
+    props.handleEvent("blur", props.name, event.target.innerText, event);
   }
 
   handleContentEditableChange(event) {
-    let {props} = this;
+    const { props } = this;
 
     this.updateTextareaHeight(event.target);
-    props.handleEvent('change', props.name, event.target.innerText, event);
+    props.handleEvent("change", props.name, event.target.innerText, event);
   }
 
   handleContentEditableFocus(event) {
-    let {props} = this;
-    props.handleEvent('focus', props.name, event.target.innerText, event);
+    const { props } = this;
+    props.handleEvent("focus", props.name, event.target.innerText, event);
   }
 
   getInputElement(attributes) {
-    let {
+    const {
       inlineIconClass,
       inlineTextClass,
       inputClass,
@@ -69,23 +72,20 @@ class FieldTextarea extends FieldInput {
       renderer,
       sharedClass,
       value,
-      writeType,
+      writeType
     } = this.props;
     let inputContent = null;
 
-    let classes = classNames(
-      'content-editable',
-      inputClass,
-      sharedClass
-    );
+    const classes = classNames("content-editable", inputClass, sharedClass);
 
     attributes = this.bindEvents(attributes);
 
-    if (this.isEditing() || writeType === 'input') {
+    if (this.isEditing() || writeType === "input") {
       inputContent = (
         <div
           className="content-editable-wrapper"
-          style={{height: `${this.state.height}px`}}>
+          style={{ height: `${this.state.height}px` }}
+        >
           <div
             ref="inputElement"
             className={classes}
@@ -94,7 +94,8 @@ class FieldTextarea extends FieldInput {
             onBlur={this.handleContentEditableBlur}
             onFocus={this.handleContentEditableFocus}
             onInput={this.handleContentEditableChange}
-            style={{minHeight: `${minHeight}px`}} />
+            style={{ minHeight: `${minHeight}px` }}
+          />
         </div>
       );
     } else {
@@ -103,7 +104,8 @@ class FieldTextarea extends FieldInput {
           ref="inputElement"
           {...attributes}
           className={classes}
-          onClick={attributes.onFocus}>
+          onClick={attributes.onFocus}
+        >
           <span className={classNames(inlineTextClass)}>
             {value || attributes.startValue}
           </span>
@@ -122,9 +124,9 @@ class FieldTextarea extends FieldInput {
   }
 
   updateTextareaHeight(domElement) {
-    let {minHeight, maxHeight, scrollHeightOffset} = this.props;
+    const { minHeight, maxHeight, scrollHeightOffset } = this.props;
     let newHeight = minHeight;
-    let {scrollHeight} = domElement;
+    const { scrollHeight } = domElement;
 
     if (scrollHeight > minHeight && scrollHeight < maxHeight) {
       newHeight = scrollHeight + scrollHeightOffset;
@@ -133,7 +135,7 @@ class FieldTextarea extends FieldInput {
     }
 
     if (newHeight !== this.state.height) {
-      this.setState({height: newHeight});
+      this.setState({ height: newHeight });
     }
   }
 }

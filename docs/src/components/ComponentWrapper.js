@@ -1,10 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import IconCode from './icons/IconCode';
+import IconCode from "./icons/IconCode";
 
 class ComponentWrapper extends React.Component {
   render() {
-    let {props} = this;
+    const { props } = this;
+
     return (
       <section>
         <h2 className="component-title">

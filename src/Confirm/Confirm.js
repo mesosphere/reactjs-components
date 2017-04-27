@@ -1,18 +1,20 @@
-import classNames from 'classnames';
-import React, {PropTypes} from 'react';
+import classNames from "classnames";
+import React, { PropTypes } from "react";
 
-import Modal from '../Modal/Modal';
-import Util from '../Util/Util';
+import Modal from "../Modal/Modal";
+import Util from "../Util/Util";
 
 class Confirm extends React.Component {
   getButtons() {
-    let disabledConfig = {disabled: this.props.disabled};
+    const disabledConfig = { disabled: this.props.disabled };
 
-    let leftButtonClassName = classNames(
-      this.props.leftButtonClassName, disabledConfig
+    const leftButtonClassName = classNames(
+      this.props.leftButtonClassName,
+      disabledConfig
     );
-    let rightButtonClassName = classNames(
-      this.props.rightButtonClassName, disabledConfig
+    const rightButtonClassName = classNames(
+      this.props.rightButtonClassName,
+      disabledConfig
     );
 
     let extraAttributes = {};
@@ -25,13 +27,15 @@ class Confirm extends React.Component {
         <button
           className={leftButtonClassName}
           onClick={this.props.leftButtonCallback}
-          {...extraAttributes}>
+          {...extraAttributes}
+        >
           {this.props.leftButtonText}
         </button>
         <button
           className={rightButtonClassName}
           onClick={this.props.rightButtonCallback}
-          {...extraAttributes}>
+          {...extraAttributes}
+        >
           {this.props.rightButtonText}
         </button>
       </div>
@@ -39,9 +43,16 @@ class Confirm extends React.Component {
   }
 
   render() {
-    let props = Util.exclude(this.props, 'children', 'disabled',
-      'leftButtonText', 'leftButtonClassName', 'leftButtonCallback',
-      'rightButtonText', 'rightButtonClassName', 'rightButtonCallback'
+    const props = Util.exclude(
+      this.props,
+      "children",
+      "disabled",
+      "leftButtonText",
+      "leftButtonClassName",
+      "leftButtonCallback",
+      "rightButtonText",
+      "rightButtonClassName",
+      "rightButtonCallback"
     );
 
     return (
@@ -51,7 +62,8 @@ class Confirm extends React.Component {
         showCloseButton={false}
         showFooter={true}
         footer={this.getButtons()}
-        {...props}>
+        {...props}
+      >
         {this.props.children}
       </Modal>
     );
@@ -61,16 +73,16 @@ class Confirm extends React.Component {
 Confirm.defaultProps = {
   open: true,
   disabled: false,
-  onClose: function () {},
+  onClose() {},
 
   // Left button properties
-  leftButtonText: 'Cancel',
-  leftButtonClassName: 'button',
-  leftButtonCallback: function () {},
+  leftButtonText: "Cancel",
+  leftButtonClassName: "button",
+  leftButtonCallback() {},
   // Right button properties
-  rightButtonText: 'Confirm',
-  rightButtonClassName: 'button button-primary',
-  rightButtonCallback: function () {}
+  rightButtonText: "Confirm",
+  rightButtonClassName: "button button-primary",
+  rightButtonCallback() {}
 };
 
 Confirm.propTypes = {

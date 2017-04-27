@@ -1,10 +1,10 @@
-import classnames from 'classnames/dedupe';
-import React from 'react';
+import classnames from "classnames/dedupe";
+import React from "react";
 
 class CodeBlockWrapper extends React.Component {
   render() {
-    let panelClasses = classnames(
-      'panel pod flush-right flush-left flush-top',
+    const panelClasses = classnames(
+      "panel pod flush-right flush-left flush-top",
       this.props.panelClassNames
     );
 

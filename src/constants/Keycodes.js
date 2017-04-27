@@ -1,5 +1,5 @@
 const KEYCODES = {
-  'esc': 27
+  esc: 27
 };
 
 module.exports = KEYCODES;

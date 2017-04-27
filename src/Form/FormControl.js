@@ -1,30 +1,32 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
+import classNames from "classnames/dedupe";
+import React from "react";
 
-import FieldTypes from './FieldTypes';
-import Util from '../Util/Util';
+import FieldTypes from "./FieldTypes";
+import Util from "../Util/Util";
 
 class FormControl extends React.Component {
   renderGroup(definition) {
-    let columnLength = definition.filter(function (fieldDefinition) {
+    const columnLength = definition.filter(function(fieldDefinition) {
       return !React.isValidElement(fieldDefinition);
     }).length;
 
     return definition.map((inputOptions, i) => {
       return this.renderDefinition(
-        inputOptions, columnLength, i === definition.length - 1
+        inputOptions,
+        columnLength,
+        i === definition.length - 1
       );
     });
   }
 
   renderType(definition, columnLength = 1, isLast) {
-    let fieldTypeName = definition.fieldType;
-    let FieldTypeComponent = FieldTypes[fieldTypeName];
-    let props = this.props;
+    const fieldTypeName = definition.fieldType;
+    const FieldTypeComponent = FieldTypes[fieldTypeName];
+    const props = this.props;
     let columnWidth;
 
     if (definition.columnWidth == null) {
-      let maxColumnWidth = props.maxColumnWidth;
+      const maxColumnWidth = props.maxColumnWidth;
       columnWidth = Math.floor(maxColumnWidth / columnLength);
       if (isLast) {
         columnWidth += maxColumnWidth % columnLength;
@@ -41,12 +43,13 @@ class FormControl extends React.Component {
 
     return (
       <FieldTypeComponent
-        {...Util.exclude(props, 'definition')}
-        {...Util.exclude(definition, 'value', 'fieldType', 'key')}
+        {...Util.exclude(props, "definition")}
+        {...Util.exclude(definition, "value", "fieldType", "key")}
         key={key}
         startValue={props.currentValue[definition.name]}
         type={definition.fieldType}
-        columnWidth={columnWidth} />
+        columnWidth={columnWidth}
+      />
     );
   }
 
@@ -63,7 +66,7 @@ class FormControl extends React.Component {
   }
 
   render() {
-    let props = this.props;
+    const props = this.props;
     let content = this.renderDefinition(props.definition);
 
     if (Util.isArray(content)) {

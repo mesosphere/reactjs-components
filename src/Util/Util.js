@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // Functions from lodash 4.0.0-pre
 
@@ -14,16 +14,17 @@ import React from 'react';
 function basePick(object, props) {
   object = Object(object);
 
-  let index = -1,
-    length = props.length,
-    result = {};
+  const { length } = props;
+  const result = {};
+  let index = -1;
 
   while (++index < length) {
-    let key = props[index];
+    const key = props[index];
     if (key in object) {
       result[key] = object[key];
     }
   }
+
   return result;
 }
 
@@ -38,13 +39,14 @@ function basePick(object, props) {
  * @returns {Object} Returns the array of property values.
  */
 function baseValues(object, props) {
-  let index = -1,
-    length = props.length,
-    result = Array(length);
+  const { length } = props;
+  const result = Array(length);
+  let index = -1;
 
   while (++index < length) {
     result[index] = object[props[index]];
   }
+
   return result;
 }
 
@@ -64,8 +66,12 @@ function baseValues(object, props) {
  * // => false
  */
 function isArguments(value) {
-  return isObjectLike(value) && isArrayLike(value) &&
-    hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
+  return (
+    isObjectLike(value) &&
+    isArrayLike(value) &&
+    hasOwnProperty.call(value, "callee") &&
+    !propertyIsEnumerable.call(value, "callee")
+  );
 }
 
 /**
@@ -92,11 +98,13 @@ function isArguments(value) {
  * // => false
  */
 function isArrayLike(value) {
-  return value != null && value.length &&
-    !(
-      typeof value === 'function' &&
-      Object.prototype.toString.call(value) === '[object Function]'
-    ) && typeof value === 'object';
+  return (
+    value != null &&
+    value.length &&
+    !(typeof value === "function" &&
+      Object.prototype.toString.call(value) === "[object Function]") &&
+    typeof value === "object"
+  );
 }
 
 /**
@@ -115,8 +123,10 @@ function isArrayLike(value) {
  * // => false
  */
 function isFunction(value) {
-  return (typeof value === 'object' || typeof value === 'function') &&
-    Object.prototype.toString.call(value) === '[object Function]';
+  return (
+    (typeof value === "object" || typeof value === "function") &&
+    Object.prototype.toString.call(value) === "[object Function]"
+  );
 }
 
 /**
@@ -142,7 +152,7 @@ function isFunction(value) {
  * // => false
  */
 function isObjectLike(value) {
-  return !!value && typeof value === 'object';
+  return !!value && typeof value === "object";
 }
 
 /**
@@ -195,7 +205,7 @@ function values(object) {
 
 // Functions from Underscore 1.9.0
 
- // Internal recursive comparison function for `isEqual`.
+// Internal recursive comparison function for `isEqual`.
 function eq(a, b, aStack, bStack) {
   // Identical objects are equal. `0 === -0`, but they aren't identical.
   // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
@@ -207,12 +217,14 @@ function eq(a, b, aStack, bStack) {
     return a === b;
   }
   // `NaN`s are equivalent, but non-reflexive.
+  /* eslint-disable no-self-compare */
   if (a !== a) {
     return b !== b;
   }
+  /* eslint-enable no-self-compare */
   // Exhaust primitive checks
   var type = typeof a;
-  if (type !== 'function' && type !== 'object' && typeof b !== 'object') {
+  if (type !== "function" && type !== "object" && typeof b !== "object") {
     return false;
   }
 
@@ -227,42 +239,50 @@ function deepEq(a, b, aStack, bStack) {
     return false;
   }
 
+  /* eslint-disable no-fallthrough */
   switch (className) {
     // Strings, numbers, regular expressions, dates, and booleans are compared by value.
-    case '[object RegExp]':
+    case "[object RegExp]":
     // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
-    case '[object String]':
+    case "[object String]":
       // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
       // equivalent to `new String("5")`.
-      return '' + a === '' + b;
-    case '[object Number]':
+      return "" + a === "" + b;
+    case "[object Number]":
       // `NaN`s are equivalent, but non-reflexive.
       // Object(NaN) is equivalent to NaN
       if (+a !== +a) {
         return +b !== +b;
       }
+
       // An `egal` comparison is performed for other numeric values.
       return +a === 0 ? 1 / +a === 1 / b : +a === +b;
-    case '[object Date]':
-    case '[object Boolean]':
+    case "[object Date]":
+    case "[object Boolean]":
       // Coerce dates and booleans to numeric primitive values. Dates are compared by their
       // millisecond representations. Note that invalid dates with millisecond representations
       // of `NaN` are not equivalent.
       return +a === +b;
+    /* eslint-enable no-fallthrough */
   }
 
-  var areArrays = className === '[object Array]';
+  var areArrays = className === "[object Array]";
   if (!areArrays) {
-    if (typeof a != 'object' || typeof b != 'object') {
+    if (typeof a != "object" || typeof b != "object") {
       return false;
     }
 
     // Objects with different constructors are not equivalent, but `Object`s or `Array`s
     // from different frames are.
     var aCtor = a.constructor, bCtor = b.constructor;
-    if (aCtor !== bCtor && !(isFunction(aCtor) && aCtor instanceof aCtor &&
-                             isFunction(bCtor) && bCtor instanceof bCtor)
-                        && ('constructor' in a && 'constructor' in b)) {
+    if (
+      aCtor !== bCtor &&
+      !(isFunction(aCtor) &&
+        aCtor instanceof aCtor &&
+        isFunction(bCtor) &&
+        bCtor instanceof bCtor) &&
+      ("constructor" in a && "constructor" in b)
+    ) {
       return false;
     }
   }
@@ -318,18 +338,21 @@ function deepEq(a, b, aStack, bStack) {
   // Remove the first object from the stack of traversed objects.
   aStack.pop();
   bStack.pop();
+
   return true;
 }
 
 function property(key) {
-  return function (obj) {
+  return function(obj) {
+    /* eslint-disable no-void */
     return obj == null ? void 0 : obj[key];
+    /* eslint-enable no-void */
   };
 }
 
 // Helper for collection methods to determine whether a collection
 // should be iterated as an array or as an object
-var getLength = property('length');
+var getLength = property("length");
 
 // Internal implementation of a recursive `flatten` function.
 function baseFlatten(input, shallow, strict, output) {
@@ -352,6 +375,7 @@ function baseFlatten(input, shallow, strict, output) {
       output[idx++] = value;
     }
   }
+
   return output;
 }
 
@@ -374,15 +398,16 @@ function isEqual(a, b) {
 // Custom functions created for reactjs-components
 
 function clone(object) {
-  if (object === null || typeof object != 'object') {
+  if (object === null || typeof object != "object") {
     return object;
   }
-  let copy = object.constructor();
-  for (let attr in object) {
-    if (object.hasOwnProperty(attr)) {
+  const copy = object.constructor();
+  for (const attr in object) {
+    if (Object.prototype.hasOwnProperty.call(object, attr)) {
       copy[attr] = object[attr];
     }
   }
+
   return copy;
 }
 
@@ -394,9 +419,9 @@ function clone(object) {
  * @return {Object} New object without given props
  */
 function exclude(object, props) {
-  let newObject = {};
+  const newObject = {};
 
-  Object.keys(object).forEach(function (prop) {
+  Object.keys(object).forEach(function(prop) {
     if (props.indexOf(prop) === -1) {
       newObject[prop] = object[prop];
     }
@@ -405,13 +430,12 @@ function exclude(object, props) {
   return newObject;
 }
 function extend(object, ...sources) {
-
-  sources.forEach(function (source) {
-    if (Object.prototype.toString.call(source) !== '[object Object]') {
+  sources.forEach(function(source) {
+    if (Object.prototype.toString.call(source) !== "[object Object]") {
       return;
     }
 
-    Object.keys(source).forEach(function (key) {
+    Object.keys(source).forEach(function(key) {
       object[key] = source[key];
     });
   });
@@ -421,16 +445,17 @@ function extend(object, ...sources) {
 
 function find(objects, predicate) {
   let result;
-  objects.some((object) => {
+  objects.some(object => {
     if (predicate(object)) {
       result = object;
     }
   });
+
   return result;
 }
 
-var isArray = function (arg) {
-  return Object.prototype.toString.call(arg) === '[object Array]';
+var isArray = function(arg) {
+  return Object.prototype.toString.call(arg) === "[object Array]";
 };
 
 function sortBy(collection, sortProp) {
@@ -438,8 +463,8 @@ function sortBy(collection, sortProp) {
     return collection.slice().sort(sortProp);
   } else {
     return collection.slice().sort((a, b) => {
-      let keyA = a[sortProp],
-        keyB = b[sortProp];
+      const keyA = a[sortProp];
+      const keyB = b[sortProp];
       if (keyA < keyB) {
         return -1;
       } else if (keyA > keyB) {
@@ -459,10 +484,14 @@ function sortBy(collection, sortProp) {
  * This is not the original file, and has been modified
  */
 
-let lifecycleFunctions = [
-  'componentWillMount', 'componentDidMount',
-  'componentWillReceiveProps', 'componentWillUpdate', 'componentDidUpdate',
-  'componentWillUnmount', 'render'
+const lifecycleFunctions = [
+  "componentWillMount",
+  "componentDidMount",
+  "componentWillReceiveProps",
+  "componentWillUpdate",
+  "componentDidUpdate",
+  "componentWillUnmount",
+  "render"
 ];
 
 function noop() {
@@ -473,29 +502,34 @@ function trueNoop() {
 }
 
 function es6ify(mixin) {
-  if (typeof mixin === 'function') {
+  if (typeof mixin === "function") {
     // mixin is already es6 style
     return mixin;
   }
 
-  return function (Base) {
+  return function(Base) {
     // mixin is old-react style plain object
     // convert to ES6 class
     class MixinClass extends Base {}
 
     const clonedMixin = Util.extend({}, mixin);
     // These React properties are defined as ES7 class static properties
-    let staticProps = [
-      'childContextTypes', 'contextTypes',
-      'defaultProps', 'propTypes'
+    const staticProps = [
+      "childContextTypes",
+      "contextTypes",
+      "defaultProps",
+      "propTypes"
     ];
-    staticProps.forEach(function (staticProp) {
+    staticProps.forEach(function(staticProp) {
       MixinClass[staticProp] = clonedMixin[staticProp];
       delete clonedMixin[staticProp];
     });
 
     // Omit lifecycle functions because we are already storing them elsewhere
-    Util.extend(MixinClass.prototype, Util.exclude(clonedMixin, lifecycleFunctions));
+    Util.extend(
+      MixinClass.prototype,
+      Util.exclude(clonedMixin, lifecycleFunctions)
+    );
 
     return MixinClass;
   };
@@ -505,20 +539,21 @@ function setLifecycleMixinHandler(proto, lifecycleFn, mixins) {
   if (mixins == null || mixins.length === 0) {
     // No-ops so we need not check before calling super()
     proto[lifecycleFn] = noop;
+
     return;
   }
 
-  proto[lifecycleFn] = function (...args) {
-    mixins.forEach((mixin) => {
+  proto[lifecycleFn] = function(...args) {
+    mixins.forEach(mixin => {
       mixin.apply(this, args);
     });
   };
 }
 
 function addLifeCycleFunctions(proto, mixins) {
-  let mixinLifecycleFnMap = {};
-  mixins.forEach(function (mixin) {
-    lifecycleFunctions.forEach(function (lifecycleFn) {
+  const mixinLifecycleFnMap = {};
+  mixins.forEach(function(mixin) {
+    lifecycleFunctions.forEach(function(lifecycleFn) {
       if (mixin[lifecycleFn] == null) {
         return;
       }
@@ -532,15 +567,17 @@ function addLifeCycleFunctions(proto, mixins) {
     });
   });
 
-  lifecycleFunctions.forEach(function (lifecycleFn) {
+  lifecycleFunctions.forEach(function(lifecycleFn) {
     setLifecycleMixinHandler(
-      proto, lifecycleFn, mixinLifecycleFnMap[lifecycleFn]
+      proto,
+      lifecycleFn,
+      mixinLifecycleFnMap[lifecycleFn]
     );
   });
 }
 
 const Util = {
-  mixin: function (...mixins) {
+  mixin(...mixins) {
     // Creates base class
     class Base extends React.Component {}
 
@@ -549,8 +586,10 @@ const Util = {
 
     mixins.reverse();
 
-    mixins.forEach(function (mixin) {
+    mixins.forEach(function(mixin) {
+      /* eslint-disable no-class-assign */
       Base = es6ify(mixin)(Base);
+      /* eslint-enable no-class-assign */
     });
 
     return Base;
@@ -565,8 +604,8 @@ const Util = {
     return a.length !== b.length;
   },
 
-  capitalize: function (string) {
-    if (typeof string !== 'string') {
+  capitalize(string) {
+    if (typeof string !== "string") {
       return null;
     }
 
@@ -574,26 +613,26 @@ const Util = {
   },
 
   // Add external custom functions
-  clone: clone,
-  exclude: exclude,
-  extend: extend,
-  find: find,
-  isArray: isArray,
+  clone,
+  exclude,
+  extend,
+  find,
+  isArray,
 
   // Add external underscore functions
-  flatten: flatten,
-  isEqual: isEqual,
+  flatten,
+  isEqual,
 
   // Add external lodash functions
-  isArguments: isArguments,
-  isArrayLike: isArrayLike,
-  isFunction: isFunction,
-  isObjectLike: isObjectLike,
-  noop: noop,
-  pick: pick,
-  sortBy: sortBy,
-  trueNoop: trueNoop,
-  values: values
+  isArguments,
+  isArrayLike,
+  isFunction,
+  isObjectLike,
+  noop,
+  pick,
+  sortBy,
+  trueNoop,
+  values
 };
 
 module.exports = Util;

@@ -1,30 +1,29 @@
-import classnames from 'classnames';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import classnames from "classnames";
+import React from "react";
 
-import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
-import Portal from '../Portal/Portal';
-import Util from '../Util/Util';
+import BindMixin from "../Mixin/BindMixin";
+import DOMUtil from "../Util/DOMUtil";
+import Portal from "../Portal/Portal";
+import Util from "../Util/Util";
 
 const ARROW_SIZE = 7;
 
 class Tooltip extends Util.mixin(BindMixin) {
   get methodsToBind() {
     return [
-      'dismissTooltip',
-      'getIdealLocation',
-      'handleMouseEnter',
-      'handleMouseLeave',
-      'handleTooltipMouseEnter',
-      'handleTooltipMouseLeave',
-      'triggerClose'
+      "dismissTooltip",
+      "getIdealLocation",
+      "handleMouseEnter",
+      "handleMouseLeave",
+      "handleTooltipMouseEnter",
+      "handleTooltipMouseLeave",
+      "triggerClose"
     ];
   }
 
   constructor() {
     super(...arguments);
-    this.state = {isOpen: false, wasTriggeredClose: false};
+    this.state = { isOpen: false, wasTriggeredClose: false };
   }
 
   componentWillUnmount() {
@@ -32,13 +31,13 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   handleMouseEnter(options = {}) {
-    let {props} = this;
+    const { props } = this;
 
     if (props.suppress && !options.forceOpen) {
       return;
     }
 
-    let {anchor, position, coordinates} = this.getIdealLocation(
+    const { anchor, position, coordinates } = this.getIdealLocation(
       props.anchor,
       props.position
     );
@@ -59,7 +58,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
   handleTooltipMouseEnter() {
     if (this.props.interactive && !this.state.wasTriggeredClose) {
-      this.setState({isOpen: true});
+      this.setState({ isOpen: true });
       this.addScrollListener();
     }
   }
@@ -69,12 +68,12 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   addScrollListener() {
-    global.addEventListener('scroll', this.dismissTooltip, true);
+    global.addEventListener("scroll", this.dismissTooltip, true);
   }
 
   dismissTooltip(options = {}) {
     if ((!this.props.stayOpen || options.forceClose) && this.state.isOpen) {
-      this.setState({isOpen: false});
+      this.setState({ isOpen: false });
       this.removeScrollListener();
     }
   }
@@ -82,27 +81,37 @@ class Tooltip extends Util.mixin(BindMixin) {
   getAnchor(isVertical, anchor, clearance, tooltipWidth, tooltipHeight) {
     // Calculate the ideal anchor.
     if (isVertical) {
-      return this.transformAnchor(anchor, clearance.left, clearance.right,
-        tooltipWidth, clearance.boundingRect.width);
+      return this.transformAnchor(
+        anchor,
+        clearance.left,
+        clearance.right,
+        tooltipWidth,
+        clearance.boundingRect.width
+      );
     }
 
-    return this.transformAnchor(anchor, clearance.top, clearance.bottom,
-      tooltipHeight, clearance.boundingRect.height);
+    return this.transformAnchor(
+      anchor,
+      clearance.top,
+      clearance.bottom,
+      tooltipHeight,
+      clearance.boundingRect.height
+    );
   }
 
   getCoordinates(position, clearance, tooltipWidth, tooltipHeight) {
     // Calculate the coordinates of the tooltip content.
-    if (position === 'top') {
+    if (position === "top") {
       return {
         left: clearance.boundingRect.left + clearance.boundingRect.width / 2,
         top: clearance.boundingRect.top - tooltipHeight + ARROW_SIZE
       };
-    } else if (position === 'right') {
+    } else if (position === "right") {
       return {
         left: clearance.boundingRect.right,
         top: clearance.boundingRect.top + clearance.boundingRect.height / 2
       };
-    } else if (position === 'bottom') {
+    } else if (position === "bottom") {
       return {
         left: clearance.boundingRect.left + clearance.boundingRect.width / 2,
         top: clearance.boundingRect.bottom
@@ -116,77 +125,95 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   isVertical(position) {
-    return position !== 'left' && position !== 'right';
+    return position !== "left" && position !== "right";
   }
 
   getPosition(position, clearance, tooltipWidth, tooltipHeight) {
     // Change the position if the tooltip will be rendered off the screen.
-    if (position === 'left' && clearance.left < tooltipWidth) {
-      position = 'right';
-    } else if (position === 'right' && clearance.right < tooltipWidth) {
-      position = 'left';
+    if (position === "left" && clearance.left < tooltipWidth) {
+      position = "right";
+    } else if (position === "right" && clearance.right < tooltipWidth) {
+      position = "left";
     }
 
-    if (position === 'top' && clearance.top < tooltipHeight) {
-      position = 'bottom';
-    } else if (position === 'bottom' && clearance.bottom < tooltipHeight) {
-      position = 'top';
+    if (position === "top" && clearance.top < tooltipHeight) {
+      position = "bottom";
+    } else if (position === "bottom" && clearance.bottom < tooltipHeight) {
+      position = "top";
     }
 
     return position;
   }
 
   getIdealLocation(anchor, position) {
-    let clearance = DOMUtil.getNodeClearance(this.refs.triggerNode);
-    let isVertical = this.isVertical(position);
-    let tooltipRect = this.refs.tooltipNode.getBoundingClientRect();
-    let tooltipHeight = tooltipRect.height + ARROW_SIZE;
-    let tooltipWidth = tooltipRect.width + ARROW_SIZE;
+    const clearance = DOMUtil.getNodeClearance(this.refs.triggerNode);
+    const isVertical = this.isVertical(position);
+    const tooltipRect = this.refs.tooltipNode.getBoundingClientRect();
+    const tooltipHeight = tooltipRect.height + ARROW_SIZE;
+    const tooltipWidth = tooltipRect.width + ARROW_SIZE;
 
-    anchor = this.getAnchor(isVertical, anchor, clearance, tooltipWidth,
-      tooltipHeight);
-    position = this.getPosition(position, clearance, tooltipWidth,
-      tooltipHeight);
+    anchor = this.getAnchor(
+      isVertical,
+      anchor,
+      clearance,
+      tooltipWidth,
+      tooltipHeight
+    );
+    position = this.getPosition(
+      position,
+      clearance,
+      tooltipWidth,
+      tooltipHeight
+    );
 
-    let coordinates = this.getCoordinates(position, clearance, tooltipWidth,
-      tooltipHeight);
+    const coordinates = this.getCoordinates(
+      position,
+      clearance,
+      tooltipWidth,
+      tooltipHeight
+    );
 
-    return {anchor, position, coordinates};
+    return { anchor, position, coordinates };
   }
 
   removeScrollListener() {
-    global.removeEventListener('scroll', this.dismissTooltip, true);
+    global.removeEventListener("scroll", this.dismissTooltip, true);
   }
 
   triggerClose() {
-    this.setState({wasTriggeredClose: true});
-    this.dismissTooltip({forceClose: true});
+    this.setState({ wasTriggeredClose: true });
+    this.dismissTooltip({ forceClose: true });
   }
 
   triggerOpen() {
-    this.handleMouseEnter({forceOpen: true});
+    this.handleMouseEnter({ forceOpen: true });
   }
 
-  transformAnchor(anchor, clearanceStart, clearanceEnd, tooltipDimension,
-    triggerDimension) {
+  transformAnchor(
+    anchor,
+    clearanceStart,
+    clearanceEnd,
+    tooltipDimension,
+    triggerDimension
+  ) {
     // Change the provided anchor based on the clearance available.
-    if (anchor === 'start' && clearanceEnd < tooltipDimension) {
-      return 'end';
+    if (anchor === "start" && clearanceEnd < tooltipDimension) {
+      return "end";
     }
 
-    if (anchor === 'end' && clearanceStart < tooltipDimension) {
-      return 'start';
+    if (anchor === "end" && clearanceStart < tooltipDimension) {
+      return "start";
     }
 
-    if (anchor === 'center') {
-      let tooltipOverflow = (tooltipDimension - triggerDimension) / 2;
+    if (anchor === "center") {
+      const tooltipOverflow = (tooltipDimension - triggerDimension) / 2;
 
       if (clearanceStart < tooltipOverflow) {
-        return 'start';
+        return "start";
       }
 
       if (clearanceEnd < tooltipOverflow) {
-        return 'end';
+        return "end";
       }
     }
 
@@ -194,21 +221,24 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {props, state} = this;
+    const { props, state } = this;
     let tooltipStyle = {};
 
     // Get the anchor and position from state if possible. If not, get it from
     // the props.
-    let anchor = state.anchor || props.anchor;
-    let position = state.position || props.position;
+    const anchor = state.anchor || props.anchor;
+    const position = state.position || props.position;
     // Pass along any props that aren't specific to the Tooltip.
-    let elementProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
+    const elementProps = Util.exclude(props, Object.keys(Tooltip.propTypes));
 
-    let tooltipClasses = classnames(props.className, `anchor-${anchor}`,
-      `position-${position}`, {
-        'is-interactive': props.interactive,
-        'is-open': state.isOpen,
-        'no-wrap': !props.wrapText
+    const tooltipClasses = classnames(
+      props.className,
+      `anchor-${anchor}`,
+      `position-${position}`,
+      {
+        "is-interactive": props.interactive,
+        "is-open": state.isOpen,
+        "no-wrap": !props.wrapText
       }
     );
 
@@ -228,15 +258,22 @@ class Tooltip extends Util.mixin(BindMixin) {
     }
 
     return (
-      <props.elementTag className={props.wrapperClassName}
+      <props.elementTag
+        className={props.wrapperClassName}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        {...elementProps} ref="triggerNode">
+        {...elementProps}
+        ref="triggerNode"
+      >
         {props.children}
         <Portal>
-          <div className={tooltipClasses} ref="tooltipNode"
-            style={tooltipStyle} onMouseEnter={this.handleTooltipMouseEnter}
-            onMouseLeave={this.handleTooltipMouseLeave}>
+          <div
+            className={tooltipClasses}
+            ref="tooltipNode"
+            style={tooltipStyle}
+            onMouseEnter={this.handleTooltipMouseEnter}
+            onMouseLeave={this.handleTooltipMouseLeave}
+          >
             <div className={props.contentClassName}>
               {props.content}
             </div>
@@ -248,15 +285,15 @@ class Tooltip extends Util.mixin(BindMixin) {
 }
 
 Tooltip.defaultProps = {
-  anchor: 'center',
-  className: 'tooltip',
-  contentClassName: 'tooltip-content',
-  elementTag: 'div',
+  anchor: "center",
+  className: "tooltip",
+  contentClassName: "tooltip-content",
+  elementTag: "div",
   interactive: false,
-  position: 'top',
+  position: "top",
   stayOpen: false,
   suppress: false,
-  wrapperClassName: 'tooltip-wrapper text-align-center',
+  wrapperClassName: "tooltip-wrapper text-align-center",
   wrapText: false
 };
 
@@ -265,7 +302,7 @@ Tooltip.propTypes = {
   // to the logical respective edges of the tooltip. When tooltip is positioned
   // on the right, start refers to the top of the tooltip. When tooltip is
   // positioned on the bottom, start refers to the left edge of the tooltip.
-  anchor: React.PropTypes.oneOf(['start', 'center', 'end']),
+  anchor: React.PropTypes.oneOf(["start", "center", "end"]),
   // The children will be used as the trigger.
   children: React.PropTypes.node.isRequired,
   className: React.PropTypes.string,
@@ -277,10 +314,12 @@ Tooltip.propTypes = {
   // when the mouse leaves the trigger. When true, the mouse is allowed to enter
   // the tooltip. Default is false.
   interactive: React.PropTypes.bool,
-  maxWidth: React.PropTypes.oneOfType([React.PropTypes.number,
-    React.PropTypes.string]),
+  maxWidth: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string
+  ]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
-  position: React.PropTypes.oneOf(['top', 'bottom', 'right', 'left']),
+  position: React.PropTypes.oneOf(["top", "bottom", "right", "left"]),
   // Keeps a tooltip open after it's triggered. Defaults to false.
   stayOpen: React.PropTypes.bool,
   // Prevents a tooltip from being displayed. Defaults to false.

@@ -1,7 +1,7 @@
-import classNames from 'classnames/dedupe';
-import GeminiScrollbar from 'react-gemini-scrollbar';
+import classNames from "classnames/dedupe";
+import GeminiScrollbar from "react-gemini-scrollbar";
 /* eslint-disable no-unused-vars */
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from "react";
 /* eslint-enable no-unused-vars */
 /**
  * Lifecycle of a Modal:
@@ -9,12 +9,12 @@ import React, {PropTypes} from 'react';
  * interaction changes open to true -> render modal content without scrollbars
  * get height of content -> rerender modal content and cap the height
  */
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
-import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
-import Keycodes from '../constants/Keycodes';
-import Util from '../Util/Util';
+import BindMixin from "../Mixin/BindMixin";
+import DOMUtil from "../Util/DOMUtil";
+import Keycodes from "../constants/Keycodes";
+import Util from "../Util/Util";
 
 // This value is used to designate "off-limits" vertical space, so that the
 // modal never comes into contact with the edge of the viewport.
@@ -32,11 +32,11 @@ class ModalContents extends Util.mixin(BindMixin) {
 
   get methodsToBind() {
     return [
-      'calculateContentHeight',
-      'closeModal',
-      'handleBackdropClick',
-      'handleKeyDown',
-      'handleWindowResize'
+      "calculateContentHeight",
+      "closeModal",
+      "handleBackdropClick",
+      "handleKeyDown",
+      "handleWindowResize"
     ];
   }
 
@@ -44,7 +44,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     super.componentWillReceiveProps(...arguments);
 
     if (this.props.open !== nextProps.open) {
-      document.body.classList.toggle('no-overflow');
+      document.body.classList.toggle("no-overflow");
     }
   }
 
@@ -62,7 +62,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     // Reset the height of the content to null when the modal is closing so
     // that the height will be recalculated next time it opens.
     if (this.props.open && !nextProps.open) {
-      this.setState({height: null});
+      this.setState({ height: null });
       this.removeKeydownListener();
     }
 
@@ -75,17 +75,17 @@ class ModalContents extends Util.mixin(BindMixin) {
     super.componentWillMount(...arguments);
 
     if (this.props.open) {
-      document.body.classList.add('no-overflow');
+      document.body.classList.add("no-overflow");
     }
 
-    window.addEventListener('resize', this.handleWindowResize);
+    window.addEventListener("resize", this.handleWindowResize);
   }
 
   componentWillUnmount() {
     super.componentWillUnmount(...arguments);
 
-    document.body.classList.remove('no-overflow');
-    window.removeEventListener('resize', this.handleWindowResize);
+    document.body.classList.remove("no-overflow");
+    window.removeEventListener("resize", this.handleWindowResize);
   }
 
   handleBackdropClick() {
@@ -101,23 +101,24 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   handleWindowResize() {
-    let {props, state} = this;
+    const { props, state } = this;
 
     // Return early if the modal is closed or not using Gemini.
     if (!props.open) {
       return;
     }
 
-    let viewportHeight = Math.ceil(DOMUtil.getViewportHeight());
+    const viewportHeight = Math.ceil(DOMUtil.getViewportHeight());
 
     // If the height of the viewport is getting shorter, or if it's growing
     // while the height is currently constrained, then we reset the restrained
     // height to null which will cause the height to be recalculated on the
     // next render.
-    if (viewportHeight < this.lastViewportHeight
-      || (viewportHeight > this.lastViewportHeight
-        && state.height !== null)) {
-      this.setState({height: null});
+    if (
+      viewportHeight < this.lastViewportHeight ||
+      (viewportHeight > this.lastViewportHeight && state.height !== null)
+    ) {
+      this.setState({ height: null });
     }
 
     this.lastViewportHeight = viewportHeight;
@@ -125,11 +126,11 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   addKeydownListener() {
-    global.document.body.addEventListener('keydown', this.handleKeyDown);
+    global.document.body.addEventListener("keydown", this.handleKeyDown);
   }
 
   removeKeydownListener() {
-    global.document.body.removeEventListener('keydown', this.handleKeyDown);
+    global.document.body.removeEventListener("keydown", this.handleKeyDown);
   }
 
   calculateContentHeight() {
@@ -161,40 +162,43 @@ class ModalContents extends Util.mixin(BindMixin) {
     const innerContentHeight = Math.ceil(
       innerContent.getBoundingClientRect().height
     );
-    const maxModalHeight = (
-      this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE
-    );
+    const maxModalHeight =
+      this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE;
 
-    const totalModalContentHeight = (
-      innerContentHeight + headerHeight + footerHeight
-    );
+    const totalModalContentHeight =
+      innerContentHeight + headerHeight + footerHeight;
 
     // When the modal's content fits on the screen, both the modal and body
     // height can be set to `auto` (default).
-    let nextInnerContentContainerHeight = 'auto';
-    let nextModalHeight = 'auto';
+    let nextInnerContentContainerHeight = "auto";
+    let nextModalHeight = "auto";
 
     // When the modal's content is too large to fit on the screen, then we need
     // to explicitly set the body's height to its exact pixel value and the
     // modal's height to `100%`.
-    const shouldConstrainHeight = totalModalContentHeight >= maxModalHeight
-      || this.lastViewportHeight < this.lastConstrainedHeight;
+    const shouldConstrainHeight =
+      totalModalContentHeight >= maxModalHeight ||
+      this.lastViewportHeight < this.lastConstrainedHeight;
 
     if (shouldConstrainHeight) {
       const availableContentHeight = modalHeight - headerHeight - footerHeight;
       nextInnerContentContainerHeight = `${availableContentHeight}px`;
-      nextModalHeight = '100%';
+      nextModalHeight = "100%";
 
       // We need to keep track of the largest viewport height that results in a
       // constrained modal.
-      if (this.lastConstrainedHeight == null
-        || this.lastViewportHeight > this.lastConstrainedHeight) {
+      if (
+        this.lastConstrainedHeight == null ||
+        this.lastViewportHeight > this.lastConstrainedHeight
+      ) {
         this.lastConstrainedHeight = this.lastViewportHeight;
       }
 
-      if (this.props.useGemini
-        && this.state.height !== availableContentHeight) {
-        this.setState({height: availableContentHeight});
+      if (
+        this.props.useGemini &&
+        this.state.height !== availableContentHeight
+      ) {
+        this.setState({ height: availableContentHeight });
       }
     }
 
@@ -209,7 +213,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getCloseButton() {
-    let {props} = this;
+    const { props } = this;
 
     if (props.closeButton) {
       return props.closeButton;
@@ -219,7 +223,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getHeader() {
-    let {props} = this;
+    const { props } = this;
 
     if (props.showHeader === false) {
       return null;
@@ -234,7 +238,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getFooter() {
-    let {props} = this;
+    const { props } = this;
 
     if (props.showFooter === false) {
       return null;
@@ -248,9 +252,9 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getModalContent() {
-    let {props, state} = this;
+    const { props, state } = this;
 
-    let modalContent = (
+    const modalContent = (
       <div className={props.scrollContainerClass} ref="innerContent">
         {props.children}
       </div>
@@ -259,13 +263,15 @@ class ModalContents extends Util.mixin(BindMixin) {
     // If the consume disables gemini or we don't know the height, then we
     // don't render with Gemini, unless the consumer is using specifying a
     // custom height.
-    if ((!props.useGemini || state.height == null)
-      && props.modalHeight == null) {
+    if (
+      (!props.useGemini || state.height == null) &&
+      props.modalHeight == null
+    ) {
       return modalContent;
     }
 
-    let geminiClasses = classNames('container-scrollable', props.geminiClass);
-    let geminiContainerStyle = {height: state.height};
+    const geminiClasses = classNames("container-scrollable", props.geminiClass);
+    const geminiContainerStyle = { height: state.height };
 
     if (props.modalHeight) {
       geminiContainerStyle.height = props.modalHeight;
@@ -276,15 +282,16 @@ class ModalContents extends Util.mixin(BindMixin) {
         autoshow={false}
         className={geminiClasses}
         ref="gemini"
-        style={geminiContainerStyle}>
+        style={geminiContainerStyle}
+      >
         {modalContent}
       </GeminiScrollbar>
     );
   }
 
   getModal() {
-    let {props, state} = this;
-    let modalBodyStyle = {};
+    const { props, state } = this;
+    const modalBodyStyle = {};
 
     if (!props.open) {
       return null;
@@ -298,9 +305,11 @@ class ModalContents extends Util.mixin(BindMixin) {
       <div ref="modal" className={props.modalClass}>
         {this.getCloseButton()}
         {this.getHeader()}
-        <div className={props.bodyClass}
+        <div
+          className={props.bodyClass}
           style={modalBodyStyle}
-          ref="innerContentContainer">
+          ref="innerContentContainer"
+        >
           {this.getModalContent()}
         </div>
         {this.getFooter()}
@@ -309,7 +318,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   getBackdrop() {
-    let {props} = this;
+    const { props } = this;
 
     if (!props.open) {
       return null;
@@ -321,7 +330,7 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   triggerGeminiUpdate() {
-    const {gemini} = this.refs;
+    const { gemini } = this.refs;
 
     if (gemini != null && gemini.scrollbar != null) {
       gemini.scrollbar.update();
@@ -329,12 +338,12 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {props} = this;
+    const { props } = this;
     let modalContent = null;
 
     if (props.open) {
       modalContent = (
-        <div className={classNames('modal-wrapper', props.modalWrapperClass)}>
+        <div className={classNames("modal-wrapper", props.modalWrapperClass)}>
           {this.getBackdrop()}
           {this.getModal()}
         </div>
@@ -350,7 +359,8 @@ class ModalContents extends Util.mixin(BindMixin) {
         transitionAppearTimeout={props.transitionAppearTimeoutModal}
         transitionEnterTimeout={props.transitionEnterTimeoutModal}
         transitionLeaveTimeout={props.transitionLeaveTimeoutModal}
-        component="div">
+        component="div"
+      >
         {modalContent}
       </ReactCSSTransitionGroup>
     );
@@ -367,7 +377,7 @@ ModalContents.defaultProps = {
   showHeader: false,
   showFooter: false,
   subHeader: null,
-  transitionNameModal: 'modal',
+  transitionNameModal: "modal",
   transitionAppearTimeoutModal: 300,
   transitionEnterTimeoutModal: 300,
   transitionLeaveTimeoutModal: 300,
@@ -377,13 +387,13 @@ ModalContents.defaultProps = {
   useGemini: true,
 
   // Default classes.
-  backdropClass: 'modal-backdrop',
-  bodyClass: 'modal-body-wrapper',
-  closeButtonClass: 'modal-close',
-  footerClass: 'modal-footer',
-  headerClass: 'modal-header',
-  modalClass: 'modal modal-large',
-  scrollContainerClass: 'modal-body'
+  backdropClass: "modal-backdrop",
+  bodyClass: "modal-body-wrapper",
+  closeButtonClass: "modal-close",
+  footerClass: "modal-footer",
+  headerClass: "modal-header",
+  modalClass: "modal modal-large",
+  scrollContainerClass: "modal-body"
 };
 
 ModalContents.propTypes = {

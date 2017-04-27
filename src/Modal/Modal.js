@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-import ModalContents from './ModalContents.js';
-import Portal from '../Portal/Portal.js';
+import ModalContents from "./ModalContents.js";
+import Portal from "../Portal/Portal.js";
 
 /**
  * Wrapper for the Modal, to put it inside of a Portal.
