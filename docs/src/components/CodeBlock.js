@@ -1,13 +1,13 @@
-import classnames from 'classnames/dedupe';
-import React from 'react';
+import classnames from "classnames/dedupe";
+import React from "react";
 
 class CodeBlock extends React.Component {
   render() {
-    let panelInnerClasses = classnames(
-      'panel-cell panel-cell-narrow panel-cell-short panel-cell-light panel-cell-code-block',
+    const panelInnerClasses = classnames(
+      "panel-cell panel-cell-narrow panel-cell-short panel-cell-light panel-cell-code-block",
       this.props.panelInnerClassNames
     );
-    let preClasses = classnames(
+    const preClasses = classnames(
       `prettyprint transparent flush lang-${this.props.language}`,
       this.props.preClassNames
     );
@@ -29,7 +29,7 @@ const classPropTypes = React.PropTypes.oneOfType([
 ]);
 
 CodeBlock.defaultProps = {
-  language: 'javascript'
+  language: "javascript"
 };
 
 CodeBlock.propTypes = {

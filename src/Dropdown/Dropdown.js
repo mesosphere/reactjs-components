@@ -1,25 +1,24 @@
-import classNames from 'classnames';
-import GeminiScrollbar from 'react-gemini-scrollbar';
-import React from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import ReactDOM from 'react-dom';
+import classNames from "classnames";
+import GeminiScrollbar from "react-gemini-scrollbar";
+import React from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import ReactDOM from "react-dom";
 
-import BindMixin from '../Mixin/BindMixin';
-import DOMUtil from '../Util/DOMUtil';
-import Keycodes from '../constants/Keycodes';
-import Portal from '../Portal/Portal.js';
-import Util from '../Util/Util';
+import BindMixin from "../Mixin/BindMixin";
+import DOMUtil from "../Util/DOMUtil";
+import Keycodes from "../constants/Keycodes";
+import Portal from "../Portal/Portal.js";
+import Util from "../Util/Util";
 
 class Dropdown extends Util.mixin(BindMixin) {
-
   get methodsToBind() {
     return [
-      'closeDropdown',
-      'handleMenuToggle',
-      'handleExternalClick',
-      'handleKeyDown',
-      'handleMenuRender',
-      'handleWrapperBlur'
+      "closeDropdown",
+      "handleMenuToggle",
+      "handleExternalClick",
+      "handleKeyDown",
+      "handleMenuRender",
+      "handleWrapperBlur"
     ];
   }
 
@@ -28,7 +27,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     this.container = null;
     this.state = {
       maxDropdownHeight: null,
-      menuDirection: 'down',
+      menuDirection: "down",
       menuHeight: null,
       menuPositionStyle: null,
       isOpen: false,
@@ -40,9 +39,9 @@ class Dropdown extends Util.mixin(BindMixin) {
   componentWillMount() {
     super.componentWillMount(...arguments);
 
-    let props = this.props;
+    const props = this.props;
     if (!props.persistentID) {
-      this.setState({selectedID: props.initialID});
+      this.setState({ selectedID: props.initialID });
     }
   }
 
@@ -74,10 +73,10 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   handleItemClick(item) {
-    let props = this.props;
+    const props = this.props;
     props.onItemSelection(item);
 
-    let newState = {isOpen: false};
+    const newState = { isOpen: false };
     // Only set the selectedID if persistentID is not set
     if (!props.persistentID) {
       newState.selectedID = item.id;
@@ -120,20 +119,20 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   addKeydownListener() {
-    global.document.body.addEventListener('keydown', this.handleKeyDown);
+    global.document.body.addEventListener("keydown", this.handleKeyDown);
   }
 
   addScrollListener() {
-    this.container.addEventListener('scroll', this.closeDropdown);
+    this.container.addEventListener("scroll", this.closeDropdown);
   }
 
   removeKeydownListener() {
-    global.document.body.removeEventListener('keydown', this.handleKeyDown);
+    global.document.body.removeEventListener("keydown", this.handleKeyDown);
   }
 
   removeScrollListener() {
     if (this.container) {
-      this.container.removeEventListener('scroll', this.closeDropdown);
+      this.container.removeEventListener("scroll", this.closeDropdown);
     }
   }
 
@@ -146,35 +145,39 @@ class Dropdown extends Util.mixin(BindMixin) {
   determineOptimalMenuLocation() {
     let height = null;
     let menuDirection = this.state.menuDirection;
-    let menuPositionStyle = {};
-    let spaceAroundDropdownButton = DOMUtil
-      .getNodeClearance(this.refs.dropdownWrapper);
-    let menuHeight = this.state.menuHeight
-      || this.refs.dropdownMenu.firstChild.clientHeight;
-    let isMenuTallerThanBottom = menuHeight
-      > spaceAroundDropdownButton.bottom;
-    let isMenuTallerThanTop = menuHeight > spaceAroundDropdownButton.top;
-    let isMenuShorterThanTop = !isMenuTallerThanTop;
-    let isTopTallerThanBottom = spaceAroundDropdownButton.top
-      > spaceAroundDropdownButton.bottom
+    const menuPositionStyle = {};
+    const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
+      this.refs.dropdownWrapper
+    );
+    const menuHeight =
+      this.state.menuHeight || this.refs.dropdownMenu.firstChild.clientHeight;
+    const isMenuTallerThanBottom =
+      menuHeight > spaceAroundDropdownButton.bottom;
+    const isMenuTallerThanTop = menuHeight > spaceAroundDropdownButton.top;
+    const isMenuShorterThanTop = !isMenuTallerThanTop;
+    const isTopTallerThanBottom =
+      spaceAroundDropdownButton.top > spaceAroundDropdownButton.bottom;
 
     // If the menu height is larger than the space available on the bottom and
     // less than the space available on top, then render it up. If the height
     // of the menu exceeds the space below and above, but there is more space
     // above than below, render it up. Otherwise, render down.
-    if ((isMenuTallerThanBottom && isMenuShorterThanTop) ||
-      (isMenuTallerThanBottom && isMenuTallerThanTop
-        && isTopTallerThanBottom)) {
-      menuDirection = 'up';
-      menuPositionStyle.bottom = spaceAroundDropdownButton.bottom
-        + spaceAroundDropdownButton.boundingRect.height;
-      menuPositionStyle.top = 'auto';
+    if (
+      (isMenuTallerThanBottom && isMenuShorterThanTop) ||
+      (isMenuTallerThanBottom && isMenuTallerThanTop && isTopTallerThanBottom)
+    ) {
+      menuDirection = "up";
+      menuPositionStyle.bottom =
+        spaceAroundDropdownButton.bottom +
+        spaceAroundDropdownButton.boundingRect.height;
+      menuPositionStyle.top = "auto";
       height = spaceAroundDropdownButton.top;
     } else {
-      menuDirection = 'down';
-      menuPositionStyle.bottom = 'auto';
-      menuPositionStyle.top = spaceAroundDropdownButton.top
-        + spaceAroundDropdownButton.boundingRect.height;
+      menuDirection = "down";
+      menuPositionStyle.bottom = "auto";
+      menuPositionStyle.top =
+        spaceAroundDropdownButton.top +
+        spaceAroundDropdownButton.boundingRect.height;
       height = spaceAroundDropdownButton.bottom;
     }
 
@@ -182,11 +185,11 @@ class Dropdown extends Util.mixin(BindMixin) {
       menuPositionStyle.left = spaceAroundDropdownButton.left;
       menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else if (this.props.anchorRight) {
-      menuPositionStyle.left = 'auto';
+      menuPositionStyle.left = "auto";
       menuPositionStyle.right = spaceAroundDropdownButton.right;
     } else {
       menuPositionStyle.left = spaceAroundDropdownButton.left;
-      menuPositionStyle.right = 'auto';
+      menuPositionStyle.right = "auto";
     }
 
     // We assume that 125 pixels is the smallest height we should render.
@@ -204,7 +207,7 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   openDropdown() {
-    let state = Object.assign({}, this.state);
+    const state = Object.assign({}, this.state);
 
     state.isOpen = true;
     state.renderHidden = true;
@@ -213,9 +216,9 @@ class Dropdown extends Util.mixin(BindMixin) {
     // position to a default state to trigger its recalculation on the next
     // render.
     if (this.state.menuHeight == null) {
-      let buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
+      const buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
 
-      state.menuDirection = 'down';
+      state.menuDirection = "down";
       state.menuPositionStyle = {
         top: buttonPosition.top + buttonPosition.height,
         left: buttonPosition.left
@@ -227,18 +230,18 @@ class Dropdown extends Util.mixin(BindMixin) {
 
   closeDropdown() {
     if (this.state.isOpen) {
-      this.setState({isOpen: false, renderHidden: false});
+      this.setState({ isOpen: false, renderHidden: false });
     }
   }
 
   getMenuItems(items) {
-    let selectedID = this.getSelectedID();
+    const selectedID = this.getSelectedID();
 
-    return items.map((item) => {
-      let classSet = classNames(
+    return items.map(item => {
+      const classSet = classNames(
         {
-          'is-selectable': item.selectable !== false,
-          'is-selected': item.id === selectedID
+          "is-selectable": item.selectable !== false,
+          "is-selected": item.id === selectedID
         },
         item.className,
         this.props.dropdownMenuListItemClassName
@@ -259,21 +262,23 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getScrollContainer() {
-    let {scrollContainer, scrollContainerParentSelector} = this.props;
+    let { scrollContainer, scrollContainerParentSelector } = this.props;
 
-    if (typeof scrollContainer === 'string') {
+    if (typeof scrollContainer === "string") {
       // Find the closest scrolling element by the specified selector.
-      scrollContainer = DOMUtil.closest(ReactDOM.findDOMNode(this),
-        scrollContainer) || window;
+      scrollContainer =
+        DOMUtil.closest(ReactDOM.findDOMNode(this), scrollContainer) || window;
 
-      let {parentElement} = scrollContainer;
+      const { parentElement } = scrollContainer;
 
       // If the user specified scrollContainerParentSelector, we check to see
       // if the parent scrolling element matches the specified parent selector.
-      if (scrollContainer !== window && scrollContainerParentSelector != null
-        && parentElement != null && parentElement[DOMUtil.matchesFn](
-          scrollContainerParentSelector
-        )) {
+      if (
+        scrollContainer !== window &&
+        scrollContainerParentSelector != null &&
+        parentElement != null &&
+        parentElement[DOMUtil.matchesFn](scrollContainerParentSelector)
+      ) {
         scrollContainer = parentElement;
       }
     }
@@ -282,7 +287,7 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getSelectedHtml(id, items) {
-    let obj = Util.find(items, function (item) {
+    const obj = Util.find(items, function(item) {
       return item.id === id;
     });
 
@@ -300,20 +305,19 @@ class Dropdown extends Util.mixin(BindMixin) {
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
-    let {props, state} = this;
+    const { props, state } = this;
     let dropdownMenu = <div key="placeholder-element" />;
-    let dropdownMenuClassSet = classNames(
+    const dropdownMenuClassSet = classNames(
       state.menuDirection,
       props.dropdownMenuClassName
     );
-    let {items} = props;
-    let transitionName =
-      `${props.transitionName}-${state.menuDirection}`;
-    let wrapperClassSet = classNames(
+    const { items } = props;
+    const transitionName = `${props.transitionName}-${state.menuDirection}`;
+    const wrapperClassSet = classNames(
       state.menuDirection,
       props.wrapperClassName,
       {
-        'open': state.isOpen
+        open: state.isOpen
       }
     );
 
@@ -327,7 +331,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       // Render with Gemini scrollbar if the dropdown's height should be
       // constrainted.
       if (state.menuHeight >= state.maxDropdownHeight) {
-        let height = 'auto';
+        let height = "auto";
 
         // Remove 30 pixels from the dropdown height to account for offset
         // positioning from the dropdown button.
@@ -335,22 +339,21 @@ class Dropdown extends Util.mixin(BindMixin) {
           height = state.maxDropdownHeight - 30;
         }
 
-        let dropdownMenuStyle = {height};
+        const dropdownMenuStyle = { height };
 
-        if (props.useGemini && height !== 'auto') {
+        if (props.useGemini && height !== "auto") {
           dropdownMenuItems = (
             <GeminiScrollbar
               autoshow={true}
               className="container-scrollable"
-              style={dropdownMenuStyle}>
+              style={dropdownMenuStyle}
+            >
               {dropdownMenuItems}
             </GeminiScrollbar>
           );
         } else {
           dropdownMenuItems = (
-            <div
-              className="container-scrollable"
-              style={dropdownMenuStyle}>
+            <div className="container-scrollable" style={dropdownMenuStyle}>
               {dropdownMenuItems}
             </div>
           );
@@ -362,7 +365,8 @@ class Dropdown extends Util.mixin(BindMixin) {
           className={dropdownMenuClassSet}
           role="menu"
           ref="dropdownMenu"
-          style={state.menuPositionStyle}>
+          style={state.menuPositionStyle}
+        >
           <div className={props.dropdownMenuListClassName}>
             {dropdownMenuItems}
           </div>
@@ -383,21 +387,26 @@ class Dropdown extends Util.mixin(BindMixin) {
         <ReactCSSTransitionGroup
           transitionName={transitionName}
           transitionEnterTimeout={props.transitionEnterTimeout}
-          transitionLeaveTimeout={props.transitionLeaveTimeout}>
+          transitionLeaveTimeout={props.transitionLeaveTimeout}
+        >
           {dropdownMenu}
         </ReactCSSTransitionGroup>
       );
     }
 
     return (
-      <span className={wrapperClassSet}
+      <span
+        className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
-        ref="dropdownWrapper">
-        <button className={props.buttonClassName}
+        ref="dropdownWrapper"
+      >
+        <button
+          className={props.buttonClassName}
           onClick={this.handleMenuToggle}
           ref="button"
-          type="button">
+          type="button"
+        >
           {this.getSelectedHtml(this.getSelectedID(), items)}
         </button>
         <Portal onRender={this.handleMenuRender}>
@@ -414,7 +423,7 @@ Dropdown.defaultProps = {
   scrollContainer: window,
   scrollContainerParentSelector: null,
   transition: false,
-  transitionName: 'dropdown-menu',
+  transitionName: "dropdown-menu",
   transitionEnterTimeout: 250,
   transitionLeaveTimeout: 250,
   onItemSelection: () => {},
@@ -467,8 +476,10 @@ Dropdown.propTypes = {
   onItemSelection: React.PropTypes.func,
   // The nearest scrolling DOMNode that contains the dropdown. Defaults to
   // window. Also accepts a string, treated as a selector for the node.
-  scrollContainer: React.PropTypes.oneOfType([React.PropTypes.object,
-    React.PropTypes.string]),
+  scrollContainer: React.PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.string
+  ]),
   // Will attach the scroll handler to the the direct parent of scrollContainer
   // if it matches this selector. Defaults to null.
   scrollContainerParentSelector: React.PropTypes.string,

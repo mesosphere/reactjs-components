@@ -1,6 +1,6 @@
-let KeyboardUtil = {
+const KeyboardUtil = {
   keys: {
-    enter: 'Enter'
+    enter: "Enter"
   }
 };
 

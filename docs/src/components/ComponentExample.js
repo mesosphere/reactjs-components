@@ -1,9 +1,9 @@
-import classnames from 'classnames/dedupe';
-import React from 'react';
+import classnames from "classnames/dedupe";
+import React from "react";
 
 class ComponentExample extends React.Component {
   render() {
-    let classes = classnames('panel-cell', this.props.classNames);
+    const classes = classnames("panel-cell", this.props.classNames);
 
     return (
       <div className={classes}>

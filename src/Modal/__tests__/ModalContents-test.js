@@ -1,25 +1,24 @@
 /* eslint-disable no-unused-vars */
-var React = require('react');
+var React = require("react");
 /* eslint-enable no-unused-vars */
-import ReactDOM from 'react-dom';
-var TestUtils = require('react-addons-test-utils');
+import ReactDOM from "react-dom";
+var TestUtils = require("react-addons-test-utils");
 
-jest.dontMock('../../Util/DOMUtil');
-jest.dontMock('../ModalContents');
+jest.dontMock("../../Util/DOMUtil");
+jest.dontMock("../ModalContents");
 
-var DOMUtil = require('../../Util/DOMUtil');
-var ModalContents = require('../ModalContents');
+var DOMUtil = require("../../Util/DOMUtil");
+var ModalContents = require("../ModalContents");
 
-describe('ModalContents', function () {
-
-  beforeEach(function () {
-    document.body.classList.add = function () {};
-    document.body.classList.remove = function () {};
-    document.body.classList.toggle = function () {};
+describe("ModalContents", function() {
+  beforeEach(function() {
+    document.body.classList.add = function() {};
+    document.body.classList.remove = function() {};
+    document.body.classList.toggle = function() {};
   });
 
-  describe('#getModal', function () {
-    it('should return null if modal is not open', function () {
+  describe("#getModal", function() {
+    it("should return null if modal is not open", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents open={false} />
       );
@@ -27,7 +26,7 @@ describe('ModalContents', function () {
       expect(instance.getModal()).toEqual(null);
     });
 
-    it('should return an element if modal is open', function () {
+    it("should return an element if modal is open", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents open={true} />
       );
@@ -37,37 +36,40 @@ describe('ModalContents', function () {
     });
   });
 
-  describe('#onClose', function () {
-    beforeEach(function () {
+  describe("#onClose", function() {
+    beforeEach(function() {
       this.onClose = jasmine.createSpy();
       this.instance = TestUtils.renderIntoDocument(
         <ModalContents
           onClose={this.onClose}
           open={true}
-          closeByBackdropClick={true}/>
+          closeByBackdropClick={true}
+        />
       );
     });
 
-    it('should not call onClose before the modal closes', function () {
+    it("should not call onClose before the modal closes", function() {
       expect(this.onClose).not.toHaveBeenCalled();
     });
 
-    it('should call onClose when the modal closes', function () {
+    it("should call onClose when the modal closes", function() {
       this.instance.closeModal();
       expect(this.onClose).toHaveBeenCalled();
     });
 
-    describe('#handleBackdropClick', function () {
-      it('should call onClose', function () {
+    describe("#handleBackdropClick", function() {
+      it("should call onClose", function() {
         this.instance.handleBackdropClick();
         expect(this.onClose).toHaveBeenCalled();
       });
 
-      it('does not call onClose if closeByBackdropClick is false', function () {
+      it("does not call onClose if closeByBackdropClick is false", function() {
         var instance = TestUtils.renderIntoDocument(
-          <ModalContents onClose={this.onClose}
+          <ModalContents
+            onClose={this.onClose}
             open={true}
-            closeByBackdropClick={false} />
+            closeByBackdropClick={false}
+          />
         );
 
         instance.handleBackdropClick();
@@ -76,8 +78,8 @@ describe('ModalContents', function () {
     });
   });
 
-  describe('#getFooter', function () {
-    it('should not return a footer if disabled', function () {
+  describe("#getFooter", function() {
+    it("should not return a footer if disabled", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents showFooter={false} />
       );
@@ -85,7 +87,7 @@ describe('ModalContents', function () {
       expect(instance.getFooter()).toEqual(null);
     });
 
-    it('should return a footer if enabled', function () {
+    it("should return a footer if enabled", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents showFooter={true} />
       );
@@ -95,8 +97,8 @@ describe('ModalContents', function () {
     });
   });
 
-  describe('#getBackdrop', function () {
-    it('should not return a backdrop when closed', function () {
+  describe("#getBackdrop", function() {
+    it("should not return a backdrop when closed", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents open={false} />
       );
@@ -104,7 +106,7 @@ describe('ModalContents', function () {
       expect(instance.getBackdrop()).toEqual(null);
     });
 
-    it('should return a backdrop when open', function () {
+    it("should return a backdrop when open", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents open={true} />
       );
@@ -114,16 +116,14 @@ describe('ModalContents', function () {
     });
   });
 
-  describe('#getCloseButton', function () {
-    it('should not return a button if disabled', function () {
-      var instance = TestUtils.renderIntoDocument(
-        <ModalContents />
-      );
+  describe("#getCloseButton", function() {
+    it("should not return a button if disabled", function() {
+      var instance = TestUtils.renderIntoDocument(<ModalContents />);
 
       expect(instance.getCloseButton()).toEqual(null);
     });
 
-    it('should return a button if closeButton is provided', function () {
+    it("should return a button if closeButton is provided", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents closeButton={<button>Close</button>} />
       );
@@ -133,23 +133,23 @@ describe('ModalContents', function () {
     });
   });
 
-  describe('#handleWindowResize', function () {
-    beforeEach(function () {
+  describe("#handleWindowResize", function() {
+    beforeEach(function() {
       var getVeiwportHeightCalls = 0;
       var viewportHeightValues = [100, 99, 101, 102];
 
       this.getViewportHeight = DOMUtil.getViewportHeight;
 
-      DOMUtil.getViewportHeight = function () {
+      DOMUtil.getViewportHeight = function() {
         return viewportHeightValues[getVeiwportHeightCalls++];
       };
     });
 
-    afterEach(function () {
+    afterEach(function() {
       DOMUtil.getViewportHeight = this.getViewportHeight;
     });
 
-    it('should store the last viewport height on the instance', function () {
+    it("should store the last viewport height on the instance", function() {
       var instance = TestUtils.renderIntoDocument(
         <ModalContents open={true} useGemini={true} />
       );
@@ -159,18 +159,16 @@ describe('ModalContents', function () {
       expect(instance.lastViewportHeight).toEqual(100);
     });
 
-    it('should reset the height stored in state to null when the viewport ' +
-      'height is shrinking',
-      function () {
-        var node = document.createElement('div');
+    it(
+      "should reset the height stored in state to null when the viewport " +
+        "height is shrinking",
+      function() {
+        var node = document.createElement("div");
         var instance = TestUtils.renderIntoDocument(
           <ModalContents open={true} useGemini={true} />
         );
 
-        ReactDOM.render(
-          <ModalContents open={true} useGemini={true} />,
-          node
-        );
+        ReactDOM.render(<ModalContents open={true} useGemini={true} />, node);
 
         instance.state.height = 300;
 
@@ -184,41 +182,44 @@ describe('ModalContents', function () {
 
         expect(instance.lastViewportHeight).toEqual(99);
         expect(instance.state.height).toEqual(null);
-      });
+      }
+    );
   });
 
-  describe('overflow hidden on body', function () {
-    beforeEach(function () {
+  describe("overflow hidden on body", function() {
+    beforeEach(function() {
       document.body.classList.add = jasmine.createSpy();
       document.body.classList.remove = jasmine.createSpy();
       document.body.classList.toggle = jasmine.createSpy();
 
-      this.node = document.createElement('div');
+      this.node = document.createElement("div");
     });
 
-    it('should toggle no-overflow on body when updated to open', function () {
+    it("should toggle no-overflow on body when updated to open", function() {
       ReactDOM.render(<ModalContents open={false} />, this.node);
       ReactDOM.render(<ModalContents open={true} />, this.node);
 
-      expect(document.body.classList.toggle)
-        .toHaveBeenCalledWith('no-overflow');
+      expect(document.body.classList.toggle).toHaveBeenCalledWith(
+        "no-overflow"
+      );
     });
 
-    it('should toggle no-overflow on body when updated to close', function () {
+    it("should toggle no-overflow on body when updated to close", function() {
       ReactDOM.render(<ModalContents open={true} />, this.node);
       ReactDOM.render(<ModalContents open={false} />, this.node);
 
-      expect(document.body.classList.toggle)
-        .toHaveBeenCalledWith('no-overflow');
+      expect(document.body.classList.toggle).toHaveBeenCalledWith(
+        "no-overflow"
+      );
     });
 
-    it('should add no-overflow on body when mounted open', function () {
+    it("should add no-overflow on body when mounted open", function() {
       ReactDOM.render(<ModalContents open={true} />, this.node);
 
-      expect(document.body.classList.add).toHaveBeenCalledWith('no-overflow');
+      expect(document.body.classList.add).toHaveBeenCalledWith("no-overflow");
     });
 
-    it('should not change class on body when mounted close', function () {
+    it("should not change class on body when mounted close", function() {
       ReactDOM.render(<ModalContents open={false} />, this.node);
 
       expect(document.body.classList.toggle).not.toHaveBeenCalledWith();
@@ -226,12 +227,13 @@ describe('ModalContents', function () {
       expect(document.body.classList.remove).not.toHaveBeenCalledWith();
     });
 
-    it('should remove no-overflow on body when unmounted', function () {
+    it("should remove no-overflow on body when unmounted", function() {
       ReactDOM.render(<ModalContents open={true} />, this.node);
       ReactDOM.render(<div />, this.node);
 
-      expect(document.body.classList.remove)
-        .toHaveBeenCalledWith('no-overflow');
+      expect(document.body.classList.remove).toHaveBeenCalledWith(
+        "no-overflow"
+      );
     });
   });
 });

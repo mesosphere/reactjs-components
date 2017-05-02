@@ -1,14 +1,13 @@
-import classNames from 'classnames';
-import GeminiScrollbar from 'react-gemini-scrollbar';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import classNames from "classnames";
+import GeminiScrollbar from "react-gemini-scrollbar";
+import React from "react";
 
-import CodeBlock from '../components/CodeBlock';
-import ComponentExample from '../components/ComponentExample';
-import ComponentExampleWrapper from '../components/ComponentExampleWrapper';
-import ComponentWrapper from '../components/ComponentWrapper';
-import PropertiesAPIBlock from '../components/PropertiesAPIBlock';
-import Table from '../../../src/Table/Table.js';
+import CodeBlock from "../components/CodeBlock";
+import ComponentExample from "../components/ComponentExample";
+import ComponentExampleWrapper from "../components/ComponentExampleWrapper";
+import ComponentWrapper from "../components/ComponentWrapper";
+import PropertiesAPIBlock from "../components/PropertiesAPIBlock";
+import Table from "../../../src/Table/Table.js";
 
 function compareValues(a, b) {
   if (b == null || a > b) {
@@ -21,8 +20,8 @@ function compareValues(a, b) {
 }
 
 function getSortFunction(tieBreaker) {
-  return function (prop) {
-    return function (a, b) {
+  return function(prop) {
+    return function(a, b) {
       if (a[prop] === b[prop]) {
         return compareValues(a[tieBreaker], b[tieBreaker]);
       }
@@ -32,17 +31,23 @@ function getSortFunction(tieBreaker) {
   };
 }
 
-let rows = [
-  {name: 'Zach', age: 11, gender: 'Male', location: 'SF, CA', id: 'a'},
-  {name: 'Franco', age: 34, gender: 'Female', location: 'Boston, MA', id: 'b'},
-  {name: 'Sandy', age: 68, gender: 'Female', location: 'Roy, MI', id: 'c'},
-  {name: 'Jeffrey', age: 21, gender: 'Male', id: 'd'},
-  {name: 'Louise', age: 94, gender: 'Female', location: 'Yolo, CO', id: 'e'},
-  {name: 'Nancy', age: 28, gender: 'Female', location: 'Mory, UT', id: 'f'},
-  {name: 'Anna', age: 63, gender: 'Female', location: 'Vegas, NV', id: 'g'},
-  {name: 'Jay', age: 35, gender: 'Male', location: 'Washington, DC', id: 'h'},
-  {name: 'Bob', age: 47, gender: 'Male', location: 'New Oleans, LA', id: 'i'},
-  {name: 'Nick', age: 51, gender: 'Male', location: 'Houston, TX', id: 'j'}
+const rows = [
+  { name: "Zach", age: 11, gender: "Male", location: "SF, CA", id: "a" },
+  {
+    name: "Franco",
+    age: 34,
+    gender: "Female",
+    location: "Boston, MA",
+    id: "b"
+  },
+  { name: "Sandy", age: 68, gender: "Female", location: "Roy, MI", id: "c" },
+  { name: "Jeffrey", age: 21, gender: "Male", id: "d" },
+  { name: "Louise", age: 94, gender: "Female", location: "Yolo, CO", id: "e" },
+  { name: "Nancy", age: 28, gender: "Female", location: "Mory, UT", id: "f" },
+  { name: "Anna", age: 63, gender: "Female", location: "Vegas, NV", id: "g" },
+  { name: "Jay", age: 35, gender: "Male", location: "Washington, DC", id: "h" },
+  { name: "Bob", age: 47, gender: "Male", location: "New Oleans, LA", id: "i" },
+  { name: "Nick", age: 51, gender: "Male", location: "Houston, TX", id: "j" }
 ];
 
 class TableExample extends React.Component {
@@ -58,24 +63,24 @@ class TableExample extends React.Component {
   }
 
   getColumnHeading(prop, order, sortBy) {
-    let caretClassNames = classNames({
-      'caret': true,
-      'caret--asc': order === 'asc',
-      'caret--desc': order === 'desc',
-      'caret--visible': sortBy.prop === prop
+    const caretClassNames = classNames({
+      caret: true,
+      "caret--asc": order === "asc",
+      "caret--desc": order === "desc",
+      "caret--visible": sortBy.prop === prop
     });
 
-    let headingStrings = {
-      'age': 'Age',
-      'gender': 'Gender',
-      'location': 'Location',
-      'name': 'Name'
+    const headingStrings = {
+      age: "Age",
+      gender: "Gender",
+      location: "Location",
+      name: "Name"
     };
 
     return (
       <span>
         {headingStrings[prop]}
-        <span className={caretClassNames}></span>
+        <span className={caretClassNames} />
       </span>
     );
   }
@@ -83,10 +88,10 @@ class TableExample extends React.Component {
   getColGroup() {
     return (
       <colgroup>
-        <col style={{width: '40%'}} />
-        <col style={{width: '20%'}} />
-        <col style={{width: '20%'}} />
-        <col style={{width: '20%'}} />
+        <col style={{ width: "40%" }} />
+        <col style={{ width: "20%" }} />
+        <col style={{ width: "20%" }} />
+        <col style={{ width: "20%" }} />
       </colgroup>
     );
   }
@@ -94,9 +99,9 @@ class TableExample extends React.Component {
   getColumns() {
     return [
       {
-        className: 'name',
+        className: "name",
         heading: this.getColumnHeading,
-        prop: 'name',
+        prop: "name",
         sortable: true
         // Using default sorting.
         // Uncomment this to use age as tie breaker for name
@@ -104,28 +109,28 @@ class TableExample extends React.Component {
       },
       {
         cacheCell: true,
-        className: 'age',
+        className: "age",
         heading: this.getColumnHeading,
-        prop: 'age',
+        prop: "age",
         sortable: true,
-        sortFunction: getSortFunction('name')
+        sortFunction: getSortFunction("name")
       },
       {
         cacheCell: true,
-        className: 'location',
-        defaultContent: 'None Specified',
+        className: "location",
+        defaultContent: "None Specified",
         heading: this.getColumnHeading,
-        prop: 'location',
+        prop: "location",
         sortable: true,
-        sortFunction: getSortFunction('name')
+        sortFunction: getSortFunction("name")
       },
       {
         cacheCell: true,
-        className: 'gender',
+        className: "gender",
         heading: this.getColumnHeading,
-        prop: 'gender',
+        prop: "gender",
         sortable: true,
-        sortFunction: getSortFunction('name')
+        sortFunction: getSortFunction("name")
       }
     ];
   }
@@ -135,10 +140,10 @@ class TableExample extends React.Component {
   }
 
   getManyRows() {
-    let oldRows = rows.slice(0);
-    let newRows = [];
+    const oldRows = rows.slice(0);
+    const newRows = [];
     for (var i = 0; i < 10000; i++) {
-      let item = oldRows[Math.floor(Math.random() * oldRows.length)];
+      const item = oldRows[Math.floor(Math.random() * oldRows.length)];
       newRows.push({
         name: item.name,
         age: item.age,
@@ -153,16 +158,25 @@ class TableExample extends React.Component {
 
   render() {
     return (
-      <ComponentWrapper title="Table" srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js">
-        <p className="lead flush-bottom">Display data in a structured way. Handles extremely large amounts of data and only displays the rows needed (à la infinite scroll).</p>
-        <PropertiesAPIBlock propTypesBlock={'PROPTYPES_BLOCK(src/Table/Table.js)'} />
+      <ComponentWrapper
+        title="Table"
+        srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js"
+      >
+        <p className="lead flush-bottom">
+          Display data in a structured way. Handles extremely large amounts of data and only displays the rows needed (à la infinite scroll).
+        </p>
+        <PropertiesAPIBlock
+          propTypesBlock={"PROPTYPES_BLOCK(src/Table/Table.js)"}
+        />
         <ComponentExampleWrapper>
           <ComponentExample>
             <h3>A Close Look At Table Columns</h3>
-            <p>Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.</p>
+            <p>
+              Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.
+            </p>
           </ComponentExample>
           <CodeBlock>
-{`getColumns() {
+            {`getColumns() {
   // We want to pass an array of objects.
   // Each object should contain information about the settings for that column.
   return [
@@ -218,10 +232,11 @@ class TableExample extends React.Component {
               className="table flush-bottom"
               colGroup={this.getColGroup()}
               columns={this.getColumns()}
-              data={this.getRows('large')} />
+              data={this.getRows("large")}
+            />
           </ComponentExample>
           <CodeBlock>
-{`import {Table} from 'reactjs-components';
+            {`import {Table} from 'reactjs-components';
 import React from 'react';
 
 function compareValues(a, b) {
@@ -343,17 +358,19 @@ class TableExample extends React.Component {
             <GeminiScrollbar
               autoshow={true}
               className="container-scrollable"
-              style={{height: 800}}>
+              style={{ height: 800 }}
+            >
               <Table
                 className="table"
                 colGroup={this.getColGroup()}
                 columns={this.getColumns()}
                 data={this.hugeRows}
-                containerSelector=".gm-scroll-view" />
+                containerSelector=".gm-scroll-view"
+              />
             </GeminiScrollbar>
           </ComponentExample>
           <CodeBlock>
-{`import {Table} from 'reactjs-components';
+            {`import {Table} from 'reactjs-components';
 import React from 'react';
 
 function compareValues(a, b) {
@@ -485,7 +502,6 @@ class InfiniteScrollExample extends React.Component {
       </ComponentWrapper>
     );
   }
-
 }
 
 module.exports = TableExample;

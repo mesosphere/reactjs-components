@@ -1,12 +1,12 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
+import classNames from "classnames/dedupe";
+import React from "react";
 
-import BindMixin from '../Mixin/BindMixin';
-import Util from '../Util/Util';
+import BindMixin from "../Mixin/BindMixin";
+import Util from "../Util/Util";
 
 class FieldRadioButton extends Util.mixin(BindMixin) {
   get methodsToBind() {
-    return ['handleChange'];
+    return ["handleChange"];
   }
 
   shouldComponentUpdate(nextProps) {
@@ -14,14 +14,14 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   hasError() {
-    let {props} = this;
-    let validationError = props.validationError;
+    const { props } = this;
+    const validationError = props.validationError;
 
     return !!(validationError && validationError[props.name]);
   }
 
   getErrorMsg() {
-    let {helpBlockClass, name, validationError} = this.props;
+    const { helpBlockClass, name, validationError } = this.props;
 
     if (!this.hasError()) {
       return null;
@@ -35,45 +35,46 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   handleChange(eventName, name, event) {
-    let {props} = this;
+    const { props } = this;
 
-    if (eventName === 'multipleChange') {
-      let model = props.startValue.reduce(function (changedItems, item) {
-        if (item.checked && item.name !== name) {
-          item.checked = false;
-          changedItems.push(item);
-        }
+    if (eventName === "multipleChange") {
+      const model = props.startValue.reduce(
+        function(changedItems, item) {
+          if (item.checked && item.name !== name) {
+            item.checked = false;
+            changedItems.push(item);
+          }
 
-        return changedItems;
-      }, [{name, checked: event.target.checked}]);
+          return changedItems;
+        },
+        [{ name, checked: event.target.checked }]
+      );
 
       props.handleEvent(eventName, props.name, model, event);
     }
 
-    if (eventName === 'change') {
+    if (eventName === "change") {
       props.handleEvent(eventName, props.name, event.target.checked, event);
     }
   }
 
   getLabel() {
-    let {showLabel, name} = this.props;
+    const { showLabel, name } = this.props;
     let label = name;
 
     if (!showLabel) {
       return null;
     }
 
-    if (typeof showLabel === 'string') {
+    if (typeof showLabel === "string") {
       label = showLabel;
     }
 
-    if (typeof showLabel !== 'string' && showLabel !== true) {
+    if (typeof showLabel !== "string" && showLabel !== true) {
       return showLabel;
     }
 
-    return (
-      <p>{label}</p>
-    );
+    return <p>{label}</p>;
   }
 
   getItemLabel(attributes) {
@@ -81,8 +82,8 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       return null;
     }
 
-    let radioButtonLabelClass = classNames(
-      'form-element-radio-button-label',
+    const radioButtonLabelClass = classNames(
+      "form-element-radio-button-label",
       attributes.radioButtonLabelClass,
       this.props.radioButtonLabelClass
     );
@@ -95,15 +96,15 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   getItem(eventName, labelClass, attributes, index) {
-    let labelClasses = classNames(
-      'form-control-toggle form-control-toggle-custom',
+    const labelClasses = classNames(
+      "form-control-toggle form-control-toggle-custom",
       labelClass,
-      {mute: attributes.disabled},
+      { mute: attributes.disabled },
       attributes.labelClass
     );
 
-    let indicatorClasses = classNames(
-      'form-control-toggle-indicator',
+    const indicatorClasses = classNames(
+      "form-control-toggle-indicator",
       attributes.indicatorClass
     );
 
@@ -112,7 +113,8 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
         <input
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           type="radio"
-          {...attributes} />
+          {...attributes}
+        />
         <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
       </label>
@@ -120,26 +122,26 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   getItems() {
-    let {labelClass, startValue} = this.props;
+    const { labelClass, startValue } = this.props;
 
     if (!Util.isArray(startValue)) {
       // Fetch other attributes from props
-      let value = {};
+      const value = {};
       if (startValue != null) {
         value.checked = startValue;
       }
-      let model = Util.extend({}, this.props, value);
+      const model = Util.extend({}, this.props, value);
 
-      return this.getItem('change', labelClass, model, 0);
+      return this.getItem("change", labelClass, model, 0);
     }
 
     return startValue.map(
-      this.getItem.bind(this, 'multipleChange', labelClass)
+      this.getItem.bind(this, "multipleChange", labelClass)
     );
   }
 
   getRowClass() {
-    let {columnWidth, formElementClass} = this.props;
+    const { columnWidth, formElementClass } = this.props;
 
     return classNames(
       `form-row-element column-${columnWidth}`,
@@ -148,10 +150,14 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
   }
 
   render() {
-    let {formGroupClass, formGroupErrorClass, itemWrapperClass} = this.props;
+    const {
+      formGroupClass,
+      formGroupErrorClass,
+      itemWrapperClass
+    } = this.props;
 
-    let classes = classNames(
-      {[formGroupErrorClass]: this.hasError()},
+    const classes = classNames(
+      { [formGroupErrorClass]: this.hasError() },
       formGroupClass
     );
 
@@ -171,10 +177,10 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
 
 FieldRadioButton.defaultProps = {
   columnWidth: 12,
-  handleEvent: function () {}
+  handleEvent() {}
 };
 
-let classPropType = React.PropTypes.oneOfType([
+const classPropType = React.PropTypes.oneOfType([
   React.PropTypes.array,
   React.PropTypes.object,
   React.PropTypes.string

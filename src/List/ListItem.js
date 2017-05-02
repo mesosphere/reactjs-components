@@ -1,22 +1,24 @@
-import React, {PropTypes} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, { PropTypes } from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
-import Util from '../Util/Util';
+import Util from "../Util/Util";
 
 class ListItem extends React.Component {
   render() {
-    let {props} = this;
-    let Tag = props.tag;
+    const { props } = this;
+    const Tag = props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    let attributes = Util.exclude(props, Object.keys(ListItem.propTypes)) || {};
+    const attributes = Util.exclude(props, Object.keys(ListItem.propTypes)) || {
+    };
 
     if (attributes.transition) {
       return (
         <ReactCSSTransitionGroup
           {...attributes}
           className={props.className}
-          component={props.tag}>
+          component={props.tag}
+        >
           {props.children}
         </ReactCSSTransitionGroup>
       );
@@ -31,8 +33,8 @@ class ListItem extends React.Component {
 }
 
 ListItem.defaultProps = {
-  className: 'list-item',
-  tag: 'li'
+  className: "list-item",
+  tag: "li"
 };
 
 ListItem.propTypes = {

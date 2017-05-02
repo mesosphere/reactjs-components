@@ -1,16 +1,14 @@
-import classNames from 'classnames';
-import React from 'react';
+import classNames from "classnames";
+import React from "react";
 
-import CodeBlock from './CodeBlock';
-import CodeBlockWrapper from './CodeBlockWrapper';
-import BindMixin from '../../../src/Mixin/BindMixin';
-import Util from '../../../src/Util/Util';
+import CodeBlock from "./CodeBlock";
+import CodeBlockWrapper from "./CodeBlockWrapper";
+import BindMixin from "../../../src/Mixin/BindMixin";
+import Util from "../../../src/Util/Util";
 
 class PropertiesAPIBlock extends Util.mixin(BindMixin) {
   get methodsToBind() {
-    return [
-      'handleToggleClick'
-    ];
+    return ["handleToggleClick"];
   }
 
   constructor() {
@@ -22,16 +20,20 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
   }
 
   handleToggleClick() {
-    this.setState({open: !this.state.open});
+    this.setState({ open: !this.state.open });
   }
 
   render() {
-    let toggleClasses = classNames('h4 button button-link dropdown-toggle',
-      'example-block-toggle flush', {
+    const toggleClasses = classNames(
+      "h4 button button-link dropdown-toggle",
+      "example-block-toggle flush",
+      {
         open: this.state.open
-      }, this.props.toggleClasses);
-    let panelInnerClassNames = classNames('example-block', {
-      'is-expanded': !this.state.open
+      },
+      this.props.toggleClasses
+    );
+    const panelInnerClassNames = classNames("example-block", {
+      "is-expanded": !this.state.open
     });
 
     return (
@@ -52,9 +54,9 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
 PropertiesAPIBlock.propTypes = {
   toggleClasses: React.PropTypes.oneOfType([
     React.PropTypes.string,
-    React.PropTypes.object,
+    React.PropTypes.object
   ]),
-  propTypesBlock: React.PropTypes.string.isRequired,
+  propTypesBlock: React.PropTypes.string.isRequired
 };
 
 module.exports = PropertiesAPIBlock;

@@ -1,18 +1,18 @@
-import classNames from 'classnames/dedupe';
+import classNames from "classnames/dedupe";
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React from "react";
 /* eslint-enable no-unused-vars */
 
-import FieldInput from './FieldInput';
-import IconEdit from './icons/IconEdit';
+import FieldInput from "./FieldInput";
+import IconEdit from "./icons/IconEdit";
 
-const METHODS_TO_BIND = ['handleOnBlur', 'handleOnFocus'];
+const METHODS_TO_BIND = ["handleOnBlur", "handleOnFocus"];
 
 class FieldPassword extends FieldInput {
   constructor() {
     super();
 
-    METHODS_TO_BIND.forEach((method) => {
+    METHODS_TO_BIND.forEach(method => {
       this[method] = this[method].bind(this);
     });
   }
@@ -23,7 +23,7 @@ class FieldPassword extends FieldInput {
       this.forceUpdate();
     }
 
-    this.props.handleEvent('blur', this.props.name, event.target.value, event);
+    this.props.handleEvent("blur", this.props.name, event.target.value, event);
   }
 
   handleOnFocus(event) {
@@ -32,11 +32,11 @@ class FieldPassword extends FieldInput {
       this.forceUpdate();
     }
 
-    this.props.handleEvent('focus', this.props.name, event.target.value, event);
+    this.props.handleEvent("focus", this.props.name, event.target.value, event);
   }
 
   getInputElement(attributes) {
-    let {
+    const {
       handleEvent,
       inlineIconClass,
       inlineTextClass,
@@ -46,27 +46,28 @@ class FieldPassword extends FieldInput {
       writeType
     } = this.props;
 
-    let classes = classNames(inputClass, sharedClass);
+    const classes = classNames(inputClass, sharedClass);
     let inputContent = null;
     attributes = this.bindEvents(attributes, handleEvent);
     attributes.onBlur = this.handleOnBlur;
     attributes.onFocus = this.handleOnFocus;
 
-    let fieldValue = attributes.defaultPasswordValue ||
-      attributes.startValue || '';
+    let fieldValue =
+      attributes.defaultPasswordValue || attributes.startValue || "";
 
     if (this.focused) {
       fieldValue = attributes.startValue;
     }
 
-    if (this.isEditing() || writeType === 'input') {
+    if (this.isEditing() || writeType === "input") {
       inputContent = (
         <input
           {...attributes}
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
-          value={fieldValue} />
+          value={fieldValue}
+        />
       );
     } else {
       inputContent = (
@@ -74,7 +75,8 @@ class FieldPassword extends FieldInput {
           ref="inputElement"
           {...attributes}
           className={classes}
-          onClick={attributes.onFocus}>
+          onClick={attributes.onFocus}
+        >
           <span className={classNames(inlineTextClass)}>
             {attributes.defaultPasswordValue}
           </span>
@@ -91,7 +93,6 @@ class FieldPassword extends FieldInput {
 
     return inputContent;
   }
-
 }
 
 module.exports = FieldPassword;

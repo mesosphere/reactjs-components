@@ -1,10 +1,10 @@
-import classnames from 'classnames/dedupe';
-import React from 'react';
+import classnames from "classnames/dedupe";
+import React from "react";
 
 class ComponentExampleWrapper extends React.Component {
   render() {
-    let classes = classnames(
-      'panel pod flush-top flush-right flush-left',
+    const classes = classnames(
+      "panel pod flush-top flush-right flush-left",
       this.props.className
     );
 

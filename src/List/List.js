@@ -1,32 +1,33 @@
-import React, {PropTypes} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import React, { PropTypes } from "react";
+import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
-import ListItem from './ListItem';
-import Util from '../Util/Util';
+import ListItem from "./ListItem";
+import Util from "../Util/Util";
 
 class List extends React.Component {
   getListItems(list, childIndex = 0) {
-    let {props} = this;
-    let items = list.map((item, parentIndex) => {
-      let key = `${parentIndex}.${childIndex}`;
+    const { props } = this;
+    const items = list.map((item, parentIndex) => {
+      const key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
       if (Util.isArrayLike(item.content)) {
         return (
           <ListItem
-            {...Util.exclude(item, ['content'])}
+            {...Util.exclude(item, ["content"])}
             key={key}
             tag={item.tag}
             transition={true}
             transitionName={props.transitionName}
             transitionEnterTimeout={props.transitionEnterTimeout}
-            transitionLeaveTimeout={props.transitionLeaveTimeout}>
+            transitionLeaveTimeout={props.transitionLeaveTimeout}
+          >
             {this.getListItems(item.content, childIndex)}
           </ListItem>
         );
       } else {
         return (
-          <ListItem key={key} {...Util.exclude(item, ['content'])}>
+          <ListItem key={key} {...Util.exclude(item, ["content"])}>
             {item.content}
           </ListItem>
         );
@@ -37,11 +38,11 @@ class List extends React.Component {
   }
 
   render() {
-    let {props} = this;
-    let Tag = props.tag;
+    const { props } = this;
+    const Tag = props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    let attributes = Util.exclude(props, Object.keys(List.propTypes));
+    const attributes = Util.exclude(props, Object.keys(List.propTypes));
 
     if (props.transition) {
       return (
@@ -51,7 +52,8 @@ class List extends React.Component {
           component={Tag}
           transitionName={props.transitionName}
           transitionEnterTimeout={props.transitionEnterTimeout}
-          transitionLeaveTimeout={props.transitionLeaveTimeout}>
+          transitionLeaveTimeout={props.transitionLeaveTimeout}
+        >
           {this.getListItems(props.content)}
         </ReactCSSTransitionGroup>
       );
@@ -66,10 +68,10 @@ class List extends React.Component {
 }
 
 List.defaultProps = {
-  className: 'list',
-  tag: 'ul',
+  className: "list",
+  tag: "ul",
   transition: true,
-  transitionName: 'list-item',
+  transitionName: "list-item",
   transitionEnterTimeout: 500,
   transitionLeaveTimeout: 500
 };

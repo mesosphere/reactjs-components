@@ -29,7 +29,7 @@
     "babel-cli": "6.5.1",
     "babel-core": "6.5.2",
     "babel-eslint": "5.0.0",
-    "babel-jest": "6.0.1",
+    "babel-jest": "19.0.0",
     "babel-loader": "6.2.3",
     "babel-plugin-transform-runtime": "6.5.2",
     "babel-preset-es2015": "6.5.0",
@@ -38,31 +38,41 @@
     "browser-sync": "2.11.1",
     "cnvs": "1.1.x",
     "envify": "3.4.0",
-    "eslint": "2.2.0",
-    "eslint-plugin-react": "4.0.0",
+    "eslint": "3.15.0",
+    "eslint-config-dcos": "github:dcos/javascript#v0.2.1",
+    "eslint-plugin-compat": "1.0.2",
+    "eslint-plugin-destructuring": "2.1.0",
+    "eslint-plugin-import": "1.13.0",
+    "eslint-plugin-jsx-a11y": "2.1.0",
+    "eslint-plugin-jsx-max-len": "1.0.0",
+    "eslint-plugin-prettier": "2.0.1",
+    "eslint-plugin-react": "6.9.0",
     "glob": "7.0.0",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "3.1.0",
     "gulp-concat": "2.6.0",
     "gulp-connect": "2.3.1",
-    "gulp-eslint": "2.0.0",
+    "gulp-eslint": "3.0.1",
     "gulp-less": "3.0.5",
     "gulp-minify-css": "1.2.3",
     "gulp-replace": "0.5.4",
     "gulp-sourcemaps": "1.6.0",
-    "gulp-stylelint": "3.7.0",
-    "gulp-uglify": "1.5.2",
+    "gulp-stylelint": "3.9.0",
+    "gulp-uglify": "2.1.2",
     "gulp-util": "3.0.7",
-    "jest-cli": "0.8.2",
+    "jest-cli": "16.0.2",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
+    "prettier": "1.2.2",
     "react": "0.14.x || 15.0.x || 15.4.x",
     "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
     "react-addons-test-utils": "0.14.x || 15.0.x || 15.4.x",
     "react-dom": "0.14.x || 15.0.x || 15.4.x",
     "react-gemini-scrollbar": "2.1.x",
     "source-map-loader": "0.1.5",
-    "stylelint-config-dcos": "0.0.2",
+    "stylelint": "7.10.1",
+    "stylelint-config-dcos": "0.0.3",
+    "stylelint-config-standard": "13.0.0",
     "stylelint-webpack-plugin": "0.5.1",
     "transform-loader": "0.2.3",
     "webpack": "1.13.2"
@@ -79,7 +89,7 @@
     "predist-src": "rm -rf ./lib",
     "dist-src": "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
     "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
-    "test": "jest",
+    "test": "NODE_PATH=node_modules jest --config=jest/config.json --no-cache",
     "release": "npm version -m 'Version %s'",
     "release:major": "npm run release -- major",
     "release:minor": "npm run release -- minor",
@@ -89,40 +99,10 @@
     "release:prepatch": "npm run release -- prepatch",
     "release:prerelease": "npm run release -- prerelease",
     "release:beta": "npm run release -- prerelease",
-    "preversion": "npm run clean && npm run test && ./node_modules/.bin/gulp eslint && ./node_modules/.bin/gulp stylelint && npm run dist-src",
+    "lint": "npm run stylelint && npm run eslint",
+    "eslint": "eslint --quiet src/**/*.js docs/src/**/*.js",
+    "stylelint": "stylelint src/**/*.less  docs/src/**/*.less",
+    "preversion": "npm run clean && npm test && npm run lint && npm run dist-src",
     "postversion": "git push --tags && npm publish ./ --tag version-$npm_package_version && git push && echo \"Successfully released $npm_package_version\""
-  },
-  "jest": {
-    "globals": {
-      "__DEV__": true
-    },
-    "scriptPreprocessor": "./node_modules/babel-jest",
-    "testFileExtensions": [
-      "js"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "setupTestFrameworkScriptFile": "jest/setupTestFramework.js",
-    "setupEnvScriptFile": "jest/setupEnv.js",
-    "modulePathIgnorePatterns": [
-      "/tmp/",
-      "/node_modules/",
-      "/.module-cache/"
-    ],
-    "unmockedModulePathPatterns": [
-      "./src/Mixin",
-      "./src/Util",
-      "babel-runtime",
-      "classnames",
-      "react",
-      "react-dom",
-      "react-addons-test-utils",
-      "fbjs"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/"
-    ]
   }
 }

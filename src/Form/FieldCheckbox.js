@@ -1,9 +1,9 @@
-import classNames from 'classnames/dedupe';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import classNames from "classnames/dedupe";
+import React from "react";
+import ReactDOM from "react-dom";
 
-import FieldRadioButton from './FieldRadioButton';
-import Util from '../Util/Util';
+import FieldRadioButton from "./FieldRadioButton";
+import Util from "../Util/Util";
 
 class FieldCheckbox extends FieldRadioButton {
   componentDidMount() {
@@ -17,9 +17,9 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   updateCheckbox() {
-    let {props, refs} = this;
-    Object.keys(refs).forEach(function (refName) {
-      let checkbox = ReactDOM.findDOMNode(refs[refName]);
+    const { props, refs } = this;
+    Object.keys(refs).forEach(function(refName) {
+      const checkbox = ReactDOM.findDOMNode(refs[refName]);
       let indeterminate;
       // Single checkbox
       if (props.name === refName) {
@@ -28,7 +28,7 @@ class FieldCheckbox extends FieldRadioButton {
 
       // Multiple checkboxes
       if (Util.isArray(props.startValue)) {
-        indeterminate = Util.find(props.startValue, function (item) {
+        indeterminate = Util.find(props.startValue, function(item) {
           return item.name === refName;
         }).indeterminate;
       }
@@ -40,18 +40,18 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   handleChange(eventName, name, event) {
-    let {props} = this;
+    const { props } = this;
 
-    if (eventName === 'multipleChange') {
+    if (eventName === "multipleChange") {
       props.handleEvent(
         eventName,
         props.name,
-        {name, checked: event.target.checked},
+        { name, checked: event.target.checked },
         event
       );
     }
 
-    if (eventName === 'change') {
+    if (eventName === "change") {
       props.handleEvent(eventName, props.name, event.target.checked, event);
     }
   }
@@ -61,8 +61,8 @@ class FieldCheckbox extends FieldRadioButton {
       return null;
     }
 
-    let checkboxLabelClass = classNames(
-      'form-element-checkbox-label',
+    const checkboxLabelClass = classNames(
+      "form-element-checkbox-label",
       attributes.checkboxLabelClass,
       this.props.checkboxLabelClass
     );
@@ -75,15 +75,15 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   getItem(eventName, labelClass, attributes, index) {
-    let labelClasses = classNames(
-      'form-control-toggle form-control-toggle-custom',
+    const labelClasses = classNames(
+      "form-control-toggle form-control-toggle-custom",
       labelClass,
-      {mute: attributes.disabled},
+      { mute: attributes.disabled },
       attributes.labelClass
     );
 
-    let indicatorClasses = classNames(
-      'form-control-toggle-indicator',
+    const indicatorClasses = classNames(
+      "form-control-toggle-indicator",
       attributes.indicatorClass
     );
 
@@ -93,7 +93,8 @@ class FieldCheckbox extends FieldRadioButton {
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           ref={attributes.name}
           type="checkbox"
-          {...attributes} />
+          {...attributes}
+        />
         <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
       </label>
@@ -101,7 +102,7 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   getRowClass() {
-    let {columnWidth, formElementClass} = this.props;
+    const { columnWidth, formElementClass } = this.props;
 
     return classNames(
       `form-row-element column-${columnWidth}`,
@@ -112,7 +113,7 @@ class FieldCheckbox extends FieldRadioButton {
 
 FieldCheckbox.defaultProps = {
   columnWidth: 12,
-  handleEvent: function () {}
+  handleEvent() {}
 };
 
 FieldCheckbox.propTypes = {

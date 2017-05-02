@@ -1,4 +1,4 @@
-var computeInnerBound = function (compstyle, acc, key) {
+var computeInnerBound = function(compstyle, acc, key) {
   var val = parseInt(compstyle[key], 10);
 
   if (isNaN(val)) {
@@ -38,40 +38,40 @@ const DOMUtil = {
 
   getComputedDimensions(obj) {
     var compstyle;
-    if (typeof window.getComputedStyle === 'undefined') {
+    if (typeof window.getComputedStyle === "undefined") {
       compstyle = obj.currentStyle;
     } else {
       compstyle = window.getComputedStyle(obj);
     }
 
     var width = [
-      'borderLeftWidth',
-      'borderRightWidth',
-      'marginLeft',
-      'marginRight',
-      'paddingLeft',
-      'paddingRight'
+      "borderLeftWidth",
+      "borderRightWidth",
+      "marginLeft",
+      "marginRight",
+      "paddingLeft",
+      "paddingRight"
     ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetWidth);
 
     var height = [
-      'borderTopWidth',
-      'borderBottomWidth',
-      'marginTop',
-      'marginBottom',
-      'paddingTop',
-      'paddingBottom'
+      "borderTopWidth",
+      "borderBottomWidth",
+      "marginTop",
+      "marginBottom",
+      "paddingTop",
+      "paddingBottom"
     ].reduce(computeInnerBound.bind(this, compstyle), obj.offsetHeight);
 
     return {
-      width: width,
-      height: height
+      width,
+      height
     };
   },
 
   getNodeClearance(DOMNode) {
-    let viewportHeight = DOMUtil.getViewportHeight();
-    let viewportWidth = DOMUtil.getViewportWidth();
-    let boundingRect = DOMNode.getBoundingClientRect();
+    const viewportHeight = DOMUtil.getViewportHeight();
+    const viewportWidth = DOMUtil.getViewportWidth();
+    const boundingRect = DOMNode.getBoundingClientRect();
 
     return {
       bottom: viewportHeight - boundingRect.bottom,
@@ -98,19 +98,25 @@ const DOMUtil = {
 
   getScrollTop(element) {
     if (element === window || element === document) {
-      return self.pageYOffset ||
+      return (
+        self.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
+      );
     } else {
       return element.scrollTop;
     }
   },
 
-  matchesFn: (function () {
-    let el = document.querySelector('body');
-    let names = [
-      'matches', 'matchesSelector', 'msMatchesSelector',
-      'oMatchesSelector', 'mozMatchesSelector', 'webkitMatchesSelector'
+  matchesFn: (function() {
+    const el = document.querySelector("body");
+    const names = [
+      "matches",
+      "matchesSelector",
+      "msMatchesSelector",
+      "oMatchesSelector",
+      "mozMatchesSelector",
+      "webkitMatchesSelector"
     ];
 
     for (let i = 0; i < names.length; i++) {

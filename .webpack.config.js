@@ -1,33 +1,28 @@
-var config = require('./.build.config.js');
-var glob = require('glob');
-var StyleLintPlugin = require('stylelint-webpack-plugin');
+var config = require("./.build.config.js");
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: "source-map",
   entry: config.files.docs.srcJS,
-  output: {filename: config.files.docs.distJS},
+  output: { filename: config.files.docs.distJS, publicPath: "" },
   module: {
-    loaders: [{
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        cacheDirectory: true
-      },
-      test: /\.js$/
-    }],
-    postLoaders: [{
-      loader: 'transform/cacheable?envify'
-    }]
+    loaders: [
+      {
+        exclude: /node_modules/,
+        loader: "babel-loader",
+        query: {
+          cacheDirectory: true
+        },
+        test: /\.js$/
+      }
+    ],
+    postLoaders: [
+      {
+        loader: "transform/cacheable?envify"
+      }
+    ]
   },
-  plugins: [
-    new StyleLintPlugin({
-      configFile: '.stylelintrc',
-      files: '**/*.less',
-      syntax: 'less'
-    })
-  ],
   resolve: {
-    extensions: ['', '.js']
+    extensions: ["", ".js"]
   },
-  watch: process.env.NODE_ENV === 'development'
+  watch: process.env.NODE_ENV === "development"
 };

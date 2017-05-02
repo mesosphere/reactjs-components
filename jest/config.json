@@ -1,0 +1,38 @@
+{
+  "automock": true,
+  "testPathDirs": [
+    "src"
+  ],
+  "globals": {
+    "__DEV__": true
+  },
+  "scriptPreprocessor": "./node_modules/babel-jest",
+  "setupFiles": [
+    "jest/setupEnv.js"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "json"
+  ],
+  "setupTestFrameworkScriptFile": "jest/setupTestFramework.js",
+  "testRegex": "/__tests__/.*\\-test\\.(es6|js)$",
+  "modulePathIgnorePatterns": [
+    "/tmp/",
+    "/node_modules/",
+    "/.module-cache/"
+  ],
+  "timers": "fake",
+  "unmockedModulePathPatterns": [
+    "./src/Mixin",
+    "./src/Util",
+    "babel-runtime",
+    "classnames",
+    "react",
+    "react-dom",
+    "react-addons-test-utils",
+    "fbjs"
+  ],
+  "testPathIgnorePatterns": [
+    "/node_modules/"
+  ]
+}

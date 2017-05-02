@@ -1,20 +1,21 @@
-import classNames from 'classnames';
-import DOMUtil from '../Util/DOMUtil';
-import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import Util from '../Util/Util';
-import VirtualList from '../VirtualList/VirtualList';
+import classNames from "classnames";
+import React, { PropTypes } from "react";
+import ReactDOM from "react-dom";
+
+import DOMUtil from "../Util/DOMUtil";
+import Util from "../Util/Util";
+import VirtualList from "../VirtualList/VirtualList";
 
 const MAX_CACHE_SIZE = 10000;
 
-let sortData = (columns, data, sortBy) => {
+const sortData = (columns, data, sortBy) => {
   if (sortBy.order === undefined || sortBy.prop === undefined) {
     return data;
   }
 
   let sortFunction;
 
-  columns.forEach((column) => {
+  columns.forEach(column => {
     if (column.prop === sortBy.prop) {
       sortFunction = column.sortFunction;
     }
@@ -28,21 +29,19 @@ let sortData = (columns, data, sortBy) => {
     data = Util.sortBy(data, sortBy.prop);
   }
 
-  if (sortBy.order === 'desc') {
+  if (sortBy.order === "desc") {
     data.reverse();
   }
 
   return data;
 };
 
-let getClassName = (column, sortBy, data, columns) => {
+const getClassName = (column, sortBy, data, columns) => {
   if (Util.isFunction(column.className)) {
-    return column.className(
-      column.prop, sortBy, data, columns
-    );
+    return column.className(column.prop, sortBy, data, columns);
   }
 
-  return column.className || '';
+  return column.className || "";
 };
 
 class Table extends React.Component {
@@ -59,8 +58,8 @@ class Table extends React.Component {
   componentWillMount() {
     if (this.props.sortBy != null) {
       this.setState(
-        {sortBy: this.props.sortBy},
-        this.handleSort.bind(this, this.props.sortBy.prop, {toggle: false})
+        { sortBy: this.props.sortBy },
+        this.handleSort.bind(this, this.props.sortBy.prop, { toggle: false })
       );
     }
   }
@@ -73,7 +72,7 @@ class Table extends React.Component {
     this.updateHeight();
 
     if (this.props.sortBy.prop) {
-      this.handleSort(this.props.sortBy.prop, {toggle: false});
+      this.handleSort(this.props.sortBy.prop, { toggle: false });
     }
   }
 
@@ -82,7 +81,7 @@ class Table extends React.Component {
       return;
     }
 
-    let lastID = this.cachedIDs.shift();
+    const lastID = this.cachedIDs.shift();
     delete this.cachedCells[lastID];
   }
 
@@ -93,22 +92,24 @@ class Table extends React.Component {
   }
 
   updateHeight() {
-    let {props, state, refs} = this;
+    const { props, state, refs } = this;
 
     if (props.containerSelector && this.container === window) {
-      this.container = DOMUtil.closest(
-        ReactDOM.findDOMNode(this), props.containerSelector
-      ) || window;
+      this.container =
+        DOMUtil.closest(ReactDOM.findDOMNode(this), props.containerSelector) ||
+        window;
     }
 
-    if (props.itemHeight == null &&
+    if (
+      props.itemHeight == null &&
       state.itemHeight == null &&
-      refs.itemHeightContainer != null) {
+      refs.itemHeightContainer != null
+    ) {
       // Calculate content height only once and when node is ready
-      let itemHeight = DOMUtil.getComputedDimensions(
-        ReactDOM.findDOMNode(refs.itemHeightContainer).querySelector('tr')
+      const itemHeight = DOMUtil.getComputedDimensions(
+        ReactDOM.findDOMNode(refs.itemHeightContainer).querySelector("tr")
       ).height;
-      this.setState({itemHeight});
+      this.setState({ itemHeight });
     }
   }
 
@@ -117,14 +118,14 @@ class Table extends React.Component {
   }
 
   getHeaders(headers, sortBy) {
-    let buildSortAttributes = (header) => {
-      let sortEvent = this.handleSort.bind(this, header.prop);
+    const buildSortAttributes = header => {
+      const sortEvent = this.handleSort.bind(this, header.prop);
+
       return {
         onClick: sortEvent,
         tabIndex: 0,
-        'aria-sort': this.state.sortBy.order,
-        'aria-label':
-          `${header.prop}: activate to sort column ${this.state.sortBy.order}`
+        "aria-sort": this.state.sortBy.order,
+        "aria-label": `${header.prop}: activate to sort column ${this.state.sortBy.order}`
       };
     };
 
@@ -134,7 +135,7 @@ class Table extends React.Component {
 
       // Only add sorting events if the column has a value for 'prop'
       // and the 'sorting' property is true.
-      if (header.sortable !== false && 'prop' in header) {
+      if (header.sortable !== false && "prop" in header) {
         attributes = buildSortAttributes(header);
         order = this.state.sortBy.order;
       }
@@ -148,7 +149,10 @@ class Table extends React.Component {
       }
 
       attributes.className = getClassName(
-        header, this.state.sortBy, null, this.props.columns
+        header,
+        this.state.sortBy,
+        null,
+        this.props.columns
       );
       attributes.key = index;
 
@@ -175,8 +179,8 @@ class Table extends React.Component {
   }
 
   getCellValue(row, prop, column) {
-    let {getValue} = column;
-    if (getValue && typeof getValue === 'function') {
+    const { getValue } = column;
+    if (getValue && typeof getValue === "function") {
       return getValue(row, prop);
     }
 
@@ -184,9 +188,9 @@ class Table extends React.Component {
   }
 
   getRowCells(columns, sortBy, buildRowOptions, row, rowIndex) {
-    let rowCells = columns.map((column, index) => {
+    const rowCells = columns.map((column, index) => {
       let cellClassName = getClassName(column, sortBy, row, columns);
-      let prop = column.prop;
+      const prop = column.prop;
       let cellValue = this.getCellValue(row, prop, column);
       let cellID;
 
@@ -202,10 +206,10 @@ class Table extends React.Component {
 
         if (cellValue === undefined) {
           cellValue = column.defaultContent;
-          cellClassName += ' empty-cell';
+          cellClassName += " empty-cell";
         }
 
-        let cellElement = (
+        const cellElement = (
           <td {...column.attributes} className={cellClassName} key={index}>
             {cellValue}
           </td>
@@ -229,23 +233,26 @@ class Table extends React.Component {
   }
 
   handleSort(prop, options) {
-    let sortBy = this.state.sortBy;
-    let onSortCallback = this.props.onSortCallback;
-    options = Util.extend({
-      toggle: true
-    }, options);
+    const sortBy = this.state.sortBy;
+    const onSortCallback = this.props.onSortCallback;
+    options = Util.extend(
+      {
+        toggle: true
+      },
+      options
+    );
 
     if (options.toggle) {
       let order;
 
-      if (sortBy.order === 'desc' || sortBy.prop !== prop) {
-        order = 'asc';
+      if (sortBy.order === "desc" || sortBy.prop !== prop) {
+        order = "asc";
       } else {
-        order = 'desc';
+        order = "desc";
       }
 
       this.setState({
-        sortBy: {order, prop}
+        sortBy: { order, prop }
       });
     }
 
@@ -255,11 +262,18 @@ class Table extends React.Component {
   }
 
   getTBody(columns, data, sortBy, itemHeight) {
-    let buildRowOptions = this.props.buildRowOptions;
+    const buildRowOptions = this.props.buildRowOptions;
     let childToMeasure;
 
     if (itemHeight === 0 && data.length) {
-      childToMeasure = this.getRowCells(columns, sortBy, buildRowOptions, data[0], -1);
+      childToMeasure = this.getRowCells(
+        columns,
+        sortBy,
+        buildRowOptions,
+        data[0],
+        -1
+      );
+
       return (
         <tbody ref="itemHeightContainer">
           {childToMeasure}
@@ -283,18 +297,24 @@ class Table extends React.Component {
         itemHeight={itemHeight}
         items={sortData(columns, data, sortBy)}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
-        renderItem={this.getRowCells.bind(this, columns, sortBy, buildRowOptions)}
+        renderItem={this.getRowCells.bind(
+          this,
+          columns,
+          sortBy,
+          buildRowOptions
+        )}
         scrollDelay={200}
-        tagName="tbody" />
+        tagName="tbody"
+      />
     );
   }
 
   render() {
-    let {props, state} = this;
-    let {columns, data} = props;
-    let classes = classNames(props.className, 'flush-bottom');
-    let sortBy = state.sortBy;
-    let itemHeight = state.itemHeight || props.itemHeight || 0;
+    const { props, state } = this;
+    const { columns, data } = props;
+    const classes = classNames(props.className, "flush-bottom");
+    const sortBy = state.sortBy;
+    const itemHeight = state.itemHeight || props.itemHeight || 0;
 
     return (
       <div ref="container">
@@ -313,9 +333,11 @@ class Table extends React.Component {
 }
 
 Table.defaultProps = {
-  buildRowOptions: () => { return {}; },
+  buildRowOptions: () => {
+    return {};
+  },
   sortBy: {},
-  emptyMessage: 'No data'
+  emptyMessage: "No data"
 };
 
 Table.propTypes = {
@@ -335,10 +357,7 @@ Table.propTypes = {
 
       // Class to give to each column item.
       // Can be a function to programmatically create a class.
-      className: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func
-      ]),
+      className: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
       // Content to default to in the case of no data for the prop.
       defaultContent: PropTypes.string,
@@ -349,10 +368,8 @@ Table.propTypes = {
       // Function to render the header of the column. Can also be a string.
       // The arguments to the function will be:
       // prop (prop to sort by), order (asc/desc), sortBy (the sort function)
-      heading: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.func
-      ]).isRequired,
+      heading: PropTypes.oneOfType([PropTypes.string, PropTypes.func])
+        .isRequired,
 
       // What prop of the data object to use.
       prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -387,7 +404,7 @@ Table.propTypes = {
 
   // Optional default sorting criteria.
   sortBy: PropTypes.shape({
-    order: PropTypes.oneOf(['asc', 'desc']),
+    order: PropTypes.oneOf(["asc", "desc"]),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   })
 };
