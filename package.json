@@ -58,7 +58,7 @@
     "gulp-replace": "0.5.4",
     "gulp-sourcemaps": "1.6.0",
     "gulp-stylelint": "3.9.0",
-    "gulp-uglify": "1.5.2",
+    "gulp-uglify": "2.1.2",
     "gulp-util": "3.0.7",
     "jest-cli": "16.0.2",
     "less-color-lighten": "0.0.1",
