@@ -98,6 +98,8 @@ gulp.task("docs:minify-js", ["docs:replace-js-strings"], function() {
       uglify({
         mangle: true,
         compress: true
+      }).on("error", function(e) {
+        console.log(e);
       })
     )
     .pipe(gulp.dest(config.dirs.docs.distJS));
@@ -131,7 +133,9 @@ function replaceJsStringsFn() {
 
         // Finally do the replace
         var contents = matches[0];
-        contents = contents.replace(/([^\\])'/g, "$1\\'");
+        // Escape quotes that haven't already been escaped
+        contents = contents.replace(/([^\\])"/g, "$1\\\"");
+        // Escape newlines or carriage return that haven't already been escaped
         contents = contents.replace(/\n|\r/g, "\\n");
 
         return contents;
