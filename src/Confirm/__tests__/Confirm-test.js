@@ -68,10 +68,10 @@ describe("Confirm", function() {
       this.instance = TestUtils.renderIntoDocument(this.instance.getButtons());
     });
 
-    it("does not call the left button callback", function() {
+    it("does call the left button callback", function() {
       var button = this.instance.querySelector(".left-button");
       TestUtils.Simulate.click(button);
-      expect(this.closeCallback).not.toHaveBeenCalled();
+      expect(this.closeCallback).toHaveBeenCalled();
     });
 
     it("does not call the right button callback", function() {

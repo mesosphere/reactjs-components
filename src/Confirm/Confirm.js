@@ -8,10 +8,7 @@ class Confirm extends React.Component {
   getButtons() {
     const disabledConfig = { disabled: this.props.disabled };
 
-    const leftButtonClassName = classNames(
-      this.props.leftButtonClassName,
-      disabledConfig
-    );
+    const leftButtonClassName = classNames(this.props.leftButtonClassName);
     const rightButtonClassName = classNames(
       this.props.rightButtonClassName,
       disabledConfig
@@ -27,7 +24,6 @@ class Confirm extends React.Component {
         <button
           className={leftButtonClassName}
           onClick={this.props.leftButtonCallback}
-          {...extraAttributes}
         >
           {this.props.leftButtonText}
         </button>
