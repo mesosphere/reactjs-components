@@ -8,8 +8,8 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "4.4.x",
-    "npm": "3.9.x"
+    "node": "8.x",
+    "npm": "5.x"
   },
   "repository": {
     "type": "git",
@@ -26,15 +26,15 @@
     "lodash.throttle": "4.1.1"
   },
   "devDependencies": {
-    "babel-cli": "6.5.1",
-    "babel-core": "6.5.2",
+    "babel-cli": "6.24.1",
+    "babel-core": "6.24.1",
     "babel-eslint": "5.0.0",
     "babel-jest": "19.0.0",
-    "babel-loader": "6.2.3",
-    "babel-plugin-transform-runtime": "6.5.2",
-    "babel-preset-es2015": "6.5.0",
+    "babel-loader": "6.2.8",
+    "babel-plugin-transform-runtime": "6.23.0",
+    "babel-preset-es2015": "6.24.1",
     "babel-preset-react": "6.5.0",
-    "babel-runtime": "6.5.0",
+    "babel-runtime": "6.23.0",
     "browser-sync": "2.11.1",
     "cnvs": "1.1.x",
     "envify": "3.4.0",
@@ -80,6 +80,7 @@
   "peerDependencies": {
     "cnvs": "1.1.x",
     "react": "0.14.x || 15.0.x || 15.4.x",
+    "react-dom": "0.14.x || 15.0.x || 15.4.x",
     "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
     "react-gemini-scrollbar": "2.1.x"
   },
