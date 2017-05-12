@@ -87,13 +87,20 @@ class FieldCheckbox extends FieldRadioButton {
       attributes.indicatorClass
     );
 
+    const htmlAttributes = Util.pick(attributes, [
+      "checked",
+      "className",
+      "disabled",
+      "name"
+    ]);
+
     return (
       <label className={labelClasses} key={index}>
         <input
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           ref={attributes.name}
           type="checkbox"
-          {...attributes}
+          {...htmlAttributes}
         />
         <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
@@ -139,7 +146,14 @@ FieldCheckbox.propTypes = {
     React.PropTypes.array,
     React.PropTypes.object,
     React.PropTypes.string
-  ])
+  ]),
+  startValue: React.PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.bool
+  ]),
+  labelClass: React.PropTypes.string,
+  indicatorClasses: React.PropTypes.string,
+  indeterminate: React.PropTypes.bool
 };
 
 module.exports = FieldCheckbox;

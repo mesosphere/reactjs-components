@@ -9,13 +9,12 @@ class ListItem extends React.Component {
     const Tag = props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    const attributes = Util.exclude(props, Object.keys(ListItem.propTypes)) || {
-    };
+    const htmlAttributes = Util.exclude(props, Object.keys(ListItem.propTypes));
 
-    if (attributes.transition) {
+    if (props.transition) {
       return (
         <ReactCSSTransitionGroup
-          {...attributes}
+          {...htmlAttributes}
           className={props.className}
           component={props.tag}
         >
@@ -25,7 +24,7 @@ class ListItem extends React.Component {
     }
 
     return (
-      <Tag {...attributes} className={props.className}>
+      <Tag {...htmlAttributes} className={props.className}>
         {props.children}
       </Tag>
     );
@@ -40,7 +39,8 @@ ListItem.defaultProps = {
 ListItem.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  tag: PropTypes.string
+  tag: PropTypes.string,
+  transition: PropTypes.bool
 };
 
 module.exports = ListItem;

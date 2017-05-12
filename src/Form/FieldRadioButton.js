@@ -108,12 +108,17 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       attributes.indicatorClass
     );
 
+    const htmlAttributes = Util.exclude(
+      attributes,
+      Object.keys(FieldRadioButton.propTypes)
+    );
+
     return (
       <label className={labelClasses} key={index}>
         <input
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
           type="radio"
-          {...attributes}
+          {...htmlAttributes}
         />
         <span className={indicatorClasses} />
         {this.getItemLabel(attributes)}
