@@ -64,10 +64,10 @@
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
     "prettier": "1.2.2",
-    "react": "0.14.x || 15.0.x || 15.4.x",
-    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
-    "react-addons-test-utils": "0.14.x || 15.0.x || 15.4.x",
-    "react-dom": "0.14.x || 15.0.x || 15.4.x",
+    "react": "0.14.x || 15.0.x || 15.6.x",
+    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.6.x",
+    "react-addons-test-utils": "0.14.x || 15.0.x || 15.6.x",
+    "react-dom": "0.14.x || 15.0.x || 15.6.x",
     "react-gemini-scrollbar": "2.1.x",
     "source-map-loader": "0.1.5",
     "stylelint": "7.10.1",
@@ -79,8 +79,8 @@
   },
   "peerDependencies": {
     "cnvs": "1.1.x",
-    "react": "0.14.x || 15.0.x || 15.4.x",
-    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.4.x",
+    "react": "0.14.x || 15.0.x || 15.6.x",
+    "react-addons-css-transition-group": "0.14.x || 15.0.x || 15.6.x",
     "react-gemini-scrollbar": "2.1.x"
   },
   "scripts": {
