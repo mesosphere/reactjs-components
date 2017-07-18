@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "4.4"
 before_install:
-  - npm install -g npm@3.9
+  - npm install -g npm@3.10
 install:
   - npm install
   - npm install react@$REACT_VERSION react-addons-css-transition-group@$REACT_VERSION react-addons-test-utils@$REACT_VERSION react-dom@$REACT_VERSION
