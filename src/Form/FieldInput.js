@@ -152,13 +152,18 @@ class FieldInput extends Util.mixin(BindMixin) {
     const classes = classNames(inputClass, sharedClass);
     attributes = this.bindEvents(attributes);
 
+    const htmlAttributes = Util.exclude(
+      attributes,
+      Object.keys(FieldInput.propTypes)
+    );
+
     if (this.isEditing() || writeType === "input") {
       inputContent = (
         <input
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
-          {...attributes}
+          {...htmlAttributes}
           value={attributes.startValue}
         />
       );
@@ -166,7 +171,7 @@ class FieldInput extends Util.mixin(BindMixin) {
       inputContent = (
         <span
           ref="inputElement"
-          {...attributes}
+          {...htmlAttributes}
           className={classes}
           onClick={attributes.onFocus}
         >
@@ -283,7 +288,17 @@ FieldInput.propTypes = {
   inlineIconClass: classPropType,
   inlineTextClass: classPropType,
   labelClass: classPropType,
-  sharedClass: classPropType
+  sharedClass: classPropType,
+  fieldType: React.PropTypes.string,
+  currentValue: React.PropTypes.object,
+  maxColumnWidth: React.PropTypes.number,
+  formRowClass: React.PropTypes.string,
+  inputClass: React.PropTypes.string,
+  readClass: React.PropTypes.string,
+  validation: React.PropTypes.func,
+  validationErrorText: React.PropTypes.string,
+  showError: React.PropTypes.string,
+  errorText: React.PropTypes.string
 };
 
 module.exports = FieldInput;

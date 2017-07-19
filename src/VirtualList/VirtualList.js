@@ -8,6 +8,7 @@ import ReactDOM from "react-dom";
 import throttle from "lodash.throttle";
 
 import DOMUtil from "../Util/DOMUtil";
+import Util from "../Util/Util";
 
 const mathMax = Math.max;
 const mathMin = Math.min;
@@ -230,8 +231,13 @@ class VirtualList extends React.Component {
       bottomStyles.display = "none";
     }
 
+    const htmlAttributes = Util.exclude(
+      props,
+      Object.keys(VirtualList.propTypes)
+    );
+
     return (
-      <props.tagName ref="list" {...props}>
+      <props.tagName ref="list" {...htmlAttributes}>
         {props.renderBufferItem(topStyles)}
         {this.getItemsToRender(props, state)}
         {props.renderBufferItem(bottomStyles)}

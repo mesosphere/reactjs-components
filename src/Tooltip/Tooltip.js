@@ -328,7 +328,8 @@ Tooltip.propTypes = {
   width: React.PropTypes.number,
   wrapperClassName: React.PropTypes.string,
   // Allow the text content to wrap. Default is false.
-  wrapText: React.PropTypes.bool
+  wrapText: React.PropTypes.bool,
+  contentClassName: React.PropTypes.string
 };
 
 module.exports = Tooltip;

@@ -11,10 +11,17 @@ class List extends React.Component {
       const key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
+      const htmlAttributes = Util.exclude(item, [
+        "content",
+        "transitionName",
+        "transitionEnterTimeout",
+        "transitionLeaveTimeout"
+      ]);
+
       if (Util.isArrayLike(item.content)) {
         return (
           <ListItem
-            {...Util.exclude(item, ["content"])}
+            {...htmlAttributes}
             key={key}
             tag={item.tag}
             transition={true}
@@ -27,7 +34,7 @@ class List extends React.Component {
         );
       } else {
         return (
-          <ListItem key={key} {...Util.exclude(item, ["content"])}>
+          <ListItem key={key} {...htmlAttributes}>
             {item.content}
           </ListItem>
         );
@@ -42,12 +49,12 @@ class List extends React.Component {
     const Tag = props.tag;
 
     // Uses all passed properties as attributes, excluding propTypes
-    const attributes = Util.exclude(props, Object.keys(List.propTypes));
+    const htmlAttributes = Util.exclude(props, Object.keys(List.propTypes));
 
     if (props.transition) {
       return (
         <ReactCSSTransitionGroup
-          {...attributes}
+          {...htmlAttributes}
           className={props.className}
           component={Tag}
           transitionName={props.transitionName}
@@ -60,7 +67,7 @@ class List extends React.Component {
     }
 
     return (
-      <Tag {...attributes} className={props.className}>
+      <Tag {...htmlAttributes} className={props.className}>
         {this.getListItems(props.content)}
       </Tag>
     );
