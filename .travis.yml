@@ -12,7 +12,7 @@ env:
   matrix:
     - REACT_VERSION=0.14
     - REACT_VERSION=15.0
-    - REACT_VERSION=15.4
+    - REACT_VERSION=15.6
 addons:
   apt:
     sources:
