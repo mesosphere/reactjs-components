@@ -35,7 +35,7 @@ class FieldPassword extends FieldInput {
     this.props.handleEvent("focus", this.props.name, event.target.value, event);
   }
 
-  getInputElement(attributes) {
+  getInputElement(attributes, htmlAttributes) {
     const {
       handleEvent,
       inlineIconClass,
@@ -48,9 +48,9 @@ class FieldPassword extends FieldInput {
 
     const classes = classNames(inputClass, sharedClass);
     let inputContent = null;
-    attributes = this.bindEvents(attributes, handleEvent);
-    attributes.onBlur = this.handleOnBlur;
-    attributes.onFocus = this.handleOnFocus;
+    htmlAttributes = this.bindEvents(htmlAttributes, handleEvent);
+    htmlAttributes.onBlur = this.handleOnBlur;
+    htmlAttributes.onFocus = this.handleOnFocus;
 
     let fieldValue =
       attributes.defaultPasswordValue || attributes.startValue || "";
@@ -62,7 +62,7 @@ class FieldPassword extends FieldInput {
     if (this.isEditing() || writeType === "input") {
       inputContent = (
         <input
-          {...attributes}
+          {...htmlAttributes}
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
@@ -73,9 +73,9 @@ class FieldPassword extends FieldInput {
       inputContent = (
         <span
           ref="inputElement"
-          {...attributes}
+          {...htmlAttributes}
           className={classes}
-          onClick={attributes.onFocus}
+          onClick={htmlAttributes.onFocus}
         >
           <span className={classNames(inlineTextClass)}>
             {attributes.defaultPasswordValue}

@@ -63,7 +63,7 @@ class FieldTextarea extends FieldInput {
     props.handleEvent("focus", props.name, event.target.innerText, event);
   }
 
-  getInputElement(attributes) {
+  getInputElement(attributes, htmlAttributes) {
     const {
       inlineIconClass,
       inlineTextClass,
@@ -78,7 +78,7 @@ class FieldTextarea extends FieldInput {
 
     const classes = classNames("content-editable", inputClass, sharedClass);
 
-    attributes = this.bindEvents(attributes);
+    htmlAttributes = this.bindEvents(htmlAttributes);
 
     if (this.isEditing() || writeType === "input") {
       inputContent = (
@@ -89,7 +89,7 @@ class FieldTextarea extends FieldInput {
           <div
             ref="inputElement"
             className={classes}
-            {...attributes}
+            {...htmlAttributes}
             contentEditable={true}
             onBlur={this.handleContentEditableBlur}
             onFocus={this.handleContentEditableFocus}
@@ -102,9 +102,9 @@ class FieldTextarea extends FieldInput {
       inputContent = (
         <span
           ref="inputElement"
-          {...attributes}
+          {...htmlAttributes}
           className={classes}
-          onClick={attributes.onFocus}
+          onClick={htmlAttributes.onFocus}
         >
           <span className={classNames(inlineTextClass)}>
             {value || attributes.startValue}

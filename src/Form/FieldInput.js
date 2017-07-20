@@ -6,6 +6,7 @@ import BindMixin from "../Mixin/BindMixin";
 import IconEdit from "./icons/IconEdit";
 import KeyboardUtil from "../Util/KeyboardUtil";
 import Util from "../Util/Util";
+import HTMLUtil from "../Util/HTMLUtil";
 
 const EVENTS = ["blur", "change", "focus"];
 
@@ -137,7 +138,7 @@ class FieldInput extends Util.mixin(BindMixin) {
     return <label className={classNames(labelClass)}>{contents}</label>;
   }
 
-  getInputElement(attributes) {
+  getInputElement(attributes, htmlAttributes = {}) {
     const {
       inlineIconClass,
       inlineTextClass,
@@ -150,12 +151,7 @@ class FieldInput extends Util.mixin(BindMixin) {
     let inputContent = null;
 
     const classes = classNames(inputClass, sharedClass);
-    attributes = this.bindEvents(attributes);
-
-    const htmlAttributes = Util.exclude(
-      attributes,
-      Object.keys(FieldInput.propTypes)
-    );
+    htmlAttributes = this.bindEvents(htmlAttributes);
 
     if (this.isEditing() || writeType === "input") {
       inputContent = (
@@ -173,7 +169,7 @@ class FieldInput extends Util.mixin(BindMixin) {
           ref="inputElement"
           {...htmlAttributes}
           className={classes}
-          onClick={attributes.onFocus}
+          onClick={htmlAttributes.onFocus}
         >
           <span className={classNames(inlineTextClass)}>
             {value || attributes.startValue}
@@ -194,8 +190,8 @@ class FieldInput extends Util.mixin(BindMixin) {
 
   render() {
     const { props } = this;
-
     const attributes = Util.exclude(props, "onChange", "value");
+    const htmlAttributes = HTMLUtil.filterAttributes(attributes);
 
     const classes = classNames(
       { [props.formGroupErrorClass]: this.hasError() },
@@ -206,7 +202,7 @@ class FieldInput extends Util.mixin(BindMixin) {
       <div className={this.getRowClass(props)}>
         <div className={classes}>
           {this.getLabel()}
-          {this.getInputElement(attributes)}
+          {this.getInputElement(attributes, htmlAttributes)}
           {this.getHelpBlock()}
           {this.getErrorMsg()}
         </div>

@@ -2,6 +2,7 @@ import React, { PropTypes } from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import Util from "../Util/Util";
+// import HTMLUtil from "../Util/HTMLUtil";
 
 class ListItem extends React.Component {
   render() {

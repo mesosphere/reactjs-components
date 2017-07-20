@@ -9,6 +9,7 @@ import throttle from "lodash.throttle";
 
 import DOMUtil from "../Util/DOMUtil";
 import Util from "../Util/Util";
+import HTMLUtil from "../Util/HTMLUtil";
 
 const mathMax = Math.max;
 const mathMin = Math.min;
@@ -231,10 +232,7 @@ class VirtualList extends React.Component {
       bottomStyles.display = "none";
     }
 
-    const htmlAttributes = Util.exclude(
-      props,
-      Object.keys(VirtualList.propTypes)
-    );
+    const htmlAttributes = HTMLUtil.filterAttributes(props);
 
     return (
       <props.tagName ref="list" {...htmlAttributes}>
