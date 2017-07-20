@@ -3,6 +3,7 @@ import React from "react";
 
 import BindMixin from "../Mixin/BindMixin";
 import Util from "../Util/Util";
+import HTMLUtil from "../Util/HTMLUtil";
 
 class FieldRadioButton extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -108,10 +109,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       attributes.indicatorClass
     );
 
-    const htmlAttributes = Util.exclude(
-      attributes,
-      Object.keys(FieldRadioButton.propTypes)
-    );
+    const htmlAttributes = HTMLUtil.filterAttributes(attributes);
 
     return (
       <label className={labelClasses} key={index}>

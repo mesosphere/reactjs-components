@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 
 import ListItem from "./ListItem";
 import Util from "../Util/Util";
+import HTMLUtil from "../Util/HTMLUtil";
 
 class List extends React.Component {
   getListItems(list, childIndex = 0) {
@@ -11,12 +12,7 @@ class List extends React.Component {
       const key = `${parentIndex}.${childIndex}`;
       childIndex++;
 
-      const htmlAttributes = Util.exclude(item, [
-        "content",
-        "transitionName",
-        "transitionEnterTimeout",
-        "transitionLeaveTimeout"
-      ]);
+      const htmlAttributes = HTMLUtil.filterAttributes(item);
 
       if (Util.isArrayLike(item.content)) {
         return (
@@ -48,8 +44,7 @@ class List extends React.Component {
     const { props } = this;
     const Tag = props.tag;
 
-    // Uses all passed properties as attributes, excluding propTypes
-    const htmlAttributes = Util.exclude(props, Object.keys(List.propTypes));
+    const htmlAttributes = HTMLUtil.filterAttributes(props);
 
     if (props.transition) {
       return (
