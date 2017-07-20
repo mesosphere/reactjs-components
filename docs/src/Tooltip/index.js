@@ -50,7 +50,6 @@ class ToolTipExample extends React.Component {
               <Tooltip
                 content={tooltipContent}
                 elementTag="button"
-                scrollContainer={this.props.scrollContainer}
                 wrapperClassName="tooltip-wrapper text-align-center
                 button"
               >
@@ -59,7 +58,6 @@ class ToolTipExample extends React.Component {
               <Tooltip
                 content={tooltipContent}
                 elementTag="button"
-                scrollContainer={this.props.scrollContainer}
                 position="bottom"
                 wrapperClassName="tooltip-wrapper
                 text-align-center button"
@@ -71,7 +69,6 @@ class ToolTipExample extends React.Component {
                 elementTag="button"
                 interactive={true}
                 maxWidth={225}
-                scrollContainer={this.props.scrollContainer}
                 position="left"
                 wrapperClassName="tooltip-wrapper
                 text-align-center button"
@@ -84,7 +81,6 @@ class ToolTipExample extends React.Component {
                 elementTag="button"
                 interactive={true}
                 maxWidth={225}
-                scrollContainer={this.props.scrollContainer}
                 position="right"
                 wrapperClassName="tooltip-wrapper
                 text-align-center button"
