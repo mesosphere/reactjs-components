@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
 import BindMixin from "../Mixin/BindMixin";
@@ -222,83 +223,83 @@ FieldInput.defaultProps = {
   writeType: "input"
 };
 
-const classPropType = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropType = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 FieldInput.propTypes = {
   // Optional number of columns to take up of the grid
-  columnWidth: React.PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
   // Optional. Which field property is currently being edited
   // (usually passed down from form definition)
-  editing: React.PropTypes.string,
+  editing: PropTypes.string,
   // Optional. Specify if the field should be focused
   // Useful in combination with preset values, will set cursor to end of input
   // (usually passed down from form definition)
-  focused: React.PropTypes.bool,
+  focused: PropTypes.bool,
   // Function to handle when form is submitted
   // (usually passed down from form definition)
-  handleSubmit: React.PropTypes.func,
+  handleSubmit: PropTypes.func,
   // Function to handle events like 'change', 'blur', 'focus', etc on the field
   // (usually passed down from form definition)
-  handleEvent: React.PropTypes.func,
+  handleEvent: PropTypes.func,
   // Optional label to add
-  label: React.PropTypes.string,
+  label: PropTypes.string,
   // Optional help block
-  helpBlock: React.PropTypes.node,
+  helpBlock: PropTypes.node,
   // Name of the field property
   // (usually passed down from form definition)
-  name: React.PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   // Custom render function, receives the input element as its only argument
-  renderer: React.PropTypes.func,
+  renderer: PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
-  showLabel: React.PropTypes.oneOfType([
-    React.PropTypes.node,
-    React.PropTypes.string,
-    React.PropTypes.bool
+  showLabel: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+    PropTypes.bool
   ]),
   // initial value of field
-  startValue: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.number,
-    React.PropTypes.string
+  startValue: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+    PropTypes.string
   ]),
   // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.object,
+  validationError: PropTypes.object,
   // Optional value of the field
-  value: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.number,
-    React.PropTypes.string
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.number,
+    PropTypes.string
   ]),
   // Optional field to set input to 'edit' or 'input' mode
-  writeType: React.PropTypes.string,
+  writeType: PropTypes.string,
 
   // Classes
   formElementClass: classPropType,
   formGroupClass: classPropType,
   // Class to be toggled, can be overridden by formGroupClass
-  formGroupErrorClass: React.PropTypes.string,
+  formGroupErrorClass: PropTypes.string,
   helpBlockClass: classPropType,
   inlineIconClass: classPropType,
   inlineTextClass: classPropType,
   labelClass: classPropType,
   sharedClass: classPropType,
-  fieldType: React.PropTypes.string,
-  currentValue: React.PropTypes.object,
-  maxColumnWidth: React.PropTypes.number,
-  formRowClass: React.PropTypes.string,
-  inputClass: React.PropTypes.string,
-  readClass: React.PropTypes.string,
-  validation: React.PropTypes.func,
-  validationErrorText: React.PropTypes.string,
-  showError: React.PropTypes.string,
-  errorText: React.PropTypes.string
+  fieldType: PropTypes.string,
+  currentValue: PropTypes.object,
+  maxColumnWidth: PropTypes.number,
+  formRowClass: PropTypes.string,
+  inputClass: PropTypes.string,
+  readClass: PropTypes.string,
+  validation: PropTypes.func,
+  validationErrorText: PropTypes.string,
+  showError: PropTypes.string,
+  errorText: PropTypes.string
 };
 
 module.exports = FieldInput;

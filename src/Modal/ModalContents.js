@@ -1,8 +1,9 @@
 import classNames from "classnames/dedupe";
 import GeminiScrollbar from "react-gemini-scrollbar";
 /* eslint-disable no-unused-vars */
-import React, { PropTypes } from "react";
+import React from "react";
 /* eslint-enable no-unused-vars */
+import PropTypes from "prop-types";
 /**
  * Lifecycle of a Modal:
  * initial page load -> empty ReactCSSTransitionGroup
@@ -450,9 +451,9 @@ ModalContents.propTypes = {
   closeButtonClass: PropTypes.string,
   footerClass: PropTypes.string,
   geminiClass: PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
-    React.PropTypes.string
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.string
   ]),
   headerClass: PropTypes.string,
   modalClass: PropTypes.string,

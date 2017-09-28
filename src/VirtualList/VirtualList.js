@@ -4,6 +4,7 @@
  */
 
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import throttle from "lodash.throttle";
 
@@ -255,32 +256,32 @@ VirtualList.defaultProps = {
 
 VirtualList.propTypes = {
   // Array of items to render
-  items: React.PropTypes.array.isRequired,
+  items: PropTypes.array.isRequired,
 
   // The fixed height of a single item. Needs to be the same for all items
   // We suggest that you add a CSS rule to set the row height to the same value
-  itemHeight: React.PropTypes.number.isRequired,
+  itemHeight: PropTypes.number.isRequired,
 
   // This function should return the item view, the data model and the index
   // is passed to the function.
   // If you want to tweak performance, we suggest you memoize the results
-  renderItem: React.PropTypes.func.isRequired,
+  renderItem: PropTypes.func.isRequired,
 
   // This function should return an item buffer view, the data model and the
   // index is passed to the function.
-  renderBufferItem: React.PropTypes.func.isRequired,
+  renderBufferItem: PropTypes.func.isRequired,
 
   // Optional item that the items should be rendered within. Defaults to window
-  container: React.PropTypes.object,
+  container: PropTypes.object,
 
   // Optional Specify which tag the container should render
-  tagName: React.PropTypes.string,
+  tagName: PropTypes.string,
 
   // Optional scroll delay to use in throttle function
-  scrollDelay: React.PropTypes.number,
+  scrollDelay: PropTypes.number,
 
   // Optional number of items to use as buffer, before and after viewport
-  itemBuffer: React.PropTypes.number
+  itemBuffer: PropTypes.number
 };
 
 module.exports = VirtualList;

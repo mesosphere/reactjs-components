@@ -1,5 +1,6 @@
 import classNames from "classnames";
-import React, { PropTypes } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 import Modal from "../Modal/Modal";
 import Util from "../Util/Util";
@@ -82,7 +83,7 @@ Confirm.defaultProps = {
 };
 
 Confirm.propTypes = {
-  children: React.PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 
   open: PropTypes.bool.isRequired,
   disabled: PropTypes.bool,

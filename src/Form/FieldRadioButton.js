@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 import BindMixin from "../Mixin/BindMixin";
 import Util from "../Util/Util";
@@ -185,41 +186,38 @@ FieldRadioButton.defaultProps = {
   handleEvent() {}
 };
 
-const classPropType = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropType = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 FieldRadioButton.propTypes = {
   // Optional number of columns to take up of the grid
-  columnWidth: React.PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
   // Function to handle change event
   // (usually passed down from form definition)
-  handleEvent: React.PropTypes.func,
+  handleEvent: PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
-  showLabel: React.PropTypes.oneOfType([
-    React.PropTypes.node,
-    React.PropTypes.string,
-    React.PropTypes.bool
+  showLabel: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+    PropTypes.bool
   ]),
   // Attributes to pass to radio button(s)
   // (usually passed down from form definition)
-  startValue: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.bool
-  ]),
+  startValue: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.object,
+  validationError: PropTypes.object,
 
   // Classes
   formElementClass: classPropType,
   formGroupClass: classPropType,
   // Class to be toggled, can be overridden by formGroupClass
-  formGroupErrorClass: React.PropTypes.string,
+  formGroupErrorClass: PropTypes.string,
   helpBlockClass: classPropType,
   itemWrapperClass: classPropType,
   labelClass: classPropType,

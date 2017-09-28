@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
 import FieldRadioButton from "./FieldRadioButton";
@@ -125,35 +126,32 @@ FieldCheckbox.defaultProps = {
 
 FieldCheckbox.propTypes = {
   // Optional number of columns to take up of the grid
-  columnWidth: React.PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
   // Function to handle change event
   // (usually passed down from form definition)
-  handleEvent: React.PropTypes.func,
+  handleEvent: PropTypes.func,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
-  showLabel: React.PropTypes.oneOfType([
-    React.PropTypes.node,
-    React.PropTypes.string,
-    React.PropTypes.bool
+  showLabel: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+    PropTypes.bool
   ]),
   // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.object,
+  validationError: PropTypes.object,
 
   // Classes
-  checkboxButtonLabelClass: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
-    React.PropTypes.string
+  checkboxButtonLabelClass: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.string
   ]),
-  startValue: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.bool
-  ]),
-  labelClass: React.PropTypes.string,
-  indicatorClasses: React.PropTypes.string,
-  indeterminate: React.PropTypes.bool
+  startValue: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  labelClass: PropTypes.string,
+  indicatorClasses: PropTypes.string,
+  indeterminate: PropTypes.bool
 };
 
 module.exports = FieldCheckbox;

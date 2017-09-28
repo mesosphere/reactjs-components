@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 import { CSSTransitionGroup } from "react-transition-group";
 
 import ListItem from "./ListItem";
@@ -107,8 +108,8 @@ List.propTypes = {
   transition: PropTypes.bool,
   transitionName: PropTypes.string,
   // Transition lengths
-  transitionEnterTimeout: React.PropTypes.number,
-  transitionLeaveTimeout: React.PropTypes.number
+  transitionEnterTimeout: PropTypes.number,
+  transitionLeaveTimeout: PropTypes.number
 };
 
 module.exports = List;

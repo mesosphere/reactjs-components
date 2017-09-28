@@ -1,5 +1,6 @@
 import classnames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 class CodeBlockWrapper extends React.Component {
   render() {
@@ -17,11 +18,11 @@ class CodeBlockWrapper extends React.Component {
 }
 
 CodeBlockWrapper.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  panelClassNames: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
-    React.PropTypes.string
+  children: PropTypes.node.isRequired,
+  panelClassNames: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.string
   ])
 };
 

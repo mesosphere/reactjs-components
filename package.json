@@ -16,11 +16,15 @@
     "url": "https://github.com/mesosphere/reactjs-components"
   },
   "license": "Apache-2.0",
-  "files": ["main.js", "lib"],
+  "files": [
+    "main.js",
+    "lib"
+  ],
   "main": "main.js",
   "dependencies": {
     "classnames": "2.2.3",
-    "lodash.throttle": "4.1.1"
+    "lodash.throttle": "4.1.1",
+    "prop-types": "^15.6.0"
   },
   "devDependencies": {
     "babel-cli": "6.5.1",

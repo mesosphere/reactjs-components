@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
 import React from "react";
+import PropTypes from "prop-types";
 import { CSSTransitionGroup } from "react-transition-group";
 import ReactDOM from "react-dom";
 
@@ -441,79 +442,61 @@ Dropdown.defaultProps = {
 
 Dropdown.propTypes = {
   // When true, anchors the dropdown to the right of the trigger.
-  anchorRight: React.PropTypes.bool,
+  anchorRight: PropTypes.bool,
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
-  persistentID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
+  persistentID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // The items to display in the dropdown.
-  items: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
       // An optional classname for the menu item.
-      className: React.PropTypes.string,
+      className: PropTypes.string,
       // A required ID for each item
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-      ]).isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       // The HTML (or text) to render for the list item.
-      html: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ]),
+      html: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
       // Whether or not the user can choose the item.
-      selectable: React.PropTypes.bool,
+      selectable: PropTypes.bool,
       // The HTML (or text) to display when the option is selected. If this is
       // not provided, the value for the `html` property will be used.
-      selectedHtml: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ])
+      selectedHtml: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     })
   ).isRequired,
   // The ID of the item that should be selected initially.
-  initialID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
+  initialID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // When true, the width of the dropdown will match the width of the button.
-  matchButtonWidth: React.PropTypes.bool,
+  matchButtonWidth: PropTypes.bool,
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
-  onItemSelection: React.PropTypes.func,
+  onItemSelection: PropTypes.func,
   // The nearest scrolling DOMNode that contains the dropdown. Defaults to
   // window. Also accepts a string, treated as a selector for the node.
-  scrollContainer: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.string
-  ]),
+  scrollContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   // Will attach the scroll handler to the the direct parent of scrollContainer
   // if it matches this selector. Defaults to null.
-  scrollContainerParentSelector: React.PropTypes.string,
+  scrollContainerParentSelector: PropTypes.string,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
-  transition: React.PropTypes.bool,
+  transition: PropTypes.bool,
   // The prefix of the transition classnames.
-  transitionName: React.PropTypes.string,
+  transitionName: PropTypes.string,
   // Transition lengths
-  transitionEnterTimeout: React.PropTypes.number,
-  transitionLeaveTimeout: React.PropTypes.number,
+  transitionEnterTimeout: PropTypes.number,
+  transitionLeaveTimeout: PropTypes.number,
   // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: React.PropTypes.bool,
+  useGemini: PropTypes.bool,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.
-  buttonClassName: React.PropTypes.string,
+  buttonClassName: PropTypes.string,
   // Classname for the dropdown menu wrapper.
-  dropdownMenuClassName: React.PropTypes.string,
+  dropdownMenuClassName: PropTypes.string,
   // Classname for the dropdown list wrapper.
-  dropdownMenuListClassName: React.PropTypes.string,
+  dropdownMenuListClassName: PropTypes.string,
   // Classname for the dropdown list item.
-  dropdownMenuListItemClassName: React.PropTypes.string,
+  dropdownMenuListItemClassName: PropTypes.string,
   // Classname for the element that wraps the entire component.
-  wrapperClassName: React.PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 module.exports = Dropdown;

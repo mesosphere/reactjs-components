@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
-import React, { PropTypes } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
 import BindMixin from "../Mixin/BindMixin";
 import FormControl from "./FormControl";
@@ -419,10 +420,10 @@ class Form extends Util.mixin(BindMixin) {
   }
 }
 
-const classPropType = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropType = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 Form.defaultProps = {
@@ -456,7 +457,7 @@ Form.propTypes = {
   // 1. Array of field definitions will be created on same row
   // 2. Field definition (object) will create a single field in that row
   definition: PropTypes.arrayOf(
-    React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array])
+    PropTypes.oneOfType([PropTypes.object, PropTypes.array])
   ),
 
   // Optional number of columns in the grid

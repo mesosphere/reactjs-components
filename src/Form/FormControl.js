@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 import FieldTypes from "./FieldTypes";
 import Util from "../Util/Util";
@@ -83,18 +84,15 @@ class FormControl extends React.Component {
 
 FormControl.propTypes = {
   // Optional number of columns in the grid
-  maxColumnWidth: React.PropTypes.number,
+  maxColumnWidth: PropTypes.number,
 
   // Object with key as field propterty name, and value as current value
-  currentValue: React.PropTypes.object,
+  currentValue: PropTypes.object,
 
   // Form definition to build the form from. Can be either:
   // 1. Array of field definitions will be created on same row
   // 2. Field definition (object) will create a single field in that row
-  definition: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.array
-  ])
+  definition: PropTypes.oneOfType([PropTypes.object, PropTypes.array])
 };
 
 module.exports = FormControl;

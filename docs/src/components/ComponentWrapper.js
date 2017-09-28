@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import IconCode from "./icons/IconCode";
 
@@ -21,9 +22,9 @@ class ComponentWrapper extends React.Component {
 }
 
 ComponentWrapper.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  srcURI: React.PropTypes.string.isRequired,
-  title: React.PropTypes.string.isRequired
+  children: PropTypes.node.isRequired,
+  srcURI: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 module.exports = ComponentWrapper;
