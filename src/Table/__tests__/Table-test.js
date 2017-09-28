@@ -6,7 +6,14 @@ jest.dontMock("./fixtures/MockTable");
 var React = require("react");
 /* eslint-enable no-unused-vars */
 var ReactDOM = require("react-dom");
-var TestUtils = require("react-addons-test-utils");
+
+var TestUtils;
+if (React.version.match(/15.[0-5]/)) {
+  TestUtils = require("react-addons-test-utils");
+} else {
+  TestUtils = require("react-dom/test-utils");
+}
+
 var Table = require("../Table");
 var DOMUtil = require("../../Util/DOMUtil");
 

@@ -69,6 +69,7 @@
     "react-addons-test-utils": "15.5.0",
     "react-dom": "15.0.x || 15.6.x",
     "react-gemini-scrollbar": "2.1.x",
+    "react-addons-test-utils": "15.5.0",
     "source-map-loader": "0.1.5",
     "stylelint": "7.10.1",
     "stylelint-config-dcos": "0.0.3",
