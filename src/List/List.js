@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { CSSTransitionGroup } from "react-transition-group";
 
 import ListItem from "./ListItem";
 import Util from "../Util/Util";
@@ -53,7 +53,7 @@ class List extends React.Component {
 
     if (props.transition) {
       return (
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
           {...htmlAttributes}
           className={props.className}
           component={Tag}
@@ -62,7 +62,7 @@ class List extends React.Component {
           transitionLeaveTimeout={props.transitionLeaveTimeout}
         >
           {this.getListItems(props.content)}
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
       );
     }
 

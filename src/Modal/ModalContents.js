@@ -9,7 +9,7 @@ import React, { PropTypes } from "react";
  * interaction changes open to true -> render modal content without scrollbars
  * get height of content -> rerender modal content and cap the height
  */
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { CSSTransitionGroup } from "react-transition-group";
 
 import BindMixin from "../Mixin/BindMixin";
 import DOMUtil from "../Util/DOMUtil";
@@ -140,27 +140,27 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     const {
-      footer,
-      header,
-      modal,
-      innerContent,
-      innerContentContainer
-    } = this.refs;
+      footerRef,
+      headerRef,
+      modalRef,
+      innerContentRef,
+      innerContentContainerRef
+    } = this;
 
     let headerHeight = 0;
     let footerHeight = 0;
 
-    if (header != null) {
-      headerHeight = Math.ceil(header.getBoundingClientRect().height);
+    if (headerRef != null) {
+      headerHeight = Math.ceil(headerRef.getBoundingClientRect().height);
     }
 
-    if (footer != null) {
-      footerHeight = Math.ceil(footer.getBoundingClientRect().height);
+    if (footerRef != null) {
+      footerHeight = Math.ceil(footerRef.getBoundingClientRect().height);
     }
 
-    const modalHeight = Math.ceil(modal.getBoundingClientRect().height);
+    const modalHeight = Math.ceil(modalRef.getBoundingClientRect().height);
     const innerContentHeight = Math.ceil(
-      innerContent.getBoundingClientRect().height
+      innerContentRef.getBoundingClientRect().height
     );
     const maxModalHeight =
       this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE;
@@ -202,8 +202,8 @@ class ModalContents extends Util.mixin(BindMixin) {
       }
     }
 
-    innerContentContainer.style.height = nextInnerContentContainerHeight;
-    modal.style.height = nextModalHeight;
+    innerContentContainerRef.style.height = nextInnerContentContainerHeight;
+    modalRef.style.height = nextModalHeight;
 
     this.triggerGeminiUpdate();
   }
@@ -230,7 +230,10 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div className={props.headerClass} ref="header">
+      <div
+        className={props.headerClass}
+        ref={element => (this.headerRef = element)}
+      >
         {props.header}
         {props.subHeader}
       </div>
@@ -245,7 +248,10 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div className={props.footerClass} ref="footer">
+      <div
+        className={props.footerClass}
+        ref={element => (this.footerRef = element)}
+      >
         {props.footer}
       </div>
     );
@@ -255,7 +261,10 @@ class ModalContents extends Util.mixin(BindMixin) {
     const { props, state } = this;
 
     const modalContent = (
-      <div className={props.scrollContainerClass} ref="innerContent">
+      <div
+        className={props.scrollContainerClass}
+        ref={element => (this.innerContentRef = element)}
+      >
         {props.children}
       </div>
     );
@@ -281,7 +290,7 @@ class ModalContents extends Util.mixin(BindMixin) {
       <GeminiScrollbar
         autoshow={false}
         className={geminiClasses}
-        ref="gemini"
+        ref={element => (this.geminiRef = element)}
         style={geminiContainerStyle}
       >
         {modalContent}
@@ -302,13 +311,16 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div ref="modal" className={props.modalClass}>
+      <div
+        ref={element => (this.modalRef = element)}
+        className={props.modalClass}
+      >
         {this.getCloseButton()}
         {this.getHeader()}
         <div
           className={props.bodyClass}
           style={modalBodyStyle}
-          ref="innerContentContainer"
+          ref={element => (this.innerContentContainerRef = element)}
         >
           {this.getModalContent()}
         </div>
@@ -330,10 +342,8 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   triggerGeminiUpdate() {
-    const { gemini } = this.refs;
-
-    if (gemini != null && gemini.scrollbar != null) {
-      gemini.scrollbar.update();
+    if (this.geminiRef != null && this.geminiRef.scrollbar != null) {
+      this.geminiRef.scrollbar.update();
     }
   }
 
@@ -351,7 +361,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         transitionAppear={props.transitionAppear}
         transitionEnter={props.transitionEnter}
         transitionLeave={props.transitionLeave}
@@ -362,7 +372,7 @@ class ModalContents extends Util.mixin(BindMixin) {
         component="div"
       >
         {modalContent}
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
     );
   }
 }

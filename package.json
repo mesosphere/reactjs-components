@@ -16,10 +16,7 @@
     "url": "https://github.com/mesosphere/reactjs-components"
   },
   "license": "Apache-2.0",
-  "files": [
-    "main.js",
-    "lib"
-  ],
+  "files": ["main.js", "lib"],
   "main": "main.js",
   "dependencies": {
     "classnames": "2.2.3",
@@ -65,8 +62,8 @@
     "node-libs-browser": "1.0.0",
     "prettier": "1.2.2",
     "react": "15.0.x || 15.6.x",
-    "react-addons-css-transition-group": "15.0.x || 15.6.x",
     "react-addons-test-utils": "15.5.0",
+    "react-transition-group": "1.2.x",
     "react-dom": "15.0.x || 15.6.x",
     "react-gemini-scrollbar": "2.1.x",
     "react-addons-test-utils": "15.5.0",
@@ -81,7 +78,7 @@
   "peerDependencies": {
     "cnvs": "1.1.x",
     "react": "15.0.x || 15.6.x",
-    "react-addons-css-transition-group": "15.0.x || 15.6.x",
+    "react-transition-group": "1.2.x",
     "react-gemini-scrollbar": "2.1.x"
   },
   "scripts": {

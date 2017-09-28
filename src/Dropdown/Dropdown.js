@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
 import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import { CSSTransitionGroup } from "react-transition-group";
 import ReactDOM from "react-dom";
 
 import BindMixin from "../Mixin/BindMixin";
@@ -18,7 +18,9 @@ class Dropdown extends Util.mixin(BindMixin) {
       "handleExternalClick",
       "handleKeyDown",
       "handleMenuRender",
-      "handleWrapperBlur"
+      "handleWrapperBlur",
+      "setDropdownMenuRef",
+      "setDropdownWrapperRef"
     ];
   }
 
@@ -147,10 +149,10 @@ class Dropdown extends Util.mixin(BindMixin) {
     let menuDirection = this.state.menuDirection;
     const menuPositionStyle = {};
     const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
-      this.refs.dropdownWrapper
+      this.dropdownWrapperRef
     );
     const menuHeight =
-      this.state.menuHeight || this.refs.dropdownMenu.firstChild.clientHeight;
+      this.state.menuHeight || this.dropdownMenuRef.firstChild.clientHeight;
     const isMenuTallerThanBottom =
       menuHeight > spaceAroundDropdownButton.bottom;
     const isMenuTallerThanTop = menuHeight > spaceAroundDropdownButton.top;
@@ -216,7 +218,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     // position to a default state to trigger its recalculation on the next
     // render.
     if (this.state.menuHeight == null) {
-      const buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
+      const buttonPosition = this.dropdownWrapperRef.getBoundingClientRect();
 
       state.menuDirection = "down";
       state.menuPositionStyle = {
@@ -302,6 +304,14 @@ class Dropdown extends Util.mixin(BindMixin) {
     return this.props.persistentID || this.state.selectedID;
   }
 
+  setDropdownMenuRef(element) {
+    this.dropdownMenuRef = element;
+  }
+
+  setDropdownWrapperRef(element) {
+    this.dropdownWrapperRef = element;
+  }
+
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
@@ -364,7 +374,7 @@ class Dropdown extends Util.mixin(BindMixin) {
         <span
           className={dropdownMenuClassSet}
           role="menu"
-          ref="dropdownMenu"
+          ref={this.setDropdownMenuRef}
           style={state.menuPositionStyle}
         >
           <div className={props.dropdownMenuListClassName}>
@@ -384,13 +394,13 @@ class Dropdown extends Util.mixin(BindMixin) {
 
     if (props.transition) {
       dropdownMenu = (
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
           transitionName={transitionName}
           transitionEnterTimeout={props.transitionEnterTimeout}
           transitionLeaveTimeout={props.transitionLeaveTimeout}
         >
           {dropdownMenu}
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
       );
     }
 
@@ -399,12 +409,11 @@ class Dropdown extends Util.mixin(BindMixin) {
         className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
-        ref="dropdownWrapper"
+        ref={this.setDropdownWrapperRef}
       >
         <button
           className={props.buttonClassName}
           onClick={this.handleMenuToggle}
-          ref="button"
           type="button"
         >
           {this.getSelectedHtml(this.getSelectedID(), items)}
