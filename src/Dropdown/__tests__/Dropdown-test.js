@@ -122,7 +122,12 @@ describe("Dropdown", function() {
       />
     );
 
-    var disabledState = ReactDOM.findDOMNode(instance.refs.button).disabled;
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
+
+    var disabledState = ReactDOM.findDOMNode(button).disabled;
     expect(disabledState).toEqual(true);
   });
 
