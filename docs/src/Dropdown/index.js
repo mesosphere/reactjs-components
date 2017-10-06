@@ -204,6 +204,53 @@ class SimpleDropdownExample extends React.Component {
         </ComponentExampleWrapper>
         <ComponentExampleWrapper>
           <ComponentExample>
+            <div className="row">
+              <div className="column-6">
+                <p>Here is a disabled dropdown...</p>
+                <Dropdown
+                  buttonClassName="button dropdown-toggle"
+                  dropdownMenuClassName="dropdown-menu"
+                  dropdownMenuListClassName="dropdown-menu-list"
+                  items={dropdownItems}
+                  initialID="bar"
+                  scrollContainer={this.props.scrollContainer}
+                  transition={true}
+                  wrapperClassName="dropdown"
+                  disabled
+                />
+              </div>
+            </div>
+          </ComponentExample>
+          <CodeBlock>
+            {`import {Dropdown} from 'reactjs-components';
+import React from 'react';
+
+class SimpleDropdownExample extends React.Component {
+  render() {
+    let dropdownItems = [
+      {html: 'Foo', id: 'foo'},
+      {html: 'Bar', id: 'bar'},
+      {html: 'Baz', id: 'baz'},
+      {html: 'A tiny whale', id: 'whale'}
+    ];
+
+    return (
+      <Dropdown buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={dropdownItems}
+        initialID="foo"
+        transition={true}
+        wrapperClassName="dropdown"
+        disabled
+        />
+    );
+  }
+}`}
+          </CodeBlock>
+        </ComponentExampleWrapper>
+        <ComponentExampleWrapper>
+          <ComponentExample>
             <h4 className="flush-top">Callbacks</h4>
             <p>
               Use the <code>onItemSelection</code> attribute to add

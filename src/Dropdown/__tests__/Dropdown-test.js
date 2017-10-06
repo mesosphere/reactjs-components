@@ -108,6 +108,24 @@ describe("Dropdown", function() {
     expect(buttonText).toEqual("Baz");
   });
 
+  it("disables button when disabled state is enabled", function() {
+    var instance = TestUtils.renderIntoDocument(
+      <Dropdown
+        buttonClassName="button dropdown-toggle"
+        dropdownMenuClassName="dropdown-menu"
+        dropdownMenuListClassName="dropdown-menu-list"
+        items={MockDropdownList}
+        persistentID="quz"
+        transition={false}
+        wrapperClassName="dropdown"
+        disabled
+      />
+    );
+
+    var disabledState = ReactDOM.findDOMNode(instance.refs.button).disabled;
+    expect(disabledState).toEqual(true);
+  });
+
   it("correctly displays the selected item with persistentID", function() {
     var instance = TestUtils.renderIntoDocument(
       <Dropdown

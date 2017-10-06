@@ -416,6 +416,7 @@ class Dropdown extends Util.mixin(BindMixin) {
           className={props.buttonClassName}
           onClick={this.handleMenuToggle}
           type="button"
+          disabled={props.disabled}
         >
           {this.getSelectedHtml(this.getSelectedID(), items)}
         </button>
@@ -437,7 +438,8 @@ Dropdown.defaultProps = {
   transitionEnterTimeout: 250,
   transitionLeaveTimeout: 250,
   onItemSelection: () => {},
-  useGemini: true
+  useGemini: true,
+  disabled: false
 };
 
 Dropdown.propTypes = {
@@ -485,6 +487,8 @@ Dropdown.propTypes = {
   transitionLeaveTimeout: PropTypes.number,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
+  // Disable dropdown
+  disabled: PropTypes.bool,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.
