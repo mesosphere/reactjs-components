@@ -1,5 +1,6 @@
 import classnames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 class ComponentExample extends React.Component {
   render() {
@@ -14,11 +15,11 @@ class ComponentExample extends React.Component {
 }
 
 ComponentExample.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  classNames: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object,
-    React.PropTypes.string
+  children: PropTypes.node.isRequired,
+  classNames: PropTypes.oneOfType([
+    PropTypes.array,
+    PropTypes.object,
+    PropTypes.string
   ])
 };
 

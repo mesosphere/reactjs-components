@@ -6,7 +6,13 @@ jest.dontMock("../../Util/KeyboardUtil");
 var React = require("react");
 var ReactDOM = require("react-dom");
 /* eslint-enable no-unused-vars */
-var TestUtils = require("react-addons-test-utils");
+
+var TestUtils;
+if (React.version.match(/15.[0-5]/)) {
+  TestUtils = require("react-addons-test-utils");
+} else {
+  TestUtils = require("react-dom/test-utils");
+}
 
 var FieldInput = require("../FieldInput");
 

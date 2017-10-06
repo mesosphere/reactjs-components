@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React from "react";
+import PropTypes from "prop-types";
 
 import CodeBlock from "./CodeBlock";
 import CodeBlockWrapper from "./CodeBlockWrapper";
@@ -52,11 +53,8 @@ class PropertiesAPIBlock extends Util.mixin(BindMixin) {
 }
 
 PropertiesAPIBlock.propTypes = {
-  toggleClasses: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.object
-  ]),
-  propTypesBlock: React.PropTypes.string.isRequired
+  toggleClasses: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  propTypesBlock: PropTypes.string.isRequired
 };
 
 module.exports = PropertiesAPIBlock;

@@ -8,7 +8,13 @@ jest.dontMock("./fixtures/MockDropdownList");
 var React = require("react");
 /* eslint-enable no-unused-vars */
 var ReactDOM = require("react-dom");
-var TestUtils = require("react-addons-test-utils");
+
+var TestUtils;
+if (React.version.match(/15.[0-5]/)) {
+  TestUtils = require("react-addons-test-utils");
+} else {
+  TestUtils = require("react-dom/test-utils");
+}
 
 var MockDropdownList = require("./fixtures/MockDropdownList");
 var Dropdown = require("../Dropdown.js");
@@ -38,7 +44,11 @@ describe("Dropdown", function() {
 
   it("should display a dropdown menu when the button is clicked", function() {
     // Click on the dropdown button to open the menu
-    TestUtils.Simulate.click(this.instance.refs.button);
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      this.instance,
+      "button dropdown-toggle"
+    );
+    TestUtils.Simulate.click(button);
     // Find the dropdown menu in the DOM
     var dropdownMenu = document.body.querySelectorAll(".dropdown-menu");
     expect(Array.prototype.slice.call(dropdownMenu).length).toEqual(1);
@@ -67,7 +77,11 @@ describe("Dropdown", function() {
 
   it("should call the callback when selecting a selectable item", function() {
     // Click on the dropdown button to open the menu
-    TestUtils.Simulate.click(this.instance.refs.button);
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      this.instance,
+      "button dropdown-toggle"
+    );
+    TestUtils.Simulate.click(button);
     // Find the selectable menu items
     var selectableElements = document.body.querySelectorAll(
       ".dropdown-menu .is-selectable"
@@ -79,15 +93,18 @@ describe("Dropdown", function() {
 
   it("correctly displays the selected item", function() {
     // Click on the dropdown button to open the menu
-    TestUtils.Simulate.click(this.instance.refs.button);
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      this.instance,
+      "button dropdown-toggle"
+    );
+    TestUtils.Simulate.click(button);
     // Find the selectable menu items
     var selectableElements = document.body.querySelectorAll(
       ".dropdown-menu .is-selectable"
     );
     // Click on the second menu item returned, which we know to be "Baz"
     TestUtils.Simulate.click(selectableElements[1]);
-    var buttonText = ReactDOM.findDOMNode(this.instance.refs.button)
-      .textContent;
+    var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("Baz");
   });
 
@@ -105,7 +122,12 @@ describe("Dropdown", function() {
       />
     );
 
-    var disabledState = ReactDOM.findDOMNode(instance.refs.button).disabled;
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
+
+    var disabledState = ReactDOM.findDOMNode(button).disabled;
     expect(disabledState).toEqual(true);
   });
 
@@ -121,8 +143,12 @@ describe("Dropdown", function() {
         wrapperClassName="dropdown"
       />
     );
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
 
-    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("Quz");
   });
 
@@ -140,7 +166,12 @@ describe("Dropdown", function() {
       />
     );
 
-    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
+
+    var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("Quz");
   });
 
@@ -156,8 +187,12 @@ describe("Dropdown", function() {
         wrapperClassName="dropdown"
       />
     );
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
 
-    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("");
   });
 
@@ -173,8 +208,12 @@ describe("Dropdown", function() {
         wrapperClassName="dropdown"
       />
     );
+    const button = TestUtils.findRenderedDOMComponentWithClass(
+      instance,
+      "button dropdown-toggle"
+    );
 
-    var buttonText = ReactDOM.findDOMNode(instance.refs.button).textContent;
+    var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("");
   });
 

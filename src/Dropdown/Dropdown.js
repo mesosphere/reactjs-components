@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
 import React from "react";
-import ReactCSSTransitionGroup from "react-addons-css-transition-group";
+import PropTypes from "prop-types";
+import { CSSTransitionGroup } from "react-transition-group";
 import ReactDOM from "react-dom";
 
 import BindMixin from "../Mixin/BindMixin";
@@ -18,7 +19,9 @@ class Dropdown extends Util.mixin(BindMixin) {
       "handleExternalClick",
       "handleKeyDown",
       "handleMenuRender",
-      "handleWrapperBlur"
+      "handleWrapperBlur",
+      "setDropdownMenuRef",
+      "setDropdownWrapperRef"
     ];
   }
 
@@ -147,10 +150,10 @@ class Dropdown extends Util.mixin(BindMixin) {
     let menuDirection = this.state.menuDirection;
     const menuPositionStyle = {};
     const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
-      this.refs.dropdownWrapper
+      this.dropdownWrapperRef
     );
     const menuHeight =
-      this.state.menuHeight || this.refs.dropdownMenu.firstChild.clientHeight;
+      this.state.menuHeight || this.dropdownMenuRef.firstChild.clientHeight;
     const isMenuTallerThanBottom =
       menuHeight > spaceAroundDropdownButton.bottom;
     const isMenuTallerThanTop = menuHeight > spaceAroundDropdownButton.top;
@@ -216,7 +219,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     // position to a default state to trigger its recalculation on the next
     // render.
     if (this.state.menuHeight == null) {
-      const buttonPosition = this.refs.dropdownWrapper.getBoundingClientRect();
+      const buttonPosition = this.dropdownWrapperRef.getBoundingClientRect();
 
       state.menuDirection = "down";
       state.menuPositionStyle = {
@@ -302,6 +305,14 @@ class Dropdown extends Util.mixin(BindMixin) {
     return this.props.persistentID || this.state.selectedID;
   }
 
+  setDropdownMenuRef(element) {
+    this.dropdownMenuRef = element;
+  }
+
+  setDropdownWrapperRef(element) {
+    this.dropdownWrapperRef = element;
+  }
+
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
@@ -364,7 +375,7 @@ class Dropdown extends Util.mixin(BindMixin) {
         <span
           className={dropdownMenuClassSet}
           role="menu"
-          ref="dropdownMenu"
+          ref={this.setDropdownMenuRef}
           style={state.menuPositionStyle}
         >
           <div className={props.dropdownMenuListClassName}>
@@ -384,13 +395,13 @@ class Dropdown extends Util.mixin(BindMixin) {
 
     if (props.transition) {
       dropdownMenu = (
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
           transitionName={transitionName}
           transitionEnterTimeout={props.transitionEnterTimeout}
           transitionLeaveTimeout={props.transitionLeaveTimeout}
         >
           {dropdownMenu}
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
       );
     }
 
@@ -399,12 +410,11 @@ class Dropdown extends Util.mixin(BindMixin) {
         className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
-        ref="dropdownWrapper"
+        ref={this.setDropdownWrapperRef}
       >
         <button
           className={props.buttonClassName}
           onClick={this.handleMenuToggle}
-          ref="button"
           type="button"
           disabled={props.disabled}
         >
@@ -434,81 +444,63 @@ Dropdown.defaultProps = {
 
 Dropdown.propTypes = {
   // When true, anchors the dropdown to the right of the trigger.
-  anchorRight: React.PropTypes.bool,
+  anchorRight: PropTypes.bool,
   // When set it will always set this property as the selected ID.
   // Notice: This property will override the initialID
-  persistentID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
+  persistentID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // The items to display in the dropdown.
-  items: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
       // An optional classname for the menu item.
-      className: React.PropTypes.string,
+      className: PropTypes.string,
       // A required ID for each item
-      id: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.number
-      ]).isRequired,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
       // The HTML (or text) to render for the list item.
-      html: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ]),
+      html: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
       // Whether or not the user can choose the item.
-      selectable: React.PropTypes.bool,
+      selectable: PropTypes.bool,
       // The HTML (or text) to display when the option is selected. If this is
       // not provided, the value for the `html` property will be used.
-      selectedHtml: React.PropTypes.oneOfType([
-        React.PropTypes.string,
-        React.PropTypes.object
-      ])
+      selectedHtml: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
     })
   ).isRequired,
   // The ID of the item that should be selected initially.
-  initialID: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ]),
+  initialID: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   // When true, the width of the dropdown will match the width of the button.
-  matchButtonWidth: React.PropTypes.bool,
+  matchButtonWidth: PropTypes.bool,
   // An optional callback when an item is selected. Will receive an argument
   // containing the selected item as it was supplied via the items array.
-  onItemSelection: React.PropTypes.func,
+  onItemSelection: PropTypes.func,
   // The nearest scrolling DOMNode that contains the dropdown. Defaults to
   // window. Also accepts a string, treated as a selector for the node.
-  scrollContainer: React.PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.string
-  ]),
+  scrollContainer: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   // Will attach the scroll handler to the the direct parent of scrollContainer
   // if it matches this selector. Defaults to null.
-  scrollContainerParentSelector: React.PropTypes.string,
+  scrollContainerParentSelector: PropTypes.string,
   // Optional transition on the dropdown menu. Must be accompanied
   // by an animation or transition in CSS.
-  transition: React.PropTypes.bool,
+  transition: PropTypes.bool,
   // The prefix of the transition classnames.
-  transitionName: React.PropTypes.string,
+  transitionName: PropTypes.string,
   // Transition lengths
-  transitionEnterTimeout: React.PropTypes.number,
-  transitionLeaveTimeout: React.PropTypes.number,
+  transitionEnterTimeout: PropTypes.number,
+  transitionLeaveTimeout: PropTypes.number,
   // Option to use Gemini scrollbar. Defaults to true.
-  useGemini: React.PropTypes.bool,
+  useGemini: PropTypes.bool,
   // Disable dropdown
-  disabled: React.PropTypes.bool,
+  disabled: PropTypes.bool,
 
   // Classes:
   // Classname for the element that ther user interacts with to open menu.
-  buttonClassName: React.PropTypes.string,
+  buttonClassName: PropTypes.string,
   // Classname for the dropdown menu wrapper.
-  dropdownMenuClassName: React.PropTypes.string,
+  dropdownMenuClassName: PropTypes.string,
   // Classname for the dropdown list wrapper.
-  dropdownMenuListClassName: React.PropTypes.string,
+  dropdownMenuListClassName: PropTypes.string,
   // Classname for the dropdown list item.
-  dropdownMenuListItemClassName: React.PropTypes.string,
+  dropdownMenuListItemClassName: PropTypes.string,
   // Classname for the element that wraps the entire component.
-  wrapperClassName: React.PropTypes.string
+  wrapperClassName: PropTypes.string
 };
 
 module.exports = Dropdown;

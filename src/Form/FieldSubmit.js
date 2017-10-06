@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 import Util from "../Util/Util";
 
@@ -40,22 +41,22 @@ FieldSubmit.defaultProps = {
   handleSubmit() {}
 };
 
-const classPropType = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropType = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 FieldSubmit.propTypes = {
   // Optional number of columns to take up of the grid
-  columnWidth: React.PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
 
   // Function to handle when form is submitted
   // (usually passed down from form definition)
-  handleSubmit: React.PropTypes.func,
+  handleSubmit: PropTypes.func,
 
   // Text inside button
-  buttonText: React.PropTypes.string,
+  buttonText: PropTypes.string,
 
   // Classes
   buttonClass: classPropType,

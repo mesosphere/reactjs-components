@@ -1,4 +1,5 @@
 import classnames from "classnames/dedupe";
+import PropTypes from "prop-types";
 import React from "react";
 
 class CodeBlock extends React.Component {
@@ -22,10 +23,10 @@ class CodeBlock extends React.Component {
   }
 }
 
-const classPropTypes = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropTypes = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 CodeBlock.defaultProps = {
@@ -33,8 +34,8 @@ CodeBlock.defaultProps = {
 };
 
 CodeBlock.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  language: React.PropTypes.string,
+  children: PropTypes.node.isRequired,
+  language: PropTypes.string,
   panelInnerClassNames: classPropTypes,
   preClassNames: classPropTypes
 };

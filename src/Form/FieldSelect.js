@@ -1,5 +1,6 @@
 import classNames from "classnames/dedupe";
 import React from "react";
+import PropTypes from "prop-types";
 
 import Dropdown from "../Dropdown/Dropdown";
 import Util from "../Util/Util";
@@ -171,59 +172,59 @@ FieldSelect.defaultProps = {
   handleEvent() {}
 };
 
-const classPropType = React.PropTypes.oneOfType([
-  React.PropTypes.array,
-  React.PropTypes.object,
-  React.PropTypes.string
+const classPropType = PropTypes.oneOfType([
+  PropTypes.array,
+  PropTypes.object,
+  PropTypes.string
 ]);
 
 FieldSelect.propTypes = {
   // Optional number of columns to take up of the grid
-  columnWidth: React.PropTypes.number.isRequired,
+  columnWidth: PropTypes.number.isRequired,
 
   // Name of the field property
   // (usually passed down from form definition)
-  name: React.PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   // Optional boolean, string, or react node.
   // If boolean: true - shows name as label; false - shows nothing.
   // If string: shows string as label.
   // If node: returns the node as the label.
-  showLabel: React.PropTypes.oneOfType([
-    React.PropTypes.node,
-    React.PropTypes.string,
-    React.PropTypes.bool
+  showLabel: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.string,
+    PropTypes.bool
   ]),
 
   // Function to handle events like 'change', 'blur', 'focus', etc on the field
   // (usually passed down from form definition)
-  handleEvent: React.PropTypes.func,
+  handleEvent: PropTypes.func,
 
   // These are the options for the DropDown Component
-  options: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        html: React.PropTypes.node,
-        id: React.PropTypes.string
+  options: PropTypes.arrayOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.shape({
+        html: PropTypes.node,
+        id: PropTypes.string
       })
     ])
   ).isRequired,
-  startValue: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.shape({
-      html: React.PropTypes.node,
-      id: React.PropTypes.string
+  startValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.shape({
+      html: PropTypes.node,
+      id: PropTypes.string
     })
   ]),
-  persisitentID: React.PropTypes.string,
+  persisitentID: PropTypes.string,
 
   // Optional object of error messages, with key equal to field property name
-  validationError: React.PropTypes.object,
+  validationError: PropTypes.object,
 
   // Classes
   formGroupClass: classPropType,
   // Class to be toggled, can be overridden by formGroupClass
-  formGroupErrorClass: React.PropTypes.string,
+  formGroupErrorClass: PropTypes.string,
   helpBlockClass: classPropType,
   formElementClass: classPropType,
 

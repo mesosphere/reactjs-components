@@ -1,5 +1,6 @@
 import classnames from "classnames";
 import React from "react";
+import PropTypes from "prop-types";
 
 import BindMixin from "../Mixin/BindMixin";
 import DOMUtil from "../Util/DOMUtil";
@@ -302,34 +303,31 @@ Tooltip.propTypes = {
   // to the logical respective edges of the tooltip. When tooltip is positioned
   // on the right, start refers to the top of the tooltip. When tooltip is
   // positioned on the bottom, start refers to the left edge of the tooltip.
-  anchor: React.PropTypes.oneOf(["start", "center", "end"]),
+  anchor: PropTypes.oneOf(["start", "center", "end"]),
   // The children will be used as the trigger.
-  children: React.PropTypes.node.isRequired,
-  className: React.PropTypes.string,
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
   // The tooltip's content.
-  content: React.PropTypes.node.isRequired,
+  content: PropTypes.node.isRequired,
   // The type of node rendered.
-  elementTag: React.PropTypes.string,
+  elementTag: PropTypes.string,
   // Allows user interaction on tooltips. When false, the tooltip is dismissed
   // when the mouse leaves the trigger. When true, the mouse is allowed to enter
   // the tooltip. Default is false.
-  interactive: React.PropTypes.bool,
-  maxWidth: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
-  ]),
+  interactive: PropTypes.bool,
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   // Position the tooltip on an edge of the tooltip trigger. Default is top.
-  position: React.PropTypes.oneOf(["top", "bottom", "right", "left"]),
+  position: PropTypes.oneOf(["top", "bottom", "right", "left"]),
   // Keeps a tooltip open after it's triggered. Defaults to false.
-  stayOpen: React.PropTypes.bool,
+  stayOpen: PropTypes.bool,
   // Prevents a tooltip from being displayed. Defaults to false.
-  suppress: React.PropTypes.bool,
+  suppress: PropTypes.bool,
   // Explicitly set the width of the tooltip. Default is auto.
-  width: React.PropTypes.number,
-  wrapperClassName: React.PropTypes.string,
+  width: PropTypes.number,
+  wrapperClassName: PropTypes.string,
   // Allow the text content to wrap. Default is false.
-  wrapText: React.PropTypes.bool,
-  contentClassName: React.PropTypes.string
+  wrapText: PropTypes.bool,
+  contentClassName: PropTypes.string
 };
 
 module.exports = Tooltip;

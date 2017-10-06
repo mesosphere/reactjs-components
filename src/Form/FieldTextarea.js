@@ -1,6 +1,7 @@
 import classNames from "classnames/dedupe";
 /* eslint-disable no-unused-vars */
 import React from "react";
+import PropTypes from "prop-types";
 /* eslint-enable no-unused-vars */
 import throttle from "lodash.throttle";
 
@@ -147,9 +148,9 @@ FieldTextarea.defaultProps = {
 };
 
 FieldTextarea.propTypes = {
-  maxHeight: React.PropTypes.number,
-  minHeight: React.PropTypes.number,
-  scrollHeightOffset: React.PropTypes.number
+  maxHeight: PropTypes.number,
+  minHeight: PropTypes.number,
+  scrollHeightOffset: PropTypes.number
 };
 
 module.exports = FieldTextarea;

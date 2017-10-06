@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 class IconCode extends React.Component {
   render() {
@@ -22,7 +23,7 @@ IconCode.defaultProps = {
 };
 
 IconCode.propTypes = {
-  className: React.PropTypes.string
+  className: PropTypes.string
 };
 
 module.exports = IconCode;
