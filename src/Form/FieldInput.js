@@ -164,8 +164,9 @@ class FieldInput extends Util.mixin(BindMixin) {
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
-          {...htmlAttributes}
+          name={attributes.name}
           value={attributes.startValue}
+          {...htmlAttributes}
         />
       );
     } else {
@@ -230,7 +231,7 @@ const classPropType = PropTypes.oneOfType([
 ]);
 
 FieldInput.propTypes = {
-  // Optional number of columns to take up of the grid
+  // Number of columns to take up of the grid
   columnWidth: PropTypes.number.isRequired,
   // Optional. Which field property is currently being edited
   // (usually passed down from form definition)
