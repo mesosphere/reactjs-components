@@ -164,8 +164,9 @@ class FieldInput extends Util.mixin(BindMixin) {
           ref="inputElement"
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
-          {...htmlAttributes}
+          name={attributes.name}
           value={attributes.startValue}
+          {...htmlAttributes}
         />
       );
     } else {
