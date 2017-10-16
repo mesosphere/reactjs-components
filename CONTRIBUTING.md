@@ -11,6 +11,7 @@ help by submitting an issue [here](https://github.com/mesosphere/reactjs-compone
   ```sh
   npm install
   npm install -g gulp
+  REACT_VERSION=<version> ./install_react.sh
   ```
 4. Run the tests
 

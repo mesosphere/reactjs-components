@@ -65,11 +65,10 @@
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
     "prettier": "1.2.2",
-    "react": "^15.0.0",
+    "react": "^15.0.0 || ^16.0.0",
     "react-transition-group": "1.2.x",
-    "react-dom": "^15.0.0",
-    "react-gemini-scrollbar": "2.1.x",
-    "react-addons-test-utils": "15.5.0",
+    "react-dom": "^15.0.0 || ^16.0.0",
+    "react-gemini-scrollbar": "2.3.x",
     "source-map-loader": "0.1.5",
     "stylelint": "7.10.1",
     "stylelint-config-dcos": "0.0.3",
@@ -80,9 +79,9 @@
   },
   "peerDependencies": {
     "cnvs": "1.1.x",
-    "react": "^15.0.0",
+    "react": "^15.0.0 || ^16.0.0",
     "react-transition-group": "1.2.x",
-    "react-gemini-scrollbar": "2.1.x"
+    "react-gemini-scrollbar": "2.3.x"
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
