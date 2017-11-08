@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { CSSTransitionGroup } from "react-transition-group";
 import ReactDOM from "react-dom";
@@ -10,6 +10,41 @@ import DOMUtil from "../Util/DOMUtil";
 import Keycodes from "../constants/Keycodes";
 import Portal from "../Portal/Portal.js";
 import Util from "../Util/Util";
+
+class ButtonTrigger extends Component {
+  constructor() {
+    super(...arguments);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    this.props.onAction(event);
+  }
+
+  getSelectedHtml(item) {
+    if (item != null) {
+      return item.selectedHtml || item.html;
+    }
+
+    return null;
+  }
+
+  render() {
+    const { className, disabled, selectedItem } = this.props;
+
+    return (
+      <button
+        className={className}
+        disabled={disabled}
+        onClick={this.handleClick}
+        type="button"
+      >
+        {this.getSelectedHtml(selectedItem)}
+      </button>
+    );
+  }
+}
 
 class Dropdown extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -103,6 +138,10 @@ class Dropdown extends Util.mixin(BindMixin) {
 
   handleMenuToggle(e) {
     e.stopPropagation();
+
+    if (this.props.disabled) {
+      return;
+    }
 
     if (this.state.isOpen) {
       this.closeDropdown();
@@ -289,20 +328,14 @@ class Dropdown extends Util.mixin(BindMixin) {
     return scrollContainer;
   }
 
-  getSelectedHtml(id, items) {
-    const obj = Util.find(items, function(item) {
-      return item.id === id;
-    });
-
-    if (obj != null) {
-      return obj.selectedHtml || obj.html;
-    }
-
-    return null;
+  getSelectedID() {
+    return this.props.persistentID || this.state.selectedID || null;
   }
 
-  getSelectedID() {
-    return this.props.persistentID || this.state.selectedID;
+  getSelectedItem() {
+    return (
+      this.props.items.find(item => item.id === this.getSelectedID()) || null
+    );
   }
 
   setDropdownMenuRef(element) {
@@ -322,7 +355,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       state.menuDirection,
       props.dropdownMenuClassName
     );
-    const { items } = props;
+    const { items, trigger } = props;
     const transitionName = `${props.transitionName}-${state.menuDirection}`;
     const wrapperClassSet = classNames(
       state.menuDirection,
@@ -412,14 +445,12 @@ class Dropdown extends Util.mixin(BindMixin) {
         onBlur={this.handleWrapperBlur}
         ref={this.setDropdownWrapperRef}
       >
-        <button
-          className={props.buttonClassName}
-          onClick={this.handleMenuToggle}
-          type="button"
-          disabled={props.disabled}
-        >
-          {this.getSelectedHtml(this.getSelectedID(), items)}
-        </button>
+        {React.createElement(trigger, {
+          selectedItem: this.getSelectedItem(this.getSelectedID(), items),
+          onAction: this.handleMenuToggle,
+          className: props.buttonClassName,
+          disabled: props.disabled
+        })}
         <Portal onRender={this.handleMenuRender}>
           {dropdownMenu}
         </Portal>
@@ -439,6 +470,7 @@ Dropdown.defaultProps = {
   transitionLeaveTimeout: 250,
   onItemSelection: () => {},
   useGemini: true,
+  trigger: ButtonTrigger,
   disabled: false
 };
 
@@ -485,6 +517,7 @@ Dropdown.propTypes = {
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
   transitionLeaveTimeout: PropTypes.number,
+  // trigger: PropTypes.function,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
   // Disable dropdown

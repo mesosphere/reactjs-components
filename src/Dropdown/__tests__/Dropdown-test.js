@@ -19,6 +19,41 @@ if (React.version.match(/15.[0-5]/)) {
 var MockDropdownList = require("./fixtures/MockDropdownList");
 var Dropdown = require("../Dropdown.js");
 
+class Trigger extends React.Component {
+  constructor() {
+    super(...arguments);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(event) {
+    this.props.onAction(event);
+  }
+
+  getValue(item) {
+    if (item != null) {
+      return item.selectedHtml || item.html;
+    }
+
+    return "Placeholder";
+  }
+
+  render() {
+    const { className, disabled, selectedItem } = this.props;
+
+    return (
+      <input
+        className={className}
+        disabled={disabled}
+        onClick={this.handleClick}
+        onChange={() => this.props.onChange(arguments)}
+        type="text"
+        value={this.getValue(selectedItem)}
+      />
+    );
+  }
+}
+
 describe("Dropdown", function() {
   beforeEach(function() {
     this.callback = jasmine.createSpy();
@@ -268,6 +303,55 @@ describe("Dropdown", function() {
       );
 
       expect(instance.getSelectedID()).toEqual("foo");
+    });
+  });
+
+  describe("#getSelectedItem", function() {
+    it("should return item for initialID", function() {
+      expect(this.instance.getSelectedItem()).toEqual(MockDropdownList[1]);
+    });
+  });
+  describe("Trigger", function() {
+    it("shows placeholder when initialized with given trigger", function() {
+      var instance = TestUtils.renderIntoDocument(
+        <Dropdown
+          buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          transition={false}
+          wrapperClassName="dropdown"
+          trigger={Trigger}
+        />,
+        document.body
+      );
+      const input = TestUtils.findRenderedDOMComponentWithTag(
+        instance,
+        "input"
+      );
+
+      expect(input.value).toEqual("Placeholder");
+    });
+    it("shows selectedHtml when initialized with given trigger and initialId", function() {
+      var instance = TestUtils.renderIntoDocument(
+        <Dropdown
+          buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          transition={false}
+          initialID="bar"
+          wrapperClassName="dropdown"
+          trigger={Trigger}
+        />,
+        document.body
+      );
+      const input = TestUtils.findRenderedDOMComponentWithTag(
+        instance,
+        "input"
+      );
+
+      expect(input.value).toEqual("Bar");
     });
   });
 });
