@@ -19,7 +19,7 @@ if (React.version.match(/15.[0-5]/)) {
 var MockDropdownList = require("./fixtures/MockDropdownList");
 var Dropdown = require("../Dropdown.js");
 
-class Trigger extends React.Component {
+class InputTrigger extends React.Component {
   constructor() {
     super(...arguments);
 
@@ -30,7 +30,7 @@ class Trigger extends React.Component {
     this.props.onAction(event);
   }
 
-  getValue(item) {
+  getSelectedHtml(item) {
     if (item != null) {
       return item.selectedHtml || item.html;
     }
@@ -46,9 +46,9 @@ class Trigger extends React.Component {
         className={className}
         disabled={disabled}
         onClick={this.handleClick}
-        onChange={() => this.props.onChange(arguments)}
-        type="text"
-        value={this.getValue(selectedItem)}
+        readOnly
+        type="input"
+        value={this.getSelectedHtml(selectedItem)}
       />
     );
   }
@@ -230,28 +230,6 @@ describe("Dropdown", function() {
     var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("");
   });
-
-  it("displays nothing when an non-existing item is force selected", function() {
-    var instance = TestUtils.renderIntoDocument(
-      <Dropdown
-        buttonClassName="button dropdown-toggle"
-        dropdownMenuClassName="dropdown-menu"
-        dropdownMenuListClassName="dropdown-menu-list"
-        items={MockDropdownList}
-        forceSelectedID="i-do-not-exist"
-        transition={false}
-        wrapperClassName="dropdown"
-      />
-    );
-    const button = TestUtils.findRenderedDOMComponentWithClass(
-      instance,
-      "button dropdown-toggle"
-    );
-
-    var buttonText = ReactDOM.findDOMNode(button).textContent;
-    expect(buttonText).toEqual("");
-  });
-
   describe("#getSelectedID", function() {
     it("should return initialID", function() {
       expect(this.instance.getSelectedID()).toEqual("bar");
@@ -307,11 +285,23 @@ describe("Dropdown", function() {
   });
 
   describe("#getSelectedItem", function() {
-    it("should return item for initialID", function() {
+    it("returns item for initialID", function() {
       expect(this.instance.getSelectedItem()).toEqual(MockDropdownList[1]);
     });
-  });
-  describe("Trigger", function() {
+    it("returns null if nothing is given", function() {
+      var instance = TestUtils.renderIntoDocument(
+        <Dropdown
+          buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          transition={false}
+          wrapperClassName="dropdown"
+        />,
+        document.body
+      );
+      expect(instance.getSelectedItem()).toEqual(null);
+    });
     it("shows placeholder when initialized with given trigger", function() {
       var instance = TestUtils.renderIntoDocument(
         <Dropdown
@@ -321,7 +311,7 @@ describe("Dropdown", function() {
           items={MockDropdownList}
           transition={false}
           wrapperClassName="dropdown"
-          trigger={Trigger}
+          trigger={<InputTrigger />}
         />,
         document.body
       );
@@ -342,7 +332,7 @@ describe("Dropdown", function() {
           transition={false}
           initialID="bar"
           wrapperClassName="dropdown"
-          trigger={Trigger}
+          trigger={<InputTrigger />}
         />,
         document.body
       );
