@@ -267,11 +267,11 @@ describe("Dropdown", function() {
     });
   });
 
-  describe.only("#getSelectedItem", function() {
-    it.only("returns item for initialID", function() {
+  describe("#getSelectedItem", function() {
+    it("returns item for initialID", function() {
       expect(this.instance.getSelectedItem()).toEqual(MockDropdownList[1]);
     });
-    it("returns null if nothing is given", function() {
+    it("returns undefined if nothing is given", function() {
       var instance = TestUtils.renderIntoDocument(
         <Dropdown
           buttonClassName="button dropdown-toggle"
@@ -283,7 +283,7 @@ describe("Dropdown", function() {
         />,
         document.body
       );
-      expect(instance.getSelectedItem()).toEqual(null);
+      expect(instance.getSelectedItem()).toEqual(undefined);
     });
     it("shows placeholder when initialized with given trigger", function() {
       var instance = TestUtils.renderIntoDocument(

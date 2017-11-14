@@ -300,10 +300,8 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   getSelectedItem() {
-    return (
-      this.props.items.find(
-        item => item.id && item.id === this.getSelectedID()
-      ) || null
+    return this.props.items.find(
+      item => item.id && item.id === this.getSelectedID()
     );
   }
 
@@ -486,7 +484,7 @@ Dropdown.propTypes = {
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
   transitionLeaveTimeout: PropTypes.number,
-  trigger: PropTypes.object,
+  trigger: PropTypes.element,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
   // Disable dropdown
