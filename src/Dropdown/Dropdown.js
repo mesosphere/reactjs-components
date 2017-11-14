@@ -11,7 +11,7 @@ import Keycodes from "../constants/Keycodes";
 import Portal from "../Portal/Portal.js";
 import Util from "../Util/Util";
 
-import ButtonTrigger from "./DropdownTriggers";
+import ButtonTrigger from "./ButtonTrigger";
 
 class Dropdown extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -486,7 +486,7 @@ Dropdown.propTypes = {
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
   transitionLeaveTimeout: PropTypes.number,
-  trigger: PropTypes.instanceOf(React.Component),
+  trigger: PropTypes.object,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
   // Disable dropdown
