@@ -11,7 +11,8 @@ import Keycodes from "../constants/Keycodes";
 import Portal from "../Portal/Portal.js";
 import Util from "../Util/Util";
 
-import ButtonTrigger from "./ButtonTrigger";
+import DropdownTrigger from "./DropdownTrigger";
+import DropdownListTrigger from "./DropdownListTrigger";
 
 class Dropdown extends Util.mixin(BindMixin) {
   get methodsToBind() {
@@ -105,10 +106,6 @@ class Dropdown extends Util.mixin(BindMixin) {
 
   handleMenuToggle(e) {
     e.stopPropagation();
-
-    if (this.props.disabled) {
-      return;
-    }
 
     if (this.state.isOpen) {
       this.closeDropdown();
@@ -414,7 +411,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       >
         {React.cloneElement(trigger, {
           selectedItem: this.getSelectedItem(this.getSelectedID(), items),
-          onAction: this.handleMenuToggle,
+          onTrigger: this.handleMenuToggle,
           className: props.buttonClassName,
           disabled: props.disabled
         })}
@@ -437,7 +434,7 @@ Dropdown.defaultProps = {
   transitionLeaveTimeout: 250,
   onItemSelection: () => {},
   useGemini: true,
-  trigger: <ButtonTrigger />,
+  trigger: <DropdownListTrigger />,
   disabled: false
 };
 

@@ -1,0 +1,35 @@
+exports[`DropdownListTrigger renders corectly with null item 1`] = `
+<button
+  className="class-1 class-2"
+  disabled={true}
+  onClick={[Function]}
+  type="button">
+  Placeholder
+</button>
+`;
+
+exports[`DropdownListTrigger renders correctly with empty item 1`] = `
+<button
+  className="class-1 class-2"
+  disabled={true}
+  onClick={[Function]}
+  type="button" />
+`;
+
+exports[`DropdownListTrigger renders correctly with given props 1`] = `
+<button
+  className="class-1 class-2"
+  disabled={true}
+  onClick={[Function]}
+  type="button">
+  selectedHtml
+</button>
+`;
+
+exports[`DropdownListTrigger renders correctly without props 1`] = `
+<button
+  className=""
+  disabled={false}
+  onClick={[Function]}
+  type="button" />
+`;

@@ -18,24 +18,6 @@ if (React.version.match(/15.[0-5]/)) {
 
 var MockDropdownList = require("./fixtures/MockDropdownList");
 var Dropdown = require("../Dropdown.js");
-var ButtonTrigger = require("../ButtonTrigger.js").default;
-
-class InputTrigger extends ButtonTrigger {
-  render() {
-    const { className, disabled, selectedItem } = this.props;
-
-    return (
-      <input
-        className={className}
-        disabled={disabled}
-        onClick={this.handleClick}
-        readOnly
-        type="text"
-        value={this.getSelectedHtml(selectedItem)}
-      />
-    );
-  }
-}
 
 describe("Dropdown", function() {
   beforeEach(function() {
@@ -284,47 +266,6 @@ describe("Dropdown", function() {
         document.body
       );
       expect(instance.getSelectedItem()).toEqual(undefined);
-    });
-    it("shows placeholder when initialized with given trigger", function() {
-      var instance = TestUtils.renderIntoDocument(
-        <Dropdown
-          buttonClassName="button dropdown-toggle"
-          dropdownMenuClassName="dropdown-menu"
-          dropdownMenuListClassName="dropdown-menu-list"
-          items={MockDropdownList}
-          transition={false}
-          wrapperClassName="dropdown"
-          trigger={<InputTrigger placeholder="Placeholder" />}
-        />,
-        document.body
-      );
-      const input = TestUtils.findRenderedDOMComponentWithTag(
-        instance,
-        "input"
-      );
-
-      expect(input.value).toEqual("Placeholder");
-    });
-    it("shows selectedHtml when initialized with given trigger and initialId", function() {
-      var instance = TestUtils.renderIntoDocument(
-        <Dropdown
-          buttonClassName="button dropdown-toggle"
-          dropdownMenuClassName="dropdown-menu"
-          dropdownMenuListClassName="dropdown-menu-list"
-          items={MockDropdownList}
-          transition={false}
-          initialID="bar"
-          wrapperClassName="dropdown"
-          trigger={<InputTrigger placeholder="Placeholder" />}
-        />,
-        document.body
-      );
-      const input = TestUtils.findRenderedDOMComponentWithTag(
-        instance,
-        "input"
-      );
-
-      expect(input.value).toEqual("Bar");
     });
   });
 });
