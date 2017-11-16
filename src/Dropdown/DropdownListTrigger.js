@@ -3,10 +3,6 @@ import PropTypes from "prop-types";
 import DropdownTrigger from "./DropdownTrigger";
 
 export default class DropdownListTrigger extends DropdownTrigger {
-  handleTrigger(event) {
-    this.props.onTrigger(event);
-  }
-
   render() {
     const { className, disabled, selectedItem } = this.props;
     const html = selectedItem
