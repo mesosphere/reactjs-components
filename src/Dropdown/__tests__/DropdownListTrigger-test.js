@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import ReactDOM from "react-dom";
 /* eslint-enable no-unused-vars */
-import renderer from "react-test-renderer";
 import DropdownListTrigger from "../DropdownListTrigger.js";
 
 var TestUtils;
@@ -12,9 +12,9 @@ if (React.version.match(/15.[0-5]/)) {
 }
 
 describe("DropdownListTrigger", function() {
-  it("renders correctly with given props", function() {
-    const tree = renderer
-      .create(
+  it("renders with given props", function() {
+    expect(() =>
+      TestUtils.renderIntoDocument(
         <DropdownListTrigger
           onTrigger={this.callback}
           placeholder="Placeholder"
@@ -27,42 +27,12 @@ describe("DropdownListTrigger", function() {
           }}
         />
       )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-  it("renders corectly with null item", function() {
-    const tree = renderer
-      .create(
-        <DropdownListTrigger
-          onTrigger={this.callback}
-          placeholder="Placeholder"
-          disabled
-          className="class-1 class-2"
-          selectedItem={null}
-        />
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
-  });
-  it("renders correctly with empty item", function() {
-    const tree = renderer
-      .create(
-        <DropdownListTrigger
-          onTrigger={this.callback}
-          placeholder="Placeholder"
-          disabled
-          className="class-1 class-2"
-          selectedItem={{
-            id: "id"
-          }}
-        />
-      )
-      .toJSON();
-    expect(tree).toMatchSnapshot();
+    ).not.toThrow();
   });
   it("renders correctly without props", function() {
-    const tree = renderer.create(<DropdownListTrigger />).toJSON();
-    expect(tree).toMatchSnapshot();
+    expect(() =>
+      TestUtils.renderIntoDocument(<DropdownListTrigger />)
+    ).not.toThrow();
   });
   describe("#onTrigger", function() {
     afterEach(function() {
