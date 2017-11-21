@@ -195,28 +195,6 @@ describe("Dropdown", function() {
     var buttonText = ReactDOM.findDOMNode(button).textContent;
     expect(buttonText).toEqual("");
   });
-
-  it("displays nothing when an non-existing item is force selected", function() {
-    var instance = TestUtils.renderIntoDocument(
-      <Dropdown
-        buttonClassName="button dropdown-toggle"
-        dropdownMenuClassName="dropdown-menu"
-        dropdownMenuListClassName="dropdown-menu-list"
-        items={MockDropdownList}
-        forceSelectedID="i-do-not-exist"
-        transition={false}
-        wrapperClassName="dropdown"
-      />
-    );
-    const button = TestUtils.findRenderedDOMComponentWithClass(
-      instance,
-      "button dropdown-toggle"
-    );
-
-    var buttonText = ReactDOM.findDOMNode(button).textContent;
-    expect(buttonText).toEqual("");
-  });
-
   describe("#getSelectedID", function() {
     it("should return initialID", function() {
       expect(this.instance.getSelectedID()).toEqual("bar");
@@ -268,6 +246,26 @@ describe("Dropdown", function() {
       );
 
       expect(instance.getSelectedID()).toEqual("foo");
+    });
+  });
+
+  describe("#getSelectedItem", function() {
+    it("returns item for initialID", function() {
+      expect(this.instance.getSelectedItem()).toEqual(MockDropdownList[1]);
+    });
+    it("returns undefined if nothing is given", function() {
+      var instance = TestUtils.renderIntoDocument(
+        <Dropdown
+          buttonClassName="button dropdown-toggle"
+          dropdownMenuClassName="dropdown-menu"
+          dropdownMenuListClassName="dropdown-menu-list"
+          items={MockDropdownList}
+          transition={false}
+          wrapperClassName="dropdown"
+        />,
+        document.body
+      );
+      expect(instance.getSelectedItem()).toEqual(undefined);
     });
   });
 });

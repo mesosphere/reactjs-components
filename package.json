@@ -16,10 +16,7 @@
     "url": "https://github.com/mesosphere/reactjs-components"
   },
   "license": "Apache-2.0",
-  "files": [
-    "main.js",
-    "lib"
-  ],
+  "files": ["main.js", "lib"],
   "main": "main.js",
   "dependencies": {
     "classnames": "2.2.3",
@@ -66,9 +63,9 @@
     "node-libs-browser": "1.0.0",
     "prettier": "1.2.2",
     "react": "^15.0.0 || ^16.0.0",
-    "react-transition-group": "1.2.x",
     "react-dom": "^15.0.0 || ^16.0.0",
     "react-gemini-scrollbar": "2.3.x",
+    "react-transition-group": "1.2.x",
     "source-map-loader": "0.1.5",
     "stylelint": "7.10.1",
     "stylelint-config-dcos": "0.0.3",
@@ -85,10 +82,13 @@
   },
   "scripts": {
     "clean": "rm -rf dist docs/dist lib",
-    "dist": "npm run clean && NODE_ENV='production' ./node_modules/.bin/gulp docs:dist",
+    "dist":
+      "npm run clean && NODE_ENV='production' ./node_modules/.bin/gulp docs:dist",
     "predist-src": "rm -rf ./lib",
-    "dist-src": "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
-    "livereload": "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
+    "dist-src":
+      "cp -r ./src ./lib && find ./lib -name '__tests__' -type d -exec rm -r '{}' + && ./node_modules/.bin/babel lib --out-dir lib",
+    "livereload":
+      "NODE_ENV='development' ./node_modules/.bin/gulp docs:livereload",
     "test": "NODE_PATH=node_modules jest --config=jest/config.json --no-cache",
     "release": "npm version -m 'Version %s'",
     "release:major": "npm run release -- major",
@@ -102,7 +102,9 @@
     "lint": "npm run stylelint && npm run eslint",
     "eslint": "eslint --quiet src/**/*.js docs/src/**/*.js",
     "stylelint": "stylelint src/**/*.less  docs/src/**/*.less",
-    "preversion": "npm run clean && npm test && npm run lint && npm run dist-src",
-    "postversion": "git push --tags && npm publish ./ --tag version-$npm_package_version && git push && echo \"Successfully released $npm_package_version\""
+    "preversion":
+      "npm run clean && npm test && npm run lint && npm run dist-src",
+    "postversion":
+      "git push --tags && npm publish ./ --tag version-$npm_package_version && git push && echo \"Successfully released $npm_package_version\""
   }
 }
