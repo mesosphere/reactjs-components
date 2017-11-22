@@ -10,8 +10,6 @@ import DOMUtil from "../Util/DOMUtil";
 import Keycodes from "../constants/Keycodes";
 import Portal from "../Portal/Portal.js";
 import Util from "../Util/Util";
-
-import DropdownTrigger from "./DropdownTrigger";
 import DropdownListTrigger from "./DropdownListTrigger";
 
 class Dropdown extends Util.mixin(BindMixin) {
