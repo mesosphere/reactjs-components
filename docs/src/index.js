@@ -8,6 +8,7 @@ import BindMixin from "../../src/Mixin/BindMixin";
 import ConfirmExample from "./Confirm";
 import DOMUtil from "../../src/Util/DOMUtil";
 import DropdownExample from "./Dropdown";
+import SelectExample from "./Select";
 import FormExample from "./Form";
 import ListExample from "./List";
 import ModalExample from "./Modal";
@@ -23,6 +24,12 @@ const navigationItems = [
     id: "dropdown",
     component: DropdownExample,
     passScrollContainer: true
+  },
+  {
+    label: "Select",
+    id: "select",
+    component: SelectExample,
+    passScrollContainer: false
   },
   {
     label: "Form",
