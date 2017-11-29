@@ -9,3 +9,4 @@ if [ "$REACT_VERSION" = "15.5" ]; then npm install react@15.5 react-dom@15.5 rea
 if [ "$REACT_VERSION" = "15.6" ]; then npm install react@15.6 react-dom@15.6; fi
 if [ "$REACT_VERSION" = "16.0" ]; then npm install react@16.0 react-dom@16.0; fi
 if [ "$REACT_VERSION" = "16.1" ]; then npm install react@16.1 react-dom@16.1; fi
+if [ "$REACT_VERSION" = "16.2" ]; then npm install react@16.2 react-dom@16.2; fi
