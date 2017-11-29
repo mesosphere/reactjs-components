@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class SelectOption extends React.Component {
+export default class SelectOption extends React.Component {
   render() {
     return (
       <div>{this.props.children || this.props.label || this.props.value}</div>
@@ -20,5 +20,3 @@ SelectOption.propTypes = {
   disabled: PropTypes.bool,
   selected: PropTypes.bool
 };
-
-module.exports = SelectOption;
