@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Dropdown from "../Dropdown/Dropdown";
 import DropdownListTrigger from "../Dropdown/DropdownListTrigger";
 
-class Select extends React.Component {
+export default class Select extends React.Component {
   constructor() {
     super(...arguments);
 
@@ -96,5 +96,3 @@ Select.propTypes = {
   name: PropTypes.string,
   placeholder: PropTypes.string
 };
-
-module.exports = Select;

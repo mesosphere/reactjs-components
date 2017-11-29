@@ -15,8 +15,8 @@ if (React.version.match(/15.[0-5]/)) {
   TestUtils = require("react-dom/test-utils");
 }
 
-var Select = require("../Select.js");
-var SelectOption = require("../SelectOption.js");
+var Select = require("../Select.js").default;
+var SelectOption = require("../SelectOption.js").default;
 
 describe("Select", function() {
   beforeEach(function() {
