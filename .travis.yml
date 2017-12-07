@@ -18,6 +18,8 @@ env:
     - REACT_VERSION=15.5
     - REACT_VERSION=15.6
     - REACT_VERSION=16.0
+    - REACT_VERSION=16.1
+    - REACT_VERSION=16.2
 addons:
   apt:
     sources:
