@@ -21,7 +21,7 @@ class Confirm extends React.Component {
     }
 
     return (
-      <div className="button-collection text-align-center flush-bottom">
+      <div className="flush-bottom flex flex-direction-top-to-bottom flex-align-items-stretch-screen-small flex-direction-left-to-right-screen-small flex-justify-items-space-between-screen-medium">
         <button
           className={leftButtonClassName}
           onClick={this.props.leftButtonCallback}
@@ -55,7 +55,7 @@ class Confirm extends React.Component {
     return (
       <Modal
         closeByBackdropClick={!this.props.disabled}
-        modalClass="modal confirm-modal"
+        modalClass="modal modal-small"
         showCloseButton={false}
         showFooter={true}
         footer={this.getButtons()}
