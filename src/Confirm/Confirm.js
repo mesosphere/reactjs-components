@@ -74,7 +74,7 @@ Confirm.defaultProps = {
 
   // Left button properties
   leftButtonText: "Cancel",
-  leftButtonClassName: "button",
+  leftButtonClassName: "button button-primary-link flush-left",
   leftButtonCallback() {},
   // Right button properties
   rightButtonText: "Confirm",
