@@ -58,7 +58,7 @@ export default class Select extends React.Component {
     return (
       <div className={this.props.className}>
         <input
-          className="dropdown-select input-value"
+          className="dropdown-select-input-value"
           name={this.props.name}
           ref={input => (this.input = input)}
           style={{
@@ -72,9 +72,11 @@ export default class Select extends React.Component {
           initialID={this.state.value}
           onItemSelection={this.handleDropdownChange.bind(this)}
           buttonClassName={"button dropdown-toggle"}
-          dropdownMenuClassName={"dropdown-menu"}
-          dropdownMenuListClassName={"dropdown-menu-list"}
-          dropdownMenuListItemClassName={"dropdown-menu-list-item"}
+          dropdownMenuClassName={"dropdown-menu dropdown-select"}
+          dropdownMenuListClassName={"dropdown-menu-list dropdown-select-list"}
+          dropdownMenuListItemClassName={
+            "dropdown-menu-list-item dropdown-select-list-item"
+          }
           wrapperClassName={"dropdown"}
           trigger={<DropdownListTrigger placeholder={this.props.placeholder} />}
         />
