@@ -11,12 +11,10 @@ export default class SelectOption extends React.Component {
 SelectOption.defaultProps = {
   value: null,
   label: null,
-  disabled: false,
-  selected: false
+  disabled: false
 };
 SelectOption.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
-  disabled: PropTypes.bool,
-  selected: PropTypes.bool
+  disabled: PropTypes.bool
 };
