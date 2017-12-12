@@ -13,6 +13,12 @@ export default class Select extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.state.value !== nextProps.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
+
   buildItemsArray() {
     return React.Children.map(this.props.children, child => {
       return {
@@ -26,7 +32,9 @@ export default class Select extends React.Component {
 
   getInitialValue() {
     const children = React.Children.toArray(this.props.children);
-    const selectedChild = children.find(child => child.props.selected === true);
+    const selectedChild = children.find(
+      child => child.props.value === this.state.value
+    );
 
     if (selectedChild) {
       return selectedChild.props.value;
