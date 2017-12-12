@@ -5,40 +5,21 @@ import Dropdown from "../Dropdown/Dropdown";
 import DropdownListTrigger from "../Dropdown/DropdownListTrigger";
 
 export default class Select extends React.Component {
-  constructor() {
-    super(...arguments);
-
-    this.state = {
-      value: this.getInitialValue()
-    };
-  }
-
   buildItemsArray() {
     return React.Children.map(this.props.children, child => {
+      if (this.props.selected) {
+        console.warn(
+          "The 'selected' attribute is ignored on children of <Select />, use 'value' instead in the Select."
+        );
+      }
+
       return {
-        html: child,
+        html: child.props.children,
         id: child.props.value,
-        selectedHtml: child.props.label,
+        selectedHtml: child.props.value,
         selectable: !child.props.disabled
       };
     });
-  }
-
-  getInitialValue() {
-    const children = React.Children.toArray(this.props.children);
-    const selectedChild = children.find(child => child.props.selected === true);
-
-    if (selectedChild) {
-      return selectedChild.props.value;
-    }
-
-    // if placeholder is set, we can return null
-    if (this.props.placeholder !== "") {
-      return null;
-    }
-
-    // if not, we need to return a value. (legacy)
-    return children[0].props.value;
   }
 
   handleInputChange(event) {
@@ -58,23 +39,29 @@ export default class Select extends React.Component {
     return (
       <div className={this.props.className}>
         <input
-          className="dropdown-select input-value"
+          className="dropdown-select-input-value"
           name={this.props.name}
           ref={input => (this.input = input)}
           style={{
             display: "none"
           }}
-          value={this.state.value}
+          value={this.props.value}
           onChange={this.handleInputChange.bind(this)}
         />
         <Dropdown
           items={this.buildItemsArray()}
-          initialID={this.state.value}
+          initialID={
+            this.props.value === "" && this.props.placeholder
+              ? null
+              : this.props.value
+          }
           onItemSelection={this.handleDropdownChange.bind(this)}
           buttonClassName={"button dropdown-toggle"}
-          dropdownMenuClassName={"dropdown-menu"}
-          dropdownMenuListClassName={"dropdown-menu-list"}
-          dropdownMenuListItemClassName={"dropdown-menu-list-item"}
+          dropdownMenuClassName={"dropdown-menu dropdown-select"}
+          dropdownMenuListClassName={"dropdown-menu-list dropdown-select-list"}
+          dropdownMenuListItemClassName={
+            "dropdown-menu-list-item dropdown-select-list-item"
+          }
           wrapperClassName={"dropdown"}
           trigger={<DropdownListTrigger placeholder={this.props.placeholder} />}
         />
@@ -87,6 +74,7 @@ Select.defaultProps = {
   className: "dropdown-select",
   onChange() {},
   name: null,
+  value: "",
   placeholder: ""
 };
 
@@ -94,5 +82,6 @@ Select.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string
 };
