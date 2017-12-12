@@ -5,48 +5,21 @@ import Dropdown from "../Dropdown/Dropdown";
 import DropdownListTrigger from "../Dropdown/DropdownListTrigger";
 
 export default class Select extends React.Component {
-  constructor() {
-    super(...arguments);
-
-    this.state = {
-      value: this.getInitialValue()
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.state.value !== nextProps.value) {
-      this.setState({ value: nextProps.value });
-    }
-  }
-
   buildItemsArray() {
     return React.Children.map(this.props.children, child => {
+      if (this.props.selected) {
+        console.warn(
+          "The 'selected' attribute is ignored on children of <Select />, use 'value' instead in the Select."
+        );
+      }
+
       return {
-        html: child,
+        html: child.props.children,
         id: child.props.value,
-        selectedHtml: child.props.label,
+        selectedHtml: child.props.value,
         selectable: !child.props.disabled
       };
     });
-  }
-
-  getInitialValue() {
-    const children = React.Children.toArray(this.props.children);
-    const selectedChild = children.find(
-      child => child.props.value === this.state.value
-    );
-
-    if (selectedChild) {
-      return selectedChild.props.value;
-    }
-
-    // if placeholder is set, we can return null
-    if (this.props.placeholder !== "") {
-      return null;
-    }
-
-    // if not, we need to return a value. (legacy)
-    return children[0].props.value;
   }
 
   handleInputChange(event) {
@@ -72,12 +45,16 @@ export default class Select extends React.Component {
           style={{
             display: "none"
           }}
-          value={this.state.value}
+          value={this.props.value}
           onChange={this.handleInputChange.bind(this)}
         />
         <Dropdown
           items={this.buildItemsArray()}
-          initialID={this.state.value}
+          initialID={
+            this.props.value === "" && this.props.placeholder
+              ? null
+              : this.props.value
+          }
           onItemSelection={this.handleDropdownChange.bind(this)}
           buttonClassName={"button dropdown-toggle"}
           dropdownMenuClassName={"dropdown-menu dropdown-select"}
@@ -97,6 +74,7 @@ Select.defaultProps = {
   className: "dropdown-select",
   onChange() {},
   name: null,
+  value: "",
   placeholder: ""
 };
 
@@ -104,5 +82,6 @@ Select.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string
 };

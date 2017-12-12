@@ -2,7 +2,6 @@ jest.dontMock("../../Mixin/BindMixin");
 jest.dontMock("../../Util/Util");
 jest.dontMock("../../Util/DOMUtil");
 jest.dontMock("../Select");
-jest.dontMock("../SelectOption");
 
 /* eslint-disable no-unused-vars */
 var React = require("react");
@@ -16,7 +15,6 @@ if (React.version.match(/15.[0-5]/)) {
 }
 
 var Select = require("../Select.js").default;
-var SelectOption = require("../SelectOption.js").default;
 
 describe("Select", function() {
   beforeEach(function() {
@@ -26,33 +24,24 @@ describe("Select", function() {
         className="select-class-1 select-class-2"
         onChange={this.callback}
         name="SelectName"
+        value="option-3"
       >
-        <SelectOption value="option-1" label="option-1-label">
-          default selected(false) & disabled(false)
-        </SelectOption>
-        <SelectOption
-          value="option-2"
-          label="option-2-label"
-          disabled={true}
-          selected={false}
-        >
+        <option value="option-1">
+          default & disabled(false)
+        </option>
+        <option value="option-2" disabled={true}>
           disabled
-        </SelectOption>
-        <SelectOption
-          value="option-3"
-          label="option-3-label"
-          disabled={false}
-          selected={true}
-        >
+        </option>
+        <option value="option-3" disabled={false}>
           selected
-        </SelectOption>
-        <SelectOption value="option-5" label="option-5-label">
+        </option>
+        <option value="option-5">
           <p>One HTML Child</p>
-        </SelectOption>
-        <SelectOption value="option-6" label="option-6-label">
+        </option>
+        <option value="option-6">
           <p>Multiple HTML Children</p>
           <p>Multiple HTML Children</p>
-        </SelectOption>
+        </option>
       </Select>
     );
   });
@@ -80,7 +69,7 @@ describe("Select", function() {
     it("has correct initial value", function() {
       const input = TestUtils.findRenderedDOMComponentWithClass(
         this.select,
-        "dropdown-select input-value"
+        "dropdown-select-input-value"
       );
       expect(input.value).toEqual("option-3");
     });
