@@ -17,6 +17,5 @@ SelectOption.defaultProps = {
 SelectOption.propTypes = {
   value: PropTypes.string,
   label: PropTypes.string,
-  disabled: PropTypes.bool,
-  selected: PropTypes.bool
+  disabled: PropTypes.bool
 };
