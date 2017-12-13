@@ -26,6 +26,7 @@ describe("Select", function() {
         className="select-class-1 select-class-2"
         onChange={this.callback}
         name="SelectName"
+        value="option-3"
       >
         <SelectOption value="option-1" label="option-1-label">
           default selected(false) & disabled(false)
@@ -34,7 +35,6 @@ describe("Select", function() {
           value="option-2"
           label="option-2-label"
           disabled={true}
-          selected={false}
         >
           disabled
         </SelectOption>
