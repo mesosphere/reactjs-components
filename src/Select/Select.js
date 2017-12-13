@@ -40,7 +40,11 @@ export default class Select extends React.Component {
         />
         <Dropdown
           items={this.buildItemsArray()}
-          persistentID={this.props.value}
+          persistentID={
+            this.props.value === "" && this.props.placeholder
+              ? null
+              : this.props.value
+          }
           onItemSelection={this.handleDropdownChange.bind(this)}
           buttonClassName={"button dropdown-toggle"}
           dropdownMenuClassName={"dropdown-menu"}
@@ -67,5 +71,5 @@ Select.propTypes = {
   onChange: PropTypes.func,
   name: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
