@@ -80,7 +80,7 @@ describe("Select", function() {
     it("has correct initial value", function() {
       const input = TestUtils.findRenderedDOMComponentWithClass(
         this.select,
-        "dropdown-select input-value"
+        "dropdown-select-input-value"
       );
       expect(input.value).toEqual("option-3");
     });
