@@ -10,7 +10,7 @@ export default class Select extends React.Component {
       return {
         html: child,
         id: child.props.value,
-        selectedHtml: child.props.label,
+        selectedHtml: child.props.label || child.props.value,
         selectable: !child.props.disabled
       };
     });
