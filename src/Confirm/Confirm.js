@@ -21,7 +21,7 @@ class Confirm extends React.Component {
     }
 
     return (
-      <div className="flush-bottom flex flex-direction-top-to-bottom flex-align-items-stretch-screen-small flex-direction-left-to-right-screen-small flex-justify-items-space-between-screen-medium">
+      <div className="flush-bottom flex flex-direction-top-to-bottom flex-align-items-stretch-screen-small flex-direction-left-to-right-screen-small flex-justify-items-space-between-screen-small">
         <button
           className={leftButtonClassName}
           onClick={this.props.leftButtonCallback}
