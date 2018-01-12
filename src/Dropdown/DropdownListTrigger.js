@@ -34,6 +34,6 @@ DropdownListTrigger.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   selectedItem: PropTypes.object,
-  onTrigger: PropTypes.function,
+  onTrigger: PropTypes.func,
   disabled: PropTypes.bool
 };
