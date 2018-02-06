@@ -21,6 +21,6 @@ DropdownTrigger.defaultProps = {
 };
 
 DropdownTrigger.propTypes = {
-  onTrigger: PropTypes.function,
+  onTrigger: PropTypes.func,
   disabled: PropTypes.bool
 };
