@@ -8,15 +8,22 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const VirtualList = require("../VirtualList");
 
+var TestUtils;
+if (React.version.match(/15.[0-5]/)) {
+  TestUtils = require("react-addons-test-utils");
+} else {
+  TestUtils = require("react-dom/test-utils");
+}
+
 describe("VirtualList", function() {
   beforeEach(function() {
     this.container = global.document.createElement("div");
     this.instance = ReactDOM.render(
       <VirtualList
-        items={[]}
+        items={[1]}
         itemHeight={10}
-        renderItem={function() {}}
-        renderBufferItem={function() {}}
+        renderItem={function(item) { return <span>item</span>;}}
+        renderBufferItem={function(item) { return <span>item</span>;}}
       />,
       this.container
     );
@@ -331,6 +338,17 @@ describe("VirtualList", function() {
         [undefined, 2],
         [undefined, 3]
       ]);
+    });
+  });
+
+  describe("with some content", function(){
+    it("renders something", function() {
+      var tableContents = TestUtils.scryRenderedDOMComponentsWithTag(
+        this.instance,
+        "span"
+      );
+
+      expect(tableContents.length).toBe(3);
     });
   });
 
