@@ -333,4 +333,80 @@ describe("VirtualList", function() {
       ]);
     });
   });
+
+  describe("with failing renderItem", function() {
+    beforeEach(function() {
+      this.container = global.document.createElement("div");
+      this.instance = ReactDOM.render(
+        <VirtualList
+          items={[<li>1</li>]}
+          itemHeight={10}
+          renderItem={function() {
+            throw Error("fail");
+          }}
+          renderBufferItem={function() {}}
+        />,
+        this.container
+      );
+    });
+
+    afterEach(function() {
+      ReactDOM.unmountComponentAtNode(this.container);
+    });
+
+    it("renders properly filling the viewport", function() {
+      var view = {
+        top: 0,
+        bottom: 1000
+      };
+
+      var list = {
+        top: view.top,
+        bottom: view.bottom
+      };
+
+      var box = this.instance.getBox(view, list);
+
+      expect(box.top).toBe(0);
+      expect(box.bottom).toBe(1000);
+    });
+  });
+
+  describe("with failing renderBufferItem", function() {
+    beforeEach(function() {
+      this.container = global.document.createElement("div");
+      this.instance = ReactDOM.render(
+        <VirtualList
+          items={[<li>1</li>]}
+          itemHeight={10}
+          renderItem={function() {}}
+          renderBufferItem={function() {
+            throw Error("fail");
+          }}
+        />,
+        this.container
+      );
+    });
+
+    afterEach(function() {
+      ReactDOM.unmountComponentAtNode(this.container);
+    });
+
+    it("renders properly filling the viewport", function() {
+      var view = {
+        top: 0,
+        bottom: 1000
+      };
+
+      var list = {
+        top: view.top,
+        bottom: view.bottom
+      };
+
+      var box = this.instance.getBox(view, list);
+
+      expect(box.top).toBe(0);
+      expect(box.bottom).toBe(1000);
+    });
+  });
 });

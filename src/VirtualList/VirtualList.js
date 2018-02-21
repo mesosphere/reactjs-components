@@ -24,6 +24,14 @@ const METHODS_TO_BIND = [
   "visibleItems"
 ];
 
+const safeCall = f => {
+  try {
+    return f();
+  } catch (e) {
+    console.error(e);
+  }
+};
+
 class VirtualList extends React.Component {
   constructor() {
     super(...arguments);
@@ -139,11 +147,13 @@ class VirtualList extends React.Component {
 
   getItemsToRender(props, state) {
     return state.items.map(function(item, index) {
-      return props.renderItem(
-        item,
-        // Start from number of buffered items
-        state.bufferStart / props.itemHeight + index
-      );
+      return safeCall(() => {
+        return props.renderItem(
+          item,
+          // Start from number of buffered items
+          state.bufferStart / props.itemHeight + index
+        );
+      });
     });
   }
 
@@ -239,9 +249,9 @@ class VirtualList extends React.Component {
 
     return (
       <props.tagName ref="list" {...htmlAttributes}>
-        {props.renderBufferItem(topStyles)}
+        {safeCall(() => props.renderBufferItem(topStyles))}
         {this.getItemsToRender(props, state)}
-        {props.renderBufferItem(bottomStyles)}
+        {safeCall(() => props.renderBufferItem(bottomStyles))}
       </props.tagName>
     );
   }
