@@ -261,7 +261,7 @@ class Docs extends Util.mixin(BindMixin) {
                     {" "}
                     — default classes from
                     {" "}
-                    <a href="http://mesosphere.github.io/canvas/">Canvas UI</a>
+                    <a href="http://mesosphere.github.io/cnvs">Canvas UI</a>
                     {" "}
                     (use is optional).
                   </li>
