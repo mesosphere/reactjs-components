@@ -8,15 +8,22 @@ const React = require("react");
 const ReactDOM = require("react-dom");
 const VirtualList = require("../VirtualList");
 
+var TestUtils;
+if (React.version.match(/15.[0-5]/)) {
+  TestUtils = require("react-addons-test-utils");
+} else {
+  TestUtils = require("react-dom/test-utils");
+}
+
 describe("VirtualList", function() {
   beforeEach(function() {
     this.container = global.document.createElement("div");
     this.instance = ReactDOM.render(
       <VirtualList
-        items={[]}
+        items={[1]}
         itemHeight={10}
-        renderItem={function() {}}
-        renderBufferItem={function() {}}
+        renderItem={function(item) { return <span>item</span>;}}
+        renderBufferItem={function(item) { return <span>item</span>;}}
       />,
       this.container
     );
@@ -331,6 +338,93 @@ describe("VirtualList", function() {
         [undefined, 2],
         [undefined, 3]
       ]);
+    });
+  });
+
+  describe("with some content", function(){
+    it("renders something", function() {
+      var tableContents = TestUtils.scryRenderedDOMComponentsWithTag(
+        this.instance,
+        "span"
+      );
+
+      expect(tableContents.length).toBe(3);
+    });
+  });
+
+  describe("with failing renderItem", function() {
+    beforeEach(function() {
+      this.container = global.document.createElement("div");
+      this.instance = ReactDOM.render(
+        <VirtualList
+          items={[<li>1</li>]}
+          itemHeight={10}
+          renderItem={function() {
+            throw Error("fail");
+          }}
+          renderBufferItem={function() {}}
+        />,
+        this.container
+      );
+    });
+
+    afterEach(function() {
+      ReactDOM.unmountComponentAtNode(this.container);
+    });
+
+    it("renders properly filling the viewport", function() {
+      var view = {
+        top: 0,
+        bottom: 1000
+      };
+
+      var list = {
+        top: view.top,
+        bottom: view.bottom
+      };
+
+      var box = this.instance.getBox(view, list);
+
+      expect(box.top).toBe(0);
+      expect(box.bottom).toBe(1000);
+    });
+  });
+
+  describe("with failing renderBufferItem", function() {
+    beforeEach(function() {
+      this.container = global.document.createElement("div");
+      this.instance = ReactDOM.render(
+        <VirtualList
+          items={[<li>1</li>]}
+          itemHeight={10}
+          renderItem={function() {}}
+          renderBufferItem={function() {
+            throw Error("fail");
+          }}
+        />,
+        this.container
+      );
+    });
+
+    afterEach(function() {
+      ReactDOM.unmountComponentAtNode(this.container);
+    });
+
+    it("renders properly filling the viewport", function() {
+      var view = {
+        top: 0,
+        bottom: 1000
+      };
+
+      var list = {
+        top: view.top,
+        bottom: view.bottom
+      };
+
+      var box = this.instance.getBox(view, list);
+
+      expect(box.top).toBe(0);
+      expect(box.bottom).toBe(1000);
     });
   });
 });
