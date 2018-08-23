@@ -53,6 +53,14 @@ class Dropdown extends Util.mixin(BindMixin) {
     this.container = this.getScrollContainer();
   }
 
+  componentDidUpdate() {
+    if (this.state.isOpen) {
+      global.addEventListener("resize", this.closeDropdown);
+    } else {
+      global.removeEventListener("resize", this.closeDropdown);
+    }
+  }
+
   componentWillUpdate(nextProps, nextState) {
     // If the open state changed, add or remove listener as needed.
     if (nextState.isOpen !== this.state.isOpen) {
