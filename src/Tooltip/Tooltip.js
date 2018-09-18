@@ -25,6 +25,8 @@ class Tooltip extends Util.mixin(BindMixin) {
   constructor() {
     super(...arguments);
     this.state = { isOpen: false, wasTriggeredClose: false };
+    this.tooltipNode = React.createRef();
+    this.triggerNode = React.createRef();
   }
 
   componentWillUnmount() {
@@ -147,9 +149,9 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   getIdealLocation(anchor, position) {
-    const clearance = DOMUtil.getNodeClearance(this.refs.triggerNode);
+    const clearance = DOMUtil.getNodeClearance(this.triggerNode);
     const isVertical = this.isVertical(position);
-    const tooltipRect = this.refs.tooltipNode.getBoundingClientRect();
+    const tooltipRect = this.tooltipNode.getBoundingClientRect();
     const tooltipHeight = tooltipRect.height + ARROW_SIZE;
     const tooltipWidth = tooltipRect.width + ARROW_SIZE;
 
@@ -264,13 +266,13 @@ class Tooltip extends Util.mixin(BindMixin) {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...elementProps}
-        ref="triggerNode"
+        ref={this.triggerNode}
       >
         {props.children}
         <Portal>
           <div
             className={tooltipClasses}
-            ref="tooltipNode"
+            ref={this.tooltipNode}
             style={tooltipStyle}
             onMouseEnter={this.handleTooltipMouseEnter}
             onMouseLeave={this.handleTooltipMouseLeave}
