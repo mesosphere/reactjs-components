@@ -19,7 +19,16 @@ class Portal extends React.Component {
   }
 
   renderChildren(props) {
-    ReactDOM.render(props.children, this.nodeEl, props.onRender);
+    // Compatibility notice: This component will need to be restructured
+    // once this API goes away in favor of React.createPortal (16+)
+    // The issue is that there is no render callback in that API
+    // so props.onRender will need to be called in some other way.
+    return ReactDOM.unstable_renderSubtreeIntoContainer(
+      this,
+      props.children,
+      this.nodeEl,
+      props.onRender
+    );
   }
 
   render() {
