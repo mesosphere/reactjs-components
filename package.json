@@ -8,8 +8,8 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "4.4.x",
-    "npm": "3.9.x"
+    "node": "8.9.x",
+    "npm": "5.6.x"
   },
   "repository": {
     "type": "git",
@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "babel-cli": "6.5.1",
-    "babel-core": "6.5.2",
+    "babel-core": "6.11.4",
     "babel-eslint": "5.0.0",
     "babel-jest": "19.0.0",
     "babel-loader": "6.2.3",
