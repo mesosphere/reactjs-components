@@ -6,7 +6,9 @@
   "globals": {
     "__DEV__": true
   },
-  "scriptPreprocessor": "./node_modules/babel-jest",
+  "transform": {
+    ".*": "./node_modules/babel-jest"
+  },
   "setupFiles": [
     "jest/setupEnv.js"
   ],
