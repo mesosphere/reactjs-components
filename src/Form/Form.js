@@ -406,13 +406,14 @@ class Form extends Util.mixin(BindMixin) {
   }
 
   render() {
-    const { className, definition, key } = this.props;
+    const { className, definition, key, noValidate } = this.props;
 
     return (
       <this.props.formTag
         key={key}
         onSubmit={this.handleSubmit}
         className={classNames("form flush-bottom", className)}
+        noValidate={noValidate}
       >
         {this.getFormControls(definition)}
       </this.props.formTag>
