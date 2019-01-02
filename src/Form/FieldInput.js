@@ -146,7 +146,8 @@ class FieldInput extends Util.mixin(BindMixin) {
       renderer,
       sharedClass,
       value,
-      writeType
+      writeType,
+      fieldType
     } = this.props;
     let inputContent = null;
 
@@ -166,6 +167,7 @@ class FieldInput extends Util.mixin(BindMixin) {
           onKeyDown={this.handleKeyDown.bind(this)}
           name={attributes.name}
           value={attributes.startValue}
+          lang={fieldType === "number" ? navigator.language : null}
           {...htmlAttributes}
         />
       );
