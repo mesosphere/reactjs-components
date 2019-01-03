@@ -109,6 +109,6 @@
     "eslint": "eslint --quiet src/**/*.js docs/src/**/*.js",
     "stylelint": "stylelint src/**/*.less  docs/src/**/*.less",
     "preversion": "npm run clean && npm test && npm run lint && npm run dist-src",
-    "postversion": "git push --tags && npm publish ./ --tag version-$npm_package_version && git push && echo \"Successfully released $npm_package_version\""
+    "postversion": "git push --tags && npm publish ./ && git push && echo \"Successfully released $npm_package_version\""
   }
 }
