@@ -76,7 +76,7 @@
     "react-gemini-scrollbar": "2.3.x",
     "react-transition-group": "1.2.x",
     "source-map-loader": "0.1.5",
-    "stylelint": "7.10.1",
+    "stylelint": "9.10.0",
     "stylelint-config-dcos": "0.0.3",
     "stylelint-config-standard": "13.0.0",
     "stylelint-webpack-plugin": "0.5.1",
