@@ -70,7 +70,7 @@
     "mime": "^1.5.0",
     "minimatch": "^3.0.4",
     "node-libs-browser": "2.2.0",
-    "prettier": "1.2.2",
+    "prettier": "1.15.3",
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0",
     "react-gemini-scrollbar": "2.3.x",
