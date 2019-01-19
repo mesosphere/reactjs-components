@@ -75,7 +75,7 @@
     "react-dom": "^15.0.0 || ^16.0.0",
     "react-gemini-scrollbar": "2.3.x",
     "react-transition-group": "1.2.x",
-    "source-map-loader": "0.1.5",
+    "source-map-loader": "0.2.4",
     "stylelint": "9.10.1",
     "stylelint-config-dcos": "0.0.3",
     "stylelint-config-standard": "13.0.0",
