@@ -8,7 +8,7 @@
     "url": "http://www.mesosphere.com"
   },
   "engines": {
-    "node": "8.9.x",
+    "node": "8.15.x",
     "npm": "5.7.x"
   },
   "repository": {
