@@ -147,9 +147,17 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   getIdealLocation(anchor, position) {
-    const clearance = DOMUtil.getNodeClearance(this.refs.triggerNode);
+    if (!this.triggerNode || !this.tooltipNode) {
+      return {
+        anchor: "center",
+        position: "top",
+        coordinates: { left: 0, top: 0 }
+      };
+    }
+
     const isVertical = this.isVertical(position);
-    const tooltipRect = this.refs.tooltipNode.getBoundingClientRect();
+    const clearance = DOMUtil.getNodeClearance(this.triggerNode);
+    const tooltipRect = this.tooltipNode.getBoundingClientRect();
     const tooltipHeight = tooltipRect.height + ARROW_SIZE;
     const tooltipWidth = tooltipRect.width + ARROW_SIZE;
 
@@ -264,13 +272,13 @@ class Tooltip extends Util.mixin(BindMixin) {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         {...elementProps}
-        ref="triggerNode"
+        ref={el => (this.triggerNode = el)}
       >
         {props.children}
         <Portal>
           <div
             className={tooltipClasses}
-            ref="tooltipNode"
+            ref={el => (this.tooltipNode = el)}
             style={tooltipStyle}
             onMouseEnter={this.handleTooltipMouseEnter}
             onMouseLeave={this.handleTooltipMouseLeave}

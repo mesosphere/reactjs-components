@@ -16,7 +16,7 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   componentDidUpdate() {
-    const inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
+    const inputElement = ReactDOM.findDOMNode(this.inputElementRef);
 
     if (this.isEditing() && inputElement !== global.document.activeElement) {
       inputElement.focus();
@@ -24,7 +24,7 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   componentDidMount() {
-    const inputElement = ReactDOM.findDOMNode(this.refs.inputElement);
+    const inputElement = ReactDOM.findDOMNode(this.inputElementRef);
     if (
       inputElement != null &&
       inputElement.type === "text" &&
@@ -54,14 +54,14 @@ class FieldInput extends Util.mixin(BindMixin) {
   }
 
   handleKeyDown(event) {
-    const { props, refs } = this;
+    const { props } = this;
     // Force a blur on enter, which will trigger onBlur.
     if (event.key === KeyboardUtil.keys.enter) {
       if (props.writeType === "input") {
         props.handleSubmit();
       }
 
-      ReactDOM.findDOMNode(refs.inputElement).blur();
+      ReactDOM.findDOMNode(this.inputElement).blur();
     }
   }
 
@@ -162,7 +162,7 @@ class FieldInput extends Util.mixin(BindMixin) {
     if (this.isEditing() || writeType === "input") {
       inputContent = (
         <input
-          ref="inputElement"
+          ref={el => (this.inputElementRef = el)}
           className={classes}
           onKeyDown={this.handleKeyDown.bind(this)}
           name={attributes.name}
@@ -174,7 +174,7 @@ class FieldInput extends Util.mixin(BindMixin) {
     } else {
       inputContent = (
         <span
-          ref="inputElement"
+          ref={el => (this.inputElementRef = el)}
           {...htmlAttributes}
           className={classes}
           onClick={attributes.onFocus}
