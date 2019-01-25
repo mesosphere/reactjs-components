@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - "8.15"
 before_install:
-  - npm install -g npm@5.7
+  - npm install -g npm@6.7
 install:
   - npm install
   - ./install_react.sh
