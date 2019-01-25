@@ -28,14 +28,18 @@ class FieldTextarea extends FieldInput {
   componentDidMount() {
     super.componentDidMount(...arguments);
 
+    if (!this.inputElement) {
+      return;
+    }
+
     if (this.isEditing() || this.props.writeType === "input") {
-      this.updateTextareaHeight(this.refs.inputElement);
+      this.updateTextareaHeight(this.inputElement);
 
       // React throws a warning if children are specified in an element with
       // contenteditable="true", so this hack allows us to set a default value
       // for this form field.
       if (this.props.startValue) {
-        this.refs.inputElement.textContent = this.props.startValue;
+        this.inputElementRef.textContent = this.props.startValue;
       }
     }
   }
@@ -88,7 +92,7 @@ class FieldTextarea extends FieldInput {
           style={{ height: `${this.state.height}px` }}
         >
           <div
-            ref="inputElement"
+            ref={el => (this.inputElementRef = el)}
             className={classes}
             {...attributes}
             contentEditable={true}
@@ -102,7 +106,7 @@ class FieldTextarea extends FieldInput {
     } else {
       inputContent = (
         <span
-          ref="inputElement"
+          ref={el => (this.inputElementRef = el)}
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}

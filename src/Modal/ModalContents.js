@@ -150,6 +150,8 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     let headerHeight = 0;
     let footerHeight = 0;
+    let modalHeight = 0;
+    let innerContentHeight = 0;
 
     if (headerRef != null) {
       headerHeight = Math.ceil(headerRef.getBoundingClientRect().height);
@@ -159,10 +161,16 @@ class ModalContents extends Util.mixin(BindMixin) {
       footerHeight = Math.ceil(footerRef.getBoundingClientRect().height);
     }
 
-    const modalHeight = Math.ceil(modalRef.getBoundingClientRect().height);
-    const innerContentHeight = Math.ceil(
-      innerContentRef.getBoundingClientRect().height
-    );
+    if (modalRef != null) {
+      modalHeight = Math.ceil(modalRef.getBoundingClientRect().height);
+    }
+
+    if (innerContentRef != null) {
+      innerContentHeight = Math.ceil(
+        innerContentRef.getBoundingClientRect().height
+      );
+    }
+
     const maxModalHeight =
       this.lastViewportHeight - MODAL_VERTICAL_INSET_DISTANCE;
 
@@ -203,8 +211,12 @@ class ModalContents extends Util.mixin(BindMixin) {
       }
     }
 
-    innerContentContainerRef.style.height = nextInnerContentContainerHeight;
-    modalRef.style.height = nextModalHeight;
+    if (innerContentContainerRef != null) {
+      innerContentContainerRef.style.height = nextInnerContentContainerHeight;
+    }
+    if (modalRef != null) {
+      modalRef.style.height = nextModalHeight;
+    }
 
     this.triggerGeminiUpdate();
   }
