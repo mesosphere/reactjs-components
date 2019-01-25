@@ -4,14 +4,12 @@
     "modules": true,
     "sourceType": "module"
   },
-
   "env": {
     "browser": true,
     "jasmine": true,
     "node": true,
     "es6": true
   },
-
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
@@ -19,14 +17,12 @@
       "experimentalObjectRestSpread": true
     }
   },
-
   "plugins": [
     "jsx-max-len",
     "react",
     "compat",
     "destructuring"
   ],
-
   "globals": {
     "cy": true,
     "Cypress": true,
@@ -40,50 +36,98 @@
     "Dygraph": true,
     "d3": true
   },
-
   "extends": [
-    "dcos"
+    "@dcos"
   ],
-
   "rules": {
     "prettier/prettier": "error",
     "arrow-parens": "off",
-    "camelcase": ["off", {"properties": "never"}], // This causes errors with mixin properties
-    "comma-dangle": ["error", "never"],
+    "camelcase": [
+      "off",
+      {
+        "properties": "never"
+      }
+    ], // This causes errors with mixin properties
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
     "compat/compat": "error",
     "destructuring/in-params": "off",
     "destructuring/no-rename": "off",
-    "eqeqeq": ["error", "smart"],
-    "jsx-max-len/jsx-max-len": ["error", {"lineMaxLength": 80, "tabWidth": 2, "maxAttributesPerLine": 1}],
-    "keyword-spacing": ["error"],
+    "eqeqeq": [
+      "error",
+      "smart"
+    ],
+    "jsx-max-len/jsx-max-len": [
+      "error",
+      {
+        "lineMaxLength": 80,
+        "tabWidth": 2,
+        "maxAttributesPerLine": 1
+      }
+    ],
+    "keyword-spacing": [
+      "error"
+    ],
     "multiline-ternary": "off", // allow both multiline and single line
     "newline-before-return": "error",
     "no-mixed-operators": "off",
     "no-mixed-spaces-and-tabs": "error",
-    "no-multiple-empty-lines": ["error", {"max": 1}],
-    "no-nested-ternary": ["error"],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "no-nested-ternary": [
+      "error"
+    ],
     "no-new": "off",
-    "no-trailing-spaces": ["error", { "skipBlankLines": false }],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "skipBlankLines": false
+      }
+    ],
     "no-underscore-dangle": "off",
-    "no-unneeded-ternary": ["error"],
-    "no-unused-vars": ["error", {
-      "args": "after-used",
-      "argsIgnorePattern": "PluginSDK|^_",
-      "varsIgnorePattern": "^_"
-    }],
+    "no-unneeded-ternary": [
+      "error"
+    ],
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "after-used",
+        "argsIgnorePattern": "PluginSDK|^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
     "no-use-before-define": "off",
     "quotes": "off",
     "react/jsx-filename-extension": "off",
-    "semi": ["error"],
-    "space-before-blocks": ["error", "always"],
+    "semi": [
+      "error"
+    ],
+    "space-before-blocks": [
+      "error",
+      "always"
+    ],
     "space-before-function-paren": "off",
-    "spaced-comment": ["error", "always"],
-    "strict": ["error", "never"], // <-- fix
-    "valid-jsdoc": ["error", {
-      "requireReturn": false,
-      "requireParamDescription": false
-    }],
-
+    "spaced-comment": [
+      "error",
+      "always"
+    ],
+    "strict": [
+      "error",
+      "never"
+    ], // <-- fix
+    "valid-jsdoc": [
+      "error",
+      {
+        "requireReturn": false,
+        "requireParamDescription": false
+      }
+    ],
     // Airbnb overwrites
     "array-callback-return": "off",
     "arrow-body-style": "off",
@@ -104,7 +148,12 @@
     "no-case-declarations": "off",
     "no-console": "off",
     "no-else-return": "off",
-    "no-empty": ["error", { "allowEmptyCatch": true }],
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
     "no-extra-label": "off",
     "no-floating-decimal": "off",
     "no-inner-declarations": "off",
@@ -124,7 +173,13 @@
     "operator-assignment": "off",
     "padded-blocks": "off",
     "prefer-arrow-callback": "off",
-    "prefer-const": ["error", { "destructuring": "all", "ignoreReadBeforeAssign": false }],
+    "prefer-const": [
+      "error",
+      {
+        "destructuring": "all",
+        "ignoreReadBeforeAssign": false
+      }
+    ],
     "prefer-rest-params": "off",
     "prefer-spread": "off",
     "prefer-template": "off",
@@ -134,7 +189,6 @@
     "space-unary-ops": "off",
     "vars-on-top": "off",
     "wrap-iife": "off",
-
     // React plugin
     "react/jsx-boolean-value": "off",
     "react/jsx-closing-bracket-location": "off",
@@ -144,7 +198,12 @@
     "react/jsx-no-target-blank": "off",
     "react/jsx-no-undef": "error",
     "react/jsx-quotes": "off",
-    "react/jsx-sort-prop-types": ["off", {"ignoreCase": true}],
+    "react/jsx-sort-prop-types": [
+      "off",
+      {
+        "ignoreCase": true
+      }
+    ],
     "react/jsx-sort-props": "off",
     "react/jsx-space-before-closing": "off",
     "react/jsx-uses-vars": "error",
