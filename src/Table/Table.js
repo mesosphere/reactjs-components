@@ -93,7 +93,7 @@ class Table extends React.Component {
   }
 
   updateHeight() {
-    const { props, state, refs } = this;
+    const { props, state } = this;
 
     if (props.containerSelector && this.container === window) {
       this.container =
@@ -104,11 +104,11 @@ class Table extends React.Component {
     if (
       props.itemHeight == null &&
       state.itemHeight == null &&
-      refs.itemHeightContainer != null
+      this.itemHeightContainer != null
     ) {
       // Calculate content height only once and when node is ready
       const itemHeight = DOMUtil.getComputedDimensions(
-        ReactDOM.findDOMNode(refs.itemHeightContainer).querySelector("tr")
+        ReactDOM.findDOMNode(this.itemHeightContainer).querySelector("tr")
       ).height;
       this.setState({ itemHeight });
     }
@@ -276,7 +276,7 @@ class Table extends React.Component {
       );
 
       return (
-        <tbody ref="itemHeightContainer">
+        <tbody ref={el => (this.itemHeightContainer = el)}>
           {childToMeasure}
         </tbody>
       );

@@ -185,9 +185,9 @@ class VirtualList extends React.Component {
       viewTop = DOMUtil.getScrollTop(container) || 0;
     }
 
-    if (this.refs.list) {
+    if (this.listRef) {
       const listBounding = ReactDOM.findDOMNode(
-        this.refs.list
+        this.listRef
       ).getBoundingClientRect();
 
       const elementTop =
@@ -248,7 +248,7 @@ class VirtualList extends React.Component {
     );
 
     return (
-      <props.tagName ref="list" {...htmlAttributes}>
+      <props.tagName ref={el => (this.listRef = el)} {...htmlAttributes}>
         {safeCall(() => props.renderBufferItem(topStyles))}
         {this.getItemsToRender(props, state)}
         {safeCall(() => props.renderBufferItem(bottomStyles))}

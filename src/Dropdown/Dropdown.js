@@ -227,7 +227,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     // If we don't already know the menu height, we need to set the menu
     // position to a default state to trigger its recalculation on the next
     // render.
-    if (this.state.menuHeight == null) {
+    if (this.state.menuHeight == null && this.dropdownWrapperRef) {
       const buttonPosition = this.dropdownWrapperRef.getBoundingClientRect();
 
       state.menuDirection = "down";

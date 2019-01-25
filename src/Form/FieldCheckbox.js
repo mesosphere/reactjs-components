@@ -7,6 +7,12 @@ import FieldRadioButton from "./FieldRadioButton";
 import Util from "../Util/Util";
 
 class FieldCheckbox extends FieldRadioButton {
+  constructor() {
+    super(...arguments);
+
+    this.refElements = {};
+  }
+
   componentDidMount() {
     super.componentDidMount(...arguments);
     this.updateCheckbox();
@@ -18,9 +24,9 @@ class FieldCheckbox extends FieldRadioButton {
   }
 
   updateCheckbox() {
-    const { props, refs } = this;
-    Object.keys(refs).forEach(function(refName) {
-      const checkbox = ReactDOM.findDOMNode(refs[refName]);
+    const { props, refElements } = this;
+    Object.keys(refElements).forEach(function(refName) {
+      const checkbox = ReactDOM.findDOMNode(refElements[refName]);
       let indeterminate;
       // Single checkbox
       if (props.name === refName) {
@@ -99,7 +105,7 @@ class FieldCheckbox extends FieldRadioButton {
       <label className={labelClasses} key={index}>
         <input
           onChange={this.handleChange.bind(this, eventName, attributes.name)}
-          ref={attributes.name}
+          ref={el => (this.refElements[attributes.name] = el)}
           type="checkbox"
           {...htmlAttributes}
         />

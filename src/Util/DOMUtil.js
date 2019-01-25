@@ -69,6 +69,16 @@ const DOMUtil = {
   },
 
   getNodeClearance(DOMNode) {
+    if (!DOMNode) {
+      return {
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        boundingRect: new DOMRect()
+      };
+    }
+
     const viewportHeight = DOMUtil.getViewportHeight();
     const viewportWidth = DOMUtil.getViewportWidth();
     const boundingRect = DOMNode.getBoundingClientRect();
