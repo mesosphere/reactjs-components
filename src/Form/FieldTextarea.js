@@ -28,12 +28,12 @@ class FieldTextarea extends FieldInput {
   componentDidMount() {
     super.componentDidMount(...arguments);
 
-    if (!this.inputElement) {
+    if (!this.inputElementRef) {
       return;
     }
 
     if (this.isEditing() || this.props.writeType === "input") {
-      this.updateTextareaHeight(this.inputElement);
+      this.updateTextareaHeight(this.inputElementRef);
 
       // React throws a warning if children are specified in an element with
       // contenteditable="true", so this hack allows us to set a default value

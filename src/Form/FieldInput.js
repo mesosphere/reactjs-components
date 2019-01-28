@@ -61,7 +61,7 @@ class FieldInput extends Util.mixin(BindMixin) {
         props.handleSubmit();
       }
 
-      ReactDOM.findDOMNode(this.inputElement).blur();
+      ReactDOM.findDOMNode(this.inputElementRef).blur();
     }
   }
 
