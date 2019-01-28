@@ -21,7 +21,12 @@ export default class Select extends React.Component {
   }
 
   handleDropdownChange(selectedOption) {
-    this.input.value = selectedOption.id;
+    const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+      window.HTMLInputElement.prototype,
+      "value"
+    ).set;
+    nativeInputValueSetter.call(this.input, selectedOption.id);
+
     this.input.dispatchEvent(new Event("input", { bubbles: true }));
   }
 
