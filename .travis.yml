@@ -21,14 +21,6 @@ install:
   - npm install
   - ./install_react.sh
 env:
-  global:
-    - CXX=g++-4.8
   matrix:
     - REACT_VERSION=15.6
     - REACT_VERSION=16.7
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
