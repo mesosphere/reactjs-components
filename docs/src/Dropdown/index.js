@@ -253,8 +253,8 @@ class SimpleDropdownExample extends React.Component {
           <ComponentExample>
             <h4 className="flush-top">Callbacks</h4>
             <p>
-              Use the <code>onItemSelection</code> attribute to add
-              callbacks to item selection.
+              Use the <code>onItemSelection</code> attribute to add callbacks to
+              item selection.
             </p>
             <p>You have selected {this.dropdownSelected}.</p>
             <Dropdown

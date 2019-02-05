@@ -6,11 +6,7 @@ class ComponentExample extends React.Component {
   render() {
     const classes = classnames("panel-cell", this.props.classNames);
 
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={classes}>{this.props.children}</div>;
   }
 }
 

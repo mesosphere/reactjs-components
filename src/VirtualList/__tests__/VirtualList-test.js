@@ -22,8 +22,12 @@ describe("VirtualList", function() {
       <VirtualList
         items={[1]}
         itemHeight={10}
-        renderItem={function(item) { return <span>item</span>;}}
-        renderBufferItem={function(item) { return <span>item</span>;}}
+        renderItem={function(item) {
+          return <span>item</span>;
+        }}
+        renderBufferItem={function(item) {
+          return <span>item</span>;
+        }}
       />,
       this.container
     );
@@ -341,7 +345,7 @@ describe("VirtualList", function() {
     });
   });
 
-  describe("with some content", function(){
+  describe("with some content", function() {
     it("renders something", function() {
       var tableContents = TestUtils.scryRenderedDOMComponentsWithTag(
         this.instance,

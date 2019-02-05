@@ -112,11 +112,7 @@ class FieldInput extends Util.mixin(BindMixin) {
       return null;
     }
 
-    return (
-      <span className={classNames(helpBlockClass)}>
-        {helpBlock}
-      </span>
-    );
+    return <span className={classNames(helpBlockClass)}>{helpBlock}</span>;
   }
 
   getLabel() {

@@ -77,7 +77,8 @@ class FormExample extends Util.mixin(BindMixin) {
         validation(value) {
           return value >= 0 && value <= 10;
         },
-        validationErrorText: "Must be a positive integer between 0 and 10 representing its priority",
+        validationErrorText:
+          "Must be a positive integer between 0 and 10 representing its priority",
         writeType: "input"
       },
       {

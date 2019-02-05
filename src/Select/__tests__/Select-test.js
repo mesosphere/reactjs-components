@@ -31,11 +31,7 @@ describe("Select", function() {
         <SelectOption value="option-1" label="option-1-label">
           default selected(false) & disabled(false)
         </SelectOption>
-        <SelectOption
-          value="option-2"
-          label="option-2-label"
-          disabled={true}
-        >
+        <SelectOption value="option-2" label="option-2-label" disabled={true}>
           disabled
         </SelectOption>
         <SelectOption

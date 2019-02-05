@@ -16,21 +16,9 @@ class SelectExample extends React.Component {
         srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Select/Select.js"
       >
         <p className="lead flush-bottom">
-          To allow a enclosing
-          {" "}
-          <code>form</code>
-          {" "}
-          recognize the change of a
-          {" "}
-          <code>Dropdown</code>
-          , it is necceccary that there is an
-          {" "}
-          <code>input</code>
-          {" "}
-          element which emits a proper
-          {" "}
-          <code>change</code>
-          {" "}
+          To allow a enclosing <code>form</code> recognize the change of a{" "}
+          <code>Dropdown</code>, it is necceccary that there is an{" "}
+          <code>input</code> element which emits a proper <code>change</code>{" "}
           event. This is solved by this component.
         </p>
         <PropertiesAPIBlock

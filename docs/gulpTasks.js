@@ -134,7 +134,7 @@ function replaceJsStringsFn() {
         // Finally do the replace
         var contents = matches[0];
         // Escape quotes that haven't already been escaped
-        contents = contents.replace(/([^\\])"/g, "$1\\\"");
+        contents = contents.replace(/([^\\])"/g, '$1\\"');
         // Escape newlines or carriage return that haven't already been escaped
         contents = contents.replace(/\n|\r/g, "\\n");
 

@@ -101,8 +101,10 @@ function isArrayLike(value) {
   return (
     value != null &&
     value.length &&
-    !(typeof value === "function" &&
-      Object.prototype.toString.call(value) === "[object Function]") &&
+    !(
+      typeof value === "function" &&
+      Object.prototype.toString.call(value) === "[object Function]"
+    ) &&
     typeof value === "object"
   );
 }
@@ -274,13 +276,16 @@ function deepEq(a, b, aStack, bStack) {
 
     // Objects with different constructors are not equivalent, but `Object`s or `Array`s
     // from different frames are.
-    var aCtor = a.constructor, bCtor = b.constructor;
+    var aCtor = a.constructor,
+      bCtor = b.constructor;
     if (
       aCtor !== bCtor &&
-      !(isFunction(aCtor) &&
+      !(
+        isFunction(aCtor) &&
         aCtor instanceof aCtor &&
         isFunction(bCtor) &&
-        bCtor instanceof bCtor) &&
+        bCtor instanceof bCtor
+      ) &&
       ("constructor" in a && "constructor" in b)
     ) {
       return false;
@@ -321,7 +326,8 @@ function deepEq(a, b, aStack, bStack) {
     }
   } else {
     // Deep compare objects.
-    var keys = Object.keys(a), key;
+    var keys = Object.keys(a),
+      key;
     length = keys.length;
     // Ensure that both objects contain the same number of properties before comparing deep equality.
     if (Object.keys(b).length !== length) {
@@ -363,7 +369,8 @@ function baseFlatten(input, shallow, strict, output) {
     if (isArrayLike(value) && (isArray(value) || isArguments(value))) {
       // flatten current level of array or arguments object
       if (shallow) {
-        var j = 0, len = value.length;
+        var j = 0,
+          len = value.length;
         while (j < len) {
           output[idx++] = value[j++];
         }

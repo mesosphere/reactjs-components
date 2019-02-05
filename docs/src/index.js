@@ -252,42 +252,35 @@ class Docs extends Util.mixin(BindMixin) {
                 <h3 className="flush-top">Goals</h3>
                 <ul>
                   <li>
-                    <strong>Independent</strong>
-                    {" "}
-                    — pick and use only the components you need.
+                    <strong>Independent</strong> — pick and use only the
+                    components you need.
                   </li>
                   <li>
-                    <strong>Styled</strong>
-                    {" "}
-                    — default classes from
-                    {" "}
-                    <a href="http://mesosphere.github.io/cnvs">Canvas UI</a>
-                    {" "}
+                    <strong>Styled</strong> — default classes from{" "}
+                    <a href="http://mesosphere.github.io/cnvs">Canvas UI</a>{" "}
                     (use is optional).
                   </li>
                   <li>
-                    <strong>Customizable</strong>
-                    {" "}
-                    — properties allow many different settings to adapt to your app.
+                    <strong>Customizable</strong> — properties allow many
+                    different settings to adapt to your app.
                   </li>
                   <li>
-                    <strong>Reliable</strong>
-                    {" "}
-                    — each component is rigorously tested.
+                    <strong>Reliable</strong> — each component is rigorously
+                    tested.
                   </li>
                 </ul>
               </section>
               <section id="getting-started">
                 <h3>Getting Started</h3>
                 <p>
-                  <strong>1.</strong>
-                  {" "}
-                  From the command line inside of your project:
+                  <strong>1.</strong> From the command line inside of your
+                  project:
                 </p>
                 <div className="panel pod flush-right flush-left flush-top">
                   <div className="panel-cell panel-cell-narrow panel-cell-short panel-cell-light panel-cell-code-block">
                     <pre className="prettyprint transparent flush lang-shell">
-                      npm install --save reactjs-components react react-gemini-scrollbar canvas-ui
+                      npm install --save reactjs-components react
+                      react-gemini-scrollbar canvas-ui
                     </pre>
                   </div>
                 </div>
@@ -304,7 +297,9 @@ var Modal = require('reactjs-components').Modal;`}
                     </pre>
                   </div>
                 </div>
-                <p><strong>3.</strong> Use as if it was any other component:</p>
+                <p>
+                  <strong>3.</strong> Use as if it was any other component:
+                </p>
                 <div className="panel pod flush-right flush-left flush-top">
                   <div className="panel-cell panel-cell-narrow panel-cell-short panel-cell-light panel-cell-code-block">
                     <pre className="prettyprint transparent flush lang-javascript">
@@ -319,15 +314,15 @@ var Modal = require('reactjs-components').Modal;`}
                   </div>
                 </div>
                 <p>
-                  <strong>4.</strong>
-                  {" "}
-                  Import LESS files which will add all styles for all components.
+                  <strong>4.</strong> Import LESS files which will add all
+                  styles for all components.
                 </p>
                 <div className="panel pod flush-right flush-left flush-top">
                   <div className="panel-cell panel-cell-narrow panel-cell-short panel-cell-light panel-cell-code-block">
                     <pre className="prettyprint transparent flush lang-less">
                       @import "./node_modules/canvas-ui/styles/canvas.less"
-                      @import (inline) "./node_modules/reactjs-components/lib/index.less"
+                      @import (inline)
+                      "./node_modules/reactjs-components/lib/index.less"
                     </pre>
                   </div>
                 </div>

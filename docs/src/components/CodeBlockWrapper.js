@@ -9,11 +9,7 @@ class CodeBlockWrapper extends React.Component {
       this.props.panelClassNames
     );
 
-    return (
-      <div className={panelClasses}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={panelClasses}>{this.props.children}</div>;
   }
 }
 

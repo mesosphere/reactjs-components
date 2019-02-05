@@ -15,9 +15,7 @@ class CodeBlock extends React.Component {
 
     return (
       <div className={panelInnerClasses}>
-        <pre className={preClasses}>
-          {this.props.children}
-        </pre>
+        <pre className={preClasses}>{this.props.children}</pre>
       </div>
     );
   }

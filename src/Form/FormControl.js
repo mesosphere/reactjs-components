@@ -74,11 +74,7 @@ class FormControl extends React.Component {
       content = Util.flatten(content);
     }
 
-    return (
-      <div className={classNames(props.formRowClass)}>
-        {content}
-      </div>
-    );
+    return <div className={classNames(props.formRowClass)}>{content}</div>;
   }
 }
 
