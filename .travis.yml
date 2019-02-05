@@ -1,6 +1,20 @@
 language: node_js
 node_js:
   - "8.15"
+  - "node"
+  - "lts/*"
+
+jobs:
+  include:
+    # Define the release stage that runs semantic-release
+    - stage: release
+      node_js: lts/*
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script:
+          - npx semantic-release
+
 before_install:
   - npm install -g npm@6.7
 install:

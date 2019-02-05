@@ -126,7 +126,9 @@ class Table extends React.Component {
         onClick: sortEvent,
         tabIndex: 0,
         "aria-sort": this.state.sortBy.order,
-        "aria-label": `${header.prop}: activate to sort column ${this.state.sortBy.order}`
+        "aria-label": `${header.prop}: activate to sort column ${
+          this.state.sortBy.order
+        }`
       };
     };
 
@@ -157,24 +159,22 @@ class Table extends React.Component {
       );
       attributes.key = index;
 
-      return (
-        <th {...attributes}>
-          {heading}
-        </th>
-      );
+      return <th {...attributes}>{heading}</th>;
     });
   }
 
   getBufferItem(columns, styles) {
-    return <tr style={styles}><td colSpan={columns.length} /></tr>;
+    return (
+      <tr style={styles}>
+        <td colSpan={columns.length} />
+      </tr>
+    );
   }
 
   getEmptyRowCell(columns) {
     return (
       <tr>
-        <td colSpan={columns.length}>
-          {this.props.emptyMessage}
-        </td>
+        <td colSpan={columns.length}>{this.props.emptyMessage}</td>
       </tr>
     );
   }
@@ -283,11 +283,7 @@ class Table extends React.Component {
     }
 
     if (data.length === 0) {
-      return (
-        <tbody>
-          {this.getEmptyRowCell(columns)}
-        </tbody>
-      );
+      return <tbody>{this.getEmptyRowCell(columns)}</tbody>;
     }
 
     return (
@@ -322,9 +318,7 @@ class Table extends React.Component {
         <table ref="headers" className={classes}>
           {props.colGroup}
           <thead>
-            <tr>
-              {this.getHeaders(columns, sortBy)}
-            </tr>
+            <tr>{this.getHeaders(columns, sortBy)}</tr>
           </thead>
           {this.getTBody(columns, data, sortBy, itemHeight)}
         </table>

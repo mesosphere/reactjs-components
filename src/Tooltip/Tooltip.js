@@ -283,9 +283,7 @@ class Tooltip extends Util.mixin(BindMixin) {
             onMouseEnter={this.handleTooltipMouseEnter}
             onMouseLeave={this.handleTooltipMouseLeave}
           >
-            <div className={props.contentClassName}>
-              {props.content}
-            </div>
+            <div className={props.contentClassName}>{props.content}</div>
           </div>
         </Portal>
       </props.elementTag>

@@ -18,7 +18,8 @@ class ToolTipExample extends React.Component {
     const interactiveTooltipContent = (
       <div>
         <p className="text-color-white small">
-          This tooltip is interactive, so the user is able to interact with its contents.
+          This tooltip is interactive, so the user is able to interact with its
+          contents.
         </p>
         <p className="text-color-white small flush-bottom">
           Example: <a>Back to Top</a>.
@@ -32,10 +33,17 @@ class ToolTipExample extends React.Component {
         srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Tooltip/Tooltip.js"
       >
         <p className="lead">
-          A tooltip appears when a user hover overs an element. The tooltips will adjust their position if the supplied positioning results in the tooltip rendering outside of the veiwport.
+          A tooltip appears when a user hover overs an element. The tooltips
+          will adjust their position if the supplied positioning results in the
+          tooltip rendering outside of the veiwport.
         </p>
         <p>
-          The tooltip allows users to set the position and anchor. Position refers to the position of the tooltip relative to its trigger (which is its children), and acceptable values are top, right, bottom, and left. Anchor refers to where the tooltip is anchored on the triggered element, and acceptable values are start, center, and end. Think of flexbox alignment when thinking about the start and end values.
+          The tooltip allows users to set the position and anchor. Position
+          refers to the position of the tooltip relative to its trigger (which
+          is its children), and acceptable values are top, right, bottom, and
+          left. Anchor refers to where the tooltip is anchored on the triggered
+          element, and acceptable values are start, center, and end. Think of
+          flexbox alignment when thinking about the start and end values.
         </p>
         <PropertiesAPIBlock
           propTypesBlock={"PROPTYPES_BLOCK(src/Tooltip/Tooltip.js)"}
@@ -43,8 +51,8 @@ class ToolTipExample extends React.Component {
         <ComponentExampleWrapper>
           <ComponentExample>
             <p>
-              Hover over the following buttons to observe the behavior
-              of the tooltips.
+              Hover over the following buttons to observe the behavior of the
+              tooltips.
             </p>
             <div className="button-collection flush">
               <Tooltip

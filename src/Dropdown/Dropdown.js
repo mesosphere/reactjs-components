@@ -337,9 +337,7 @@ class Dropdown extends Util.mixin(BindMixin) {
 
     if (state.isOpen) {
       let dropdownMenuItems = (
-        <ul className="dropdown-menu-items">
-          {this.getMenuItems(items)}
-        </ul>
+        <ul className="dropdown-menu-items">{this.getMenuItems(items)}</ul>
       );
 
       // Render with Gemini scrollbar if the dropdown's height should be
@@ -421,9 +419,7 @@ class Dropdown extends Util.mixin(BindMixin) {
           className: props.buttonClassName,
           disabled: props.disabled
         })}
-        <Portal onRender={this.handleMenuRender}>
-          {dropdownMenu}
-        </Portal>
+        <Portal onRender={this.handleMenuRender}>{dropdownMenu}</Portal>
       </span>
     );
   }

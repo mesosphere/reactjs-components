@@ -9,11 +9,7 @@ class ComponentExampleWrapper extends React.Component {
       this.props.className
     );
 
-    return (
-      <div className={classes}>
-        {this.props.children}
-      </div>
-    );
+    return <div className={classes}>{this.props.children}</div>;
   }
 }
 

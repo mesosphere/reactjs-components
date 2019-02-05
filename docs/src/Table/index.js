@@ -163,7 +163,8 @@ class TableExample extends React.Component {
         srcURI="https://github.com/mesosphere/reactjs-components/blob/master/src/Table/Table.js"
       >
         <p className="lead flush-bottom">
-          Display data in a structured way. Handles extremely large amounts of data and only displays the rows needed (à la infinite scroll).
+          Display data in a structured way. Handles extremely large amounts of
+          data and only displays the rows needed (à la infinite scroll).
         </p>
         <PropertiesAPIBlock
           propTypesBlock={"PROPTYPES_BLOCK(src/Table/Table.js)"}
@@ -172,7 +173,8 @@ class TableExample extends React.Component {
           <ComponentExample>
             <h3>A Close Look At Table Columns</h3>
             <p>
-              Columns are an important piece of this component. The following columns are used for all of the example Tables on this page.
+              Columns are an important piece of this component. The following
+              columns are used for all of the example Tables on this page.
             </p>
           </ComponentExample>
           <CodeBlock>
@@ -351,7 +353,9 @@ class TableExample extends React.Component {
                 <h4 className="flush-top">Infinite Scroll</h4>
                 <p>
                   Here is a scroll table with 10k items. Use the
-                  "containerSelector" property to indicate the parent element with a scrollbar in order to listen to its scroll event. The data is not sorted by default.
+                  "containerSelector" property to indicate the parent element
+                  with a scrollbar in order to listen to its scroll event. The
+                  data is not sorted by default.
                 </p>
               </div>
             </div>

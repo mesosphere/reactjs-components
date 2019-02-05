@@ -74,11 +74,7 @@ class FieldCheckbox extends FieldRadioButton {
       this.props.checkboxLabelClass
     );
 
-    return (
-      <span className={checkboxLabelClass}>
-        {attributes.label}
-      </span>
-    );
+    return <span className={checkboxLabelClass}>{attributes.label}</span>;
   }
 
   getItem(eventName, labelClass, attributes, index) {

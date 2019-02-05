@@ -29,9 +29,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
     }
 
     return (
-      <p className={classNames(helpBlockClass)}>
-        {validationError[name]}
-      </p>
+      <p className={classNames(helpBlockClass)}>{validationError[name]}</p>
     );
   }
 
@@ -89,11 +87,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       this.props.radioButtonLabelClass
     );
 
-    return (
-      <span className={radioButtonLabelClass}>
-        {attributes.label}
-      </span>
-    );
+    return <span className={radioButtonLabelClass}>{attributes.label}</span>;
   }
 
   getItem(eventName, labelClass, attributes, index) {
@@ -171,9 +165,7 @@ class FieldRadioButton extends Util.mixin(BindMixin) {
       <div className={this.getRowClass()}>
         <div className={classes}>
           {this.getLabel()}
-          <div className={classNames(itemWrapperClass)}>
-            {this.getItems()}
-          </div>
+          <div className={classNames(itemWrapperClass)}>{this.getItems()}</div>
           {this.getErrorMsg()}
         </div>
       </div>

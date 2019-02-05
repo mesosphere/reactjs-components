@@ -345,11 +345,7 @@ class Form extends Util.mixin(BindMixin) {
       // If it's a React element, we just want to return it. We need to add a
       // key to the object because we're iterating over a list of items.
       if (React.isValidElement(formControlOption)) {
-        return (
-          <span key={i}>
-            {formControlOption}
-          </span>
-        );
+        return <span key={i}>{formControlOption}</span>;
       }
 
       if (formControlOption.render && !formControlOption.definition) {
