@@ -18,7 +18,9 @@ A library of reusable React components. For examples, take a look at our
 
 1. From the command line inside of your project
 
-        npm install --save reactjs-components react react-gemini-scrollbar canvas-ui
+  ```
+  npm install --save reactjs-components react react-gemini-scrollbar canvas-ui
+  ```
 
 2. Import the component that you want to use
 
@@ -29,7 +31,6 @@ A library of reusable React components. For examples, take a look at our
   // es5
   var Modal = require('reactjs-components').Modal;
   ```
-
 
 3. Use as if it was any other component
 
