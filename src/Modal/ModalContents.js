@@ -153,21 +153,25 @@ class ModalContents extends Util.mixin(BindMixin) {
     let modalHeight = 0;
     let innerContentHeight = 0;
 
-    if (headerRef != null) {
-      headerHeight = Math.ceil(headerRef.getBoundingClientRect().height);
+    if (headerRef != null && headerRef.current != null) {
+      headerHeight = Math.ceil(
+        headerRef.current.getBoundingClientRect().height
+      );
     }
 
-    if (footerRef != null) {
-      footerHeight = Math.ceil(footerRef.getBoundingClientRect().height);
+    if (footerRef != null && footerRef.current != null) {
+      footerHeight = Math.ceil(
+        footerRef.current.getBoundingClientRect().height
+      );
     }
 
-    if (modalRef != null) {
-      modalHeight = Math.ceil(modalRef.getBoundingClientRect().height);
+    if (modalRef != null && modalRef.current != null) {
+      modalHeight = Math.ceil(modalRef.current.getBoundingClientRect().height);
     }
 
-    if (innerContentRef != null) {
+    if (innerContentRef != null && innerContentRef.current != null) {
       innerContentHeight = Math.ceil(
-        innerContentRef.getBoundingClientRect().height
+        innerContentRef.current.getBoundingClientRect().height
       );
     }
 
@@ -211,11 +215,14 @@ class ModalContents extends Util.mixin(BindMixin) {
       }
     }
 
-    if (innerContentContainerRef != null) {
-      innerContentContainerRef.style.height = nextInnerContentContainerHeight;
+    if (
+      innerContentContainerRef != null &&
+      innerContentContainerRef.current != null
+    ) {
+      innerContentContainerRef.current.style.height = nextInnerContentContainerHeight;
     }
-    if (modalRef != null) {
-      modalRef.style.height = nextModalHeight;
+    if (modalRef != null && modalRef.current != null) {
+      modalRef.current.style.height = nextModalHeight;
     }
 
     this.triggerGeminiUpdate();
@@ -355,8 +362,12 @@ class ModalContents extends Util.mixin(BindMixin) {
   }
 
   triggerGeminiUpdate() {
-    if (this.geminiRef != null && this.geminiRef.scrollbar != null) {
-      this.geminiRef.scrollbar.update();
+    if (
+      this.geminiRef != null &&
+      this.geminiRef.current != null &&
+      this.geminiRef.current.scrollbar != null
+    ) {
+      this.geminiRef.current.scrollbar.update();
     }
   }
 

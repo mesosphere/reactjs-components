@@ -161,8 +161,11 @@ class Dropdown extends Util.mixin(BindMixin) {
     const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
       this.dropdownWrapperRef
     );
-    const menuHeight =
-      this.state.menuHeight || this.dropdownMenuRef.firstChild.clientHeight;
+    const dropdownChildHeight =
+      this.dropdownMenuRef && this.dropdownMenuRef.current
+        ? this.dropdownMenuRef.current.firstChild.clientHeight
+        : 0;
+    const menuHeight = this.state.menuHeight || dropdownChildHeight;
     const isMenuTallerThanBottom =
       menuHeight > spaceAroundDropdownButton.bottom;
     const isMenuTallerThanTop = menuHeight > spaceAroundDropdownButton.top;
@@ -227,8 +230,12 @@ class Dropdown extends Util.mixin(BindMixin) {
     // If we don't already know the menu height, we need to set the menu
     // position to a default state to trigger its recalculation on the next
     // render.
-    if (this.state.menuHeight == null && this.dropdownWrapperRef) {
-      const buttonPosition = this.dropdownWrapperRef.getBoundingClientRect();
+    if (
+      this.state.menuHeight == null &&
+      this.dropdownWrapperRef &&
+      this.dropdownWrapperRef.current
+    ) {
+      const buttonPosition = this.dropdownWrapperRef.current.getBoundingClientRect();
 
       state.menuDirection = "down";
       state.menuPositionStyle = {

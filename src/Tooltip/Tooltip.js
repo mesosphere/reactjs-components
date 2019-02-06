@@ -147,7 +147,12 @@ class Tooltip extends Util.mixin(BindMixin) {
   }
 
   getIdealLocation(anchor, position) {
-    if (!this.triggerNode || !this.tooltipNode) {
+    if (
+      !this.triggerNode ||
+      !this.triggerNode.current ||
+      !this.tooltipNode ||
+      !this.tooltipNode.current
+    ) {
       return {
         anchor: "center",
         position: "top",
@@ -157,7 +162,7 @@ class Tooltip extends Util.mixin(BindMixin) {
 
     const isVertical = this.isVertical(position);
     const clearance = DOMUtil.getNodeClearance(this.triggerNode);
-    const tooltipRect = this.tooltipNode.getBoundingClientRect();
+    const tooltipRect = this.tooltipNode.current.getBoundingClientRect();
     const tooltipHeight = tooltipRect.height + ARROW_SIZE;
     const tooltipWidth = tooltipRect.width + ARROW_SIZE;
 

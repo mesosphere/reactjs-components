@@ -27,7 +27,9 @@ export default class Select extends React.Component {
     ).set;
     nativeInputValueSetter.call(this.input, selectedOption.id);
 
-    this.input.dispatchEvent(new Event("input", { bubbles: true }));
+    if (this.input && this.input.current) {
+      this.input.current.dispatchEvent(new Event("input", { bubbles: true }));
+    }
   }
 
   render() {
