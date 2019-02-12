@@ -5,6 +5,10 @@ import Dropdown from "../Dropdown/Dropdown";
 import DropdownListTrigger from "../Dropdown/DropdownListTrigger";
 
 export default class Select extends React.Component {
+  constructor() {
+    super();
+    this.input = React.createRef();
+  }
   buildItemsArray() {
     return React.Children.map(this.props.children, child => {
       return {
@@ -38,7 +42,7 @@ export default class Select extends React.Component {
         <input
           className="dropdown-select-input-value"
           name={this.props.name}
-          ref={input => (this.input = input)}
+          ref={this.input}
           style={{
             display: "none"
           }}

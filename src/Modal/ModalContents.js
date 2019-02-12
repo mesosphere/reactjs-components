@@ -29,6 +29,13 @@ class ModalContents extends Util.mixin(BindMixin) {
     this.state = {
       height: null
     };
+
+    this.footerRef = React.createRef();
+    this.geminiRef = React.createRef();
+    this.headerRef = React.createRef();
+    this.innerContentContainerRef = React.createRef();
+    this.innerContentRef = React.createRef();
+    this.modalRef = React.createRef();
   }
 
   get methodsToBind() {
@@ -250,10 +257,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div
-        className={props.headerClass}
-        ref={element => (this.headerRef = element)}
-      >
+      <div className={props.headerClass} ref={this.headerRef}>
         {props.header}
         {props.subHeader}
       </div>
@@ -268,10 +272,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div
-        className={props.footerClass}
-        ref={element => (this.footerRef = element)}
-      >
+      <div className={props.footerClass} ref={this.footerRef}>
         {props.footer}
       </div>
     );
@@ -281,10 +282,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     const { props, state } = this;
 
     const modalContent = (
-      <div
-        className={props.scrollContainerClass}
-        ref={element => (this.innerContentRef = element)}
-      >
+      <div className={props.scrollContainerClass} ref={this.innerContentRef}>
         {props.children}
       </div>
     );
@@ -310,7 +308,7 @@ class ModalContents extends Util.mixin(BindMixin) {
       <GeminiScrollbar
         autoshow={false}
         className={geminiClasses}
-        ref={element => (this.geminiRef = element)}
+        ref={this.geminiRef}
         style={geminiContainerStyle}
       >
         {modalContent}
@@ -331,16 +329,13 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <div
-        ref={element => (this.modalRef = element)}
-        className={props.modalClass}
-      >
+      <div ref={this.modalRef} className={props.modalClass}>
         {this.getCloseButton()}
         {this.getHeader()}
         <div
           className={props.bodyClass}
           style={modalBodyStyle}
-          ref={element => (this.innerContentContainerRef = element)}
+          ref={this.innerContentContainerRef}
         >
           {this.getModalContent()}
         </div>

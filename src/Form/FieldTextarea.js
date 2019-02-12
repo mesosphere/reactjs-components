@@ -23,6 +23,8 @@ class FieldTextarea extends FieldInput {
 
     this.state = { height: this.props.minHeight };
     this.updateTextareaHeight = throttle(this.updateTextareaHeight, 100);
+
+    this.inputElementRef = React.createRef();
   }
 
   componentDidMount() {
@@ -92,7 +94,7 @@ class FieldTextarea extends FieldInput {
           style={{ height: `${this.state.height}px` }}
         >
           <div
-            ref={el => (this.inputElementRef = el)}
+            ref={this.inputElementRef}
             className={classes}
             {...attributes}
             contentEditable={true}
@@ -106,7 +108,7 @@ class FieldTextarea extends FieldInput {
     } else {
       inputContent = (
         <span
-          ref={el => (this.inputElementRef = el)}
+          ref={this.inputElementRef}
           {...attributes}
           className={classes}
           onClick={attributes.onFocus}

@@ -29,18 +29,20 @@ describe("Tooltip", function() {
   });
 
   it("should render with the intended class", function() {
-    expect(this.instance.tooltipNode.classList.contains("foo")).toBeTruthy();
+    expect(
+      this.instance.tooltipNode.current.classList.contains("foo")
+    ).toBeTruthy();
   });
 
   it("should render with the intended position as a class", function() {
     expect(
-      this.instance.tooltipNode.classList.contains("position-bottom")
+      this.instance.tooltipNode.current.classList.contains("position-bottom")
     ).toBeTruthy();
   });
 
   it("should render with the intended anchor as a class", function() {
     expect(
-      this.instance.tooltipNode.classList.contains("anchor-start")
+      this.instance.tooltipNode.current.classList.contains("anchor-start")
     ).toBeTruthy();
   });
 
