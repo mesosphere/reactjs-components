@@ -30,6 +30,5 @@ install:
   - ./install_react.sh
 env:
   matrix:
-    - REACT_VERSION=15.6
     - REACT_VERSION=16.7
     - REACT_VERSION=16.8
