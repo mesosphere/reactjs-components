@@ -47,13 +47,16 @@ const getClassName = (column, sortBy, data, columns) => {
 
 class Table extends React.Component {
   constructor() {
-    super();
+    super(...arguments);
+
     this.state = {
       sortBy: {}
     };
     this.cachedCells = {};
     this.cachedIDs = [];
     this.container = window;
+
+    this.itemHeightContainer = React.createRef();
   }
 
   componentWillMount() {
@@ -104,11 +107,14 @@ class Table extends React.Component {
     if (
       props.itemHeight == null &&
       state.itemHeight == null &&
-      this.itemHeightContainer != null
+      this.itemHeightContainer &&
+      this.itemHeightContainer.current
     ) {
       // Calculate content height only once and when node is ready
       const itemHeight = DOMUtil.getComputedDimensions(
-        ReactDOM.findDOMNode(this.itemHeightContainer).querySelector("tr")
+        ReactDOM.findDOMNode(this.itemHeightContainer.current).querySelector(
+          "tr"
+        )
       ).height;
       this.setState({ itemHeight });
     }
@@ -275,11 +281,7 @@ class Table extends React.Component {
         -1
       );
 
-      return (
-        <tbody ref={el => (this.itemHeightContainer = el)}>
-          {childToMeasure}
-        </tbody>
-      );
+      return <tbody ref={this.itemHeightContainer}>{childToMeasure}</tbody>;
     }
 
     if (data.length === 0) {

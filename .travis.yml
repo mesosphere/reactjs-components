@@ -6,6 +6,14 @@ node_js:
 
 jobs:
   include:
+    - stage: lint
+      name: "Lint && Dist"
+      script:
+        - npm run lint && npm run dist
+    - stage: test
+      name: "Unit tests"
+      script:
+        - npm run test
     # Define the release stage that runs semantic-release
     - stage: release
       node_js: lts/*
@@ -22,5 +30,5 @@ install:
   - ./install_react.sh
 env:
   matrix:
-    - REACT_VERSION=15.6
     - REACT_VERSION=16.7
+    - REACT_VERSION=16.8

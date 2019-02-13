@@ -52,6 +52,8 @@ class VirtualList extends React.Component {
     METHODS_TO_BIND.forEach(method => {
       this[method] = this[method].bind(this);
     });
+
+    this.listRef = React.createRef();
   }
 
   componentDidMount() {
@@ -185,9 +187,9 @@ class VirtualList extends React.Component {
       viewTop = DOMUtil.getScrollTop(container) || 0;
     }
 
-    if (this.listRef) {
+    if (this.listRef && this.listRef.current) {
       const listBounding = ReactDOM.findDOMNode(
-        this.listRef
+        this.listRef.current
       ).getBoundingClientRect();
 
       const elementTop =
@@ -248,7 +250,7 @@ class VirtualList extends React.Component {
     );
 
     return (
-      <props.tagName ref={el => (this.listRef = el)} {...htmlAttributes}>
+      <props.tagName ref={this.listRef} {...htmlAttributes}>
         {safeCall(() => props.renderBufferItem(topStyles))}
         {this.getItemsToRender(props, state)}
         {safeCall(() => props.renderBufferItem(bottomStyles))}

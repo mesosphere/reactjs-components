@@ -82,10 +82,15 @@ class Docs extends Util.mixin(BindMixin) {
     };
     this.sectionScrollPositions = {};
     this.state = {
-      activeSection: null,
-      pageRef: null
+      activeSection: null
     };
     this.viewportHeight = 0;
+
+    this.pageRef = React.createRef();
+    this.nodeRefs.pageHeader = React.createRef();
+    navigationItems.forEach(
+      ({ id }) => (this.nodeRefs.sectionRefs[id] = React.createRef())
+    );
   }
 
   componentDidMount() {
@@ -97,17 +102,16 @@ class Docs extends Util.mixin(BindMixin) {
   }
 
   handleNavigationClick(id) {
-    const { pageRef } = this.state;
     const sectionPosition = this.sectionScrollPositions[id];
 
-    if (pageRef && sectionPosition != null) {
-      pageRef.scrollTop = sectionPosition;
+    if (this.pageRef.current && sectionPosition != null) {
+      this.pageRef.current.scrollTop = sectionPosition;
     }
   }
 
   handlePageScroll() {
     let activeSection = null;
-    const pageScrollTop = this.state.pageRef.scrollTop;
+    const pageScrollTop = this.pageRef.current.scrollTop;
     const scrollThreshhold = pageScrollTop + this.viewportHeight / 2;
 
     Object.keys(this.sectionScrollPositions).forEach(ref => {
@@ -122,18 +126,13 @@ class Docs extends Util.mixin(BindMixin) {
     }
   }
 
-  setPageRef(pageRef) {
-    if (this.state.pageRef === null) {
-      this.setState({ pageRef });
-    }
-  }
-
   calculateNodePositions() {
-    const pageHeaderHeight = this.nodeRefs.pageHeader.offsetHeight;
+    const pageHeaderHeight = this.nodeRefs.pageHeader.current.offsetHeight;
     this.viewportHeight = DOMUtil.getViewportHeight();
 
     Object.keys(this.nodeRefs.sectionRefs).forEach(ref => {
-      const top = this.nodeRefs.sectionRefs[ref].offsetTop + pageHeaderHeight;
+      const top =
+        this.nodeRefs.sectionRefs[ref].current.offsetTop + pageHeaderHeight;
       this.sectionScrollPositions[ref] = top;
     });
   }
@@ -162,26 +161,20 @@ class Docs extends Util.mixin(BindMixin) {
 
   render() {
     let docsContent = null;
-    const { pageRef } = this.state;
 
     // Delay the rendering of the components until we have a reference to the
     // scrolling container's DOM node.
-    if (pageRef !== null) {
+    if (this.pageRef !== null) {
       docsContent = navigationItems.map((navigationItem, index) => {
         const { id, passScrollContainer } = navigationItem;
         const props = {};
 
         if (passScrollContainer) {
-          props.scrollContainer = pageRef;
+          props.scrollContainer = this.pageRef;
         }
 
         return (
-          <div
-            key={index}
-            ref={ref => {
-              this.nodeRefs.sectionRefs[id] = ref;
-            }}
-          >
+          <div key={index} ref={this.nodeRefs.sectionRefs[id]}>
             <navigationItem.component {...props} />
           </div>
         );
@@ -206,12 +199,12 @@ class Docs extends Util.mixin(BindMixin) {
           className="page flex-item-grow-1"
           id="page"
           onScroll={this.handlePageScroll}
-          ref={ref => this.setPageRef(ref)}
+          ref={this.pageRef}
         >
           <div
             id="page-header"
             className="page-header fill fill-light left"
-            ref={ref => (this.nodeRefs.pageHeader = ref)}
+            ref={this.nodeRefs.pageHeader}
           >
             <div id="page-header-inner" className="page-header-inner">
               <div className="container-fluid pod">
