@@ -87,7 +87,7 @@ class Docs extends Util.mixin(BindMixin) {
     this.viewportHeight = 0;
 
     this.pageRef = React.createRef();
-    this.nodeRefs.sectionRefs.pageHeader = React.createRef();
+    this.nodeRefs.pageHeader = React.createRef();
     navigationItems.forEach(
       ({ id }) => (this.nodeRefs.sectionRefs[id] = React.createRef())
     );
@@ -104,7 +104,7 @@ class Docs extends Util.mixin(BindMixin) {
   handleNavigationClick(id) {
     const sectionPosition = this.sectionScrollPositions[id];
 
-    if (this.pageRef && sectionPosition != null) {
+    if (this.pageRef.current && sectionPosition != null) {
       this.pageRef.current.scrollTop = sectionPosition;
     }
   }
@@ -127,7 +127,7 @@ class Docs extends Util.mixin(BindMixin) {
   }
 
   calculateNodePositions() {
-    const pageHeaderHeight = this.nodeRefs.pageHeader.offsetHeight;
+    const pageHeaderHeight = this.nodeRefs.pageHeader.current.offsetHeight;
     this.viewportHeight = DOMUtil.getViewportHeight();
 
     Object.keys(this.nodeRefs.sectionRefs).forEach(ref => {
