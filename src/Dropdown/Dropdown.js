@@ -135,7 +135,9 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   addScrollListener() {
-    this.container.addEventListener("scroll", this.closeDropdown);
+    if (this.container && this.container.current) {
+      this.container.current.addEventListener("scroll", this.closeDropdown);
+    }
   }
 
   removeKeydownListener() {
@@ -143,8 +145,8 @@ class Dropdown extends Util.mixin(BindMixin) {
   }
 
   removeScrollListener() {
-    if (this.container) {
-      this.container.removeEventListener("scroll", this.closeDropdown);
+    if (this.container && this.container.current) {
+      this.container.current.removeEventListener("scroll", this.closeDropdown);
     }
   }
 
