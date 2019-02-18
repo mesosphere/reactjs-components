@@ -68,8 +68,8 @@ class FieldInput extends Util.mixin(BindMixin) {
 
       const inputNode = ReactDOM.findDOMNode(this.inputElementRef.current);
 
-      if(inputNode) {
-        ReactDOM.findDOMNode(this.inputElementRef.current).blur();
+      if (inputNode) {
+        inputNode.blur();
       }
     }
   }
