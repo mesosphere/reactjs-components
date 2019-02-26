@@ -10,7 +10,8 @@ import PropTypes from "prop-types";
  * interaction changes open to true -> render modal content without scrollbars
  * get height of content -> rerender modal content and cap the height
  */
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+
+import { CSSTransition } from "react-transition-group";
 
 import BindMixin from "../Mixin/BindMixin";
 import DOMUtil from "../Util/DOMUtil";
