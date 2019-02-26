@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CSSTransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import Util from "../Util/Util";
 
@@ -14,13 +14,9 @@ class ListItem extends React.Component {
 
     if (props.transition) {
       return (
-        <CSSTransitionGroup
-          {...htmlAttributes}
-          className={props.className}
-          component={props.tag}
-        >
-          {props.children}
-        </CSSTransitionGroup>
+        <CSSTransition {...htmlAttributes} className={props.className}>
+          <Tag>{props.children}</Tag>
+        </CSSTransition>
       );
     }
 
