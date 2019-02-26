@@ -23,10 +23,10 @@ describe("VirtualList", function() {
         items={[1]}
         itemHeight={10}
         renderItem={function(item) {
-          return <span>item</span>;
+          return <span key={Math.random()}>item</span>;
         }}
         renderBufferItem={function(item) {
-          return <span>item</span>;
+          return <span key={Math.random()}>item</span>;
         }}
       />,
       this.container
