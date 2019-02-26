@@ -9,7 +9,7 @@
   }
 }
 
-@keyframes dropdown-down-leave {
+@keyframes dropdown-down-exit {
 
   0% {
     transform: translateY(0);
@@ -31,7 +31,7 @@
   }
 }
 
-@keyframes dropdown-up-leave {
+@keyframes dropdown-up-exit {
 
   0% {
     transform: translateY(0);
@@ -153,8 +153,8 @@
   animation: dropdown-fade-in 250ms both, dropdown-down-enter 250ms both;
 }
 
-.dropdown-menu-down-leave {
-  animation: dropdown-fade-out 250ms both, dropdown-down-leave 250ms both;
+.dropdown-menu-down-exit {
+  animation: dropdown-fade-out 250ms both, dropdown-down-exit 250ms both;
   z-index: 3;
 }
 
@@ -162,8 +162,8 @@
   animation: dropdown-fade-in 250ms both, dropdown-up-enter 250ms both;
 }
 
-.dropdown-menu-up-leave {
-  animation: dropdown-fade-out 250ms both, dropdown-up-leave 250ms both;
+.dropdown-menu-up-exit {
+  animation: dropdown-fade-out 250ms both, dropdown-up-exit 250ms both;
   z-index: 3;
 }
 

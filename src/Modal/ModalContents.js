@@ -6,11 +6,11 @@ import React from "react";
 import PropTypes from "prop-types";
 /**
  * Lifecycle of a Modal:
- * initial page load -> empty ReactCSSTransitionGroup
+ * initial page load -> empty TransitionGroup
  * interaction changes open to true -> render modal content without scrollbars
  * get height of content -> rerender modal content and cap the height
  */
-import { CSSTransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import BindMixin from "../Mixin/BindMixin";
 import DOMUtil from "../Util/DOMUtil";
@@ -380,18 +380,19 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
 
     return (
-      <CSSTransitionGroup
-        transitionAppear={props.transitionAppear}
-        transitionEnter={props.transitionEnter}
-        transitionLeave={props.transitionLeave}
-        transitionName={props.transitionNameModal}
-        transitionAppearTimeout={props.transitionAppearTimeoutModal}
-        transitionEnterTimeout={props.transitionEnterTimeoutModal}
-        transitionLeaveTimeout={props.transitionLeaveTimeoutModal}
-        component="div"
+      <CSSTransition
+        appear={props.transitionAppear}
+        enter={props.transitionEnter}
+        exit={props.transitionExit}
+        classNames={props.transitionNameModal}
+        timeout={{
+          enter: props.transitionEnterTimeout,
+          exit: props.transitionExitTimeout,
+          appear: props.transitionAppearTimeoutModal
+        }}
       >
-        {modalContent}
-      </CSSTransitionGroup>
+        <div>{modalContent}</div>
+      </CSSTransition>
     );
   }
 }
@@ -409,10 +410,10 @@ ModalContents.defaultProps = {
   transitionNameModal: "modal",
   transitionAppearTimeoutModal: 300,
   transitionEnterTimeoutModal: 300,
-  transitionLeaveTimeoutModal: 300,
+  transitionExitTimeoutModal: 300,
   transitionAppear: true,
   transitionEnter: true,
-  transitionLeave: true,
+  transitionExit: true,
   useGemini: true,
 
   // Default classes.
@@ -455,11 +456,11 @@ ModalContents.propTypes = {
   // Transition lengths, must be non-zero
   transitionAppearTimeoutModal: PropTypes.number,
   transitionEnterTimeoutModal: PropTypes.number,
-  transitionLeaveTimeoutModal: PropTypes.number,
+  transitionExitTimeoutModal: PropTypes.number,
   // Optionally disable transitions
   transitionAppear: PropTypes.bool,
   transitionEnter: PropTypes.bool,
-  transitionLeave: PropTypes.bool,
+  transitionExit: PropTypes.bool,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
 

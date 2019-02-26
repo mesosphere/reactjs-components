@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CSSTransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 
 import ListItem from "./ListItem";
 import Util from "../Util/Util";
@@ -16,7 +16,7 @@ class List extends React.Component {
         "content",
         "transitionName",
         "transitionEnterTimeout",
-        "transitionLeaveTimeout"
+        "transitionExitTimeout"
       ]);
 
       if (Util.isArrayLike(item.content)) {
@@ -26,9 +26,11 @@ class List extends React.Component {
             key={key}
             tag={item.tag}
             transition={true}
-            transitionName={props.transitionName}
-            transitionEnterTimeout={props.transitionEnterTimeout}
-            transitionLeaveTimeout={props.transitionLeaveTimeout}
+            timeout={{
+              enter: props.transitionEnterTimeout,
+              exit: props.transitionExitTimeout
+            }}
+            classNames={props.transitionName}
           >
             {this.getListItems(item.content, childIndex)}
           </ListItem>
@@ -54,16 +56,16 @@ class List extends React.Component {
 
     if (props.transition) {
       return (
-        <CSSTransitionGroup
-          {...htmlAttributes}
+        <CSSTransition
           className={props.className}
-          component={Tag}
-          transitionName={props.transitionName}
-          transitionEnterTimeout={props.transitionEnterTimeout}
-          transitionLeaveTimeout={props.transitionLeaveTimeout}
+          classNames={props.transitionName}
+          timeout={{
+            exit: props.transitionExitTimeout,
+            enter: props.transitionEnterTimeout
+          }}
         >
-          {this.getListItems(props.content)}
-        </CSSTransitionGroup>
+          <Tag>{this.getListItems(props.content)}</Tag>
+        </CSSTransition>
       );
     }
 
@@ -81,7 +83,7 @@ List.defaultProps = {
   transition: true,
   transitionName: "list-item",
   transitionEnterTimeout: 500,
-  transitionLeaveTimeout: 500
+  transitionExitTimeout: 500
 };
 
 List.propTypes = {
@@ -109,7 +111,7 @@ List.propTypes = {
   transitionName: PropTypes.string,
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
-  transitionLeaveTimeout: PropTypes.number
+  transitionExitTimeout: PropTypes.number
 };
 
 module.exports = List;

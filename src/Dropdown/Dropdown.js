@@ -2,7 +2,7 @@ import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
 import React from "react";
 import PropTypes from "prop-types";
-import { CSSTransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import ReactDOM from "react-dom";
 
 import BindMixin from "../Mixin/BindMixin";
@@ -383,6 +383,7 @@ class Dropdown extends Util.mixin(BindMixin) {
 
       dropdownMenu = (
         <span
+          key="dropdown-menu-key"
           className={dropdownMenuClassSet}
           role="menu"
           ref={this.setDropdownMenuRef}
@@ -405,13 +406,15 @@ class Dropdown extends Util.mixin(BindMixin) {
 
     if (props.transition) {
       dropdownMenu = (
-        <CSSTransitionGroup
-          transitionName={transitionName}
-          transitionEnterTimeout={props.transitionEnterTimeout}
-          transitionLeaveTimeout={props.transitionLeaveTimeout}
+        <CSSTransition
+          classNames={transitionName}
+          timeout={{
+            enter: props.transitionEnterTimeout,
+            exit: props.transitionExitTimeout
+          }}
         >
           {dropdownMenu}
-        </CSSTransitionGroup>
+        </CSSTransition>
       );
     }
 
@@ -442,7 +445,7 @@ Dropdown.defaultProps = {
   transition: false,
   transitionName: "dropdown-menu",
   transitionEnterTimeout: 250,
-  transitionLeaveTimeout: 250,
+  transitionExitTimeout: 250,
   onItemSelection: () => {},
   useGemini: true,
   trigger: <DropdownListTrigger />,
@@ -491,7 +494,7 @@ Dropdown.propTypes = {
   transitionName: PropTypes.string,
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
-  transitionLeaveTimeout: PropTypes.number,
+  transitionExitTimeout: PropTypes.number,
   trigger: PropTypes.element,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
