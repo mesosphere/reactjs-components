@@ -382,6 +382,7 @@ class ModalContents extends Util.mixin(BindMixin) {
 
     return (
       <CSSTransition
+        in={props.open}
         appear={props.transitionAppear}
         enter={props.transitionEnter}
         exit={props.transitionExit}

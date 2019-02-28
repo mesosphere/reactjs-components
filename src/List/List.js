@@ -57,6 +57,7 @@ class List extends React.Component {
     if (props.transition) {
       return (
         <CSSTransition
+          in={true}
           className={props.className}
           classNames={props.transitionName}
           timeout={{

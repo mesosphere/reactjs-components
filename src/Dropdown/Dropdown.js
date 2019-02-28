@@ -396,17 +396,18 @@ class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
-    if (state.renderHidden) {
-      dropdownMenu = (
-        <div key="concealer" className="dropdown-menu-concealer">
-          {dropdownMenu}
-        </div>
-      );
-    }
+    // if (state.renderHidden) {
+    //   dropdownMenu = (
+    //     <div key="concealer" className="dropdown-menu-concealer">
+    //       {dropdownMenu}
+    //     </div>
+    //   );
+    // }
 
     if (props.transition) {
       dropdownMenu = (
         <CSSTransition
+          in={state.isOpen && !state.renderHidden}
           classNames={transitionName}
           timeout={{
             enter: props.transitionEnterTimeout,
