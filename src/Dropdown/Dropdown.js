@@ -20,9 +20,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       "handleExternalClick",
       "handleKeyDown",
       "handleMenuRender",
-      "handleWrapperBlur",
-      "setDropdownMenuRef",
-      "setDropdownWrapperRef"
+      "handleWrapperBlur"
     ];
   }
 
@@ -38,6 +36,8 @@ class Dropdown extends Util.mixin(BindMixin) {
       renderHidden: false,
       selectedID: null
     };
+    this.dropdownMenuRef = React.createRef();
+    this.dropdownWrapperRef = React.createRef();
   }
 
   componentWillMount() {
@@ -161,7 +161,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     let menuDirection = this.state.menuDirection;
     const menuPositionStyle = {};
     const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
-      this.dropdownWrapperRef
+      this.dropdownWrapperRef.current
     );
     const dropdownChildHeight =
       this.dropdownMenuRef && this.dropdownMenuRef.current
@@ -174,7 +174,6 @@ class Dropdown extends Util.mixin(BindMixin) {
     const isMenuShorterThanTop = !isMenuTallerThanTop;
     const isTopTallerThanBottom =
       spaceAroundDropdownButton.top > spaceAroundDropdownButton.bottom;
-
     // If the menu height is larger than the space available on the bottom and
     // less than the space available on top, then render it up. If the height
     // of the menu exceeds the space below and above, but there is more space
@@ -317,14 +316,6 @@ class Dropdown extends Util.mixin(BindMixin) {
     );
   }
 
-  setDropdownMenuRef(element) {
-    this.dropdownMenuRef = element;
-  }
-
-  setDropdownWrapperRef(element) {
-    this.dropdownWrapperRef = element;
-  }
-
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
@@ -386,7 +377,7 @@ class Dropdown extends Util.mixin(BindMixin) {
           key="dropdown-menu-key"
           className={dropdownMenuClassSet}
           role="menu"
-          ref={this.setDropdownMenuRef}
+          ref={this.dropdownMenuRef}
           style={state.menuPositionStyle}
         >
           <div className={props.dropdownMenuListClassName}>
@@ -396,18 +387,16 @@ class Dropdown extends Util.mixin(BindMixin) {
       );
     }
 
-    // if (state.renderHidden) {
-    //   dropdownMenu = (
-    //     <div key="concealer" className="dropdown-menu-concealer">
-    //       {dropdownMenu}
-    //     </div>
-    //   );
-    // }
-
-    if (props.transition) {
+    if (state.renderHidden) {
+      dropdownMenu = (
+        <div key="concealer" className="dropdown-menu-concealer">
+          {dropdownMenu}
+        </div>
+      );
+    } else if (props.transition) {
       dropdownMenu = (
         <CSSTransition
-          in={state.isOpen && !state.renderHidden}
+          in={state.isOpen}
           classNames={transitionName}
           timeout={{
             enter: props.transitionEnterTimeout,
@@ -424,7 +413,7 @@ class Dropdown extends Util.mixin(BindMixin) {
         className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
-        ref={this.setDropdownWrapperRef}
+        ref={this.dropdownWrapperRef}
       >
         {React.cloneElement(trigger, {
           selectedItem: this.getSelectedItem(this.getSelectedID(), items),
