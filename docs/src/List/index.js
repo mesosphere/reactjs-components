@@ -115,11 +115,7 @@ class ListExample extends React.Component {
           <ComponentExample>
             <div className="row row-flex">
               <div className="column-9">
-                <List
-                  transition={true}
-                  content={this.getComplexNestedList()}
-                  tag="ol"
-                />
+                <List content={this.getComplexNestedList()} tag="ol" />
               </div>
               <div className="column-3">
                 <button
