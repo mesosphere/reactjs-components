@@ -56,6 +56,8 @@ class Table extends React.Component {
     this.cachedIDs = [];
     this.container = window;
 
+    this.containerRef = React.createRef();
+    this.headersRef = React.createRef();
     this.itemHeightContainer = React.createRef();
   }
 
@@ -316,8 +318,8 @@ class Table extends React.Component {
     const itemHeight = state.itemHeight || props.itemHeight || 0;
 
     return (
-      <div ref="container">
-        <table ref="headers" className={classes}>
+      <div ref={this.containerRef}>
+        <table ref={this.headersRef} className={classes}>
           {props.colGroup}
           <thead>
             <tr>{this.getHeaders(columns, sortBy)}</tr>

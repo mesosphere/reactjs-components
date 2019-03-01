@@ -2,7 +2,7 @@ import classNames from "classnames";
 import GeminiScrollbar from "react-gemini-scrollbar";
 import React from "react";
 import PropTypes from "prop-types";
-import { CSSTransitionGroup } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import ReactDOM from "react-dom";
 
 import BindMixin from "../Mixin/BindMixin";
@@ -20,9 +20,7 @@ class Dropdown extends Util.mixin(BindMixin) {
       "handleExternalClick",
       "handleKeyDown",
       "handleMenuRender",
-      "handleWrapperBlur",
-      "setDropdownMenuRef",
-      "setDropdownWrapperRef"
+      "handleWrapperBlur"
     ];
   }
 
@@ -38,6 +36,8 @@ class Dropdown extends Util.mixin(BindMixin) {
       renderHidden: false,
       selectedID: null
     };
+    this.dropdownMenuRef = React.createRef();
+    this.dropdownWrapperRef = React.createRef();
   }
 
   componentWillMount() {
@@ -161,7 +161,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     let menuDirection = this.state.menuDirection;
     const menuPositionStyle = {};
     const spaceAroundDropdownButton = DOMUtil.getNodeClearance(
-      this.dropdownWrapperRef
+      this.dropdownWrapperRef.current
     );
     const dropdownChildHeight =
       this.dropdownMenuRef && this.dropdownMenuRef.current
@@ -174,7 +174,6 @@ class Dropdown extends Util.mixin(BindMixin) {
     const isMenuShorterThanTop = !isMenuTallerThanTop;
     const isTopTallerThanBottom =
       spaceAroundDropdownButton.top > spaceAroundDropdownButton.bottom;
-
     // If the menu height is larger than the space available on the bottom and
     // less than the space available on top, then render it up. If the height
     // of the menu exceeds the space below and above, but there is more space
@@ -317,14 +316,6 @@ class Dropdown extends Util.mixin(BindMixin) {
     );
   }
 
-  setDropdownMenuRef(element) {
-    this.dropdownMenuRef = element;
-  }
-
-  setDropdownWrapperRef(element) {
-    this.dropdownWrapperRef = element;
-  }
-
   render() {
     // Set a key based on the menu height so that React knows to keep the
     // the DOM element around while we are measuring it.
@@ -383,9 +374,10 @@ class Dropdown extends Util.mixin(BindMixin) {
 
       dropdownMenu = (
         <span
+          key="dropdown-menu-key"
           className={dropdownMenuClassSet}
           role="menu"
-          ref={this.setDropdownMenuRef}
+          ref={this.dropdownMenuRef}
           style={state.menuPositionStyle}
         >
           <div className={props.dropdownMenuListClassName}>
@@ -401,17 +393,18 @@ class Dropdown extends Util.mixin(BindMixin) {
           {dropdownMenu}
         </div>
       );
-    }
-
-    if (props.transition) {
+    } else if (props.transition) {
       dropdownMenu = (
-        <CSSTransitionGroup
-          transitionName={transitionName}
-          transitionEnterTimeout={props.transitionEnterTimeout}
-          transitionLeaveTimeout={props.transitionLeaveTimeout}
+        <CSSTransition
+          in={state.isOpen}
+          classNames={transitionName}
+          timeout={{
+            enter: props.transitionEnterTimeout,
+            exit: props.transitionExitTimeout
+          }}
         >
           {dropdownMenu}
-        </CSSTransitionGroup>
+        </CSSTransition>
       );
     }
 
@@ -420,7 +413,7 @@ class Dropdown extends Util.mixin(BindMixin) {
         className={wrapperClassSet}
         tabIndex="1"
         onBlur={this.handleWrapperBlur}
-        ref={this.setDropdownWrapperRef}
+        ref={this.dropdownWrapperRef}
       >
         {React.cloneElement(trigger, {
           selectedItem: this.getSelectedItem(this.getSelectedID(), items),
@@ -442,7 +435,7 @@ Dropdown.defaultProps = {
   transition: false,
   transitionName: "dropdown-menu",
   transitionEnterTimeout: 250,
-  transitionLeaveTimeout: 250,
+  transitionExitTimeout: 250,
   onItemSelection: () => {},
   useGemini: true,
   trigger: <DropdownListTrigger />,
@@ -491,7 +484,7 @@ Dropdown.propTypes = {
   transitionName: PropTypes.string,
   // Transition lengths
   transitionEnterTimeout: PropTypes.number,
-  transitionLeaveTimeout: PropTypes.number,
+  transitionExitTimeout: PropTypes.number,
   trigger: PropTypes.element,
   // Option to use Gemini scrollbar. Defaults to true.
   useGemini: PropTypes.bool,
