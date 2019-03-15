@@ -7,10 +7,6 @@
     "email": "web-public@mesosphere.com",
     "url": "http://www.mesosphere.com"
   },
-  "engines": {
-    "node": "8.15.x",
-    "npm": "6.8.x"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/mesosphere/reactjs-components"
