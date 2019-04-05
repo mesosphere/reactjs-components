@@ -59,24 +59,26 @@ class VirtualList extends React.Component {
   componentDidMount() {
     // Make sure to trigger this scroll event and make necessary adjustments
     // before (useCapture = true) any other scroll event is handled
-    this.props.container.addEventListener("scroll", this.onScroll, true);
+    // this.props.container.addEventListener("scroll", this.onScroll, true);
+    this.interval = setInterval(this.onScroll, 1000);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.container !== nextProps.container) {
-      this.props.container.removeEventListener("scroll", this.onScroll, true);
-      // Make sure to trigger this scroll event and make necessary adjustments
-      // before (useCapture = true) any other scroll event is handled
-      nextProps.container.addEventListener("scroll", this.onScroll, true);
-    }
+    // if (this.props.container !== nextProps.container) {
+    //   this.props.container.removeEventListener("scroll", this.onScroll, true);
+    //   // Make sure to trigger this scroll event and make necessary adjustments
+    //   // before (useCapture = true) any other scroll event is handled
+    //   nextProps.container.addEventListener("scroll", this.onScroll, true);
+    // }
 
     const state = this.getVirtualState(nextProps);
     this.setState(state);
   }
 
   componentWillUnmount() {
-    const props = this.props;
-    props.container.removeEventListener("scroll", this.onScroll, true);
+    // const props = this.props;
+    // props.container.removeEventListener("scroll", this.onScroll, true);
+    clearInterval(this.interval);
   }
 
   onScroll() {
@@ -148,7 +150,8 @@ class VirtualList extends React.Component {
   }
 
   getItemsToRender(props, state) {
-    return state.items.map(function(item, index) {
+    console.log("getItemsToRender");
+    const ret = state.items.map(function(item, index) {
       return safeCall(() => {
         return props.renderItem(
           item,
@@ -157,6 +160,8 @@ class VirtualList extends React.Component {
         );
       });
     });
+    console.log("getItemsToRender2");
+    return ret;
   }
 
   getVirtualState(props) {

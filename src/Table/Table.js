@@ -289,36 +289,25 @@ class Table extends React.Component {
     if (data.length === 0) {
       return <tbody>{this.getEmptyRowCell(columns)}</tbody>;
     }
-
-    return (
-      <VirtualList
-        className="table-virtual-list"
-        container={this.container}
-        itemBuffer={70}
-        itemHeight={itemHeight}
-        items={sortData(columns, data, sortBy)}
-        renderBufferItem={this.getBufferItem.bind(this, columns)}
-        renderItem={this.getRowCells.bind(
-          this,
-          columns,
-          sortBy,
-          buildRowOptions
-        )}
-        scrollDelay={200}
-        tagName="tbody"
-      />
-    );
+    console.log("gettbody")
+    return (<tbody>{data.map(item => this.getRowCells.bind(
+      this,
+      columns,
+      sortBy,
+      buildRowOptions
+    )(item))}</tbody>);
   }
 
   render() {
+    console.log("table#render");
     const { props, state } = this;
     const { columns, data } = props;
     const classes = classNames(props.className, "flush-bottom");
     const sortBy = state.sortBy;
     const itemHeight = state.itemHeight || props.itemHeight || 0;
 
-    return (
-      <div ref={this.containerRef}>
+    const ret = (
+      <div>
         <table ref={this.headersRef} className={classes}>
           {props.colGroup}
           <thead>
@@ -328,6 +317,7 @@ class Table extends React.Component {
         </table>
       </div>
     );
+    return ret;
   }
 }
 
