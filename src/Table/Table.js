@@ -271,7 +271,7 @@ class Table extends React.Component {
   }
 
   getTBody(columns, data, sortBy, itemHeight) {
-    const buildRowOptions = this.props.buildRowOptions;
+    const { buildRowOptions, virtualizeDataThreshold } = this.props;
     let childToMeasure;
 
     if (itemHeight === 0 && data.length) {
@@ -290,13 +290,32 @@ class Table extends React.Component {
       return <tbody>{this.getEmptyRowCell(columns)}</tbody>;
     }
 
+    const sortedData = sortData(columns, data, sortBy);
+
+    if (data.length < virtualizeDataThreshold) {
+      // Do not use virtual list for "small" data sets
+      return (
+        <tbody>
+          {sortedData.map((item, index) => {
+            return this.getRowCells(
+              columns,
+              sortBy,
+              buildRowOptions,
+              item,
+              index
+            );
+          })}
+        </tbody>
+      );
+    }
+
     return (
       <VirtualList
         className="table-virtual-list"
         container={this.container}
         itemBuffer={70}
         itemHeight={itemHeight}
-        items={sortData(columns, data, sortBy)}
+        items={sortedData}
         renderBufferItem={this.getBufferItem.bind(this, columns)}
         renderItem={this.getRowCells.bind(
           this,
@@ -336,7 +355,8 @@ Table.defaultProps = {
     return {};
   },
   sortBy: {},
-  emptyMessage: "No data"
+  emptyMessage: "No data",
+  virtualizeDataThreshold: 1000
 };
 
 Table.propTypes = {
@@ -405,7 +425,10 @@ Table.propTypes = {
   sortBy: PropTypes.shape({
     order: PropTypes.oneOf(["asc", "desc"]),
     prop: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-  })
+  }),
+
+  // Optional cutoff at which to begin rendering a virtualized list
+  virtualizeDataThreshold: PropTypes.number
 };
 
 module.exports = Table;

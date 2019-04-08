@@ -101,8 +101,8 @@ describe("Table", function() {
         "tr"
       );
 
-      expect(tableRows[2].children[0].textContent).toEqual("Zach");
-      expect(tableRows[6].children[0].textContent).toEqual("Francis");
+      expect(tableRows[1].children[0].textContent).toEqual("Zach");
+      expect(tableRows[5].children[0].textContent).toEqual("Francis");
     });
 
     it("should sort the data ascending on initial mount", function() {
@@ -122,8 +122,8 @@ describe("Table", function() {
         "tr"
       );
 
-      expect(tableRows[2].children[0].textContent).toEqual("Francis");
-      expect(tableRows[6].children[0].textContent).toEqual("Zach");
+      expect(tableRows[1].children[0].textContent).toEqual("Francis");
+      expect(tableRows[5].children[0].textContent).toEqual("Zach");
     });
   });
 });
