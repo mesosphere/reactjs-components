@@ -62,7 +62,7 @@
     "jest-cli": "17.0.3",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
-    "prettier": "1.16.4",
+    "prettier": "1.17.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-gemini-scrollbar": "2.3.x",
