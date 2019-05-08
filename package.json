@@ -46,7 +46,7 @@
     "eslint-plugin-prettier": "2.0.1",
     "eslint-plugin-react": "6.9.0",
     "eslint-plugin-test-names": "^2.1.1",
-    "glob": "7.0.0",
+    "glob": "7.1.4",
     "gulp": "3.9.1",
     "gulp-autoprefixer": "6.1.0",
     "gulp-concat": "2.6.0",
