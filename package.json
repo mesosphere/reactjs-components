@@ -59,7 +59,7 @@
     "gulp-stylelint": "3.9.0",
     "gulp-uglify": "2.1.2",
     "gulp-util": "3.0.7",
-    "jest-cli": "17.0.3",
+    "jest-cli": "24.8.0",
     "less-color-lighten": "0.0.1",
     "node-libs-browser": "1.0.0",
     "prettier": "1.17.0",
