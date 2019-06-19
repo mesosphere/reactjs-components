@@ -458,7 +458,7 @@ function find(objects, predicate) {
     }
   });
 
-  return result;
+  return result || {};
 }
 
 var isArray = function(arg) {
