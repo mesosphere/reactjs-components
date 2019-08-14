@@ -14,7 +14,7 @@ class Portal extends React.Component {
     document.body.removeChild(this.nodeEl);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.renderChildren(nextProps);
   }
 

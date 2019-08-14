@@ -40,8 +40,8 @@ class Dropdown extends Util.mixin(BindMixin) {
     this.dropdownWrapperRef = React.createRef();
   }
 
-  componentWillMount() {
-    super.componentWillMount(...arguments);
+  UNSAFE_componentWillMount() {
+    super.UNSAFE_componentWillMount(...arguments);
 
     const props = this.props;
     if (!props.persistentID) {
@@ -61,7 +61,7 @@ class Dropdown extends Util.mixin(BindMixin) {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  UNSAFE_componentWillUpdate(nextProps, nextState) {
     // If the open state changed, add or remove listener as needed.
     if (nextState.isOpen !== this.state.isOpen) {
       if (nextState.isOpen) {

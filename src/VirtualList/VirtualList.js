@@ -62,7 +62,7 @@ class VirtualList extends React.Component {
     this.props.container.addEventListener("scroll", this.onScroll, true);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.container !== nextProps.container) {
       this.props.container.removeEventListener("scroll", this.onScroll, true);
       // Make sure to trigger this scroll event and make necessary adjustments

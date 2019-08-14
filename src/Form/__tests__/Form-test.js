@@ -59,7 +59,7 @@ describe("Form", function() {
     });
 
     it("should update model if definition value is different", function() {
-      this.instance.componentWillReceiveProps({
+      this.instance.UNSAFE_componentWillReceiveProps({
         definition: [
           { name: "username", value: "kenny", showError: "This is an error." }
         ]
@@ -69,7 +69,7 @@ describe("Form", function() {
     });
 
     it("should update model if definition error is different", function() {
-      this.instance.componentWillReceiveProps({
+      this.instance.UNSAFE_componentWillReceiveProps({
         definition: [
           { name: "username", value: "kennyt", showError: "different error" }
         ]
@@ -81,7 +81,7 @@ describe("Form", function() {
     });
 
     it("should delete field from model if no longer part of definition", function() {
-      this.instance.componentWillReceiveProps({
+      this.instance.UNSAFE_componentWillReceiveProps({
         definition: [{ name: "password", value: "secretpassword" }]
       });
 
