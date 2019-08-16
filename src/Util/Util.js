@@ -493,9 +493,12 @@ function sortBy(collection, sortProp) {
 
 const lifecycleFunctions = [
   "componentWillMount",
+  "UNSAFE_componentWillMount",
   "componentDidMount",
   "componentWillReceiveProps",
+  "UNSAFE_componentWillReceiveProps",
   "componentWillUpdate",
+  "UNSAFE_componentWillUpdate",
   "componentDidUpdate",
   "componentWillUnmount",
   "render"

@@ -61,7 +61,7 @@ class Table extends React.Component {
     this.itemHeightContainer = React.createRef();
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.sortBy != null) {
       this.setState(
         { sortBy: this.props.sortBy },
@@ -74,7 +74,7 @@ class Table extends React.Component {
     this.updateHeight();
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.updateHeight();
 
     if (this.props.sortBy.prop) {

@@ -69,8 +69,8 @@ class Form extends Util.mixin(BindMixin) {
     this.submitMap = {};
   }
 
-  componentWillMount() {
-    super.componentWillMount();
+  UNSAFE_componentWillMount() {
+    super.UNSAFE_componentWillMount();
 
     if (this.props.triggerSubmit) {
       this.props.triggerSubmit(this.handleSubmit);
@@ -82,8 +82,8 @@ class Form extends Util.mixin(BindMixin) {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps();
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    super.UNSAFE_componentWillReceiveProps();
 
     const props = this.props;
     const state = this.state;

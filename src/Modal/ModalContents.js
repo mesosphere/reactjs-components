@@ -49,8 +49,8 @@ class ModalContents extends Util.mixin(BindMixin) {
     ];
   }
 
-  componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(...arguments);
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    super.UNSAFE_componentWillReceiveProps(...arguments);
 
     if (this.props.open !== nextProps.open) {
       document.body.classList.toggle("no-overflow");
@@ -67,7 +67,7 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  UNSAFE_componentWillUpdate(nextProps) {
     // Reset the height of the content to null when the modal is closing so
     // that the height will be recalculated next time it opens.
     if (this.props.open && !nextProps.open) {
@@ -80,8 +80,8 @@ class ModalContents extends Util.mixin(BindMixin) {
     }
   }
 
-  componentWillMount() {
-    super.componentWillMount(...arguments);
+  UNSAFE_componentWillMount() {
+    super.UNSAFE_componentWillMount(...arguments);
 
     if (this.props.open) {
       document.body.classList.add("no-overflow");
