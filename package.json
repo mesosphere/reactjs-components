@@ -72,7 +72,7 @@
     "stylelint": "13.0.0",
     "stylelint-config-dcos": "0.0.3",
     "stylelint-config-standard": "19.0.0",
-    "stylelint-webpack-plugin": "1.1.2",
+    "stylelint-webpack-plugin": "1.2.0",
     "transform-loader": "0.2.3",
     "webpack": "1.13.2"
   },
