@@ -69,7 +69,7 @@
     "react-transition-group": "4.4.1",
     "semantic-release": "^17.0.0",
     "source-map-loader": "1.0.1",
-    "stylelint": "13.3.3",
+    "stylelint": "13.7.2",
     "stylelint-config-dcos": "0.0.3",
     "stylelint-config-standard": "20.0.0",
     "stylelint-webpack-plugin": "2.1.0",
