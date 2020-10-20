@@ -64,7 +64,7 @@
     "node-libs-browser": "1.0.0",
     "prettier": "1.17.0",
     "react": "^16.8.1",
-    "react-dom": "^16.8.1",
+    "react-dom": "^17.0.0",
     "react-gemini-scrollbar": "2.3.x",
     "react-transition-group": "4.4.1",
     "semantic-release": "^17.0.0",
