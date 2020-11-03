@@ -74,7 +74,7 @@
     "stylelint-config-standard": "20.0.0",
     "stylelint-webpack-plugin": "2.1.0",
     "transform-loader": "0.2.3",
-    "webpack": "1.13.2"
+    "webpack": "5.4.0"
   },
   "peerDependencies": {
     "cnvs": "1.1.14",
